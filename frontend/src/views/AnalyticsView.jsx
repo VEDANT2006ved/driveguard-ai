@@ -758,6 +758,7 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
               onClick={fetchHistoricalTrips}
               disabled={isLoadingHistory}
               title="Refresh ledger from database"
+              className="btn-magnetic-pill"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',

@@ -172,6 +172,7 @@ export default function TripHistoryView() {
           onClick={fetchTrips}
           disabled={isRefreshing}
           title="Refresh session vault"
+          className="btn-magnetic-pill"
           style={{
             display: 'inline-flex',
             alignItems: 'center',

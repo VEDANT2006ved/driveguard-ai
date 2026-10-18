@@ -294,7 +294,7 @@ export default function Navigation({
             <button
               onClick={onToggleMonitoring}
               title={isMonitoring ? 'Stop optical monitoring and release camera' : 'Start optical monitoring'}
-              className="pill-btn"
+              className="pill-btn btn-magnetic-pill"
               style={{
                 backgroundColor: isMonitoring ? '#FEE2E2' : 'var(--color-lavender)',
                 color: isMonitoring ? '#991B1B' : 'var(--color-lavender-ink)',
@@ -319,7 +319,7 @@ export default function Navigation({
           ) : (
             <button
               onClick={() => onSelectTab('monitor')}
-              className="pill-btn pill-btn-ghost"
+              className="pill-btn pill-btn-ghost btn-magnetic-pill"
               style={{
                 padding: '0.5rem 1.15rem',
                 fontSize: '0.82rem',
