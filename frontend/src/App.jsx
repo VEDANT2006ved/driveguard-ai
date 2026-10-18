@@ -379,7 +379,7 @@ export default function App() {
           {activeTab === 'history' && <TripHistoryView />}
         </main>
 
-        {/* Wispr Flow Inspired Editorial Footer */}
+        {/* VANTAGE Automotive Editorial Footer */}
         <footer
           style={{
             maxWidth: '1240px',
@@ -392,49 +392,52 @@ export default function App() {
             flexWrap: 'wrap',
             gap: '1.25rem',
             color: 'var(--text-secondary)',
-            fontSize: '0.82rem',
+            fontSize: '0.8rem',
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             <div
               style={{
-                width: '26px',
-                height: '26px',
-                borderRadius: '8px',
-                backgroundColor: 'var(--color-emerald-deep)',
-                color: '#FFFFFF',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontFamily: 'var(--font-serif)',
-                fontWeight: 700,
-                fontSize: '0.85rem',
+                width: '8px',
+                height: '8px',
+                borderRadius: '1px',
+                backgroundColor: 'var(--color-accent-red)',
+              }}
+            />
+            <span
+              style={{
+                fontFamily: 'var(--font-condensed)',
+                fontSize: '1.05rem',
+                fontWeight: 600,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                color: 'var(--text-primary)',
               }}
             >
-              D
-            </div>
-            <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>DriveGuard AI</span>
-            <span style={{ color: 'var(--text-muted)' }}>•</span>
-            <span>Edge Biometric Attentiveness &amp; Fatigue Detection</span>
+              DRIVEGUARD.AI
+            </span>
+            <span style={{ color: 'var(--border-subtle)' }}>•</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+              EDGE BIOMETRIC ATTENTIVENESS &amp; FATIGUE DETECTION
+            </span>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', flexWrap: 'wrap' }}>
-            <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-              Non-intrusive MediaPipe 468-point mesh inference
+            <span style={{ fontSize: '0.74rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+              NON-INTRUSIVE MEDIAPIPE 468-POINT MESH INFERENCE
             </span>
             <div
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.45rem',
-                padding: '0.3rem 0.75rem',
-                borderRadius: '9999px',
+                padding: '0.25rem 0.65rem',
+                borderRadius: 'var(--radius-btn)',
                 backgroundColor: 'var(--bg-surface)',
                 border: '1px solid var(--border-subtle)',
-                fontSize: '0.72rem',
+                fontSize: '0.7rem',
                 fontFamily: 'var(--font-mono)',
                 fontWeight: 600,
-                boxShadow: 'var(--shadow-sm)',
               }}
             >
               <span
@@ -458,7 +461,7 @@ export default function App() {
           style={{
             position: 'fixed',
             inset: 0,
-            backgroundColor: 'rgba(22, 27, 24, 0.45)',
+            backgroundColor: 'rgba(13, 14, 16, 0.75)',
             backdropFilter: 'blur(8px)',
             display: 'flex',
             alignItems: 'center',
@@ -473,7 +476,7 @@ export default function App() {
             style={{
               backgroundColor: 'var(--bg-surface)',
               border: '1px solid var(--border-subtle)',
-              borderRadius: '28px',
+              borderRadius: 'var(--radius-card-lg)',
               padding: 'clamp(1.75rem, 3.5vw, 2.5rem)',
               maxWidth: '540px',
               width: '100%',
@@ -492,39 +495,39 @@ export default function App() {
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '0.4rem',
-                    backgroundColor: 'var(--color-alert-dim)',
-                    color: 'var(--color-alert)',
-                    borderRadius: '9999px',
-                    padding: '0.25rem 0.75rem',
+                    color: 'var(--color-accent-red)',
                     fontSize: '0.72rem',
                     fontFamily: 'var(--font-mono)',
                     fontWeight: 700,
-                    letterSpacing: '0.04em',
-                    marginBottom: '0.5rem',
+                    letterSpacing: '0.1em',
+                    textTransform: 'uppercase',
+                    marginBottom: '0.4rem',
                   }}
                 >
                   <AlertTriangle size={12} />
-                  <span>05 // BROWSER PERMISSIONS</span>
+                  <span>SYS.05 // BROWSER PERMISSIONS</span>
                 </div>
                 <h3
-                  className="font-serif"
                   style={{
-                    fontSize: '1.65rem',
-                    fontWeight: 400,
+                    fontFamily: 'var(--font-condensed)',
+                    fontSize: '1.8rem',
+                    fontWeight: 600,
+                    letterSpacing: '0.04em',
+                    textTransform: 'uppercase',
                     color: 'var(--text-primary)',
                     margin: '0.1rem 0 0 0',
                   }}
                 >
-                  Desktop safety alerts are <em>blocked</em>
+                  DESKTOP SAFETY ALERTS BLOCKED
                 </h3>
               </div>
               <button
                 onClick={() => setShowNotificationGuide(false)}
                 aria-label="Close"
                 style={{
-                  background: 'var(--bg-canvas-subtle)',
-                  border: 'none',
-                  borderRadius: '50%',
+                  background: 'var(--bg-ivory-subtle)',
+                  border: '1px solid var(--border-subtle)',
+                  borderRadius: 'var(--radius-btn)',
                   cursor: 'pointer',
                   color: 'var(--text-secondary)',
                   width: '32px',
@@ -532,28 +535,28 @@ export default function App() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  transition: 'all 0.2s ease',
+                  transition: 'all var(--transition-fast)',
                 }}
               >
                 <X size={16} />
               </button>
             </div>
 
-            <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.55, margin: 0 }}>
-              Your browser has notifications set to <strong style={{ color: 'var(--text-primary)' }}>Block</strong> for this origin (<code className="font-mono" style={{ fontSize: '0.8rem', backgroundColor: 'var(--bg-canvas-subtle)', padding: '0.2rem 0.45rem', borderRadius: '6px' }}>localhost:5173</code>). Browser security requires enabling permissions manually in Chrome site settings.
+            <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.55, margin: 0 }}>
+              Your browser has notifications set to <strong style={{ color: 'var(--text-primary)' }}>Block</strong> for this origin (<code className="font-mono" style={{ fontSize: '0.8rem', backgroundColor: 'var(--bg-ivory-subtle)', padding: '0.2rem 0.45rem', borderRadius: '3px' }}>localhost:5173</code>). Browser security requires enabling permissions manually in Chrome site settings.
             </p>
 
             {/* Step-by-Step Instructions */}
             <div
               style={{
-                backgroundColor: 'var(--bg-canvas-subtle)',
-                borderRadius: '20px',
+                backgroundColor: 'var(--bg-ivory-subtle)',
+                borderRadius: 'var(--radius-card)',
                 padding: '1.25rem 1.4rem',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '1rem',
                 fontSize: '0.86rem',
-                border: '1px solid rgba(22, 27, 24, 0.05)',
+                border: '1px solid var(--border-subtle)',
               }}
             >
               <div style={{ display: 'flex', gap: '0.85rem', alignItems: 'flex-start' }}>
@@ -561,11 +564,11 @@ export default function App() {
                   style={{
                     fontFamily: 'var(--font-mono)',
                     fontWeight: 700,
-                    color: 'var(--color-accent-purple-dark)',
-                    fontSize: '0.75rem',
-                    backgroundColor: 'var(--color-accent-purple)',
+                    color: '#FFFFFF',
+                    fontSize: '0.72rem',
+                    backgroundColor: 'var(--text-primary)',
                     padding: '0.15rem 0.45rem',
-                    borderRadius: '9999px',
+                    borderRadius: 'var(--radius-btn)',
                   }}
                 >
                   01
@@ -580,11 +583,11 @@ export default function App() {
                   style={{
                     fontFamily: 'var(--font-mono)',
                     fontWeight: 700,
-                    color: 'var(--color-accent-purple-dark)',
-                    fontSize: '0.75rem',
-                    backgroundColor: 'var(--color-accent-purple)',
+                    color: '#FFFFFF',
+                    fontSize: '0.72rem',
+                    backgroundColor: 'var(--text-primary)',
                     padding: '0.15rem 0.45rem',
-                    borderRadius: '9999px',
+                    borderRadius: 'var(--radius-btn)',
                   }}
                 >
                   02
@@ -599,11 +602,11 @@ export default function App() {
                   style={{
                     fontFamily: 'var(--font-mono)',
                     fontWeight: 700,
-                    color: 'var(--color-accent-purple-dark)',
-                    fontSize: '0.75rem',
-                    backgroundColor: 'var(--color-accent-purple)',
+                    color: '#FFFFFF',
+                    fontSize: '0.72rem',
+                    backgroundColor: 'var(--text-primary)',
                     padding: '0.15rem 0.45rem',
-                    borderRadius: '9999px',
+                    borderRadius: 'var(--radius-btn)',
                   }}
                 >
                   03
@@ -629,20 +632,10 @@ export default function App() {
                 <button
                   onClick={() => alertController.playWarningChime(false)}
                   title="Test audible warning sound"
+                  className="vantage-btn-outline"
                   style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.4rem',
-                    backgroundColor: 'var(--bg-canvas-subtle)',
-                    border: '1px solid var(--border-subtle)',
-                    borderRadius: '9999px',
                     padding: '0.45rem 0.95rem',
-                    fontFamily: 'var(--font-sans)',
-                    fontSize: '0.78rem',
-                    fontWeight: 600,
-                    color: 'var(--text-primary)',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
+                    fontSize: '0.8rem',
                   }}
                 >
                   <Volume2 size={13} />
@@ -652,20 +645,12 @@ export default function App() {
                 <button
                   onClick={() => alertController.playCriticalAlarm(false)}
                   title="Test loud critical alarm"
+                  className="vantage-btn-outline"
                   style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.4rem',
-                    backgroundColor: 'var(--color-alert-dim)',
-                    border: '1px solid rgba(225, 29, 72, 0.25)',
-                    borderRadius: '9999px',
                     padding: '0.45rem 0.95rem',
-                    fontFamily: 'var(--font-sans)',
-                    fontSize: '0.78rem',
-                    fontWeight: 600,
-                    color: 'var(--color-alert)',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
+                    fontSize: '0.8rem',
+                    borderColor: 'var(--color-alert-border)',
+                    color: 'var(--color-accent-red)',
                   }}
                 >
                   <Volume2 size={13} />
@@ -675,21 +660,12 @@ export default function App() {
 
               <button
                 onClick={() => setShowNotificationGuide(false)}
+                className="vantage-btn"
                 style={{
-                  backgroundColor: 'var(--color-accent-purple)',
-                  color: 'var(--color-accent-purple-dark)',
-                  border: 'none',
-                  borderRadius: '9999px',
                   padding: '0.55rem 1.4rem',
-                  fontFamily: 'var(--font-sans)',
-                  fontSize: '0.82rem',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  boxShadow: 'var(--shadow-sm)',
-                  transition: 'all 0.2s ease',
                 }}
               >
-                Got It
+                Acknowledge
               </button>
             </div>
           </div>

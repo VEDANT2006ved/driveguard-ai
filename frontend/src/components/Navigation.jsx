@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Volume2, VolumeX, Bell, BellOff, Play, Square, Shield, Radio, Activity, Menu, X } from 'lucide-react';
+import { Volume2, VolumeX, Bell, BellOff, Play, Square, Menu, X, ArrowUpRight } from 'lucide-react';
 
 const NAV_TABS = [
-  { id: 'overview', num: '01', label: 'Overview' },
-  { id: 'monitor', num: '02', label: 'Live Monitor' },
-  { id: 'analytics', num: '03', label: 'Analytics' },
-  { id: 'history', num: '04', label: 'Trip History' },
+  { id: 'overview', num: '01', label: 'OVERVIEW' },
+  { id: 'monitor', num: '02', label: 'LIVE MONITOR' },
+  { id: 'analytics', num: '03', label: 'ANALYTICS' },
+  { id: 'history', num: '04', label: 'TRIP HISTORY' },
 ];
 
 export default function Navigation({
@@ -22,19 +22,7 @@ export default function Navigation({
   fps = 0,
   latencyMs = 0,
 }) {
-  const [timeStr, setTimeStr] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const update = () => {
-      const now = new Date();
-      setTimeStr(now.toTimeString().split(' ')[0]);
-    };
-    update();
-    const timer = setInterval(update, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
   const isOnline = connectionStatus === 'online';
 
   return (
@@ -44,111 +32,63 @@ export default function Navigation({
         top: 0,
         zIndex: 100,
         width: '100%',
-        padding: '0.75rem clamp(1rem, 3.5vw, 2.5rem)',
-        pointerEvents: 'none',
+        backgroundColor: 'rgba(247, 246, 242, 0.96)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        borderBottom: '1px solid var(--border-subtle)',
       }}
     >
-      {/* Centered Floating Pill Navigation Capsule (Wispr Flow Aesthetic) */}
+      {/* Top Main Navigation Bar */}
       <div
-        className="animate-fade-down"
         style={{
-          maxWidth: '1240px',
+          maxWidth: '1440px',
           margin: '0 auto',
-          backgroundColor: 'rgba(255, 255, 255, 0.94)',
-          backdropFilter: 'blur(16px)',
-          WebkitBackdropFilter: 'blur(16px)',
-          border: '1px solid var(--border-subtle)',
-          borderRadius: '9999px',
-          padding: '0.45rem 0.65rem 0.45rem 1.15rem',
-          boxShadow: '0 8px 32px rgba(23, 23, 23, 0.05), 0 1px 2px rgba(23, 23, 23, 0.04)',
+          padding: '0.85rem clamp(1.25rem, 4vw, 3.5rem)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          gap: '1rem',
-          pointerEvents: 'auto',
-          position: 'relative',
+          gap: '1.5rem',
         }}
       >
-        {/* Brand Monogram */}
+        {/* Brand: Uppercase Minimalist Architectural Wordmark */}
         <div
           onClick={() => onSelectTab('overview')}
           style={{
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.65rem',
+            gap: '0.75rem',
             userSelect: 'none',
           }}
         >
-          {/* Audio/Vision Waveform Glyph */}
           <div
             style={{
-              width: '28px',
-              height: '28px',
-              borderRadius: '9999px',
-              backgroundColor: 'var(--color-lavender)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexShrink: 0,
+              width: '8px',
+              height: '8px',
+              backgroundColor: isOnline && isMonitoring ? 'var(--color-accent-green)' : '#111111',
+            }}
+            className={isOnline && isMonitoring ? 'telemetry-pulse' : ''}
+          />
+          <span
+            className="font-condensed"
+            style={{
+              fontSize: '1.25rem',
+              fontWeight: 700,
+              letterSpacing: '0.14em',
+              color: 'var(--text-primary)',
+              textTransform: 'uppercase',
             }}
           >
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-              <rect x="2" y="5" width="2" height="6" rx="1" fill="#22103E" />
-              <rect x="6" y="2" width="2" height="12" rx="1" fill="#22103E" />
-              <rect x="10" y="4" width="2" height="8" rx="1" fill="#22103E" />
-              <rect x="14" y="6" width="2" height="4" rx="1" fill="#22103E" />
-            </svg>
-          </div>
-
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.25rem' }}>
-            <span
-              className="font-serif"
-              style={{
-                fontSize: '1.45rem',
-                fontStyle: 'italic',
-                fontWeight: 400,
-                color: 'var(--text-primary)',
-                lineHeight: 1,
-              }}
-            >
-              Drive
-            </span>
-            <span
-              className="font-display"
-              style={{
-                fontSize: '1.45rem',
-                fontWeight: 700,
-                letterSpacing: '-0.03em',
-                color: 'var(--text-primary)',
-                lineHeight: 1,
-              }}
-            >
-              Guard
-            </span>
-            <span
-              className="font-mono"
-              style={{
-                fontSize: '0.68rem',
-                color: 'var(--color-purple)',
-                fontWeight: 700,
-                marginLeft: '0.15rem',
-              }}
-            >
-              AI
-            </span>
-          </div>
+            DRIVEGUARD<span style={{ color: 'var(--color-accent-red)', marginLeft: '2px' }}>.</span>AI
+          </span>
         </div>
 
-        {/* Desktop Segmented Capsule Tab Switcher */}
+        {/* Center: Minimalist Uppercase Navigation Links */}
         <nav
           style={{
             display: 'flex',
             alignItems: 'center',
-            backgroundColor: 'var(--bg-surface-warm)',
-            borderRadius: '9999px',
-            padding: '3px',
-            border: '1px solid rgba(23, 23, 23, 0.04)',
+            gap: 'clamp(1.5rem, 3vw, 2.75rem)',
           }}
           className="desktop-nav"
         >
@@ -159,173 +99,144 @@ export default function Navigation({
                 key={tab.id}
                 onClick={() => onSelectTab(tab.id)}
                 style={{
-                  background: isActive ? '#FFFFFF' : 'transparent',
-                  color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)',
+                  background: 'transparent',
                   border: 'none',
-                  borderRadius: '9999px',
-                  padding: '0.42rem 1.05rem',
-                  fontSize: '0.82rem',
-                  fontFamily: 'var(--font-sans)',
-                  fontWeight: isActive ? 600 : 500,
+                  padding: '0.4rem 0',
+                  position: 'relative',
                   cursor: 'pointer',
-                  transition: 'all var(--transition-fast)',
-                  boxShadow: isActive ? '0 2px 8px rgba(0, 0, 0, 0.06)' : 'none',
-                  whiteSpace: 'nowrap',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.35rem',
                 }}
               >
-                {tab.label}
+                <span
+                  className="font-condensed"
+                  style={{
+                    fontSize: '0.88rem',
+                    fontWeight: isActive ? 600 : 400,
+                    letterSpacing: '0.12em',
+                    color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)',
+                    transition: 'color var(--transition-fast)',
+                  }}
+                >
+                  {tab.label}
+                </span>
+
+                {/* Subtle active underline */}
+                {isActive && (
+                  <span
+                    style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      height: '1.5px',
+                      backgroundColor: 'var(--text-primary)',
+                    }}
+                  />
+                )}
               </button>
             );
           })}
         </nav>
 
-        {/* Right Action & System Controls */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          {/* Audio Toggle Pill */}
+        {/* Right Controls: Audio, Notifs, and Start/Stop Monitoring */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+          {/* Audio Mute Button */}
           <button
             onClick={onToggleAudio}
             title={isAudioMuted ? 'Unmute safety audio chimes' : 'Mute safety audio chimes'}
             style={{
               background: 'transparent',
               border: '1px solid var(--border-subtle)',
-              borderRadius: '9999px',
-              padding: '0.35rem 0.65rem',
+              padding: '0.4rem 0.65rem',
+              borderRadius: '2px',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               gap: '0.35rem',
-              color: isAudioMuted ? 'var(--text-muted)' : 'var(--text-primary)',
               fontSize: '0.74rem',
-              fontFamily: 'var(--font-sans)',
-              fontWeight: 500,
-              transition: 'all var(--transition-fast)',
+              fontFamily: 'var(--font-mono)',
+              color: isAudioMuted ? 'var(--text-muted)' : 'var(--text-primary)',
+              transition: 'border-color var(--transition-fast)',
             }}
-            className="system-pill"
           >
             {isAudioMuted ? <VolumeX size={13} /> : <Volume2 size={13} />}
-            <span>{isAudioMuted ? 'Muted' : 'Audio'}</span>
+            <span style={{ letterSpacing: '0.06em' }}>{isAudioMuted ? 'MUTED' : 'AUDIO'}</span>
           </button>
 
           {/* Desktop Notification Pill */}
           <button
             onClick={onToggleNotifications}
             title={
-              notificationPermission === 'unsupported'
-                ? 'Desktop notifications unsupported in this browser'
-                : notificationPermission === 'denied'
-                ? 'Notifications blocked in browser. Click for instructions to unblock.'
-                : notificationPermission === 'default'
-                ? 'Click to enable browser notifications for critical safety alerts'
-                : isNotificationsEnabled
-                ? 'Desktop safety notifications active (Click to pause)'
-                : 'Desktop safety notifications paused (Click to resume)'
+              notificationPermission === 'denied'
+                ? 'Desktop notifications blocked. Click for instructions.'
+                : 'Toggle safety notifications'
             }
             style={{
               background: notificationPermission === 'denied' ? 'var(--color-alert-dim)' : 'transparent',
               border: `1px solid ${notificationPermission === 'denied' ? 'var(--color-alert-border)' : 'var(--border-subtle)'}`,
-              borderRadius: '9999px',
-              padding: '0.35rem 0.65rem',
-              cursor: notificationPermission === 'unsupported' ? 'not-allowed' : 'pointer',
+              padding: '0.4rem 0.65rem',
+              borderRadius: '2px',
+              cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               gap: '0.35rem',
+              fontSize: '0.74rem',
+              fontFamily: 'var(--font-mono)',
               color:
                 notificationPermission === 'denied'
                   ? 'var(--color-alert)'
-                  : notificationPermission === 'granted' && isNotificationsEnabled
+                  : isNotificationsEnabled
                   ? 'var(--color-safe)'
                   : 'var(--text-secondary)',
-              fontSize: '0.74rem',
-              fontFamily: 'var(--font-sans)',
-              fontWeight: 500,
-              transition: 'all var(--transition-fast)',
             }}
-            className="system-pill"
           >
             {notificationPermission === 'granted' && isNotificationsEnabled ? (
               <Bell size={13} />
             ) : (
               <BellOff size={13} />
             )}
-            <span>
-              {notificationPermission === 'unsupported'
-                ? 'No Notifs'
-                : notificationPermission === 'denied'
-                ? 'Blocked'
-                : notificationPermission === 'default'
-                ? 'Enable'
+            <span style={{ letterSpacing: '0.06em' }}>
+              {notificationPermission === 'denied'
+                ? 'BLOCKED'
                 : isNotificationsEnabled
-                ? 'Notifs On'
-                : 'Notifs Off'}
+                ? 'NOTIFS ON'
+                : 'NOTIFS OFF'}
             </span>
           </button>
 
-          {/* Live Engine Status Badge */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.4rem',
-              padding: '0.35rem 0.65rem',
-              borderRadius: '9999px',
-              backgroundColor: 'var(--bg-canvas-subtle)',
-              border: '1px solid var(--border-subtle)',
-              fontSize: '0.72rem',
-              fontFamily: 'var(--font-mono)',
-              color: 'var(--text-secondary)',
-            }}
-            className="system-pill"
-          >
-            <span
-              style={{
-                width: '6px',
-                height: '6px',
-                borderRadius: '50%',
-                backgroundColor: !isOnline ? '#9E988F' : isMonitoring ? '#10B981' : '#E11D48',
-                display: 'inline-block',
-              }}
-              className={isOnline && isMonitoring ? 'animate-pulse-live' : ''}
-            />
-            <span>{isOnline ? (isMonitoring ? `${fps} FPS` : 'STANDBY') : 'OFFLINE'}</span>
-          </div>
-
-          {/* Primary Action Button — Wispr Flow Signature Lavender Pill */}
+          {/* Restrained Rectangular Start/Stop Monitoring Button */}
           {isOnline ? (
             <button
               onClick={onToggleMonitoring}
-              title={isMonitoring ? 'Stop optical monitoring and release camera' : 'Start optical monitoring'}
-              className="pill-btn btn-magnetic-pill"
+              className="vantage-btn"
               style={{
-                backgroundColor: isMonitoring ? '#FEE2E2' : 'var(--color-lavender)',
-                color: isMonitoring ? '#991B1B' : 'var(--color-lavender-ink)',
-                borderColor: isMonitoring ? '#FCA5A5' : 'var(--color-lavender-border)',
-                padding: '0.5rem 1.15rem',
-                fontSize: '0.82rem',
-                fontWeight: 600,
+                backgroundColor: isMonitoring ? '#111111' : 'var(--text-primary)',
+                borderColor: 'var(--text-primary)',
+                padding: '0.5rem 1.25rem',
+                fontSize: '0.84rem',
               }}
             >
               {isMonitoring ? (
                 <>
-                  <Square size={12} fill="#991B1B" />
-                  <span>Stop</span>
+                  <Square size={11} fill="#FFFFFF" />
+                  <span>HALT SENSING</span>
                 </>
               ) : (
                 <>
-                  <Play size={12} fill="#22103E" />
-                  <span>Monitor</span>
+                  <Play size={11} fill="#FFFFFF" />
+                  <span>START MONITORING</span>
                 </>
               )}
             </button>
           ) : (
             <button
               onClick={() => onSelectTab('monitor')}
-              className="pill-btn pill-btn-ghost btn-magnetic-pill"
-              style={{
-                padding: '0.5rem 1.15rem',
-                fontSize: '0.82rem',
-              }}
+              className="vantage-btn vantage-btn-outline"
+              style={{ padding: '0.5rem 1.25rem', fontSize: '0.84rem' }}
             >
-              Cockpit
+              <span>COCKPIT HUD</span>
             </button>
           )}
 
@@ -335,125 +246,107 @@ export default function Navigation({
             style={{
               background: 'transparent',
               border: '1px solid var(--border-subtle)',
-              borderRadius: '9999px',
-              width: '34px',
-              height: '34px',
+              width: '36px',
+              height: '36px',
+              borderRadius: '2px',
               display: 'none',
               alignItems: 'center',
               justifyContent: 'center',
               cursor: 'pointer',
               color: 'var(--text-primary)',
             }}
-            className="mobile-menu-btn"
+            className="mobile-hamburger-btn"
             aria-label="Toggle menu"
           >
-            {mobileMenuOpen ? <X size={16} /> : <Menu size={16} />}
+            {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Dropdown Menu Drawer */}
+      {/* Narrow Metadata Strip Below Navigation (VANTAGE Editorial Detail) */}
+      <div
+        style={{
+          borderTop: '1px solid var(--border-subtle)',
+          backgroundColor: 'var(--bg-ivory-subtle)',
+          padding: '0.35rem clamp(1.25rem, 4vw, 3.5rem)',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          fontSize: '0.68rem',
+          fontFamily: 'var(--font-mono)',
+          color: 'var(--text-muted)',
+          letterSpacing: '0.08em',
+          textTransform: 'uppercase',
+          flexWrap: 'wrap',
+          gap: '0.5rem',
+        }}
+      >
+        <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'center' }}>
+          <span>SYS.01 // DRIVEGUARD CORE</span>
+          <span>•</span>
+          <span>PIPELINE: {isOnline ? (isMonitoring ? `${fps} FPS STREAMING` : 'PAUSED (CAMERA RELEASED)') : 'OFFLINE'}</span>
+          <span>•</span>
+          <span>LATENCY: {isOnline ? `${latencyMs}MS` : '--'}</span>
+        </div>
+
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          <span style={{ color: isOnline && isMonitoring ? 'var(--color-accent-green)' : 'var(--text-muted)' }}>
+            STATUS: {isOnline ? (isMonitoring ? 'MONITORING ACTIVE' : 'STANDBY') : 'DISCONNECTED'}
+          </span>
+        </div>
+      </div>
+
+      {/* Mobile Drawer Overlay */}
       {mobileMenuOpen && (
         <div
-          className="animate-fade-up"
           style={{
-            maxWidth: '1240px',
-            margin: '0.5rem auto 0',
-            backgroundColor: '#FFFFFF',
-            borderRadius: '24px',
-            border: '1px solid var(--border-subtle)',
-            padding: '1rem',
-            boxShadow: '0 12px 36px rgba(0,0,0,0.08)',
+            backgroundColor: 'var(--bg-canvas)',
+            borderBottom: '1px solid var(--border-subtle)',
+            padding: '1.5rem',
             display: 'flex',
             flexDirection: 'column',
-            gap: '0.5rem',
-            pointerEvents: 'auto',
+            gap: '1rem',
           }}
         >
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
-            {NAV_TABS.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => {
-                  onSelectTab(tab.id);
-                  setMobileMenuOpen(false);
-                }}
-                style={{
-                  backgroundColor: activeTab === tab.id ? 'var(--bg-surface-warm)' : 'transparent',
-                  color: activeTab === tab.id ? 'var(--text-primary)' : 'var(--text-secondary)',
-                  border: '1px solid var(--border-subtle)',
-                  borderRadius: '16px',
-                  padding: '0.65rem 0.85rem',
-                  fontSize: '0.82rem',
-                  fontWeight: activeTab === tab.id ? 700 : 500,
-                  textAlign: 'left',
-                  cursor: 'pointer',
-                }}
-              >
-                <span className="font-mono" style={{ fontSize: '0.68rem', color: 'var(--color-purple)', marginRight: '0.35rem' }}>
-                  {tab.num}
-                </span>
-                {tab.label}
-              </button>
-            ))}
-          </div>
-
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              paddingTop: '0.75rem',
-              borderTop: '1px solid var(--border-subtle)',
-            }}
-          >
+          {NAV_TABS.map((tab) => (
             <button
-              onClick={onToggleAudio}
+              key={tab.id}
+              onClick={() => {
+                onSelectTab(tab.id);
+                setMobileMenuOpen(false);
+              }}
               style={{
                 background: 'transparent',
                 border: 'none',
-                cursor: 'pointer',
+                textAlign: 'left',
+                padding: '0.65rem 0',
+                borderBottom: '1px solid var(--border-subtle)',
+                fontFamily: 'var(--font-condensed)',
+                fontSize: '1.1rem',
+                letterSpacing: '0.1em',
+                color: activeTab === tab.id ? 'var(--text-primary)' : 'var(--text-secondary)',
+                fontWeight: activeTab === tab.id ? 600 : 400,
                 display: 'flex',
+                justifyContent: 'space-between',
                 alignItems: 'center',
-                gap: '0.35rem',
-                fontSize: '0.78rem',
-                color: 'var(--text-primary)',
               }}
             >
-              {isAudioMuted ? <VolumeX size={14} /> : <Volume2 size={14} />}
-              <span>{isAudioMuted ? 'Muted' : 'Audio On'}</span>
+              <span>{tab.label}</span>
+              <span className="font-mono" style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                {tab.num}
+              </span>
             </button>
-
-            <button
-              onClick={onToggleNotifications}
-              style={{
-                background: 'transparent',
-                border: 'none',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.35rem',
-                fontSize: '0.78rem',
-                color: notificationPermission === 'denied' ? 'var(--color-alert)' : 'var(--text-primary)',
-              }}
-            >
-              <Bell size={14} />
-              <span>{notificationPermission === 'denied' ? 'Blocked' : isNotificationsEnabled ? 'Notifs On' : 'Notifs Off'}</span>
-            </button>
-          </div>
+          ))}
         </div>
       )}
 
-      {/* Embedded CSS for responsive floating capsule */}
+      {/* CSS Helper for Responsive Hamburger Display */}
       <style>{`
-        @media (max-width: 820px) {
+        @media (max-width: 860px) {
           .desktop-nav {
             display: none !important;
           }
-          .system-pill {
-            display: none !important;
-          }
-          .mobile-menu-btn {
+          .mobile-hamburger-btn {
             display: flex !important;
           }
         }

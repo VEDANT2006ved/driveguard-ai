@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 /**
- * Preloader Component (Wispr Flow Inspired Swift Entrance)
- * Provides an elegant, fleeting brand reveal without a blocking timer.
+ * Preloader Component (VANTAGE Automotive Editorial Entrance)
+ * Provides a refined, swift brand reveal with minimal blocking latency.
  * Respects reduced-motion preferences immediately.
  */
 export default function Preloader({ onComplete }) {
@@ -35,14 +35,14 @@ export default function Preloader({ onComplete }) {
         position: 'fixed',
         inset: 0,
         zIndex: 9999,
-        backgroundColor: 'var(--bg-canvas)',
+        backgroundColor: '#0D0E10',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         opacity: isFading ? 0 : 1,
         transform: isFading ? 'scale(1.02)' : 'scale(1)',
-        transition: 'opacity 0.4s var(--ease-expo), transform 0.4s var(--ease-expo)',
+        transition: 'opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
         pointerEvents: isFading ? 'none' : 'auto',
         cursor: 'pointer',
       }}
@@ -53,78 +53,74 @@ export default function Preloader({ onComplete }) {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: '1rem',
+          gap: '1.25rem',
           textAlign: 'center',
         }}
       >
-        {/* Subtle Waveform / Orbit Icon */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+          <div
+            style={{
+              width: '10px',
+              height: '10px',
+              borderRadius: '2px',
+              backgroundColor: 'var(--color-accent-red)',
+            }}
+          />
+          <span
+            style={{
+              fontFamily: 'var(--font-condensed)',
+              fontSize: '2.8rem',
+              fontWeight: 600,
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              color: '#FFFFFF',
+              lineHeight: 1,
+            }}
+          >
+            DRIVEGUARD.AI
+          </span>
+        </div>
+
         <div
           style={{
-            width: '48px',
-            height: '48px',
-            borderRadius: '9999px',
-            backgroundColor: 'var(--color-lavender)',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: '0 4px 20px rgba(124, 58, 237, 0.15)',
+            gap: '0.85rem',
+            fontFamily: 'var(--font-mono)',
+            fontSize: '0.72rem',
+            letterSpacing: '0.16em',
+            textTransform: 'uppercase',
+            color: 'var(--text-light-muted)',
           }}
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 12C4 7.58172 7.58172 4 12 4C16.4183 4 20 7.58172 20 12" stroke="#22103E" strokeWidth="2" strokeLinecap="round"/>
-            <path d="M7 12C7 9.23858 9.23858 7 12 7C14.7614 7 17 9.23858 17 12" stroke="#22103E" strokeWidth="2" strokeLinecap="round"/>
-            <circle cx="12" cy="12" r="2.5" fill="#22103E"/>
-          </svg>
+          <span>SYS.01</span>
+          <span>//</span>
+          <span>EDGE BIOMETRIC ATTENTIVENESS</span>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.4rem' }}>
-          <span
-            className="font-serif"
-            style={{
-              fontSize: '2.5rem',
-              fontStyle: 'italic',
-              fontWeight: 400,
-              color: 'var(--text-primary)',
-              lineHeight: 1,
-            }}
-          >
-            Drive
-          </span>
-          <span
-            className="font-display"
-            style={{
-              fontSize: '2.5rem',
-              fontWeight: 700,
-              letterSpacing: '-0.04em',
-              color: 'var(--text-primary)',
-              lineHeight: 1,
-            }}
-          >
-            Guard
-          </span>
-          <span
-            className="font-mono"
-            style={{
-              fontSize: '0.8rem',
-              color: 'var(--color-purple)',
-              fontWeight: 600,
-              marginLeft: '0.2rem',
-            }}
-          >
-            AI
-          </span>
-        </div>
-
-        <span
-          className="label-editorial"
+        {/* Hairline Progress Indicator */}
+        <div
           style={{
-            fontSize: '0.68rem',
-            color: 'var(--text-muted)',
-            letterSpacing: '0.14em',
+            width: '120px',
+            height: '1px',
+            backgroundColor: 'rgba(255, 255, 255, 0.15)',
+            position: 'relative',
+            overflow: 'hidden',
+            marginTop: '0.5rem',
           }}
         >
-          NEURAL VEHICLE TELEMETRY
-        </span>
+          <div
+            style={{
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              bottom: 0,
+              width: '40%',
+              backgroundColor: 'var(--color-accent-red)',
+              animation: 'telemetryPulse 1s ease-in-out infinite',
+            }}
+          />
+        </div>
       </div>
     </div>
   );

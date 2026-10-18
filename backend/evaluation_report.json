@@ -1,6 +1,6 @@
 {
   "summary": {
-    "evaluation_timestamp": "2026-10-18T22:37:26.893885",
+    "evaluation_timestamp": "2026-10-18T23:08:59.057113",
     "evaluation_mode": "Synthetic 30 FPS Algorithm Simulation",
     "evaluator_engine": "DriverRiskScorer (engine.risk_scorer)",
     "all_scenarios_passed": true,

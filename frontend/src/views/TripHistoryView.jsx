@@ -77,29 +77,29 @@ export default function TripHistoryView() {
     const g = String(grade).toUpperCase();
     if (g.startsWith('A')) {
       return {
-        color: '#059669',
-        bg: '#DCFCE7',
+        color: '#10B981',
+        bg: 'rgba(16, 185, 129, 0.08)',
         border: 'rgba(16, 185, 129, 0.25)',
       };
     }
     if (g.startsWith('B')) {
       return {
-        color: 'var(--color-accent-purple-dark)',
-        bg: 'var(--bg-card-lavender)',
-        border: 'rgba(124, 58, 237, 0.2)',
+        color: 'var(--text-primary)',
+        bg: 'var(--bg-ivory-subtle)',
+        border: 'var(--border-subtle)',
       };
     }
     if (g.startsWith('C')) {
       return {
         color: '#D97706',
-        bg: '#FEF3C7',
+        bg: 'rgba(217, 119, 6, 0.08)',
         border: 'rgba(217, 119, 6, 0.25)',
       };
     }
     return {
-      color: 'var(--color-alert)',
-      bg: 'var(--color-alert-dim)',
-      border: 'rgba(225, 29, 72, 0.25)',
+      color: 'var(--color-accent-red)',
+      bg: 'rgba(232, 75, 50, 0.08)',
+      border: 'var(--color-alert-border)',
     };
   };
 
@@ -107,7 +107,7 @@ export default function TripHistoryView() {
   const activeGradeTheme = getGradeTheme(activeTrip?.grade);
 
   return (
-    <div className="animate-fade-up" style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
       {/* Header */}
       <div
         style={{
@@ -116,6 +116,8 @@ export default function TripHistoryView() {
           alignItems: 'flex-start',
           flexWrap: 'wrap',
           gap: '1.5rem',
+          borderBottom: '1px solid var(--border-subtle)',
+          paddingBottom: '2rem',
         }}
       >
         <div>
@@ -124,40 +126,37 @@ export default function TripHistoryView() {
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.5rem',
-              backgroundColor: 'var(--color-accent-purple-light)',
-              color: 'var(--color-accent-purple-dark)',
-              border: '1px solid rgba(124, 58, 237, 0.15)',
-              borderRadius: '9999px',
-              padding: '0.3rem 0.85rem',
-              fontSize: '0.72rem',
               fontFamily: 'var(--font-mono)',
-              fontWeight: 600,
-              letterSpacing: '0.04em',
-              marginBottom: '0.75rem',
+              fontSize: '0.72rem',
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              color: 'var(--text-muted)',
+              marginBottom: '0.5rem',
             }}
           >
-            <FileText size={12} />
-            <span>04 // AUDIT LEDGER & CERTIFICATION</span>
+            <FileText size={12} color="var(--color-accent-red)" />
+            <span>SYS.04 // AUDIT LEDGER & CERTIFICATION</span>
           </div>
 
           <h1
-            className="font-serif"
             style={{
-              fontSize: 'clamp(2.2rem, 4.2vw, 3.4rem)',
-              fontWeight: 400,
-              lineHeight: 1.12,
-              letterSpacing: '-0.025em',
+              fontFamily: 'var(--font-condensed)',
+              fontSize: 'clamp(2.4rem, 4.5vw, 3.8rem)',
+              fontWeight: 600,
+              letterSpacing: '0.04em',
+              textTransform: 'uppercase',
+              lineHeight: 1,
               color: 'var(--text-primary)',
-              margin: '0.1rem 0 0.5rem 0',
+              margin: '0.2rem 0 0.65rem 0',
             }}
           >
-            Session <em>audit</em> vault.
+            SESSION AUDIT VAULT
           </h1>
 
           <p
             style={{
               color: 'var(--text-secondary)',
-              fontSize: '0.98rem',
+              fontSize: '0.92rem',
               maxWidth: '680px',
               lineHeight: 1.55,
               margin: 0,
@@ -172,28 +171,9 @@ export default function TripHistoryView() {
           onClick={fetchTrips}
           disabled={isRefreshing}
           title="Refresh session vault"
-          className="btn-magnetic-pill"
+          className="vantage-btn-outline"
           style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.45rem',
-            backgroundColor: 'var(--bg-surface)',
-            border: '1px solid var(--border-subtle)',
-            borderRadius: '9999px',
-            padding: '0.55rem 1.25rem',
-            fontFamily: 'var(--font-sans)',
-            fontSize: '0.8rem',
-            fontWeight: 600,
-            color: 'var(--text-primary)',
             cursor: isRefreshing ? 'wait' : 'pointer',
-            transition: 'all 0.2s ease',
-            boxShadow: 'var(--shadow-sm)',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = 'var(--text-primary)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = 'var(--border-subtle)';
           }}
         >
           <RefreshCw size={13} className={isRefreshing ? 'animate-spin' : ''} />
@@ -211,12 +191,12 @@ export default function TripHistoryView() {
         }}
       >
         {/* Left: Ledger List */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 0.5rem' }}>
-            <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--text-secondary)', letterSpacing: '0.04em' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 0.25rem' }}>
+            <span style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--text-muted)', letterSpacing: '0.1em' }}>
               RECORDED SESSIONS ({trips.length})
             </span>
-            <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+            <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
               SELECT TO INSPECT
             </span>
           </div>
@@ -231,42 +211,56 @@ export default function TripHistoryView() {
                 onClick={() => setSelectedTrip(trip)}
                 style={{
                   backgroundColor: 'var(--bg-surface)',
-                  border: isSelected ? '1.5px solid var(--color-accent-purple)' : '1px solid var(--border-subtle)',
-                  borderRadius: '22px',
-                  padding: '1.35rem 1.6rem',
+                  border: isSelected ? '1.5px solid var(--text-primary)' : '1px solid var(--border-subtle)',
+                  borderRadius: 'var(--radius-card)',
+                  padding: '1.25rem 1.5rem',
                   cursor: 'pointer',
-                  transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+                  transition: 'all var(--transition-fast)',
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                  boxShadow: isSelected ? '0 8px 24px rgba(124, 58, 237, 0.12)' : 'var(--shadow-sm)',
-                  transform: isSelected ? 'translateY(-1px)' : 'none',
+                  boxShadow: isSelected ? 'var(--shadow-sm)' : 'none',
+                  position: 'relative',
                 }}
                 onMouseEnter={(e) => {
                   if (!isSelected) {
-                    e.currentTarget.style.borderColor = 'rgba(124, 58, 237, 0.35)';
-                    e.currentTarget.style.transform = 'translateY(-1px)';
+                    e.currentTarget.style.borderColor = 'var(--text-secondary)';
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (!isSelected) {
                     e.currentTarget.style.borderColor = 'var(--border-subtle)';
-                    e.currentTarget.style.transform = 'none';
                   }
                 }}
               >
+                {/* Active selection indicator line */}
+                {isSelected && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      left: 0,
+                      top: 0,
+                      bottom: 0,
+                      width: '3px',
+                      backgroundColor: 'var(--color-accent-red)',
+                      borderTopLeftRadius: 'var(--radius-card)',
+                      borderBottomLeftRadius: 'var(--radius-card)',
+                    }}
+                  />
+                )}
+
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-                    <span className="font-mono" style={{ fontSize: '0.84rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                    <span className="font-mono" style={{ fontSize: '0.86rem', fontWeight: 700, color: 'var(--text-primary)' }}>
                       {trip.id}
                     </span>
-                    <span style={{ color: 'var(--border-strong)' }}>•</span>
-                    <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
+                    <span style={{ color: 'var(--border-subtle)' }}>•</span>
+                    <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
                       {trip.date}
                     </span>
                   </div>
 
-                  <div style={{ display: 'flex', gap: '1rem', fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
+                  <div style={{ display: 'flex', gap: '0.75rem', fontSize: '0.8rem', color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)' }}>
                     <span>{trip.time}</span>
                     <span>•</span>
                     <span>{trip.duration}</span>
@@ -275,25 +269,26 @@ export default function TripHistoryView() {
                   </div>
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1.1rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                   <div style={{ textAlign: 'right' }}>
                     <div
                       style={{
                         display: 'inline-block',
                         padding: '0.2rem 0.65rem',
-                        borderRadius: '9999px',
+                        borderRadius: 'var(--radius-btn)',
                         backgroundColor: theme.bg,
                         color: theme.color,
                         border: `1px solid ${theme.border}`,
                         fontSize: '0.78rem',
-                        fontFamily: 'var(--font-mono)',
-                        fontWeight: 700,
+                        fontFamily: 'var(--font-condensed)',
+                        fontWeight: 600,
+                        letterSpacing: '0.04em',
                       }}
                     >
                       {trip.grade} ({trip.safetyScore}%)
                     </div>
                   </div>
-                  <ChevronRight size={18} color={isSelected ? 'var(--color-accent-purple)' : 'var(--text-muted)'} />
+                  <ChevronRight size={16} color={isSelected ? 'var(--text-primary)' : 'var(--text-muted)'} />
                 </div>
               </div>
             );
@@ -306,7 +301,7 @@ export default function TripHistoryView() {
             style={{
               backgroundColor: 'var(--bg-surface)',
               border: '1px solid var(--border-subtle)',
-              borderRadius: '28px',
+              borderRadius: 'var(--radius-card-lg)',
               padding: 'clamp(1.75rem, 3.5vw, 2.5rem)',
               display: 'flex',
               flexDirection: 'column',
@@ -321,33 +316,34 @@ export default function TripHistoryView() {
               <div>
                 <span
                   style={{
-                    fontSize: '0.72rem',
+                    fontSize: '0.7rem',
                     fontFamily: 'var(--font-mono)',
                     fontWeight: 700,
-                    letterSpacing: '0.06em',
-                    color: 'var(--text-secondary)',
+                    letterSpacing: '0.12em',
+                    color: 'var(--text-muted)',
                     textTransform: 'uppercase',
                   }}
                 >
-                  Audit Certificate
+                  AUDIT CERTIFICATE
                 </span>
                 <h3
-                  className="font-serif"
                   style={{
-                    fontSize: '1.8rem',
-                    fontWeight: 400,
+                    fontFamily: 'var(--font-condensed)',
+                    fontSize: '2.2rem',
+                    fontWeight: 600,
+                    letterSpacing: '0.04em',
                     color: 'var(--text-primary)',
                     margin: '0.2rem 0 0 0',
                   }}
                 >
                   {activeTrip.id}
                 </h3>
-                <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                <span style={{ fontSize: '0.8rem', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
                   Verified session recorded on {activeTrip.date} ({activeTrip.time})
                 </span>
               </div>
 
-              {/* Huge Serif Grade Badge */}
+              {/* Architectural Grade Badge */}
               <div
                 style={{
                   display: 'flex',
@@ -356,23 +352,23 @@ export default function TripHistoryView() {
                   justifyContent: 'center',
                   width: '74px',
                   height: '74px',
-                  borderRadius: '22px',
+                  borderRadius: 'var(--radius-card)',
                   backgroundColor: activeGradeTheme.bg,
                   border: `1px solid ${activeGradeTheme.border}`,
                 }}
               >
                 <span
-                  className="font-serif"
                   style={{
-                    fontSize: '2.4rem',
-                    fontWeight: 400,
+                    fontFamily: 'var(--font-condensed)',
+                    fontSize: '2.6rem',
+                    fontWeight: 600,
                     lineHeight: 1,
                     color: activeGradeTheme.color,
                   }}
                 >
                   {activeTrip.grade}
                 </span>
-                <span style={{ fontSize: '0.65rem', fontFamily: 'var(--font-mono)', fontWeight: 700, color: activeGradeTheme.color }}>
+                <span style={{ fontSize: '0.68rem', fontFamily: 'var(--font-mono)', fontWeight: 700, color: activeGradeTheme.color }}>
                   {activeTrip.safetyScore}%
                 </span>
               </div>
@@ -384,39 +380,40 @@ export default function TripHistoryView() {
                 display: 'grid',
                 gridTemplateColumns: 'repeat(3, 1fr)',
                 gap: '0.85rem',
-                backgroundColor: 'var(--bg-canvas-subtle)',
-                borderRadius: '18px',
+                backgroundColor: 'var(--bg-ivory-subtle)',
+                borderRadius: 'var(--radius-card)',
                 padding: '1.1rem 1.25rem',
-                border: '1px solid rgba(22, 27, 24, 0.05)',
+                border: '1px solid var(--border-subtle)',
               }}
             >
               <div>
-                <span style={{ fontSize: '0.68rem', fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase', display: 'block' }}>
+                <span style={{ fontSize: '0.68rem', fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block' }}>
                   Duration
                 </span>
-                <span style={{ fontSize: '1.05rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                <span style={{ fontFamily: 'var(--font-condensed)', fontSize: '1.25rem', fontWeight: 600, color: 'var(--text-primary)' }}>
                   {activeTrip.duration}
                 </span>
               </div>
 
               <div>
-                <span style={{ fontSize: '0.68rem', fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase', display: 'block' }}>
+                <span style={{ fontSize: '0.68rem', fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block' }}>
                   Distance
                 </span>
-                <span style={{ fontSize: '0.95rem', fontWeight: 500, color: 'var(--text-primary)' }}>
+                <span style={{ fontFamily: 'var(--font-condensed)', fontSize: '1.25rem', fontWeight: 500, color: 'var(--text-primary)' }}>
                   {activeTrip.distance && activeTrip.distance !== '--' ? activeTrip.distance : 'Optical (N/A)'}
                 </span>
               </div>
 
               <div>
-                <span style={{ fontSize: '0.68rem', fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase', display: 'block' }}>
+                <span style={{ fontSize: '0.68rem', fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', display: 'block' }}>
                   Incidents
                 </span>
                 <span
                   style={{
-                    fontSize: '1.05rem',
-                    fontWeight: 700,
-                    color: activeTrip.incidents && activeTrip.incidents.length > 0 ? 'var(--color-alert)' : '#059669',
+                    fontFamily: 'var(--font-condensed)',
+                    fontSize: '1.25rem',
+                    fontWeight: 600,
+                    color: activeTrip.incidents && activeTrip.incidents.length > 0 ? 'var(--color-accent-red)' : 'var(--color-safe)',
                   }}
                 >
                   {activeTrip.incidents ? activeTrip.incidents.length : 0} FLAGGED
@@ -428,17 +425,17 @@ export default function TripHistoryView() {
             <div>
               <span
                 style={{
-                  fontSize: '0.72rem',
+                  fontSize: '0.7rem',
                   fontFamily: 'var(--font-mono)',
                   fontWeight: 700,
-                  letterSpacing: '0.06em',
-                  color: 'var(--text-secondary)',
+                  letterSpacing: '0.12em',
+                  color: 'var(--text-muted)',
                   textTransform: 'uppercase',
                   display: 'block',
                   marginBottom: '0.85rem',
                 }}
               >
-                Incident Timestamp Log
+                INCIDENT TIMESTAMP LOG
               </span>
 
               {activeTrip.incidents && activeTrip.incidents.length > 0 ? (
@@ -451,30 +448,30 @@ export default function TripHistoryView() {
                         alignItems: 'center',
                         justifyContent: 'space-between',
                         padding: '0.85rem 1rem',
-                        borderRadius: '16px',
-                        backgroundColor: 'var(--bg-canvas-subtle)',
+                        borderRadius: 'var(--radius-card)',
+                        backgroundColor: 'var(--bg-canvas)',
                         border: '1px solid var(--border-subtle)',
                       }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
                         <div
                           style={{
-                            width: '28px',
-                            height: '28px',
-                            borderRadius: '50%',
-                            backgroundColor: 'var(--color-alert-dim)',
+                            width: '24px',
+                            height: '24px',
+                            borderRadius: 'var(--radius-btn)',
+                            backgroundColor: 'rgba(232, 75, 50, 0.1)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                           }}
                         >
-                          <AlertTriangle size={14} color="var(--color-alert)" />
+                          <AlertTriangle size={13} color="var(--color-accent-red)" />
                         </div>
                         <span style={{ fontSize: '0.85rem', color: 'var(--text-primary)', fontWeight: 500 }}>
                           {inc.type}
                         </span>
                       </div>
-                      <div className="font-mono" style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+                      <div className="font-mono" style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
                         {inc.time} • <strong style={{ color: 'var(--text-primary)' }}>{inc.metric}</strong>
                       </div>
                     </div>
@@ -486,30 +483,30 @@ export default function TripHistoryView() {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '0.85rem',
-                    padding: '1.25rem 1.4rem',
-                    borderRadius: '18px',
-                    backgroundColor: 'var(--bg-card-mint)',
-                    border: '1px solid rgba(16, 185, 129, 0.2)',
+                    padding: '1.1rem 1.3rem',
+                    borderRadius: 'var(--radius-card)',
+                    backgroundColor: 'rgba(16, 185, 129, 0.08)',
+                    border: '1px solid rgba(16, 185, 129, 0.25)',
                   }}
                 >
                   <div
                     style={{
-                      width: '32px',
-                      height: '32px',
-                      borderRadius: '50%',
-                      backgroundColor: '#DCFCE7',
+                      width: '28px',
+                      height: '28px',
+                      borderRadius: 'var(--radius-btn)',
+                      backgroundColor: 'rgba(16, 185, 129, 0.15)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                     }}
                   >
-                    <CheckCircle size={16} color="#059669" />
+                    <CheckCircle size={15} color="var(--color-safe)" />
                   </div>
                   <div>
-                    <div style={{ fontSize: '0.88rem', fontWeight: 600, color: '#064E3B' }}>
+                    <div style={{ fontFamily: 'var(--font-condensed)', fontSize: '0.95rem', fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase', color: 'var(--color-safe)' }}>
                       Optimal Compliance Maintained
                     </div>
-                    <div style={{ fontSize: '0.8rem', color: '#047857' }}>
+                    <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
                       Zero drowsiness, yawn excursions, or head deviations detected.
                     </div>
                   </div>
@@ -520,7 +517,8 @@ export default function TripHistoryView() {
             {/* Regulatory Footer Note */}
             <div
               style={{
-                fontSize: '0.78rem',
+                fontSize: '0.76rem',
+                fontFamily: 'var(--font-mono)',
                 color: 'var(--text-muted)',
                 lineHeight: 1.5,
                 borderTop: '1px solid var(--border-subtle)',

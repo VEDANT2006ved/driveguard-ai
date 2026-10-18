@@ -1,6 +1,6 @@
-/* Wispr Flow Inspired Motion & Cinematic Keyframes */
+/* VANTAGE-Inspired Cinematic Automotive Motion */
 
-@keyframes fadeIn {
+@keyframes cinematicFadeIn {
   from {
     opacity: 0;
   }
@@ -9,277 +9,110 @@
   }
 }
 
-@keyframes fadeUpEditorial {
-  from {
-    opacity: 0;
-    transform: translateY(22px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes clipRevealUp {
+@keyframes heroHeadlineReveal {
   0% {
+    opacity: 0;
+    transform: translateY(32px);
     clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%);
-    transform: translateY(40px);
-    opacity: 0;
   }
   100% {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    opacity: 1;
     transform: translateY(0);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+}
+
+@keyframes heroImageReveal {
+  0% {
+    opacity: 0;
+    transform: scale(1.05);
+    filter: brightness(0.7);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
+@keyframes accentLineExpand {
+  0% {
+    width: 0%;
+    opacity: 0;
+  }
+  100% {
+    width: 100%;
     opacity: 1;
   }
 }
 
-@keyframes scaleUp {
-  from {
-    opacity: 0;
-    transform: scale(0.96);
-  }
-  to {
+@keyframes redTelemetryPulse {
+  0%, 100% {
     opacity: 1;
     transform: scale(1);
   }
+  50% {
+    opacity: 0.45;
+    transform: scale(1.18);
+  }
 }
 
-@keyframes floatGentle {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
+@keyframes subtleImagePan {
+  0% {
+    transform: scale(1.02) translate(0, 0);
   }
   50% {
-    transform: translateY(-8px) rotate(0.5deg);
+    transform: scale(1.04) translate(-4px, -2px);
+  }
+  100% {
+    transform: scale(1.02) translate(0, 0);
   }
 }
 
-@keyframes floatHeroA {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-12px) rotate(1.5deg);
-  }
-}
-
-@keyframes floatHeroB {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(10px) rotate(-1.5deg);
-  }
-}
-
-@keyframes floatHeroC {
-  0%, 100% {
-    transform: translateY(0px) scale(1);
-  }
-  50% {
-    transform: translateY(-9px) scale(1.02);
-  }
-}
-
-@keyframes orbitSpin {
+@keyframes dividerDraw {
   from {
-    transform: rotate(0deg);
+    transform: scaleX(0);
   }
   to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes orbitSpinReverse {
-  from {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
-}
-
-@keyframes pulseLive {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.35);
-    opacity: 0.55;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes laserScan {
-  0% {
-    top: 0%;
-    opacity: 0;
-  }
-  15% {
-    opacity: 1;
-  }
-  85% {
-    opacity: 1;
-  }
-  100% {
-    top: 100%;
-    opacity: 0;
-  }
-}
-
-@keyframes svgDraw {
-  0% {
-    stroke-dashoffset: 1200;
-    opacity: 0.2;
-  }
-  50% {
-    opacity: 0.9;
-  }
-  100% {
-    stroke-dashoffset: 0;
-    opacity: 0.8;
-  }
-}
-
-@keyframes dashFlow {
-  to {
-    stroke-dashoffset: -100;
-  }
-}
-
-@keyframes alertBorderBlink {
-  0%, 100% {
-    border-color: var(--color-alert);
-    box-shadow: 0 0 24px rgba(225, 29, 72, 0.25);
-  }
-  50% {
-    border-color: #171717;
-    box-shadow: 0 0 6px rgba(225, 29, 72, 0.05);
-  }
-}
-
-@keyframes driverBlink {
-  0%, 92%, 100% {
-    transform: scaleY(1);
-  }
-  95% {
-    transform: scaleY(0.1);
-  }
-}
-
-@keyframes steerSway {
-  0%, 100% {
-    transform: rotate(0deg);
-  }
-  30% {
-    transform: rotate(3deg);
-  }
-  70% {
-    transform: rotate(-3deg);
-  }
-}
-
-@keyframes shimmerGlow {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
+    transform: scaleX(1);
   }
 }
 
 /* Helper Animation Classes */
-.animate-fade-in {
-  animation: fadeIn 0.4s var(--ease-expo) forwards;
+.cinematic-fade-in {
+  animation: cinematicFadeIn 0.6s var(--ease-cinematic) forwards;
 }
 
-.animate-fade-up {
-  animation: fadeUpEditorial 0.6s var(--ease-expo) forwards;
+.hero-headline-reveal {
+  animation: heroHeadlineReveal 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-clip-hero {
-  animation: clipRevealUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.hero-image-reveal {
+  animation: heroImageReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-scale-up {
-  animation: scaleUp 0.4s var(--ease-expo) forwards;
+.accent-line-expand {
+  transform-origin: left;
+  animation: accentLineExpand 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-float {
-  animation: floatGentle 5s ease-in-out infinite;
+.telemetry-pulse {
+  animation: redTelemetryPulse 2.2s ease-in-out infinite;
 }
 
-.animate-float-hero-a {
-  animation: floatHeroA 6s ease-in-out infinite;
+.subtle-image-pan {
+  animation: subtleImagePan 24s ease-in-out infinite;
 }
 
-.animate-float-hero-b {
-  animation: floatHeroB 7.5s ease-in-out infinite;
-}
-
-.animate-float-hero-c {
-  animation: floatHeroC 5.5s ease-in-out infinite;
-}
-
-.animate-orbit {
-  animation: orbitSpin 36s linear infinite;
-}
-
-.animate-orbit-reverse {
-  animation: orbitSpinReverse 48s linear infinite;
-}
-
-.animate-pulse-live {
-  animation: pulseLive 2s ease-in-out infinite;
-}
-
-.animate-svg-draw {
-  stroke-dasharray: 1200;
-  stroke-dashoffset: 1200;
-  animation: svgDraw 3.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.animate-dash-flow {
-  animation: dashFlow 12s linear infinite;
-}
-
-.animate-laser-scan {
-  animation: laserScan 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-}
-
-.alert-red-pulse {
-  animation: alertBorderBlink 1.2s ease-in-out infinite;
-}
-
-.animate-driver-eyes {
-  transform-origin: center;
-  animation: driverBlink 4.5s ease-in-out infinite;
-}
-
-.animate-steer {
-  transform-origin: center;
-  animation: steerSway 6s ease-in-out infinite;
-}
-
-/* Magnetic Button Physics & Interactive Pill Classes */
-.btn-magnetic-pill {
-  position: relative;
+/* Subtle image hover zoom */
+.zoom-container {
   overflow: hidden;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-              background-color 0.2s ease;
 }
-
-.btn-magnetic-pill:hover {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 10px 28px rgba(124, 58, 237, 0.22);
+.zoom-container img {
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
-
-.btn-magnetic-pill:active {
-  transform: translateY(0px) scale(0.98);
+.zoom-container:hover img {
+  transform: scale(1.03);
 }
 
 /* Reduced Motion Compliance */

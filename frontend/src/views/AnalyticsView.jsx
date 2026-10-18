@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BarChart3, AlertTriangle, RefreshCw, Award, Activity, TrendingUp, ShieldCheck, Sparkles } from 'lucide-react';
+import { BarChart3, AlertTriangle, RefreshCw, Award, Activity, TrendingUp, ShieldCheck } from 'lucide-react';
 
 /**
  * Parses duration strings like "1h 25m", "12m 50s", "42m", or "18s" into total seconds.
@@ -120,8 +120,8 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
 
   // Tally incident categories
   const incidentCategories = {
-    lateral: { label: 'Lateral Head Deviation', count: 0, color: '#6366F1' },
-    eye_closure: { label: 'Prolonged Eye Closure', count: 0, color: 'var(--color-alert)' },
+    lateral: { label: 'Lateral Head Deviation', count: 0, color: '#3B82F6' },
+    eye_closure: { label: 'Prolonged Eye Closure', count: 0, color: 'var(--color-accent-red)' },
     head_down: { label: 'Head-Down Distraction', count: 0, color: '#D97706' },
     yawn: { label: 'Sustained Yawning', count: 0, color: '#8B5CF6' },
     head_up: { label: 'Head-Up Vertical Shift', count: 0, color: '#64748B' },
@@ -139,10 +139,10 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
 
   // Tally grade distribution
   const gradeDistribution = {
-    A: { label: 'Grade A / A+ (Optimal)', count: 0, color: '#059669' },
-    B: { label: 'Grade B / B+ / B- (Caution)', count: 0, color: '#4B5563' },
+    A: { label: 'Grade A / A+ (Optimal)', count: 0, color: '#10B981' },
+    B: { label: 'Grade B / B+ / B- (Caution)', count: 0, color: '#5E5B54' },
     C: { label: 'Grade C (Elevated Risk)', count: 0, color: '#D97706' },
-    F: { label: 'Grade F (Critical)', count: 0, color: 'var(--color-alert)' },
+    F: { label: 'Grade F (Critical)', count: 0, color: 'var(--color-accent-red)' },
   };
 
   trips.forEach((t) => {
@@ -157,7 +157,7 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
   const chronologicalTrips = [...trips].reverse();
 
   return (
-    <div className="animate-fade-up" style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
       {/* View Header with Mode Selector Toggle */}
       <div
         style={{
@@ -166,6 +166,8 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
           alignItems: 'flex-start',
           flexWrap: 'wrap',
           gap: '1.5rem',
+          borderBottom: '1px solid var(--border-subtle)',
+          paddingBottom: '2rem',
         }}
       >
         <div>
@@ -174,84 +176,74 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.5rem',
-              backgroundColor: 'var(--color-accent-purple-light)',
-              color: 'var(--color-accent-purple-dark)',
-              border: '1px solid rgba(124, 58, 237, 0.15)',
-              borderRadius: '9999px',
-              padding: '0.3rem 0.85rem',
-              fontSize: '0.72rem',
               fontFamily: 'var(--font-mono)',
-              fontWeight: 600,
-              letterSpacing: '0.04em',
-              marginBottom: '0.75rem',
+              fontSize: '0.72rem',
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              color: 'var(--text-muted)',
+              marginBottom: '0.5rem',
             }}
           >
-            <Activity size={12} />
-            <span>03 // TELEMETRY & AUDIT VAULT</span>
+            <Activity size={12} color="var(--color-accent-red)" />
+            <span>SYS.03 // TELEMETRY & AUDIT VAULT</span>
           </div>
 
           <h1
-            className="font-serif"
             style={{
-              fontSize: 'clamp(2.2rem, 4.2vw, 3.4rem)',
-              fontWeight: 400,
-              lineHeight: 1.12,
-              letterSpacing: '-0.025em',
+              fontFamily: 'var(--font-condensed)',
+              fontSize: 'clamp(2.4rem, 4.5vw, 3.8rem)',
+              fontWeight: 600,
+              letterSpacing: '0.04em',
+              textTransform: 'uppercase',
+              lineHeight: 1,
               color: 'var(--text-primary)',
-              margin: '0.1rem 0 0.5rem 0',
+              margin: '0.2rem 0 0.65rem 0',
             }}
           >
-            {activeMode === 'live' ? (
-              <>
-                Continuous <em>biometric</em> stream.
-              </>
-            ) : (
-              <>
-                Fleet <em>compliance</em> audit vault.
-              </>
-            )}
+            {activeMode === 'live' ? 'ATTENTIVENESS WAVEFORM' : 'FLEET COMPLIANCE AUDIT VAULT'}
           </h1>
 
           <p
             style={{
               color: 'var(--text-secondary)',
-              fontSize: '0.98rem',
+              fontSize: '0.92rem',
               maxWidth: '680px',
               lineHeight: 1.55,
               margin: 0,
             }}
           >
             {activeMode === 'live'
-              ? 'Real-time temporal risk distribution, palpebral tracking, and cranial kinematics streaming from edge inference.'
-              : 'Cumulative audit analytics compiled from verified driving sessions persistently stored in SQLite.'}
+              ? 'Real-time temporal risk distribution, palpebral tracking, and cranial kinematics streaming directly from edge inference.'
+              : 'Cumulative compliance analytics compiled from verified driving sessions persistently stored in SQLite.'}
           </p>
         </div>
 
-        {/* Wispr Flow Signature Segmented Capsule Toggle */}
+        {/* Minimalist Architectural Segmented Toggle */}
         <div
           style={{
             display: 'inline-flex',
-            backgroundColor: 'var(--bg-surface)',
+            backgroundColor: 'var(--bg-ivory-subtle)',
             border: '1px solid var(--border-subtle)',
-            borderRadius: '9999px',
-            padding: '4px',
-            gap: '4px',
-            boxShadow: 'var(--shadow-sm)',
+            borderRadius: 'var(--radius-btn)',
+            padding: '3px',
+            gap: '3px',
           }}
         >
           <button
             onClick={() => setActiveMode('live')}
             style={{
-              padding: '0.55rem 1.35rem',
-              borderRadius: '9999px',
-              fontFamily: 'var(--font-sans)',
-              fontSize: '0.8rem',
-              fontWeight: 600,
+              padding: '0.55rem 1.4rem',
+              borderRadius: '2px',
+              fontFamily: 'var(--font-condensed)',
+              fontSize: '0.86rem',
+              fontWeight: 500,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
               border: 'none',
               cursor: 'pointer',
               backgroundColor: activeMode === 'live' ? 'var(--text-primary)' : 'transparent',
               color: activeMode === 'live' ? '#FFFFFF' : 'var(--text-secondary)',
-              transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+              transition: 'all var(--transition-fast)',
             }}
           >
             Live Waveform
@@ -260,16 +252,18 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
           <button
             onClick={() => setActiveMode('historical')}
             style={{
-              padding: '0.55rem 1.35rem',
-              borderRadius: '9999px',
-              fontFamily: 'var(--font-sans)',
-              fontSize: '0.8rem',
-              fontWeight: 600,
+              padding: '0.55rem 1.4rem',
+              borderRadius: '2px',
+              fontFamily: 'var(--font-condensed)',
+              fontSize: '0.86rem',
+              fontWeight: 500,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
               border: 'none',
               cursor: 'pointer',
               backgroundColor: activeMode === 'historical' ? 'var(--text-primary)' : 'transparent',
               color: activeMode === 'historical' ? '#FFFFFF' : 'var(--text-secondary)',
-              transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+              transition: 'all var(--transition-fast)',
             }}
           >
             Historical Vault ({trips.length})
@@ -282,7 +276,7 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
       {/* ===================================================================== */}
       {activeMode === 'live' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-          {/* Live Summary Metric Bento Cards */}
+          {/* Live Summary Metric Architectural Cards */}
           <div
             style={{
               display: 'grid',
@@ -290,18 +284,17 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
               gap: '1.25rem',
             }}
           >
-            {/* Card 1: Average Session Risk (Wispr Lavender Accent) */}
+            {/* Card 1: Average Session Risk */}
             <div
               style={{
-                backgroundColor: 'var(--bg-card-lavender)',
-                border: '1px solid rgba(124, 58, 237, 0.12)',
-                borderRadius: '24px',
+                backgroundColor: 'var(--bg-surface)',
+                border: '1px solid var(--border-subtle)',
+                borderRadius: 'var(--radius-card)',
                 padding: '1.75rem',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
                 minHeight: '160px',
-                boxShadow: 'var(--shadow-sm)',
               }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -310,8 +303,8 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                     fontSize: '0.72rem',
                     fontFamily: 'var(--font-mono)',
                     fontWeight: 700,
-                    letterSpacing: '0.06em',
-                    color: 'var(--color-accent-purple-dark)',
+                    letterSpacing: '0.1em',
+                    color: 'var(--text-secondary)',
                     textTransform: 'uppercase',
                   }}
                 >
@@ -319,30 +312,32 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                 </span>
                 <span
                   style={{
-                    fontSize: '0.7rem',
+                    fontSize: '0.68rem',
+                    fontFamily: 'var(--font-mono)',
                     padding: '0.2rem 0.55rem',
-                    borderRadius: '9999px',
-                    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-                    color: 'var(--color-accent-purple-dark)',
+                    borderRadius: 'var(--radius-btn)',
+                    backgroundColor: 'var(--bg-ivory-subtle)',
+                    border: '1px solid var(--border-subtle)',
+                    color: 'var(--text-primary)',
                     fontWeight: 600,
                   }}
                 >
-                  Target &lt; 25%
+                  TARGET &lt; 25%
                 </span>
               </div>
               <div
-                className="font-serif"
                 style={{
-                  fontSize: '3.4rem',
-                  fontWeight: 400,
+                  fontFamily: 'var(--font-condensed)',
+                  fontSize: '3.6rem',
+                  fontWeight: 600,
                   lineHeight: 1,
-                  color: 'var(--color-accent-purple-dark)',
-                  margin: '0.5rem 0',
+                  color: 'var(--text-primary)',
+                  margin: '0.4rem 0',
                 }}
               >
                 {hasLiveData ? `${averageRisk}%` : '--'}
               </div>
-              <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+              <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
                 Rolling mean across active monitoring buffer
               </span>
             </div>
@@ -352,13 +347,12 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
               style={{
                 backgroundColor: 'var(--bg-surface)',
                 border: '1px solid var(--border-subtle)',
-                borderRadius: '24px',
+                borderRadius: 'var(--radius-card)',
                 padding: '1.75rem',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
                 minHeight: '160px',
-                boxShadow: 'var(--shadow-sm)',
               }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -367,7 +361,7 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                     fontSize: '0.72rem',
                     fontFamily: 'var(--font-mono)',
                     fontWeight: 700,
-                    letterSpacing: '0.06em',
+                    letterSpacing: '0.1em',
                     color: 'var(--text-secondary)',
                     textTransform: 'uppercase',
                   }}
@@ -376,30 +370,32 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                 </span>
                 <span
                   style={{
-                    fontSize: '0.7rem',
+                    fontSize: '0.68rem',
+                    fontFamily: 'var(--font-mono)',
                     padding: '0.2rem 0.55rem',
-                    borderRadius: '9999px',
-                    backgroundColor: maxRisk > 65 ? 'var(--color-alert-dim)' : 'var(--bg-canvas-subtle)',
-                    color: maxRisk > 65 ? 'var(--color-alert)' : 'var(--text-secondary)',
+                    borderRadius: 'var(--radius-btn)',
+                    backgroundColor: maxRisk > 65 ? 'var(--color-alert-dim)' : 'var(--bg-ivory-subtle)',
+                    color: maxRisk > 65 ? 'var(--color-accent-red)' : 'var(--text-secondary)',
+                    border: maxRisk > 65 ? '1px solid var(--color-alert-border)' : '1px solid var(--border-subtle)',
                     fontWeight: 600,
                   }}
                 >
-                  {maxRisk > 65 ? 'High Fatigue' : 'Controlled'}
+                  {maxRisk > 65 ? 'HIGH FATIGUE' : 'CONTROLLED'}
                 </span>
               </div>
               <div
-                className="font-serif"
                 style={{
-                  fontSize: '3.4rem',
-                  fontWeight: 400,
+                  fontFamily: 'var(--font-condensed)',
+                  fontSize: '3.6rem',
+                  fontWeight: 600,
                   lineHeight: 1,
-                  color: maxRisk > 65 ? 'var(--color-alert)' : 'var(--text-primary)',
-                  margin: '0.5rem 0',
+                  color: maxRisk > 65 ? 'var(--color-accent-red)' : 'var(--text-primary)',
+                  margin: '0.4rem 0',
                 }}
               >
                 {hasLiveData ? `${maxRisk}%` : '--'}
               </div>
-              <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+              <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
                 Maximum momentary fatigue recorded in window
               </span>
             </div>
@@ -409,13 +405,12 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
               style={{
                 backgroundColor: 'var(--bg-surface)',
                 border: '1px solid var(--border-subtle)',
-                borderRadius: '24px',
+                borderRadius: 'var(--radius-card)',
                 padding: '1.75rem',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
                 minHeight: '160px',
-                boxShadow: 'var(--shadow-sm)',
               }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -424,7 +419,7 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                     fontSize: '0.72rem',
                     fontFamily: 'var(--font-mono)',
                     fontWeight: 700,
-                    letterSpacing: '0.06em',
+                    letterSpacing: '0.1em',
                     color: 'var(--text-secondary)',
                     textTransform: 'uppercase',
                   }}
@@ -433,11 +428,13 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                 </span>
                 <span
                   style={{
-                    fontSize: '0.7rem',
+                    fontSize: '0.68rem',
+                    fontFamily: 'var(--font-mono)',
                     padding: '0.2rem 0.65rem',
-                    borderRadius: '9999px',
-                    backgroundColor: isEngineConnected ? '#DCFCE7' : 'var(--bg-canvas-subtle)',
-                    color: isEngineConnected ? '#15803D' : 'var(--text-muted)',
+                    borderRadius: 'var(--radius-btn)',
+                    backgroundColor: isEngineConnected ? 'var(--color-safe-dim)' : 'var(--bg-ivory-subtle)',
+                    color: isEngineConnected ? 'var(--color-safe)' : 'var(--text-muted)',
+                    border: isEngineConnected ? '1px solid rgba(16, 185, 129, 0.3)' : '1px solid var(--border-subtle)',
                     fontWeight: 600,
                   }}
                 >
@@ -445,75 +442,79 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                 </span>
               </div>
               <div
-                className="font-serif"
                 style={{
-                  fontSize: '3.4rem',
-                  fontWeight: 400,
+                  fontFamily: 'var(--font-condensed)',
+                  fontSize: '3.6rem',
+                  fontWeight: 600,
                   lineHeight: 1,
                   color: 'var(--text-primary)',
-                  margin: '0.5rem 0',
+                  margin: '0.4rem 0',
                 }}
               >
                 {telemetryHistory.length}
-                <span style={{ fontSize: '1.25rem', fontFamily: 'var(--font-sans)', color: 'var(--text-muted)', fontWeight: 400 }}>
-                  {' '}/ 400 pts
+                <span style={{ fontSize: '1.25rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', fontWeight: 400 }}>
+                  {' '}/ 400 PTS
                 </span>
               </div>
-              <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+              <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
                 Rolling time window (~13s @ 30 FPS edge ingestion)
               </span>
             </div>
           </div>
 
-          {/* SVG Waveform Chart Frame */}
+          {/* Cinematic Dark SVG Waveform Chart Frame */}
           <div
             style={{
-              backgroundColor: 'var(--bg-surface)',
-              border: '1px solid var(--border-subtle)',
-              borderRadius: '28px',
+              backgroundColor: 'var(--bg-dark)',
+              border: '1px solid var(--border-dark)',
+              borderRadius: 'var(--radius-card-lg)',
               padding: 'clamp(1.5rem, 3vw, 2.25rem)',
               display: 'flex',
               flexDirection: 'column',
               gap: '1.5rem',
-              boxShadow: 'var(--shadow-sm)',
+              boxShadow: 'var(--shadow-dark)',
+              color: '#FFFFFF',
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
               <div>
                 <span
                   style={{
-                    fontSize: '0.72rem',
+                    fontSize: '0.7rem',
                     fontFamily: 'var(--font-mono)',
-                    fontWeight: 700,
-                    letterSpacing: '0.06em',
-                    color: 'var(--text-secondary)',
+                    fontWeight: 600,
+                    letterSpacing: '0.12em',
+                    color: 'var(--text-light-muted)',
                     textTransform: 'uppercase',
                   }}
                 >
-                  Temporal Ingestion Curve
+                  TEMPORAL INGESTION CURVE
                 </span>
                 <h3
-                  className="font-serif"
                   style={{
-                    fontSize: '1.5rem',
-                    fontWeight: 400,
-                    color: 'var(--text-primary)',
+                    fontFamily: 'var(--font-condensed)',
+                    fontSize: '1.6rem',
+                    fontWeight: 500,
+                    letterSpacing: '0.04em',
+                    textTransform: 'uppercase',
+                    color: '#FFFFFF',
                     margin: '0.2rem 0 0 0',
                   }}
                 >
-                  Real-time risk <em>amplitude</em> over time
+                  REAL-TIME RISK AMPLITUDE OVER TIME
                 </h3>
               </div>
 
               <div style={{ display: 'flex', gap: '0.65rem', alignItems: 'center', flexWrap: 'wrap' }}>
                 <span
                   style={{
-                    fontSize: '0.72rem',
+                    fontSize: '0.7rem',
                     fontFamily: 'var(--font-mono)',
                     padding: '0.25rem 0.65rem',
-                    borderRadius: '9999px',
-                    backgroundColor: 'var(--color-alert-dim)',
-                    color: 'var(--color-alert)',
+                    borderRadius: 'var(--radius-btn)',
+                    backgroundColor: 'rgba(232, 75, 50, 0.15)',
+                    color: 'var(--color-accent-red)',
+                    border: '1px solid var(--color-alert-border)',
                     fontWeight: 600,
                   }}
                 >
@@ -521,13 +522,13 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                 </span>
                 <span
                   style={{
-                    fontSize: '0.72rem',
+                    fontSize: '0.7rem',
                     fontFamily: 'var(--font-mono)',
                     padding: '0.25rem 0.65rem',
-                    borderRadius: '9999px',
-                    backgroundColor: 'var(--bg-canvas)',
-                    color: 'var(--text-secondary)',
-                    border: '1px solid var(--border-subtle)',
+                    borderRadius: 'var(--radius-btn)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                    color: 'var(--text-light-muted)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
                   }}
                 >
                   BUFFER: {telemetryHistory.length} SAMPLES
@@ -540,14 +541,14 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
               style={{
                 width: '100%',
                 height: '240px',
-                backgroundColor: 'var(--bg-canvas-subtle)',
-                borderRadius: '18px',
+                backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                borderRadius: '6px',
                 position: 'relative',
                 overflow: 'hidden',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                border: '1px solid rgba(22, 27, 24, 0.05)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
               }}
             >
               {hasLiveData ? (
@@ -559,29 +560,29 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                   style={{ display: 'block' }}
                 >
                   <defs>
-                    <linearGradient id="wisprWaveformGradient" x1="0" y1="0" x2="1" y2="0">
-                      <stop offset="0%" stopColor="#113527" />
-                      <stop offset="60%" stopColor="#7C3AED" />
-                      <stop offset="100%" stopColor="#E11D48" />
+                    <linearGradient id="vantageWaveformGradient" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stopColor="#10B981" />
+                      <stop offset="60%" stopColor="#F59E0B" />
+                      <stop offset="100%" stopColor="#E84B32" />
                     </linearGradient>
-                    <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#7C3AED" stopOpacity="0.18" />
-                      <stop offset="100%" stopColor="#7C3AED" stopOpacity="0.0" />
+                    <linearGradient id="vantageAreaGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#E84B32" stopOpacity="0.25" />
+                      <stop offset="100%" stopColor="#E84B32" stopOpacity="0.0" />
                     </linearGradient>
                   </defs>
 
                   {/* Threshold Guidelines */}
-                  <line x1="0" y1="60" x2="800" y2="60" stroke="var(--color-alert)" strokeDasharray="3 3" strokeWidth="1" strokeOpacity="0.5" />
-                  <line x1="0" y1="130" x2="800" y2="130" stroke="#D97706" strokeDasharray="3 3" strokeWidth="1" strokeOpacity="0.4" />
-                  <line x1="0" y1="190" x2="800" y2="190" stroke="var(--border-subtle)" strokeWidth="1" />
+                  <line x1="0" y1="60" x2="800" y2="60" stroke="var(--color-accent-red)" strokeDasharray="3 3" strokeWidth="1" strokeOpacity="0.6" />
+                  <line x1="0" y1="130" x2="800" y2="130" stroke="#D97706" strokeDasharray="3 3" strokeWidth="1" strokeOpacity="0.45" />
+                  <line x1="0" y1="190" x2="800" y2="190" stroke="rgba(255, 255, 255, 0.12)" strokeWidth="1" />
 
-                  <text x="14" y="54" fill="var(--color-alert)" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">
+                  <text x="14" y="54" fill="var(--color-accent-red)" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">
                     CRITICAL (70%)
                   </text>
                   <text x="14" y="124" fill="#D97706" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">
                     WARNING (35%)
                   </text>
-                  <text x="14" y="184" fill="var(--text-muted)" fontSize="10" fontFamily="var(--font-mono)">
+                  <text x="14" y="184" fill="rgba(255, 255, 255, 0.4)" fontSize="10" fontFamily="var(--font-mono)">
                     NOMINAL (10%)
                   </text>
 
@@ -605,13 +606,13 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                     return (
                       <>
                         <polygon
-                          fill="url(#areaGradient)"
+                          fill="url(#vantageAreaGradient)"
                           points={areaPoints}
                         />
                         <polyline
                           fill="none"
-                          stroke="url(#wisprWaveformGradient)"
-                          strokeWidth="2.8"
+                          stroke="url(#vantageWaveformGradient)"
+                          strokeWidth="2.4"
                           points={points}
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -621,26 +622,26 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                   })()}
                 </svg>
               ) : (
-                <div style={{ textAlign: 'center', color: 'var(--text-secondary)', padding: '2rem' }}>
+                <div style={{ textAlign: 'center', color: 'var(--text-light-muted)', padding: '2rem' }}>
                   <div
                     style={{
-                      width: '48px',
-                      height: '48px',
-                      borderRadius: '50%',
-                      backgroundColor: 'var(--bg-surface)',
+                      width: '44px',
+                      height: '44px',
+                      borderRadius: 'var(--radius-btn)',
+                      backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       margin: '0 auto 0.75rem auto',
-                      boxShadow: 'var(--shadow-sm)',
                     }}
                   >
-                    <BarChart3 size={22} color="var(--color-accent-purple)" />
+                    <BarChart3 size={20} color="var(--color-accent-red)" />
                   </div>
-                  <div style={{ fontSize: '0.92rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                  <div style={{ fontFamily: 'var(--font-condensed)', fontSize: '1.1rem', letterSpacing: '0.06em', textTransform: 'uppercase', color: '#FFFFFF' }}>
                     No live telemetry buffer recorded yet
                   </div>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginTop: '0.35rem' }}>
+                  <div style={{ fontSize: '0.78rem', color: 'var(--text-light-muted)', marginTop: '0.35rem', fontFamily: 'var(--font-mono)' }}>
                     Start Live Monitoring or trigger Diagnostic tests to visualize real-time waveform.
                   </div>
                 </div>
@@ -660,76 +661,72 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
               style={{
                 backgroundColor: 'var(--bg-surface)',
                 border: '1px solid var(--border-subtle)',
-                borderRadius: '20px',
+                borderRadius: 'var(--radius-card)',
                 padding: '1.35rem',
-                boxShadow: 'var(--shadow-sm)',
               }}
             >
-              <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase' }}>
+              <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                 Eye Aspect Ratio (EAR)
               </span>
-              <div className="font-serif" style={{ fontSize: '2.2rem', color: 'var(--text-primary)', margin: '0.2rem 0' }}>
+              <div style={{ fontFamily: 'var(--font-condensed)', fontSize: '2.5rem', fontWeight: 600, color: 'var(--text-primary)', margin: '0.2rem 0' }}>
                 {latestTelemetry && typeof latestTelemetry.ear === 'number' ? latestTelemetry.ear.toFixed(2) : '--'}
               </div>
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Nominal baseline: &gt; 0.22</span>
+              <span style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>Nominal baseline: &gt; 0.22</span>
             </div>
 
             <div
               style={{
                 backgroundColor: 'var(--bg-surface)',
                 border: '1px solid var(--border-subtle)',
-                borderRadius: '20px',
+                borderRadius: 'var(--radius-card)',
                 padding: '1.35rem',
-                boxShadow: 'var(--shadow-sm)',
               }}
             >
-              <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase' }}>
+              <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                 Mouth Aspect Ratio (MAR)
               </span>
-              <div className="font-serif" style={{ fontSize: '2.2rem', color: 'var(--text-primary)', margin: '0.2rem 0' }}>
+              <div style={{ fontFamily: 'var(--font-condensed)', fontSize: '2.5rem', fontWeight: 600, color: 'var(--text-primary)', margin: '0.2rem 0' }}>
                 {latestTelemetry && typeof latestTelemetry.mar === 'number' ? latestTelemetry.mar.toFixed(2) : '--'}
               </div>
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Yawn threshold: &gt; 0.55</span>
+              <span style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>Yawn threshold: &gt; 0.55</span>
             </div>
 
             <div
               style={{
                 backgroundColor: 'var(--bg-surface)',
                 border: '1px solid var(--border-subtle)',
-                borderRadius: '20px',
+                borderRadius: 'var(--radius-card)',
                 padding: '1.35rem',
-                boxShadow: 'var(--shadow-sm)',
               }}
             >
-              <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase' }}>
+              <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                 Cranial Pitch
               </span>
-              <div className="font-serif" style={{ fontSize: '2.2rem', color: 'var(--text-primary)', margin: '0.2rem 0' }}>
+              <div style={{ fontFamily: 'var(--font-condensed)', fontSize: '2.5rem', fontWeight: 600, color: 'var(--text-primary)', margin: '0.2rem 0' }}>
                 {latestTelemetry && typeof latestTelemetry.headPitch === 'number'
                   ? `${latestTelemetry.headPitch.toFixed(1)}°`
                   : '--'}
               </div>
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Head-down trigger: &lt; -10°</span>
+              <span style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>Head-down trigger: &lt; -10°</span>
             </div>
 
             <div
               style={{
                 backgroundColor: 'var(--bg-surface)',
                 border: '1px solid var(--border-subtle)',
-                borderRadius: '20px',
+                borderRadius: 'var(--radius-card)',
                 padding: '1.35rem',
-                boxShadow: 'var(--shadow-sm)',
               }}
             >
-              <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase' }}>
+              <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                 PERCLOS Index
               </span>
-              <div className="font-serif" style={{ fontSize: '2.2rem', color: 'var(--text-primary)', margin: '0.2rem 0' }}>
+              <div style={{ fontFamily: 'var(--font-condensed)', fontSize: '2.5rem', fontWeight: 600, color: 'var(--text-primary)', margin: '0.2rem 0' }}>
                 {latestTelemetry && typeof latestTelemetry.perclos === 'number'
                   ? `${latestTelemetry.perclos.toFixed(1)}%`
                   : '--'}
               </div>
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Fatigue warning: &gt; 15%</span>
+              <span style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>Fatigue warning: &gt; 15%</span>
             </div>
           </div>
         </div>
@@ -748,7 +745,7 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                 fontFamily: 'var(--font-mono)',
                 fontWeight: 600,
                 color: 'var(--text-secondary)',
-                letterSpacing: '0.04em',
+                letterSpacing: '0.08em',
               }}
             >
               SQLITE DATABASE AUDIT LEDGER • {trips.length} PERSISTED SESSIONS
@@ -758,28 +755,11 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
               onClick={fetchHistoricalTrips}
               disabled={isLoadingHistory}
               title="Refresh ledger from database"
-              className="btn-magnetic-pill"
+              className="vantage-btn-outline"
               style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.45rem',
-                backgroundColor: 'var(--bg-surface)',
-                border: '1px solid var(--border-subtle)',
-                borderRadius: '9999px',
                 padding: '0.45rem 1rem',
-                fontFamily: 'var(--font-sans)',
-                fontSize: '0.75rem',
-                fontWeight: 600,
-                color: 'var(--text-primary)',
+                fontSize: '0.8rem',
                 cursor: isLoadingHistory ? 'wait' : 'pointer',
-                transition: 'all 0.2s ease',
-                boxShadow: 'var(--shadow-sm)',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = 'var(--text-primary)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'var(--border-subtle)';
               }}
             >
               <RefreshCw size={12} className={isLoadingHistory ? 'animate-spin' : ''} />
@@ -793,15 +773,14 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
               style={{
                 backgroundColor: 'var(--bg-surface)',
                 border: '1px solid var(--border-subtle)',
-                borderRadius: '24px',
+                borderRadius: 'var(--radius-card)',
                 padding: '3.5rem 2rem',
                 textAlign: 'center',
                 color: 'var(--text-secondary)',
-                boxShadow: 'var(--shadow-sm)',
               }}
             >
-              <RefreshCw size={24} className="animate-spin" style={{ display: 'inline-block', marginBottom: '0.75rem', color: 'var(--color-accent-purple)' }} />
-              <div style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+              <RefreshCw size={24} className="animate-spin" style={{ display: 'inline-block', marginBottom: '0.75rem', color: 'var(--color-accent-red)' }} />
+              <div style={{ fontFamily: 'var(--font-condensed)', fontSize: '1.2rem', letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--text-primary)' }}>
                 Accessing SQLite Session Audit Ledger...
               </div>
             </div>
@@ -812,19 +791,18 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
             <div
               style={{
                 backgroundColor: 'var(--bg-surface)',
-                border: '1.5px solid var(--color-alert)',
-                borderRadius: '24px',
+                border: '1.5px solid var(--color-accent-red)',
+                borderRadius: 'var(--radius-card)',
                 padding: '2.5rem',
                 textAlign: 'center',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 gap: '0.85rem',
-                boxShadow: 'var(--shadow-sm)',
               }}
             >
-              <AlertTriangle size={32} color="var(--color-alert)" />
-              <h4 className="font-serif" style={{ fontSize: '1.4rem', fontWeight: 400, color: 'var(--text-primary)' }}>
+              <AlertTriangle size={32} color="var(--color-accent-red)" />
+              <h4 style={{ fontFamily: 'var(--font-condensed)', fontSize: '1.5rem', textTransform: 'uppercase', color: 'var(--text-primary)' }}>
                 Audit Ledger Unavailable
               </h4>
               <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', maxWidth: '500px' }}>
@@ -832,18 +810,8 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
               </p>
               <button
                 onClick={fetchHistoricalTrips}
-                style={{
-                  marginTop: '0.5rem',
-                  padding: '0.55rem 1.4rem',
-                  fontFamily: 'var(--font-sans)',
-                  fontSize: '0.8rem',
-                  fontWeight: 600,
-                  backgroundColor: 'var(--text-primary)',
-                  color: '#FFFFFF',
-                  border: 'none',
-                  borderRadius: '9999px',
-                  cursor: 'pointer',
-                }}
+                className="vantage-btn"
+                style={{ marginTop: '0.5rem' }}
               >
                 Retry Connection
               </button>
@@ -856,15 +824,14 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
               style={{
                 backgroundColor: 'var(--bg-surface)',
                 border: '1px solid var(--border-subtle)',
-                borderRadius: '24px',
+                borderRadius: 'var(--radius-card)',
                 padding: '3.5rem 2rem',
                 textAlign: 'center',
                 color: 'var(--text-secondary)',
-                boxShadow: 'var(--shadow-sm)',
               }}
             >
-              <Award size={32} style={{ opacity: 0.5, marginBottom: '0.75rem', display: 'inline-block', color: 'var(--color-accent-purple)' }} />
-              <h4 className="font-serif" style={{ fontSize: '1.4rem', fontWeight: 400, color: 'var(--text-primary)' }}>
+              <Award size={32} style={{ opacity: 0.4, marginBottom: '0.75rem', display: 'inline-block', color: 'var(--text-muted)' }} />
+              <h4 style={{ fontFamily: 'var(--font-condensed)', fontSize: '1.5rem', textTransform: 'uppercase', color: 'var(--text-primary)' }}>
                 No Historical Sessions Found
               </h4>
               <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', maxWidth: '500px', margin: '0.5rem auto 0' }}>
@@ -876,7 +843,7 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
           {/* Historical Data View */}
           {!isLoadingHistory && !historyError && hasHistoryData && (
             <>
-              {/* Four Wispr-Style Multi-Color Summary Cards */}
+              {/* Four Architectural Summary Cards */}
               <div
                 style={{
                   display: 'grid',
@@ -884,14 +851,13 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                   gap: '1.25rem',
                 }}
               >
-                {/* Card 1: Average Recorded Safety Score (Wispr Soft Lavender) */}
+                {/* Card 1: Mean Recorded Safety Score */}
                 <div
                   style={{
-                    backgroundColor: 'var(--bg-card-lavender)',
-                    border: '1px solid rgba(124, 58, 237, 0.12)',
-                    borderRadius: '24px',
+                    backgroundColor: 'var(--bg-surface)',
+                    border: '1px solid var(--border-subtle)',
+                    borderRadius: 'var(--radius-card)',
                     padding: '1.75rem',
-                    boxShadow: 'var(--shadow-sm)',
                   }}
                 >
                   <span
@@ -899,38 +865,37 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                       fontSize: '0.72rem',
                       fontFamily: 'var(--font-mono)',
                       fontWeight: 700,
-                      letterSpacing: '0.06em',
-                      color: 'var(--color-accent-purple-dark)',
+                      letterSpacing: '0.1em',
+                      color: 'var(--text-secondary)',
                       textTransform: 'uppercase',
                     }}
                   >
                     Mean Safety Score
                   </span>
                   <div
-                    className="font-serif"
                     style={{
-                      fontSize: '3.4rem',
-                      fontWeight: 400,
+                      fontFamily: 'var(--font-condensed)',
+                      fontSize: '3.6rem',
+                      fontWeight: 600,
                       lineHeight: 1,
-                      color: 'var(--color-accent-purple-dark)',
+                      color: 'var(--text-primary)',
                       margin: '0.4rem 0',
                     }}
                   >
                     {averageHistoricalSafetyScore}%
                   </div>
-                  <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                  <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
                     Algorithmic heuristic across {validTrips.length} sessions
                   </span>
                 </div>
 
-                {/* Card 2: Cumulative Monitored Time (Wispr Soft Mint) */}
+                {/* Card 2: Cumulative Monitored Time */}
                 <div
                   style={{
-                    backgroundColor: 'var(--bg-card-mint)',
-                    border: '1px solid rgba(16, 185, 129, 0.15)',
-                    borderRadius: '24px',
+                    backgroundColor: 'var(--bg-surface)',
+                    border: '1px solid var(--border-subtle)',
+                    borderRadius: 'var(--radius-card)',
                     padding: '1.75rem',
-                    boxShadow: 'var(--shadow-sm)',
                   }}
                 >
                   <span
@@ -938,26 +903,26 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                       fontSize: '0.72rem',
                       fontFamily: 'var(--font-mono)',
                       fontWeight: 700,
-                      letterSpacing: '0.06em',
-                      color: '#064E3B',
+                      letterSpacing: '0.1em',
+                      color: 'var(--text-secondary)',
                       textTransform: 'uppercase',
                     }}
                   >
                     Cumulative Monitored Time
                   </span>
                   <div
-                    className="font-serif"
                     style={{
-                      fontSize: '3.4rem',
-                      fontWeight: 400,
+                      fontFamily: 'var(--font-condensed)',
+                      fontSize: '3.6rem',
+                      fontWeight: 600,
                       lineHeight: 1,
-                      color: '#064E3B',
+                      color: 'var(--text-primary)',
                       margin: '0.4rem 0',
                     }}
                   >
                     {formatSecondsToDuration(cumulativeDurationSecs)}
                   </div>
-                  <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                  <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
                     Active driving across {trips.length} records
                   </span>
                 </div>
@@ -967,9 +932,8 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                   style={{
                     backgroundColor: 'var(--bg-surface)',
                     border: '1px solid var(--border-subtle)',
-                    borderRadius: '24px',
+                    borderRadius: 'var(--radius-card)',
                     padding: '1.75rem',
-                    boxShadow: 'var(--shadow-sm)',
                   }}
                 >
                   <span
@@ -977,7 +941,7 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                       fontSize: '0.72rem',
                       fontFamily: 'var(--font-mono)',
                       fontWeight: 700,
-                      letterSpacing: '0.06em',
+                      letterSpacing: '0.1em',
                       color: 'var(--text-secondary)',
                       textTransform: 'uppercase',
                     }}
@@ -985,30 +949,29 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                     Recorded Incidents
                   </span>
                   <div
-                    className="font-serif"
                     style={{
-                      fontSize: '3.4rem',
-                      fontWeight: 400,
+                      fontFamily: 'var(--font-condensed)',
+                      fontSize: '3.6rem',
+                      fontWeight: 600,
                       lineHeight: 1,
-                      color: totalIncidentsCount > 0 ? 'var(--color-alert)' : '#059669',
+                      color: totalIncidentsCount > 0 ? 'var(--color-accent-red)' : 'var(--color-safe)',
                       margin: '0.4rem 0',
                     }}
                   >
                     {totalIncidentsCount}
                   </div>
-                  <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                  <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
                     Drowsiness, distraction &amp; deviation events
                   </span>
                 </div>
 
-                {/* Card 4: Optimal Session Ratio (Deep Forest Emerald Contrast) */}
+                {/* Card 4: Optimal Session Ratio (Deep Racing Green Contrast) */}
                 <div
                   style={{
-                    backgroundColor: 'var(--color-emerald-deep)',
+                    backgroundColor: 'var(--bg-racing-green)',
                     color: '#FFFFFF',
-                    borderRadius: '24px',
+                    borderRadius: 'var(--radius-card)',
                     padding: '1.75rem',
-                    boxShadow: 'var(--shadow-md)',
                   }}
                 >
                   <span
@@ -1016,18 +979,18 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                       fontSize: '0.72rem',
                       fontFamily: 'var(--font-mono)',
                       fontWeight: 700,
-                      letterSpacing: '0.06em',
-                      color: 'var(--color-emerald-accent)',
+                      letterSpacing: '0.1em',
+                      color: 'var(--color-mint)',
                       textTransform: 'uppercase',
                     }}
                   >
                     Optimal Session Ratio
                   </span>
                   <div
-                    className="font-serif"
                     style={{
-                      fontSize: '3.4rem',
-                      fontWeight: 400,
+                      fontFamily: 'var(--font-condensed)',
+                      fontSize: '3.6rem',
+                      fontWeight: 600,
                       lineHeight: 1,
                       color: '#FFFFFF',
                       margin: '0.4rem 0',
@@ -1037,7 +1000,7 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                       ? `${Math.round((gradeDistribution.A.count / trips.length) * 100)}%`
                       : '0%'}
                   </div>
-                  <span style={{ fontSize: '0.8rem', color: 'rgba(255, 255, 255, 0.75)' }}>
+                  <span style={{ fontSize: '0.78rem', color: 'rgba(255, 255, 255, 0.7)' }}>
                     {gradeDistribution.A.count} of {trips.length} sessions rated Grade A
                   </span>
                 </div>
@@ -1048,47 +1011,48 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                 style={{
                   backgroundColor: 'var(--bg-surface)',
                   border: '1px solid var(--border-subtle)',
-                  borderRadius: '28px',
+                  borderRadius: 'var(--radius-card-lg)',
                   padding: 'clamp(1.5rem, 3vw, 2.25rem)',
                   display: 'flex',
                   flexDirection: 'column',
                   gap: '1.5rem',
-                  boxShadow: 'var(--shadow-sm)',
                 }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
                   <div>
                     <span
                       style={{
-                        fontSize: '0.72rem',
+                        fontSize: '0.7rem',
                         fontFamily: 'var(--font-mono)',
-                        fontWeight: 700,
-                        letterSpacing: '0.06em',
-                        color: 'var(--text-secondary)',
+                        fontWeight: 600,
+                        letterSpacing: '0.12em',
+                        color: 'var(--text-muted)',
                         textTransform: 'uppercase',
                       }}
                     >
-                      Chronological Safety Trajectory
+                      CHRONOLOGICAL SAFETY TRAJECTORY
                     </span>
                     <h3
-                      className="font-serif"
                       style={{
-                        fontSize: '1.5rem',
-                        fontWeight: 400,
+                        fontFamily: 'var(--font-condensed)',
+                        fontSize: '1.6rem',
+                        fontWeight: 500,
+                        letterSpacing: '0.04em',
+                        textTransform: 'uppercase',
                         color: 'var(--text-primary)',
                         margin: '0.2rem 0 0 0',
                       }}
                     >
-                      Session-by-session compliance <em>progression</em>
+                      SESSION-BY-SESSION COMPLIANCE PROGRESSION
                     </h3>
                   </div>
                   <div
                     style={{
-                      fontSize: '0.72rem',
+                      fontSize: '0.7rem',
                       fontFamily: 'var(--font-mono)',
                       padding: '0.25rem 0.65rem',
-                      borderRadius: '9999px',
-                      backgroundColor: 'var(--bg-canvas-subtle)',
+                      borderRadius: 'var(--radius-btn)',
+                      backgroundColor: 'var(--bg-ivory-subtle)',
                       color: 'var(--text-secondary)',
                       border: '1px solid var(--border-subtle)',
                     }}
@@ -1102,10 +1066,10 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                   style={{
                     width: '100%',
                     height: '240px',
-                    backgroundColor: 'var(--bg-canvas-subtle)',
-                    borderRadius: '18px',
+                    backgroundColor: 'var(--bg-canvas)',
+                    borderRadius: 'var(--radius-card)',
                     position: 'relative',
-                    border: '1px solid rgba(22, 27, 24, 0.05)',
+                    border: '1px solid var(--border-subtle)',
                   }}
                 >
                   <svg
@@ -1116,13 +1080,13 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                     style={{ display: 'block' }}
                   >
                     {/* Horizontal Guidelines */}
-                    <line x1="50" y1="56" x2="780" y2="56" stroke="#059669" strokeDasharray="3 3" strokeWidth="1" strokeOpacity="0.5" />
+                    <line x1="50" y1="56" x2="780" y2="56" stroke="var(--color-safe)" strokeDasharray="3 3" strokeWidth="1" strokeOpacity="0.5" />
                     <line x1="50" y1="95" x2="780" y2="95" stroke="var(--border-subtle)" strokeDasharray="3 3" strokeWidth="1" />
-                    <line x1="50" y1="135" x2="780" y2="135" stroke="var(--color-alert)" strokeDasharray="3 3" strokeWidth="1" strokeOpacity="0.4" />
+                    <line x1="50" y1="135" x2="780" y2="135" stroke="var(--color-accent-red)" strokeDasharray="3 3" strokeWidth="1" strokeOpacity="0.4" />
 
-                    <text x="14" y="60" fill="#059669" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">90% A</text>
+                    <text x="14" y="60" fill="var(--color-safe)" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">90% A</text>
                     <text x="14" y="99" fill="var(--text-secondary)" fontSize="10" fontFamily="var(--font-mono)">75% B</text>
-                    <text x="14" y="139" fill="var(--color-alert)" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">60% C</text>
+                    <text x="14" y="139" fill="var(--color-accent-red)" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">60% C</text>
 
                     {/* Polyline connecting points in chronological order */}
                     {(() => {
@@ -1147,8 +1111,8 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                         <>
                           <polyline
                             fill="none"
-                            stroke="var(--color-emerald-deep)"
-                            strokeWidth="2.5"
+                            stroke="var(--text-primary)"
+                            strokeWidth="2.2"
                             points={pointsStr}
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -1157,10 +1121,10 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                             const isSelected = selectedTripIndex === i;
                             const pointColor =
                               c.trip.safetyScore >= 85
-                                ? '#059669'
+                                ? 'var(--color-safe)'
                                 : c.trip.safetyScore >= 70
                                 ? 'var(--text-primary)'
-                                : 'var(--color-alert)';
+                                : 'var(--color-accent-red)';
 
                             return (
                               <g
@@ -1171,15 +1135,15 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                                 <circle
                                   cx={c.x}
                                   cy={c.y}
-                                  r={isSelected ? 7 : 4.5}
+                                  r={isSelected ? 6.5 : 4}
                                   fill={pointColor}
                                   stroke="#FFFFFF"
-                                  strokeWidth="2.5"
+                                  strokeWidth="2"
                                 />
                                 {isSelected && (
                                   <text
                                     x={Math.min(720, Math.max(80, c.x))}
-                                    y={c.y > 60 ? c.y - 14 : c.y + 22}
+                                    y={c.y > 60 ? c.y - 12 : c.y + 20}
                                     textAnchor="middle"
                                     fill="var(--text-primary)"
                                     fontSize="10"
@@ -1198,7 +1162,7 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                   </svg>
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.78rem', color: 'var(--text-muted)' }}>
                   <span>Click any plot node to inspect session score details.</span>
                   <span className="font-mono">{chronologicalTrips.length} AUDIT SESSIONS LOGGED</span>
                 </div>
@@ -1217,20 +1181,19 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                   style={{
                     backgroundColor: 'var(--bg-surface)',
                     border: '1px solid var(--border-subtle)',
-                    borderRadius: '24px',
+                    borderRadius: 'var(--radius-card-lg)',
                     padding: '1.75rem',
                     display: 'flex',
                     flexDirection: 'column',
                     gap: '1.25rem',
-                    boxShadow: 'var(--shadow-sm)',
                   }}
                 >
                   <div>
-                    <span style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', fontWeight: 700, letterSpacing: '0.06em', color: 'var(--text-secondary)', textTransform: 'uppercase' }}>
-                      Taxonomy Breakdown
+                    <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', fontWeight: 600, letterSpacing: '0.12em', color: 'var(--text-muted)', textTransform: 'uppercase' }}>
+                      TAXONOMY BREAKDOWN
                     </span>
-                    <h4 className="font-serif" style={{ fontSize: '1.35rem', fontWeight: 400, color: 'var(--text-primary)', margin: '0.2rem 0 0 0' }}>
-                      Safety violations by <em>category</em>
+                    <h4 style={{ fontFamily: 'var(--font-condensed)', fontSize: '1.4rem', fontWeight: 500, letterSpacing: '0.04em', textTransform: 'uppercase', color: 'var(--text-primary)', margin: '0.2rem 0 0 0' }}>
+                      SAFETY VIOLATIONS BY CATEGORY
                     </h4>
                   </div>
 
@@ -1244,18 +1207,18 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                           <div key={key} style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.82rem' }}>
                               <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>{cat.label}</span>
-                              <span className="font-mono" style={{ color: 'var(--text-secondary)', fontSize: '0.78rem' }}>
+                              <span className="font-mono" style={{ color: 'var(--text-secondary)', fontSize: '0.75rem' }}>
                                 {cat.count} ({pct}%)
                               </span>
                             </div>
 
-                            {/* Capsule Proportion Bar */}
+                            {/* Crisp Rectangular Proportion Bar */}
                             <div
                               style={{
                                 width: '100%',
-                                height: '8px',
-                                backgroundColor: 'var(--bg-canvas-subtle)',
-                                borderRadius: '9999px',
+                                height: '6px',
+                                backgroundColor: 'var(--bg-ivory-subtle)',
+                                borderRadius: '2px',
                                 overflow: 'hidden',
                               }}
                             >
@@ -1264,7 +1227,7 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                                   width: `${pct}%`,
                                   height: '100%',
                                   backgroundColor: cat.color,
-                                  borderRadius: '9999px',
+                                  borderRadius: '2px',
                                   transition: 'width 0.4s ease',
                                 }}
                               />
@@ -1280,20 +1243,19 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                   style={{
                     backgroundColor: 'var(--bg-surface)',
                     border: '1px solid var(--border-subtle)',
-                    borderRadius: '24px',
+                    borderRadius: 'var(--radius-card-lg)',
                     padding: '1.75rem',
                     display: 'flex',
                     flexDirection: 'column',
                     gap: '1.25rem',
-                    boxShadow: 'var(--shadow-sm)',
                   }}
                 >
                   <div>
-                    <span style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', fontWeight: 700, letterSpacing: '0.06em', color: 'var(--text-secondary)', textTransform: 'uppercase' }}>
-                      Fleet Compliance
+                    <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', fontWeight: 600, letterSpacing: '0.12em', color: 'var(--text-muted)', textTransform: 'uppercase' }}>
+                      FLEET COMPLIANCE
                     </span>
-                    <h4 className="font-serif" style={{ fontSize: '1.35rem', fontWeight: 400, color: 'var(--text-primary)', margin: '0.2rem 0 0 0' }}>
-                      Session safety grade <em>spread</em>
+                    <h4 style={{ fontFamily: 'var(--font-condensed)', fontSize: '1.4rem', fontWeight: 500, letterSpacing: '0.04em', textTransform: 'uppercase', color: 'var(--text-primary)', margin: '0.2rem 0 0 0' }}>
+                      SESSION SAFETY GRADE SPREAD
                     </h4>
                   </div>
 
@@ -1305,18 +1267,18 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                         <div key={gradeKey} style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
                           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.82rem' }}>
                             <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>{item.label}</span>
-                            <span className="font-mono" style={{ color: 'var(--text-secondary)', fontSize: '0.78rem' }}>
+                            <span className="font-mono" style={{ color: 'var(--text-secondary)', fontSize: '0.75rem' }}>
                               {item.count} sessions ({pct}%)
                             </span>
                           </div>
 
-                          {/* Capsule Grade Bar */}
+                          {/* Crisp Rectangular Grade Bar */}
                           <div
                             style={{
                               width: '100%',
-                              height: '8px',
-                              backgroundColor: 'var(--bg-canvas-subtle)',
-                              borderRadius: '9999px',
+                              height: '6px',
+                              backgroundColor: 'var(--bg-ivory-subtle)',
+                              borderRadius: '2px',
                               overflow: 'hidden',
                             }}
                           >
@@ -1325,7 +1287,7 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                                 width: `${pct}%`,
                                 height: '100%',
                                 backgroundColor: item.color,
-                                borderRadius: '9999px',
+                                borderRadius: '2px',
                                 transition: 'width 0.4s ease',
                               }}
                             />
@@ -1340,11 +1302,11 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
               {/* Integrity & Compliance Disclaimer Note */}
               <div
                 style={{
-                  backgroundColor: 'var(--bg-canvas-subtle)',
+                  backgroundColor: 'var(--bg-ivory-subtle)',
                   border: '1px solid var(--border-subtle)',
-                  borderRadius: '20px',
+                  borderRadius: 'var(--radius-card)',
                   padding: '1.25rem 1.5rem',
-                  fontSize: '0.82rem',
+                  fontSize: '0.8rem',
                   color: 'var(--text-secondary)',
                   lineHeight: 1.55,
                 }}
