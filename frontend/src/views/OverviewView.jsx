@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import RiskGauge from '../components/RiskGauge';
 import AlertBanner from '../components/AlertBanner';
 import DriverIllustration from '../components/DriverIllustration';
@@ -21,6 +21,7 @@ import {
   Cpu,
   Gauge,
   ChevronRight,
+  ChevronLeft,
 } from 'lucide-react';
 
 /**
@@ -56,7 +57,32 @@ export default function OverviewView({
     latencyMs = 0,
   } = telemetryData || {};
 
-  const isLive = isSimMode || (isEngineConnected && isMonitoring);
+  const [activePerspective, setActivePerspective] = useState(0);
+
+  const perspectives = [
+    {
+      id: 'cockpit',
+      tabLabel: '01 Cockpit Sensing',
+      title: 'Driver-Facing Optical Vision',
+      description: 'Interior perspective aligned to driver head pose and palpebral aperture tracking',
+      image: '/images/cockpit-driver.jpg',
+      fallback: 'https://images.unsplash.com/photo-1491921125492-f0b9c835b699?auto=format&fit=crop&w=1920&q=85',
+      tag: 'CABIN SENSING AXIS',
+      pin: { top: '16%', left: '74%', text: 'Driver Monitoring Vision // 30 FPS' },
+    },
+    {
+      id: 'vehicle',
+      tabLabel: '02 Vehicle Architecture',
+      title: 'Intelligent Aerodynamic Form',
+      description: 'Pristine exhibition showroom context demonstrating zero cloud intrusion',
+      image: '/images/hero-car.jpg',
+      fallback: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=1920&q=85',
+      tag: 'CHASSIS DYNAMICS',
+      pin: { top: '34%', left: '46%', text: 'Sensor Integration // 468 Landmark Mesh' },
+    },
+  ];
+
+  const currentView = perspectives[activePerspective];
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '6rem', position: 'relative' }}>
@@ -71,280 +97,547 @@ export default function OverviewView({
       />
 
       {/* ===================================================================== */}
-      {/* SECTION A: HERO (VANTAGE SPLIT IVORY-TO-IMAGE + OSWALD TYPOGRAPHY)    */}
+      {/* SECTION A: HERO (BANG & OLUFSEN A9 PRODUCT-FOCUSED MINIMAL HERO)     */}
       {/* ===================================================================== */}
       <section
         style={{
           position: 'relative',
           width: '100%',
-          minHeight: 'clamp(580px, 82vh, 880px)',
           backgroundColor: 'var(--bg-canvas)',
+          padding: 'clamp(2rem, 4vw, 3.5rem) clamp(1.25rem, 4vw, 3.5rem) clamp(2.5rem, 5vw, 4rem)',
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
-          overflow: 'hidden',
+          textAlign: 'center',
           borderBottom: '1px solid var(--border-subtle)',
           marginTop: '-1rem',
         }}
       >
-        {/* Right / Background: Dramatic Luxury Automotive Photograph */}
+        {/* Subtle Category & Status Eyebrow */}
         <div
-          className="hero-image-reveal zoom-container"
+          className="cinematic-fade-in"
           style={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            bottom: 0,
-            width: 'clamp(55%, 72vw, 85%)',
-            zIndex: 1,
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.65rem',
+            fontFamily: 'var(--font-mono)',
+            fontSize: '0.72rem',
+            letterSpacing: '0.14em',
+            textTransform: 'uppercase',
+            color: 'var(--text-muted)',
+            marginBottom: '0.85rem',
           }}
         >
-          <img
-            src="/images/hero-car.jpg"
-            alt="Cinematic luxury performance vehicle in moody lighting"
+          <span
             style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              objectPosition: 'center 45%',
-              display: 'block',
-              filter: 'contrast(1.08) brightness(0.92)',
+              width: '6px',
+              height: '6px',
+              borderRadius: '50%',
+              backgroundColor: isLive ? 'var(--color-safe)' : 'var(--color-accent-red)',
             }}
-            onError={(e) => {
-              // Online fallback if local file is missing
-              e.currentTarget.src =
-                'https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=1920&q=85';
-            }}
+            className={isLive ? 'telemetry-pulse' : ''}
           />
-
-          {/* VANTAGE Signature Ivory-to-Image Soft Gradient Transition */}
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              background:
-                'linear-gradient(to right, #F7F6F2 0%, #F7F6F2 18%, rgba(247, 246, 242, 0.88) 32%, rgba(247, 246, 242, 0.45) 52%, rgba(247, 246, 242, 0) 75%), linear-gradient(to top, rgba(247, 246, 242, 0.6) 0%, transparent 25%)',
-              pointerEvents: 'none',
-            }}
-          />
+          <span>DRIVEGUARD AI // DRIVER SAFETY INTELLIGENCE</span>
         </div>
 
-        {/* Left: Huge Condensed Uppercase Headline & Narrative Overlay */}
-        <div
+        {/* Minimal, Elegant Title */}
+        <h1
+          className="cinematic-fade-in"
           style={{
-            position: 'relative',
-            zIndex: 2,
-            width: '100%',
-            maxWidth: '1440px',
-            margin: '0 auto',
-            padding: '2rem clamp(1.25rem, 4vw, 3.5rem)',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
+            fontFamily: 'var(--font-sans)',
+            fontSize: 'clamp(2.3rem, 4.6vw, 3.8rem)',
+            fontWeight: 500,
+            letterSpacing: '-0.02em',
+            color: 'var(--text-primary)',
+            lineHeight: 1.15,
+            maxWidth: '780px',
+            margin: '0 0 0.85rem 0',
           }}
         >
-          {/* Small Uppercase Technical Specification Label */}
-          <div
-            className="cinematic-fade-in"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.75rem',
-              marginBottom: '1.25rem',
-            }}
-          >
-            <span
+          Driver Safety Intelligence
+        </h1>
+
+        {/* Calm, Understated Subtitle */}
+        <p
+          className="cinematic-fade-in"
+          style={{
+            fontFamily: 'var(--font-sans)',
+            fontSize: 'clamp(0.95rem, 1.35vw, 1.1rem)',
+            lineHeight: 1.6,
+            color: 'var(--text-secondary)',
+            maxWidth: '600px',
+            margin: '0 auto clamp(1.75rem, 3.5vw, 2.5rem)',
+            fontWeight: 400,
+          }}
+        >
+          Real-time edge driver monitoring. Non-intrusive computer vision designed for
+          attentiveness, fatigue prevention, and occupant safety.
+        </p>
+
+        {/* Prominent but Restrained Actions */}
+        <div
+          className="cinematic-fade-in"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '0.85rem',
+            flexWrap: 'wrap',
+            marginBottom: 'clamp(2.5rem, 4.5vw, 3.5rem)',
+          }}
+        >
+          {!isMonitoring && onStartMonitoring ? (
+            <button
+              onClick={onStartMonitoring}
               style={{
-                width: '6px',
-                height: '6px',
-                backgroundColor: 'var(--color-accent-red)',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.65rem',
+                backgroundColor: 'var(--text-primary)',
+                color: '#FFFFFF',
+                border: '1px solid var(--text-primary)',
+                borderRadius: '9999px',
+                padding: '0.75rem 2.2rem',
+                fontFamily: 'var(--font-sans)',
+                fontSize: '0.88rem',
+                fontWeight: 500,
+                letterSpacing: '0.03em',
+                cursor: 'pointer',
+                transition: 'all var(--transition-fast)',
+                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.08)',
               }}
-            />
-            <span
-              className="font-mono"
-              style={{
-                fontSize: '0.74rem',
-                color: 'var(--text-primary)',
-                letterSpacing: '0.14em',
-                fontWeight: 600,
-                textTransform: 'uppercase',
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#000000';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+                e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.12)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'var(--text-primary)';
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.08)';
               }}
             >
-              DRIVEGUARD AI // SERIES 2026 // EDGE OCCUPANT INTELLIGENCE
-            </span>
-          </div>
-
-          {/* Red Accent Dividing Line */}
-          <div
-            className="accent-line-expand"
-            style={{
-              height: '2px',
-              maxWidth: '80px',
-              backgroundColor: 'var(--color-accent-red)',
-              marginBottom: '1.75rem',
-            }}
-          />
-
-          {/* Huge Condensed Uppercase Headline (Oswald) */}
-          <h1
-            className="hero-headline-reveal font-condensed"
-            style={{
-              fontSize: 'clamp(4.2rem, 9.8vw, 8.8rem)',
-              lineHeight: 0.88,
-              letterSpacing: '-0.02em',
-              fontWeight: 700,
-              color: 'var(--text-primary)',
-              textTransform: 'uppercase',
-              margin: '0 0 1.75rem 0',
-              maxWidth: '820px',
-            }}
-          >
-            DRIVE<br />
-            WITH<br />
-            <span style={{ color: 'var(--text-primary)' }}>AWARENESS.</span>
-          </h1>
-
-          {/* Supporting Line */}
-          <p
-            className="cinematic-fade-in font-sans"
-            style={{
-              fontSize: 'clamp(1.05rem, 1.8vw, 1.35rem)',
-              lineHeight: 1.5,
-              color: 'var(--text-secondary)',
-              maxWidth: '520px',
-              fontWeight: 400,
-              margin: '0 0 2.25rem 0',
-            }}
-          >
-            Real-time driver monitoring. Earlier detection. Smarter safety.
-            Translating 478 facial landmarks into deterministic fatigue prevention.
-          </p>
-
-          {/* Action Row: Rectangular VANTAGE Action Buttons */}
-          <div
-            className="cinematic-fade-in"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '1.25rem',
-              flexWrap: 'wrap',
-            }}
-          >
+              <Play size={13} fill="currentColor" />
+              <span>Start Monitoring</span>
+            </button>
+          ) : (
             <button
               onClick={onNavigateToMonitor}
-              className="vantage-btn"
               style={{
-                padding: '0.85rem 2rem',
-                fontSize: '0.92rem',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.65rem',
+                backgroundColor: 'var(--text-primary)',
+                color: '#FFFFFF',
+                border: '1px solid var(--text-primary)',
+                borderRadius: '9999px',
+                padding: '0.75rem 2.2rem',
+                fontFamily: 'var(--font-sans)',
+                fontSize: '0.88rem',
+                fontWeight: 500,
+                letterSpacing: '0.03em',
+                cursor: 'pointer',
+                transition: 'all var(--transition-fast)',
+                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.08)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#000000';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'var(--text-primary)';
+                e.currentTarget.style.transform = 'translateY(0)';
               }}
             >
-              <span>ENTER COCKPIT HUD</span>
-              <ArrowUpRight size={16} className="arrow-slide" />
+              <Camera size={14} />
+              <span>Enter Cockpit HUD</span>
+              <ArrowRight size={13} />
             </button>
+          )}
 
-            {!isMonitoring && onStartMonitoring ? (
-              <button
-                onClick={onStartMonitoring}
-                className="vantage-btn vantage-btn-outline"
-                style={{
-                  padding: '0.85rem 1.85rem',
-                  fontSize: '0.92rem',
-                }}
-              >
-                <Play size={13} fill="currentColor" />
-                <span>START SENSING</span>
-              </button>
-            ) : (
-              <button
-                onClick={onNavigateToMonitor}
-                className="vantage-btn vantage-btn-outline"
-                style={{
-                  padding: '0.85rem 1.85rem',
-                  fontSize: '0.92rem',
-                }}
-              >
-                <span>INSPECT OPTICAL FEED</span>
-                <ArrowRight size={14} className="arrow-slide" />
-              </button>
-            )}
-          </div>
-
-          {/* Hairline Technical Metadata Strip at Bottom of Hero */}
-          <div
+          <button
+            onClick={onNavigateToMonitor}
             style={{
-              display: 'flex',
-              gap: '2rem',
-              marginTop: '3.5rem',
-              paddingTop: '1.5rem',
-              borderTop: '1px solid var(--border-subtle)',
-              maxWidth: '640px',
-              flexWrap: 'wrap',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              backgroundColor: 'transparent',
+              color: 'var(--text-primary)',
+              border: '1px solid var(--border-subtle)',
+              borderRadius: '9999px',
+              padding: '0.75rem 1.85rem',
+              fontFamily: 'var(--font-sans)',
+              fontSize: '0.88rem',
+              fontWeight: 500,
+              letterSpacing: '0.03em',
+              cursor: 'pointer',
+              transition: 'all var(--transition-fast)',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = 'var(--text-primary)';
+              e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.02)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = 'var(--border-subtle)';
+              e.currentTarget.style.backgroundColor = 'transparent';
             }}
           >
-            <div>
-              <span className="font-mono" style={{ fontSize: '0.68rem', color: 'var(--text-muted)', display: 'block', letterSpacing: '0.1em' }}>
-                DETECTION LATENCY
-              </span>
-              <span className="font-condensed" style={{ fontSize: '1.5rem', fontWeight: 600, color: 'var(--text-primary)' }}>
-                &lt; 15 MS
-              </span>
+            <span>Inspect Optical Stream</span>
+            <ArrowUpRight size={14} />
+          </button>
+        </div>
+
+        {/* Centerpiece Product Image Frame (Bang & Olufsen Sculptural Presentation) */}
+        <div
+          className="hero-image-reveal"
+          style={{
+            position: 'relative',
+            width: '100%',
+            maxWidth: '1120px',
+            borderRadius: '16px',
+            overflow: 'hidden',
+            backgroundColor: '#FFFFFF',
+            border: '1px solid rgba(17, 17, 17, 0.08)',
+            boxShadow: '0 24px 60px -15px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.03)',
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
+          {/* Main Visual Image */}
+          <div
+            style={{
+              position: 'relative',
+              width: '100%',
+              height: 'clamp(320px, 52vw, 560px)',
+              overflow: 'hidden',
+              backgroundColor: '#FAF9F6',
+            }}
+          >
+            <img
+              key={currentView.id}
+              src={currentView.image}
+              alt={currentView.title}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                objectPosition: 'center 48%',
+                display: 'block',
+                transition: 'opacity 0.5s var(--ease-cinematic), transform 0.6s var(--ease-cinematic)',
+              }}
+              onError={(e) => {
+                e.currentTarget.src = currentView.fallback;
+              }}
+            />
+
+            {/* Subtle Gradient Vignette at Edges */}
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background:
+                  'linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, transparent 22%, transparent 78%, rgba(0,0,0,0.18) 100%)',
+                pointerEvents: 'none',
+              }}
+            />
+
+            {/* Sensor Callout Hotspot Badge */}
+            <div
+              style={{
+                position: 'absolute',
+                top: currentView.pin.top,
+                left: currentView.pin.left,
+                transform: 'translate(-50%, -50%)',
+                zIndex: 3,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.45rem',
+                backgroundColor: 'rgba(17, 17, 17, 0.78)',
+                backdropFilter: 'blur(10px)',
+                color: '#FFFFFF',
+                padding: '0.35rem 0.75rem',
+                borderRadius: '9999px',
+                fontSize: '0.68rem',
+                fontFamily: 'var(--font-mono)',
+                letterSpacing: '0.08em',
+                border: '1px solid rgba(255, 255, 255, 0.15)',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)',
+                pointerEvents: 'none',
+              }}
+            >
+              <span
+                style={{
+                  width: '5px',
+                  height: '5px',
+                  borderRadius: '50%',
+                  backgroundColor: 'var(--color-accent-red)',
+                }}
+              />
+              <span>{currentView.pin.text}</span>
             </div>
 
-            <div>
-              <span className="font-mono" style={{ fontSize: '0.68rem', color: 'var(--text-muted)', display: 'block', letterSpacing: '0.1em' }}>
-                FACIAL BLENDSHAPES
-              </span>
-              <span className="font-condensed" style={{ fontSize: '1.5rem', fontWeight: 600, color: 'var(--text-primary)' }}>
-                478 MESH PTS
-              </span>
-            </div>
+            {/* Unobtrusive Previous / Next View Buttons */}
+            <button
+              onClick={() => setActivePerspective((prev) => (prev === 0 ? 1 : 0))}
+              aria-label="Previous Perspective"
+              style={{
+                position: 'absolute',
+                left: '1rem',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                zIndex: 4,
+                width: '36px',
+                height: '36px',
+                borderRadius: '50%',
+                backgroundColor: 'rgba(255, 255, 255, 0.88)',
+                backdropFilter: 'blur(8px)',
+                border: '1px solid rgba(0, 0, 0, 0.08)',
+                color: 'var(--text-primary)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                transition: 'all var(--transition-fast)',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.06)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#FFFFFF';
+                e.currentTarget.style.transform = 'translateY(-50%) scale(1.08)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.88)';
+                e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+              }}
+            >
+              <ChevronLeft size={16} />
+            </button>
 
-            <div>
-              <span className="font-mono" style={{ fontSize: '0.68rem', color: 'var(--text-muted)', display: 'block', letterSpacing: '0.1em' }}>
-                LOCAL CLOUD LEAK
-              </span>
-              <span className="font-condensed" style={{ fontSize: '1.5rem', fontWeight: 600, color: 'var(--color-accent-green)' }}>
-                0.00% PRIVATE
-              </span>
+            <button
+              onClick={() => setActivePerspective((prev) => (prev === 0 ? 1 : 0))}
+              aria-label="Next Perspective"
+              style={{
+                position: 'absolute',
+                right: '1rem',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                zIndex: 4,
+                width: '36px',
+                height: '36px',
+                borderRadius: '50%',
+                backgroundColor: 'rgba(255, 255, 255, 0.88)',
+                backdropFilter: 'blur(8px)',
+                border: '1px solid rgba(0, 0, 0, 0.08)',
+                color: 'var(--text-primary)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                transition: 'all var(--transition-fast)',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.06)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#FFFFFF';
+                e.currentTarget.style.transform = 'translateY(-50%) scale(1.08)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.88)';
+                e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+              }}
+            >
+              <ChevronRight size={16} />
+            </button>
+
+            {/* Bottom Perspective Selector Strip inside Centerpiece */}
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '1rem',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                zIndex: 4,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+                backgroundColor: 'rgba(255, 255, 255, 0.92)',
+                backdropFilter: 'blur(10px)',
+                padding: '3px 4px',
+                borderRadius: '9999px',
+                border: '1px solid rgba(0, 0, 0, 0.06)',
+                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.08)',
+              }}
+            >
+              {perspectives.map((p, idx) => {
+                const isSelected = activePerspective === idx;
+                return (
+                  <button
+                    key={p.id}
+                    onClick={() => setActivePerspective(idx)}
+                    style={{
+                      border: 'none',
+                      background: isSelected ? 'var(--text-primary)' : 'transparent',
+                      color: isSelected ? '#FFFFFF' : 'var(--text-secondary)',
+                      padding: '0.35rem 0.85rem',
+                      borderRadius: '9999px',
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: '0.68rem',
+                      letterSpacing: '0.06em',
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                      transition: 'all var(--transition-fast)',
+                    }}
+                  >
+                    {p.tabLabel}
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>
 
-        {/* Architectural Floating Telemetry Overlay (Bottom-Right of Image) */}
+        {/* Minimal Bottom Information Strip (Thin Separators & Refined Specs) */}
         <div
           style={{
-            position: 'absolute',
-            bottom: '2rem',
-            right: 'clamp(1.5rem, 4vw, 3.5rem)',
-            zIndex: 3,
-            backgroundColor: 'rgba(13, 14, 16, 0.88)',
-            backdropFilter: 'blur(12px)',
-            border: '1px solid rgba(255, 255, 255, 0.12)',
-            padding: '1rem 1.4rem',
-            color: '#FFFFFF',
-            borderRadius: '2px',
-            maxWidth: '340px',
-            boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
+            width: '100%',
+            maxWidth: '1120px',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+            gap: '1.75rem',
+            paddingTop: '2.5rem',
+            marginTop: 'clamp(2rem, 3.5vw, 3rem)',
+            borderTop: '1px solid var(--border-subtle)',
+            textAlign: 'left',
           }}
-          className="desktop-nav"
         >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-            <span className="font-mono" style={{ fontSize: '0.68rem', color: 'var(--color-accent-green)', letterSpacing: '0.1em' }}>
-              TELEMETRY BUS // 01
-            </span>
+          <div>
             <span
               style={{
-                width: '6px',
-                height: '6px',
-                backgroundColor: isLive ? 'var(--color-accent-green)' : '#888888',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.68rem',
+                letterSpacing: '0.12em',
+                color: 'var(--text-muted)',
+                textTransform: 'uppercase',
+                display: 'block',
               }}
-              className={isLive ? 'telemetry-pulse' : ''}
-            />
+            >
+              01 / INFERENCE LATENCY
+            </span>
+            <div
+              style={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: '1.15rem',
+                fontWeight: 600,
+                color: 'var(--text-primary)',
+                marginTop: '0.25rem',
+              }}
+            >
+              &lt; 15ms Edge Processing
+            </div>
+            <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+              100% local, zero cloud dependency
+            </span>
           </div>
-          <div className="font-condensed" style={{ fontSize: '1.25rem', fontWeight: 600, letterSpacing: '0.04em' }}>
-            {isLive ? `${riskScore}% ${riskLevel}` : 'SYSTEM STANDBY'}
+
+          <div>
+            <span
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.68rem',
+                letterSpacing: '0.12em',
+                color: 'var(--text-muted)',
+                textTransform: 'uppercase',
+                display: 'block',
+              }}
+            >
+              02 / OCULAR PERCLOS
+            </span>
+            <div
+              style={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: '1.15rem',
+                fontWeight: 600,
+                color: 'var(--text-primary)',
+                marginTop: '0.25rem',
+              }}
+            >
+              EAR &gt; 0.22 Baseline
+            </div>
+            <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+              Continuous palpebral aperture tracking
+            </span>
           </div>
-          <div className="font-mono" style={{ fontSize: '0.72rem', color: 'rgba(255, 255, 255, 0.6)', marginTop: '0.35rem' }}>
-            PnP POSE: P {headPitch.toFixed(1)}° • Y {headYaw.toFixed(1)}° • EAR {ear.toFixed(2)}
+
+          <div>
+            <span
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.68rem',
+                letterSpacing: '0.12em',
+                color: 'var(--text-muted)',
+                textTransform: 'uppercase',
+                display: 'block',
+              }}
+            >
+              03 / SPATIAL KINEMATICS
+            </span>
+            <div
+              style={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: '1.15rem',
+                fontWeight: 600,
+                color: 'var(--text-primary)',
+                marginTop: '0.25rem',
+              }}
+            >
+              PnP 3D Cranial Pose
+            </div>
+            <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+              Pitch &amp; yaw distraction vectors
+            </span>
+          </div>
+
+          <div>
+            <span
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.68rem',
+                letterSpacing: '0.12em',
+                color: 'var(--text-muted)',
+                textTransform: 'uppercase',
+                display: 'block',
+              }}
+            >
+              04 / SYSTEM STATE
+            </span>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.45rem',
+                marginTop: '0.25rem',
+              }}
+            >
+              <span
+                style={{
+                  width: '6px',
+                  height: '6px',
+                  borderRadius: '50%',
+                  backgroundColor: isLive ? 'var(--color-safe)' : '#F59E0B',
+                }}
+              />
+              <span
+                style={{
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '1.15rem',
+                  fontWeight: 600,
+                  color: 'var(--text-primary)',
+                }}
+              >
+                {isLive ? 'Active Sensing' : 'Ready to Deploy'}
+              </span>
+            </div>
+            <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+              {isEngineConnected ? 'Hardware camera stream online' : 'Camera stream on standby'}
+            </span>
           </div>
         </div>
       </section>
