@@ -2,17 +2,20 @@ import React, { useState, useEffect, useRef } from 'react';
 import { X, Volume2, Bell, AlertTriangle } from 'lucide-react';
 import Preloader from './components/Preloader';
 import Navigation from './components/Navigation';
+import Footer from './components/Footer';
 import OverviewView from './views/OverviewView';
 import LiveMonitorView from './views/LiveMonitorView';
 import AnalyticsView from './views/AnalyticsView';
 import TripHistoryView from './views/TripHistoryView';
 import { telemetryClient } from './services/telemetryClient';
 import { alertController } from './services/alertController';
+import { gpsTracker } from './services/gpsTracker';
+import { API_BASE_URL, VIDEO_FEED_URL } from './config/api';
 import './styles/tokens.css';
 import './styles/animations.css';
 
 export default function App() {
-  const [hasCompletedOpening, setHasCompletedOpening] = useState(false);
+  const [hasCompletedOpening, setHasCompletedOpening] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
   const [connectionStatus, setConnectionStatus] = useState('offline');
   const [isAudioMuted, setIsAudioMuted] = useState(false);
@@ -145,6 +148,7 @@ export default function App() {
             isAudioMuted,
             notificationsEnabled: isNotificationsEnabled,
             onRecovery: handleRecovery,
+            onIncident: (incident) => gpsTracker.attachIncident(incident),
           });
         }
       },
@@ -153,6 +157,7 @@ export default function App() {
     return () => {
       telemetryClient.disconnect();
       alertController.teardown();
+      gpsTracker.stopTracking();
     };
   }, [isAudioMuted, isNotificationsEnabled]);
 
@@ -161,7 +166,7 @@ export default function App() {
     setIsMonitoring(true);
     telemetryClient.sendAction('start');
     try {
-      await fetch('http://localhost:8000/api/monitoring/start', { method: 'POST' });
+      await fetch(`${API_BASE_URL}/api/monitoring/start`, { method: 'POST' });
     } catch (e) {
       console.warn('API start monitoring error:', e);
     }
@@ -170,9 +175,10 @@ export default function App() {
   const handleStopMonitoring = async () => {
     setIsMonitoring(false);
     alertController.teardown();
+    gpsTracker.stopTracking();
     telemetryClient.sendAction('stop');
     try {
-      await fetch('http://localhost:8000/api/monitoring/stop', { method: 'POST' });
+      await fetch(`${API_BASE_URL}/api/monitoring/stop`, { method: 'POST' });
     } catch (e) {
       console.warn('API stop monitoring error:', e);
     }
@@ -265,10 +271,14 @@ export default function App() {
 
     setTelemetry(nextTelemetry);
     setTelemetryHistory((prev) => [...prev.slice(-399), nextTelemetry]);
+    if (nextTelemetry.riskLevel !== 'NOMINAL') {
+      gpsTracker.attachIncident(nextTelemetry);
+    }
     alertController.processTelemetry(nextTelemetry, {
       isAudioMuted,
       notificationsEnabled: isNotificationsEnabled,
       onRecovery: handleRecovery,
+      onIncident: (incident) => gpsTracker.attachIncident(incident),
     });
   };
 
@@ -304,25 +314,14 @@ export default function App() {
 
   return (
     <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-canvas)', position: 'relative' }}>
-      {/* Editorial Preloader Opening Sequence */}
-      {!hasCompletedOpening && (
-        <Preloader onComplete={() => setHasCompletedOpening(true)} />
-      )}
-
-      {/* Main DriveGuard Shell */}
-      <div
-        style={{
-          opacity: hasCompletedOpening ? 1 : 0,
-          transition: 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
-        }}
-      >
-        {/* Editorial Top Navigation Header */}
-        <Navigation
+      {/* Editorial Top Navigation Header */}
+      <Navigation
           activeTab={activeTab}
           onSelectTab={(tab) => setActiveTab(tab)}
           connectionStatus={isSimMode ? 'calibrating' : connectionStatus}
           isMonitoring={isMonitoring}
           onToggleMonitoring={handleToggleMonitoring}
+          onStartMonitoring={handleStartMonitoring}
           isAudioMuted={isAudioMuted}
           onToggleAudio={() => setIsAudioMuted(!isAudioMuted)}
           notificationPermission={notificationPermission}
@@ -364,7 +363,7 @@ export default function App() {
               onToggleMonitoring={handleToggleMonitoring}
               onStartMonitoring={handleStartMonitoring}
               onStopMonitoring={handleStopMonitoring}
-              videoStreamUrl={connectionStatus === 'online' ? 'http://localhost:8000/video_feed' : null}
+              videoStreamUrl={connectionStatus === 'online' ? VIDEO_FEED_URL : null}
               onTriggerTestIncident={handleTriggerTestIncident}
             />
           )}
@@ -379,80 +378,15 @@ export default function App() {
           {activeTab === 'history' && <TripHistoryView />}
         </main>
 
-        {/* VANTAGE Automotive Editorial Footer */}
-        <footer
-          style={{
-            maxWidth: '1240px',
-            margin: '0 auto',
-            padding: '2.5rem clamp(1rem, 4vw, 3rem) 3.5rem',
-            borderTop: '1px solid var(--border-subtle)',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            gap: '1.25rem',
-            color: 'var(--text-secondary)',
-            fontSize: '0.8rem',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <div
-              style={{
-                width: '8px',
-                height: '8px',
-                borderRadius: '1px',
-                backgroundColor: 'var(--color-accent-red)',
-              }}
-            />
-            <span
-              style={{
-                fontFamily: 'var(--font-condensed)',
-                fontSize: '1.05rem',
-                fontWeight: 600,
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                color: 'var(--text-primary)',
-              }}
-            >
-              DRIVEGUARD.AI
-            </span>
-            <span style={{ color: 'var(--border-subtle)' }}>•</span>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-              EDGE BIOMETRIC ATTENTIVENESS &amp; FATIGUE DETECTION
-            </span>
-          </div>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', flexWrap: 'wrap' }}>
-            <span style={{ fontSize: '0.74rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-              NON-INTRUSIVE MEDIAPIPE 468-POINT MESH INFERENCE
-            </span>
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.45rem',
-                padding: '0.25rem 0.65rem',
-                borderRadius: 'var(--radius-btn)',
-                backgroundColor: 'var(--bg-surface)',
-                border: '1px solid var(--border-subtle)',
-                fontSize: '0.7rem',
-                fontFamily: 'var(--font-mono)',
-                fontWeight: 600,
-              }}
-            >
-              <span
-                style={{
-                  width: '6px',
-                  height: '6px',
-                  borderRadius: '50%',
-                  backgroundColor: connectionStatus === 'online' ? '#10B981' : '#F59E0B',
-                }}
-              />
-              <span>SYSTEM {connectionStatus.toUpperCase()}</span>
-            </div>
-          </div>
-        </footer>
-      </div>
+        {/* Bang & Olufsen A9-Inspired Minimalist Editorial Footer */}
+        <Footer
+          activeTab={activeTab}
+          onSelectTab={(tab) => setActiveTab(tab)}
+          connectionStatus={isSimMode ? 'calibrating' : connectionStatus}
+          isMonitoring={isMonitoring}
+          fps={telemetry.fps}
+          latencyMs={telemetry.latencyMs}
+        />
 
       {/* Desktop Notification Permissions Guidance Modal */}
       {showNotificationGuide && (

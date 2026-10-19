@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart3, AlertTriangle, RefreshCw, Award, Activity, TrendingUp, ShieldCheck } from 'lucide-react';
+import { API_BASE_URL } from '../config/api';
 
 /**
  * Parses duration strings like "1h 25m", "12m 50s", "42m", or "18s" into total seconds.
@@ -59,7 +60,7 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
     setIsLoadingHistory(true);
     setHistoryError(null);
     try {
-      const res = await fetch('http://localhost:8000/api/trips');
+      const res = await fetch(`${API_BASE_URL}/api/trips`);
       if (!res.ok) {
         throw new Error(`Server returned HTTP ${res.status}`);
       }

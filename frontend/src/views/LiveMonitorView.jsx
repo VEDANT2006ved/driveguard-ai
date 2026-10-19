@@ -2,6 +2,7 @@ import React from 'react';
 import RiskGauge from '../components/RiskGauge';
 import AlertBanner from '../components/AlertBanner';
 import DriverIllustration from '../components/DriverIllustration';
+import GpsTripPanel from '../components/GpsTripPanel';
 import { Camera, Eye, Sliders, Play, Square, Activity, Compass, AlertCircle, Radio, Terminal } from 'lucide-react';
 
 /**
@@ -515,6 +516,9 @@ export default function LiveMonitorView({
           )}
         </div>
       </div>
+
+      {/* GPS Trip Route & Distance Telemetry Section */}
+      <GpsTripPanel />
     </div>
   );
 }

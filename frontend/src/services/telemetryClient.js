@@ -3,8 +3,10 @@
  * Connects directly to the Python FastAPI backend engine.
  */
 
+import { WS_BASE_URL } from '../config/api';
+
 class TelemetryClient {
-  constructor(url = 'ws://localhost:8000/ws/telemetry') {
+  constructor(url = WS_BASE_URL) {
     this.url = url;
     this.ws = null;
     this.reconnectTimer = null;

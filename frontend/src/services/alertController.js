@@ -319,6 +319,7 @@ class AlertController {
       isAudioMuted = false,
       notificationsEnabled = true,
       onRecovery = null,
+      onIncident = null,
     } = {}
   ) {
     const currentLevel = telemetry?.riskLevel || 'NOMINAL';
@@ -350,6 +351,9 @@ class AlertController {
     // 2. Incident Escalation or First Trigger
     if (isLevelEscalation) {
       this.lastAlertTimestamp = now;
+      if (typeof onIncident === 'function') {
+        onIncident(telemetry);
+      }
       if (currentLevel === 'CRITICAL') {
         this.playCriticalAlarm(isAudioMuted);
         if (notificationsEnabled) {

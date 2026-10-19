@@ -57,6 +57,8 @@ export default function OverviewView({
     latencyMs = 0,
   } = telemetryData || {};
 
+  const isLive = isSimMode || (isEngineConnected && isMonitoring);
+
   const [activePerspective, setActivePerspective] = useState(0);
 
   const perspectives = [
@@ -794,14 +796,15 @@ export default function OverviewView({
       </section>
 
       {/* ===================================================================== */}
-      {/* SECTION C: REAL-TIME SENSING (DEEP BRITISH RACING GREEN SECTION)       */}
+      {/* SECTION C: REAL-TIME SENSING (OPTICAL TELEMETRY HUD - WARM BEIGE)       */}
       {/* ===================================================================== */}
       <section
+        className="section-c-hud"
         style={{
-          backgroundColor: 'var(--bg-racing-green)',
-          borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-          color: '#FFFFFF',
+          backgroundColor: '#F3E5D8',
+          borderTop: '1px solid #D1B198',
+          borderBottom: '1px solid #D1B198',
+          color: '#382C27',
           padding: 'clamp(4rem, 7vw, 6.5rem) clamp(1.25rem, 4vw, 3.5rem)',
           position: 'relative',
         }}
@@ -811,8 +814,8 @@ export default function OverviewView({
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '2rem', marginBottom: '3.5rem' }}>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
-                <span style={{ width: '6px', height: '6px', backgroundColor: 'var(--color-accent-green)' }} className="telemetry-pulse" />
-                <span className="font-mono" style={{ fontSize: '0.72rem', color: 'var(--color-accent-green)', letterSpacing: '0.14em' }}>
+                <span style={{ width: '6px', height: '6px', backgroundColor: '#A77B5A' }} className="telemetry-pulse" />
+                <span className="font-mono" style={{ fontSize: '0.72rem', color: '#A77B5A', letterSpacing: '0.14em', fontWeight: 600 }}>
                   SECTION C // OPTICAL TELEMETRY HUD
                 </span>
               </div>
@@ -825,6 +828,7 @@ export default function OverviewView({
                   letterSpacing: '-0.02em',
                   fontWeight: 700,
                   textTransform: 'uppercase',
+                  color: '#382C27',
                   margin: 0,
                 }}
               >
@@ -834,25 +838,25 @@ export default function OverviewView({
 
             <button
               onClick={onNavigateToMonitor}
-              className="vantage-btn vantage-btn-dark"
-              style={{ padding: '0.75rem 1.75rem' }}
+              className="vantage-btn-beige"
             >
               <span>OPEN FULL COCKPIT HUD</span>
               <ArrowUpRight size={15} className="arrow-slide" />
             </button>
           </div>
 
-          {/* Deep Green Cockpit Canvas */}
+          {/* Warm Beige Cockpit Canvas (Secondary Panel) */}
           <div
             style={{
-              backgroundColor: 'var(--bg-racing-green-deep)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
+              backgroundColor: '#FAF5EF',
+              border: '1px solid #D1B198',
               borderRadius: 'var(--radius-card)',
               padding: 'clamp(1.5rem, 3.5vw, 2.75rem)',
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
               gap: '3rem',
               alignItems: 'center',
+              boxShadow: '0 12px 36px rgba(167, 123, 90, 0.09), 0 1px 3px rgba(56, 44, 39, 0.04)',
             }}
           >
             {/* Left: Driver Biometric Artwork HUD */}
@@ -869,22 +873,31 @@ export default function OverviewView({
                 state={riskLevel}
                 size={280}
                 animated={true}
-                theme="dark"
+                theme="light"
               />
 
               <div
                 className="font-mono"
                 style={{
                   fontSize: '0.74rem',
-                  color: 'var(--color-accent-green)',
+                  color: isLive ? (riskLevel === 'CRITICAL' ? 'var(--color-alert)' : riskLevel === 'WARNING' ? 'var(--color-warning)' : '#A77B5A') : '#8B7565',
                   marginTop: '1.5rem',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.5rem',
                   letterSpacing: '0.08em',
+                  fontWeight: 600,
                 }}
               >
-                <span style={{ width: '6px', height: '6px', backgroundColor: 'var(--color-accent-green)' }} className="telemetry-pulse" />
+                <span
+                  style={{
+                    width: '6px',
+                    height: '6px',
+                    borderRadius: '50%',
+                    backgroundColor: isLive ? (riskLevel === 'CRITICAL' ? 'var(--color-alert)' : riskLevel === 'WARNING' ? 'var(--color-warning)' : '#10B981') : '#A77B5A',
+                  }}
+                  className="telemetry-pulse"
+                />
                 <span>LANDMARK GRID: {isLive ? `${blinkRate} BLINKS/MIN` : 'CALIBRATING'}</span>
               </div>
             </div>
@@ -898,75 +911,126 @@ export default function OverviewView({
                 size={220}
               />
 
-              {/* Technical Ratio Badges */}
+              {/* Technical Ratio Badges (Card surfaces) */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem', width: '100%', maxWidth: '420px' }}>
                 <div
                   style={{
-                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    padding: '0.85rem 1.1rem',
-                    borderRadius: '2px',
+                    backgroundColor: '#EAD8C7',
+                    border: '1px solid #D1B198',
+                    padding: '0.95rem 1.15rem',
+                    borderRadius: '4px',
+                    boxShadow: '0 2px 6px rgba(56, 44, 39, 0.04)',
                   }}
                 >
-                  <span className="font-mono" style={{ fontSize: '0.68rem', color: 'rgba(255, 255, 255, 0.6)', display: 'block' }}>
+                  <span className="font-mono" style={{ fontSize: '0.68rem', color: '#8B7565', display: 'block', letterSpacing: '0.08em', fontWeight: 600, marginBottom: '0.2rem' }}>
                     EYE ASPECT (EAR)
                   </span>
-                  <span className="font-condensed" style={{ fontSize: '1.6rem', fontWeight: 600 }}>
+                  <span className="font-condensed" style={{ fontSize: '1.65rem', fontWeight: 700, color: '#382C27', lineHeight: 1.1, display: 'block' }}>
                     {isLive ? ear.toFixed(2) : '0.33'}
                   </span>
+                  <span className="font-mono" style={{ fontSize: '0.65rem', color: '#756052', display: 'block', marginTop: '0.25rem' }}>
+                    Threshold &gt; 0.22
+                  </span>
                 </div>
 
                 <div
                   style={{
-                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    padding: '0.85rem 1.1rem',
-                    borderRadius: '2px',
+                    backgroundColor: '#EAD8C7',
+                    border: '1px solid #D1B198',
+                    padding: '0.95rem 1.15rem',
+                    borderRadius: '4px',
+                    boxShadow: '0 2px 6px rgba(56, 44, 39, 0.04)',
                   }}
                 >
-                  <span className="font-mono" style={{ fontSize: '0.68rem', color: 'rgba(255, 255, 255, 0.6)', display: 'block' }}>
+                  <span className="font-mono" style={{ fontSize: '0.68rem', color: '#8B7565', display: 'block', letterSpacing: '0.08em', fontWeight: 600, marginBottom: '0.2rem' }}>
                     MOUTH ASPECT (MAR)
                   </span>
-                  <span className="font-condensed" style={{ fontSize: '1.6rem', fontWeight: 600 }}>
+                  <span className="font-condensed" style={{ fontSize: '1.65rem', fontWeight: 700, color: '#382C27', lineHeight: 1.1, display: 'block' }}>
                     {isLive ? mar.toFixed(2) : '0.12'}
                   </span>
+                  <span className="font-mono" style={{ fontSize: '0.65rem', color: '#756052', display: 'block', marginTop: '0.25rem' }}>
+                    Yawn Warn &gt; 0.55
+                  </span>
                 </div>
 
                 <div
                   style={{
-                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    padding: '0.85rem 1.1rem',
-                    borderRadius: '2px',
+                    backgroundColor: '#EAD8C7',
+                    border: '1px solid #D1B198',
+                    padding: '0.95rem 1.15rem',
+                    borderRadius: '4px',
+                    boxShadow: '0 2px 6px rgba(56, 44, 39, 0.04)',
                   }}
                 >
-                  <span className="font-mono" style={{ fontSize: '0.68rem', color: 'rgba(255, 255, 255, 0.6)', display: 'block' }}>
+                  <span className="font-mono" style={{ fontSize: '0.68rem', color: '#8B7565', display: 'block', letterSpacing: '0.08em', fontWeight: 600, marginBottom: '0.2rem' }}>
                     CRANIAL PITCH
                   </span>
-                  <span className="font-condensed" style={{ fontSize: '1.6rem', fontWeight: 600 }}>
+                  <span className="font-condensed" style={{ fontSize: '1.65rem', fontWeight: 700, color: '#382C27', lineHeight: 1.1, display: 'block' }}>
                     {isLive ? `${headPitch.toFixed(1)}°` : '0.5°'}
+                  </span>
+                  <span className="font-mono" style={{ fontSize: '0.65rem', color: '#756052', display: 'block', marginTop: '0.25rem' }}>
+                    Pitch Tilt (Deg)
                   </span>
                 </div>
 
                 <div
                   style={{
-                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    padding: '0.85rem 1.1rem',
-                    borderRadius: '2px',
+                    backgroundColor: '#EAD8C7',
+                    border: '1px solid #D1B198',
+                    padding: '0.95rem 1.15rem',
+                    borderRadius: '4px',
+                    boxShadow: '0 2px 6px rgba(56, 44, 39, 0.04)',
                   }}
                 >
-                  <span className="font-mono" style={{ fontSize: '0.68rem', color: 'rgba(255, 255, 255, 0.6)', display: 'block' }}>
+                  <span className="font-mono" style={{ fontSize: '0.68rem', color: '#8B7565', display: 'block', letterSpacing: '0.08em', fontWeight: 600, marginBottom: '0.2rem' }}>
                     PERCLOS INDEX
                   </span>
-                  <span className="font-condensed" style={{ fontSize: '1.6rem', fontWeight: 600 }}>
+                  <span className="font-condensed" style={{ fontSize: '1.65rem', fontWeight: 700, color: '#382C27', lineHeight: 1.1, display: 'block' }}>
                     {isLive ? `${perclos.toFixed(1)}%` : '3.8%'}
+                  </span>
+                  <span className="font-mono" style={{ fontSize: '0.65rem', color: '#756052', display: 'block', marginTop: '0.25rem' }}>
+                    Ocular Closure %
                   </span>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+        {/* Scoped CSS for Section C Warm Beige HUD */}
+        <style>{`
+          .section-c-hud {
+            --bg-surface-warm: #EAD8C7;
+            --border-subtle: #D1B198;
+            --text-primary: #382C27;
+            --text-secondary: #756052;
+            --text-muted: #8B7565;
+          }
+          .section-c-hud .vantage-btn-beige {
+            background-color: #382C27;
+            border: 1px solid #382C27;
+            color: #FAF5EF;
+            border-radius: var(--radius-btn);
+            padding: 0.75rem 1.75rem;
+            font-family: var(--font-condensed);
+            font-size: 0.92rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
+            transition: all var(--transition-fast);
+            box-shadow: 0 4px 14px rgba(56, 44, 39, 0.12);
+          }
+          .section-c-hud .vantage-btn-beige:hover {
+            background-color: #221A17;
+            border-color: #221A17;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(56, 44, 39, 0.18);
+          }
+        `}</style>
       </section>
 
       {/* ===================================================================== */}
