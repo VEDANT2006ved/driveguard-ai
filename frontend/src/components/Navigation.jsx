@@ -40,6 +40,7 @@ export default function Navigation({
   onToggleNotifications,
   fps = 0,
   latencyMs = 0,
+  onOpenDiagnostics,
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isOnline = connectionStatus === 'online';
@@ -265,6 +266,41 @@ export default function Navigation({
             gap: '0.75rem',
           }}
         >
+          {/* AI Engine & Tunnel Bridge Status Pill */}
+          <button
+            onClick={onOpenDiagnostics}
+            title={isOnline ? 'AI Optical Engine Connected. Click for pipeline diagnostics.' : 'AI Engine Offline. Click to configure tunnel or inspect bridge.'}
+            aria-label="Engine connection diagnostics"
+            style={{
+              background: isOnline ? 'rgba(46, 125, 70, 0.08)' : 'rgba(214, 69, 39, 0.08)',
+              border: `1px solid ${isOnline ? '#A8D5B5' : '#F4B8AC'}`,
+              padding: '0.45rem 0.75rem',
+              borderRadius: '9999px',
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.45rem',
+              fontSize: '0.72rem',
+              fontFamily: 'var(--font-mono)',
+              color: isOnline ? '#1B4D2B' : '#9E321B',
+              transition: 'all var(--transition-fast)',
+            }}
+            className="bo-utility-btn"
+          >
+            <span
+              style={{
+                width: '6px',
+                height: '6px',
+                borderRadius: '50%',
+                backgroundColor: isOnline ? '#2E7D46' : '#D64527',
+              }}
+              className={isOnline ? 'telemetry-pulse' : ''}
+            />
+            <span style={{ letterSpacing: '0.06em', fontWeight: 600 }}>
+              {isOnline ? (isMonitoring ? (fps > 0 ? `${fps} FPS` : 'ENGINE LIVE') : 'ENGINE PAUSED') : 'ENGINE OFFLINE'}
+            </span>
+          </button>
+
           {/* Audio Chime Toggle Button */}
           <button
             onClick={onToggleAudio}
@@ -624,8 +660,46 @@ export default function Navigation({
                 gap: '0.75rem',
               }}
             >
-              <div style={{ display: 'flex', gap: '0.6rem' }}>
-                {/* Audio Button */}
+                {/* Engine Status / Diagnostics Button */}
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    if (onOpenDiagnostics) onOpenDiagnostics();
+                  }}
+                  style={{
+                    background: isOnline ? 'rgba(46, 125, 70, 0.08)' : 'rgba(214, 69, 39, 0.08)',
+                    border: `1px solid ${isOnline ? '#A8D5B5' : '#F4B8AC'}`,
+                    padding: '0.45rem 0.85rem',
+                    borderRadius: '9999px',
+                    fontSize: '0.75rem',
+                    fontFamily: 'var(--font-mono)',
+                    color: isOnline ? '#1B4D2B' : '#9E321B',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.45rem',
+                    cursor: 'pointer',
+                    minHeight: '38px',
+                    width: '100%',
+                    marginBottom: '0.5rem',
+                  }}
+                >
+                  <span
+                    style={{
+                      width: '6px',
+                      height: '6px',
+                      borderRadius: '50%',
+                      backgroundColor: isOnline ? '#2E7D46' : '#D64527',
+                    }}
+                    className={isOnline ? 'telemetry-pulse' : ''}
+                  />
+                  <span style={{ fontWeight: 600 }}>
+                    {isOnline ? 'ENGINE ONLINE // DIAGNOSTICS' : 'ENGINE OFFLINE // CONNECT BRIDGE'}
+                  </span>
+                </button>
+
+                <div style={{ display: 'flex', gap: '0.6rem' }}>
+                  {/* Audio Button */}
                 <button
                   onClick={onToggleAudio}
                   style={{

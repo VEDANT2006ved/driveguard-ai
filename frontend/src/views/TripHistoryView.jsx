@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 import RouteVisualizer from '../components/RouteVisualizer';
 import { gpsTracker } from '../services/gpsTracker';
-import { API_BASE_URL } from '../config/api';
+import { API_BASE_URL, getApiBaseUrl } from '../config/api';
 
 // Fallback session dataset in case backend is loading or cold
 const FALLBACK_RECORDED_SESSIONS = [
@@ -88,7 +88,7 @@ export default function TripHistoryView() {
     setIsRefreshing(true);
     try {
       let combined = [];
-      const res = await fetch(`${API_BASE_URL}/api/trips`);
+      const res = await fetch(`${getApiBaseUrl()}/api/trips`);
       if (res.ok) {
         const data = await res.json();
         if (Array.isArray(data) && data.length > 0) {

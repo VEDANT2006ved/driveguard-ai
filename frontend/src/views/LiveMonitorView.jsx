@@ -21,6 +21,7 @@ export default function LiveMonitorView({
   videoStreamUrl,
   onTriggerTestIncident,
   isRecovering = false,
+  onOpenDiagnostics,
 }) {
   const {
     riskScore = 0,
@@ -299,21 +300,48 @@ export default function LiveMonitorView({
                   </p>
 
                   {!isSimMode && (
-                    <code
-                      className="font-mono"
-                      style={{
-                        display: 'inline-block',
-                        padding: '0.5rem 1.25rem',
-                        backgroundColor: '#FFFFFF',
-                        border: '1px solid var(--border-subtle)',
-                        borderRadius: '2px',
-                        color: 'var(--text-primary)',
-                        fontSize: '0.84rem',
-                        boxShadow: 'var(--shadow-sm)',
-                      }}
-                    >
-                      python backend/server.py
-                    </code>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.85rem' }}>
+                      <code
+                        className="font-mono"
+                        style={{
+                          display: 'inline-block',
+                          padding: '0.55rem 1.35rem',
+                          backgroundColor: '#FFFFFF',
+                          border: '1px solid var(--border-subtle)',
+                          borderRadius: '2px',
+                          color: 'var(--text-primary)',
+                          fontSize: '0.84rem',
+                          boxShadow: 'var(--shadow-sm)',
+                        }}
+                      >
+                        python run_production_bridge.py
+                      </code>
+
+                      {onOpenDiagnostics && (
+                        <button
+                          onClick={onOpenDiagnostics}
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '0.45rem',
+                            padding: '0.52rem 1.25rem',
+                            backgroundColor: '#171717',
+                            color: '#FFFFFF',
+                            border: 'none',
+                            borderRadius: '2px',
+                            fontSize: '0.78rem',
+                            fontFamily: 'var(--font-sans)',
+                            fontWeight: 500,
+                            letterSpacing: '0.04em',
+                            cursor: 'pointer',
+                            marginTop: '0.25rem',
+                          }}
+                        >
+                          <Radio size={12} />
+                          <span>CONNECT TUNNEL / VIEW DIAGNOSTICS</span>
+                        </button>
+                      )}
+                    </div>
                   )}
                 </div>
               </div>

@@ -1,31 +1,51 @@
 /**
  * Telemetry WebSocket Client for DriveGuard AI
- * Connects directly to the Python FastAPI backend engine.
+ * Connects directly to the Python FastAPI backend engine or Cloudflare Tunnel.
  */
 
-import { WS_BASE_URL } from '../config/api';
+import { getWsBaseUrl } from '../config/api';
 
 class TelemetryClient {
-  constructor(url = WS_BASE_URL) {
-    this.url = url;
+  constructor() {
+    this.url = getWsBaseUrl();
     this.ws = null;
     this.reconnectTimer = null;
     this.onMessageCallback = null;
     this.onStatusChangeCallback = null;
     this.status = 'offline';
     this.retryCount = 0;
+
+    // Listen for runtime backend URL changes from UI or localStorage
+    if (typeof window !== 'undefined') {
+      window.addEventListener('driveguard:backend-url-changed', () => {
+        this.reconnect(getWsBaseUrl());
+      });
+    }
   }
 
   connect({ onMessage, onStatusChange }) {
     this.onMessageCallback = onMessage;
     this.onStatusChangeCallback = onStatusChange;
+    this.url = getWsBaseUrl();
+    this._initWebSocket();
+  }
+
+  reconnect(newUrl = null) {
+    if (newUrl) {
+      this.url = newUrl;
+    } else {
+      this.url = getWsBaseUrl();
+    }
+    this.retryCount = 0;
+    this.disconnect();
     this._initWebSocket();
   }
 
   _initWebSocket() {
     try {
       this._updateStatus('calibrating');
-      this.ws = new WebSocket(this.url);
+      const wsUrl = this.url || getWsBaseUrl();
+      this.ws = new WebSocket(wsUrl);
 
       this.ws.onopen = () => {
         this.retryCount = 0;
@@ -51,7 +71,11 @@ class TelemetryClient {
       this.ws.onerror = () => {
         this._updateStatus('offline');
         if (this.ws) {
-          this.ws.close();
+          try {
+            this.ws.close();
+          } catch {
+            // Already closed
+          }
         }
       };
     } catch {
@@ -71,8 +95,8 @@ class TelemetryClient {
 
   _scheduleReconnect() {
     if (this.reconnectTimer) clearTimeout(this.reconnectTimer);
-    // Exponential backoff capped at 5s
-    const delay = Math.min(5000, 1000 * Math.pow(1.5, this.retryCount));
+    // Exponential backoff capped at 6s
+    const delay = Math.min(6000, 1500 * Math.pow(1.4, this.retryCount));
     this.retryCount++;
     this.reconnectTimer = setTimeout(() => {
       this._initWebSocket();
@@ -86,12 +110,27 @@ class TelemetryClient {
   }
 
   disconnect() {
-    if (this.reconnectTimer) clearTimeout(this.reconnectTimer);
+    if (this.reconnectTimer) {
+      clearTimeout(this.reconnectTimer);
+      this.reconnectTimer = null;
+    }
     if (this.ws) {
-      this.ws.close();
+      try {
+        this.ws.close();
+      } catch {
+        // Safe disconnect
+      }
       this.ws = null;
     }
     this._updateStatus('offline');
+  }
+
+  getStatus() {
+    return this.status;
+  }
+
+  getUrl() {
+    return this.url;
   }
 }
 

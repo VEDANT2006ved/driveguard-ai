@@ -10,7 +10,8 @@ import TripHistoryView from './views/TripHistoryView';
 import { telemetryClient } from './services/telemetryClient';
 import { alertController } from './services/alertController';
 import { gpsTracker } from './services/gpsTracker';
-import { API_BASE_URL, VIDEO_FEED_URL } from './config/api';
+import { API_BASE_URL, VIDEO_FEED_URL, getApiBaseUrl, getVideoFeedUrl } from './config/api';
+import BackendDiagnosticsModal from './components/BackendDiagnosticsModal';
 import './styles/tokens.css';
 import './styles/animations.css';
 
@@ -21,6 +22,7 @@ export default function App() {
   const [isAudioMuted, setIsAudioMuted] = useState(false);
   const [isSimMode, setIsSimMode] = useState(false);
   const [isMonitoring, setIsMonitoring] = useState(true);
+  const [isDiagnosticsOpen, setIsDiagnosticsOpen] = useState(false);
 
   // Desktop notification permission & active state
   const [notificationPermission, setNotificationPermission] = useState(() =>
@@ -166,7 +168,7 @@ export default function App() {
     setIsMonitoring(true);
     telemetryClient.sendAction('start');
     try {
-      await fetch(`${API_BASE_URL}/api/monitoring/start`, { method: 'POST' });
+      await fetch(`${getApiBaseUrl()}/api/monitoring/start`, { method: 'POST' });
     } catch (e) {
       console.warn('API start monitoring error:', e);
     }
@@ -178,7 +180,7 @@ export default function App() {
     gpsTracker.stopTracking();
     telemetryClient.sendAction('stop');
     try {
-      await fetch(`${API_BASE_URL}/api/monitoring/stop`, { method: 'POST' });
+      await fetch(`${getApiBaseUrl()}/api/monitoring/stop`, { method: 'POST' });
     } catch (e) {
       console.warn('API stop monitoring error:', e);
     }
@@ -329,6 +331,7 @@ export default function App() {
           onToggleNotifications={handleToggleNotifications}
           fps={telemetry.fps}
           latencyMs={telemetry.latencyMs}
+          onOpenDiagnostics={() => setIsDiagnosticsOpen(true)}
         />
 
         {/* View Container */}
@@ -363,8 +366,9 @@ export default function App() {
               onToggleMonitoring={handleToggleMonitoring}
               onStartMonitoring={handleStartMonitoring}
               onStopMonitoring={handleStopMonitoring}
-              videoStreamUrl={connectionStatus === 'online' ? VIDEO_FEED_URL : null}
+              videoStreamUrl={connectionStatus === 'online' ? getVideoFeedUrl() : null}
               onTriggerTestIncident={handleTriggerTestIncident}
+              onOpenDiagnostics={() => setIsDiagnosticsOpen(true)}
             />
           )}
 
@@ -605,6 +609,14 @@ export default function App() {
           </div>
         </div>
       )}
+
+      {/* System Bridge & Diagnostics Modal */}
+      <BackendDiagnosticsModal
+        isOpen={isDiagnosticsOpen}
+        onClose={() => setIsDiagnosticsOpen(false)}
+        connectionStatus={connectionStatus}
+        fps={telemetry.fps}
+      />
     </div>
   );
 }

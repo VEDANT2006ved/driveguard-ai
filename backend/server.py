@@ -20,7 +20,7 @@ app = FastAPI(title="DriveGuard AI Telemetry API", version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -300,6 +300,7 @@ def health():
         "is_monitoring": is_monitoring,
         "camera_active": camera_active,
         "connected_clients": len(active_websockets),
+        "timestamp": time.time(),
     }
 
 
