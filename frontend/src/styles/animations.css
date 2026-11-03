@@ -1,6 +1,8 @@
-/* VANTAGE-Inspired Cinematic Automotive Motion */
+/* =========================================================================
+   SSTR-INSPIRED INDUSTRIAL MOTION & HARDWARE ANIMATIONS
+   ========================================================================= */
 
-@keyframes cinematicFadeIn {
+@keyframes sstrFadeIn {
   from {
     opacity: 0;
   }
@@ -9,10 +11,21 @@
   }
 }
 
-@keyframes heroHeadlineReveal {
+@keyframes sstrSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sstrHeadlineReveal {
   0% {
     opacity: 0;
-    transform: translateY(32px);
+    transform: translateY(36px);
     clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%);
   }
   100% {
@@ -22,152 +35,118 @@
   }
 }
 
-@keyframes heroImageReveal {
+@keyframes sstrLaserScan {
   0% {
+    top: 0%;
     opacity: 0;
-    transform: scale(1.05);
-    filter: brightness(0.7);
+  }
+  15% {
+    opacity: 0.9;
+  }
+  85% {
+    opacity: 0.9;
   }
   100% {
-    opacity: 1;
-    transform: scale(1);
-    filter: brightness(1);
+    top: 100%;
+    opacity: 0;
   }
 }
 
-@keyframes accentLineExpand {
-  0% {
-    width: 0%;
-    opacity: 0;
-  }
-  100% {
-    width: 100%;
-    opacity: 1;
-  }
-}
-
-@keyframes redTelemetryPulse {
+@keyframes sstrOrangePulse {
   0%, 100% {
     opacity: 1;
     transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(254, 91, 42, 0.45);
   }
   50% {
-    opacity: 0.45;
-    transform: scale(1.18);
+    opacity: 0.8;
+    transform: scale(1.15);
+    box-shadow: 0 0 12px 3px rgba(254, 91, 42, 0.6);
   }
 }
 
-@keyframes subtleImagePan {
-  0% {
-    transform: scale(1.02) translate(0, 0);
+@keyframes sstrGreenPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.45);
   }
   50% {
-    transform: scale(1.04) translate(-4px, -2px);
+    opacity: 0.8;
+    transform: scale(1.15);
+    box-shadow: 0 0 10px 2px rgba(16, 185, 129, 0.6);
+  }
+}
+
+@keyframes sstrTickerMarquee {
+  0% {
+    transform: translateX(0%);
   }
   100% {
-    transform: scale(1.02) translate(0, 0);
+    transform: translateX(-50%);
   }
 }
 
-@keyframes dividerDraw {
-  from {
-    transform: scaleX(0);
+@keyframes sstrRadarSweep {
+  0% {
+    transform: rotate(0deg);
   }
-  to {
-    transform: scaleX(1);
+  100% {
+    transform: rotate(360deg);
   }
 }
 
 /* Helper Animation Classes */
-.cinematic-fade-in {
-  animation: cinematicFadeIn 0.6s var(--ease-cinematic) forwards;
+.animate-sstr-fade-in {
+  animation: sstrFadeIn 0.5s var(--ease-mechanical) forwards;
 }
 
-.hero-headline-reveal {
-  animation: heroHeadlineReveal 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.animate-sstr-slide-up {
+  animation: sstrSlideUp 0.65s var(--ease-mechanical) forwards;
 }
 
-.hero-image-reveal {
-  animation: heroImageReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.animate-sstr-headline {
+  animation: sstrHeadlineReveal 0.85s var(--ease-mechanical) forwards;
 }
 
-.accent-line-expand {
-  transform-origin: left;
-  animation: accentLineExpand 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.animate-laser-scan {
+  animation: sstrLaserScan 2.4s linear infinite;
+}
+
+.animate-orange-pulse {
+  animation: sstrOrangePulse 2s ease-in-out infinite;
+}
+
+.animate-green-pulse {
+  animation: sstrGreenPulse 2.2s ease-in-out infinite;
 }
 
 .telemetry-pulse {
-  animation: redTelemetryPulse 2.2s ease-in-out infinite;
-}
-
-.subtle-image-pan {
-  animation: subtleImagePan 24s ease-in-out infinite;
-}
-
-/* Subtle image hover zoom */
-.zoom-container {
-  overflow: hidden;
-}
-.zoom-container img {
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.zoom-container:hover img {
-  transform: scale(1.03);
-}
-
-/* NOMU & Decathlon Yestalgia Dynamic Motion Utilities */
-@keyframes tickerSlide {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  animation: sstrGreenPulse 2.2s ease-in-out infinite;
 }
 
 .animate-ticker {
   display: flex;
   width: max-content;
-  animation: tickerSlide 35s linear infinite;
+  animation: sstrTickerMarquee 28s linear infinite;
 }
+
 .animate-ticker:hover {
   animation-play-state: paused;
 }
 
-@keyframes slowSpin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
 .animate-slow-spin {
-  animation: slowSpin 25s linear infinite;
+  animation: sstrRadarSweep 20s linear infinite;
 }
 
-@keyframes floatGentle {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
+/* Hardware Glow and Hairlines */
+.sstr-glow-orange {
+  box-shadow: 0 0 24px rgba(254, 91, 42, 0.3);
 }
 
-.animate-float {
-  animation: floatGentle 5s ease-in-out infinite;
-}
-
-/* Film Grain Texture for Luxury Editorial Depth */
-.editorial-grain {
-  position: relative;
-}
-.editorial-grain::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image: radial-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px);
-  background-size: 4px 4px;
-  opacity: 0.6;
-}
-
-/* Reduced Motion Compliance */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
+.sstr-grid-bg {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
 }

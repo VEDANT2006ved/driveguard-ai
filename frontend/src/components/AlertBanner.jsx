@@ -3,8 +3,8 @@ import { AlertCircle, AlertTriangle, CheckCircle, Terminal, ShieldAlert, Sparkle
 
 /**
  * AlertBanner Component
- * Luxury Automotive Safety & System State Banner
- * Design: Clean editorial pills, champagne hairline dividers, and decisive danger states.
+ * SSTR-Inspired Industrial Safety & Hardware State Banner
+ * Primary Reference: SSTR (https://sstr.tech/en/)
  */
 export default function AlertBanner({
   alertState = 'NOMINAL',
@@ -27,16 +27,16 @@ export default function AlertBanner({
   if (!isEngineConnected) {
     return (
       <div
-        className="animate-fade-in"
+        className="animate-sstr-fade-in"
         style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '0.85rem 1.45rem',
-          border: '1px solid rgba(23, 23, 23, 0.1)',
-          backgroundColor: '#FFFFFF',
-          borderRadius: '12px',
-          boxShadow: '0 4px 18px rgba(23, 23, 23, 0.03)',
+          border: '1px solid rgba(254, 91, 42, 0.35)',
+          backgroundColor: '#141518',
+          borderRadius: '6px',
+          boxShadow: '0 4px 18px rgba(0, 0, 0, 0.4)',
           marginBottom: '1.75rem',
           flexWrap: 'wrap',
           gap: '0.75rem',
@@ -47,17 +47,17 @@ export default function AlertBanner({
             style={{
               width: '28px',
               height: '28px',
-              borderRadius: '50%',
-              backgroundColor: '#F3EFEA',
+              borderRadius: '4px',
+              backgroundColor: '#1E2024',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
             }}
           >
-            <Terminal size={14} color="#6B7280" />
+            <Terminal size={14} color="#FE5B2A" />
           </div>
-          <span style={{ fontSize: '0.86rem', color: '#4B5563', fontFamily: 'var(--font-sans)' }}>
-            <strong style={{ color: '#171717', fontWeight: 600 }}>Optical Engine Standby:</strong> Python computer vision server is offline.
+          <span style={{ fontSize: '0.86rem', color: '#9FA4B0', fontFamily: 'var(--font-sans)' }}>
+            <strong style={{ color: '#FFFFFF', fontWeight: 600 }}>Optical Engine Standby:</strong> Python computer vision server is offline.
           </span>
         </div>
         <div
@@ -69,21 +69,21 @@ export default function AlertBanner({
             gap: '0.45rem',
             cursor: 'pointer',
             padding: '0.35rem 0.85rem',
-            backgroundColor: '#FDFBF7',
-            border: '1px solid rgba(23, 23, 23, 0.12)',
-            borderRadius: '9999px',
+            backgroundColor: '#0D0E10',
+            border: '1px solid rgba(254, 91, 42, 0.3)',
+            borderRadius: '4px',
           }}
         >
           <code
             style={{
               fontFamily: 'var(--font-mono)',
               fontSize: '0.76rem',
-              color: '#171717',
+              color: '#FFFFFF',
             }}
           >
             python run_production_bridge.py
           </code>
-          {copied ? <Check size={12} color="#2E7D32" /> : <Copy size={12} color="#9CA3AF" />}
+          {copied ? <Check size={12} color="#10B981" /> : <Copy size={12} color="#5F6470" />}
         </div>
       </div>
     );
@@ -93,16 +93,16 @@ export default function AlertBanner({
   if (isEngineConnected && !isMonitoring) {
     return (
       <div
-        className="animate-fade-in"
+        className="animate-sstr-fade-in"
         style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '0.85rem 1.45rem',
-          border: '1px solid rgba(23, 23, 23, 0.1)',
-          backgroundColor: '#FFFFFF',
-          borderRadius: '12px',
-          boxShadow: '0 4px 18px rgba(23, 23, 23, 0.03)',
+          border: '1px solid rgba(239, 68, 68, 0.3)',
+          backgroundColor: '#141518',
+          borderRadius: '6px',
+          boxShadow: '0 4px 18px rgba(0, 0, 0, 0.4)',
           marginBottom: '1.75rem',
           flexWrap: 'wrap',
           gap: '0.75rem',
@@ -114,24 +114,24 @@ export default function AlertBanner({
               width: '8px',
               height: '8px',
               borderRadius: '50%',
-              backgroundColor: '#DC2626',
+              backgroundColor: '#EF4444',
               display: 'inline-block',
             }}
           />
-          <span style={{ fontSize: '0.86rem', color: '#4B5563', fontFamily: 'var(--font-sans)' }}>
-            <strong style={{ color: '#171717', fontWeight: 600 }}>Optical Monitoring Paused:</strong> Real-time camera feed and risk scoring are halted. Driver privacy preserved.
+          <span style={{ fontSize: '0.86rem', color: '#9FA4B0', fontFamily: 'var(--font-sans)' }}>
+            <strong style={{ color: '#FFFFFF', fontWeight: 600 }}>Optical Monitoring Paused:</strong> Real-time camera feed and risk scoring are halted. Driver privacy preserved.
           </span>
         </div>
         <span
           style={{
-            backgroundColor: '#FEF2F2',
-            color: '#DC2626',
-            border: '1px solid rgba(220, 38, 38, 0.2)',
+            backgroundColor: 'rgba(239, 68, 68, 0.15)',
+            color: '#EF4444',
+            border: '1px solid rgba(239, 68, 68, 0.35)',
             padding: '0.2rem 0.65rem',
-            borderRadius: '9999px',
+            borderRadius: '4px',
             fontFamily: 'var(--font-mono)',
             fontSize: '0.72rem',
-            fontWeight: 600,
+            fontWeight: 700,
           }}
         >
           PAUSED
@@ -184,16 +184,16 @@ export default function AlertBanner({
   if (alertState === 'CRITICAL') {
     return (
       <div
-        className="alert-red-pulse animate-scale-up"
+        className="animate-scale-up"
         style={{
           display: 'flex',
           alignItems: 'center',
           gap: '1rem',
           padding: '1.15rem 1.6rem',
-          border: '1.5px solid #DC2626',
-          backgroundColor: '#FFF1F2',
-          borderRadius: '16px',
-          boxShadow: '0 8px 30px rgba(220, 38, 38, 0.15)',
+          border: '1.5px solid #EF4444',
+          backgroundColor: '#1E1416',
+          borderRadius: '6px',
+          boxShadow: '0 8px 30px rgba(239, 68, 68, 0.25)',
           marginBottom: '1.75rem',
         }}
       >
@@ -201,13 +201,13 @@ export default function AlertBanner({
           style={{
             width: '36px',
             height: '36px',
-            borderRadius: '50%',
-            backgroundColor: '#DC2626',
+            borderRadius: '4px',
+            backgroundColor: '#EF4444',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             flexShrink: 0,
-            boxShadow: '0 4px 14px rgba(220, 38, 38, 0.3)',
+            boxShadow: '0 0 16px rgba(239, 68, 68, 0.6)',
           }}
         >
           <AlertCircle size={20} color="#FFFFFF" />
@@ -217,14 +217,14 @@ export default function AlertBanner({
             style={{
               fontFamily: 'var(--font-mono)',
               fontSize: '0.74rem',
-              color: '#DC2626',
+              color: '#EF4444',
               fontWeight: 700,
               letterSpacing: '0.12em',
             }}
           >
             {getAlertTitle()}
           </span>
-          <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.94rem', color: '#991B1B', fontWeight: 600 }}>
+          <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.94rem', color: '#FFFFFF', fontWeight: 600 }}>
             {message || getFallbackMessage()}
           </span>
         </div>
@@ -236,16 +236,16 @@ export default function AlertBanner({
   if (alertState === 'WARNING') {
     return (
       <div
-        className="animate-fade-up"
+        className="animate-sstr-slide-up"
         style={{
           display: 'flex',
           alignItems: 'center',
           gap: '1rem',
           padding: '1rem 1.5rem',
-          border: '1.5px solid #D97706',
-          backgroundColor: '#FFFBEB',
-          borderRadius: '16px',
-          boxShadow: '0 6px 24px rgba(217, 119, 6, 0.1)',
+          border: '1.5px solid #FE5B2A',
+          backgroundColor: '#1E1815',
+          borderRadius: '6px',
+          boxShadow: '0 6px 24px rgba(254, 91, 42, 0.2)',
           marginBottom: '1.75rem',
         }}
       >
@@ -253,12 +253,13 @@ export default function AlertBanner({
           style={{
             width: '34px',
             height: '34px',
-            borderRadius: '50%',
-            backgroundColor: '#D97706',
+            borderRadius: '4px',
+            backgroundColor: '#FE5B2A',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             flexShrink: 0,
+            boxShadow: '0 0 14px rgba(254, 91, 42, 0.5)',
           }}
         >
           <AlertTriangle size={18} color="#FFFFFF" />
@@ -268,14 +269,14 @@ export default function AlertBanner({
             style={{
               fontFamily: 'var(--font-mono)',
               fontSize: '0.74rem',
-              color: '#B45309',
+              color: '#FE5B2A',
               fontWeight: 700,
               letterSpacing: '0.1em',
             }}
           >
             {getAlertTitle()}
           </span>
-          <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.9rem', color: '#78350F', fontWeight: 500 }}>
+          <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.9rem', color: '#FFFFFF', fontWeight: 500 }}>
             {message || getFallbackMessage()}
           </span>
         </div>
@@ -287,16 +288,16 @@ export default function AlertBanner({
   if (isRecovering) {
     return (
       <div
-        className="animate-fade-in"
+        className="animate-sstr-fade-in"
         style={{
           display: 'flex',
           alignItems: 'center',
           gap: '1rem',
           padding: '0.9rem 1.45rem',
-          border: '1.5px solid #2E7D32',
-          backgroundColor: '#ECFDF5',
-          borderRadius: '16px',
-          boxShadow: '0 4px 18px rgba(46, 125, 50, 0.08)',
+          border: '1.5px solid #10B981',
+          backgroundColor: '#121E19',
+          borderRadius: '6px',
+          boxShadow: '0 4px 18px rgba(16, 185, 129, 0.15)',
           marginBottom: '1.75rem',
         }}
       >
@@ -304,12 +305,13 @@ export default function AlertBanner({
           style={{
             width: '30px',
             height: '30px',
-            borderRadius: '50%',
-            backgroundColor: '#2E7D32',
+            borderRadius: '4px',
+            backgroundColor: '#10B981',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             flexShrink: 0,
+            boxShadow: '0 0 12px rgba(16, 185, 129, 0.5)',
           }}
         >
           <CheckCircle size={16} color="#FFFFFF" />
@@ -319,14 +321,14 @@ export default function AlertBanner({
             style={{
               fontFamily: 'var(--font-mono)',
               fontSize: '0.72rem',
-              color: '#065F46',
+              color: '#10B981',
               fontWeight: 700,
               letterSpacing: '0.1em',
             }}
           >
             ATTENTIVENESS RECOVERED // FORWARD GAZE RESTORED
           </span>
-          <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.86rem', color: '#065F46' }}>
+          <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.86rem', color: '#FFFFFF' }}>
             Driver attention returned within nominal operating envelope. Safety counter reset.
           </span>
         </div>
@@ -342,10 +344,10 @@ export default function AlertBanner({
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: '0.75rem 1.4rem',
-        backgroundColor: '#FFFFFF',
-        border: '1px solid rgba(23, 23, 23, 0.08)',
-        borderRadius: '12px',
-        boxShadow: '0 2px 10px rgba(0, 0, 0, 0.02)',
+        backgroundColor: '#141518',
+        border: '1px solid rgba(255, 255, 255, 0.08)',
+        borderRadius: '6px',
+        boxShadow: '0 2px 10px rgba(0, 0, 0, 0.4)',
         marginBottom: '1.75rem',
         flexWrap: 'wrap',
         gap: '0.65rem',
@@ -357,23 +359,23 @@ export default function AlertBanner({
             width: '7px',
             height: '7px',
             borderRadius: '50%',
-            backgroundColor: '#2E7D32',
+            backgroundColor: '#10B981',
           }}
           className="telemetry-pulse"
         />
-        <span style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)' }}>
-          <strong style={{ color: 'var(--text-primary)', fontWeight: 600 }}>Optimal Posture:</strong> Driver attentiveness and ocular tracking are within nominal parameters.
+        <span style={{ fontSize: '0.84rem', color: '#9FA4B0', fontFamily: 'var(--font-sans)' }}>
+          <strong style={{ color: '#FFFFFF', fontWeight: 600 }}>Optimal Posture:</strong> Driver attentiveness and ocular tracking are within nominal parameters.
         </span>
       </div>
       <span
         style={{
           fontFamily: 'var(--font-mono)',
           fontSize: '0.68rem',
-          color: '#2E7D32',
-          backgroundColor: '#ECFDF5',
-          border: '1px solid rgba(46, 125, 50, 0.2)',
+          color: '#10B981',
+          backgroundColor: 'rgba(16, 185, 129, 0.1)',
+          border: '1px solid rgba(16, 185, 129, 0.25)',
           padding: '0.2rem 0.65rem',
-          borderRadius: '9999px',
+          borderRadius: '4px',
           fontWeight: 600,
           letterSpacing: '0.06em',
         }}

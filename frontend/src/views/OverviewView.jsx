@@ -22,17 +22,19 @@ import {
   Cpu,
   Gauge,
   ChevronRight,
-  ChevronLeft,
   Sparkles,
   Award,
   Layers,
   Zap,
+  Terminal,
 } from 'lucide-react';
 
 /**
- * OverviewView Component — Luxury Editorial & Interactive Automotive Experience
- * Blending the prestige of Explora Journeys, the avant-garde minimalism of NOMU,
- * and the chapter-based interactive storytelling of Decathlon Yestalgia.
+ * OverviewView Component
+ * High-End Industrial & Engineering Architecture Overview
+ * Primary Reference: SSTR (https://sstr.tech/en/) — Awwwards Site of the Day (SOTD) & Developer Award
+ * Strict modular grid, SSTR Electric Safety Orange (#FE5B2A), 3D spatial kinematics,
+ * and high-contrast hardware telemetry.
  */
 export default function OverviewView({
   telemetryData = {},
@@ -63,51 +65,51 @@ export default function OverviewView({
 
   const isLive = isSimMode || (isEngineConnected && isMonitoring);
 
-  // NOMU-inspired perspective switcher: 0 = Cockpit, 1 = Chassis, 2 = 3D Neural Hologram
+  // SSTR perspective switcher: 0 = Cabin Vision, 1 = Chassis Dynamics, 2 = 3D Spatial Hologram
   const [activePerspective, setActivePerspective] = useState(0);
 
   const perspectives = [
     {
       id: 'cockpit',
       num: '01',
-      tabLabel: 'Cabin Vision',
-      title: 'Driver-Facing Optical Vision',
-      subtitle: 'Interior perspective aligned to driver head pose and palpebral aperture tracking',
+      tabLabel: 'CABIN SENSING',
+      title: 'DRIVER-FACING OPTICAL INFERENCE',
+      subtitle: 'Interior optical axis calibrated to driver gaze vector and palpebral aperture tracking',
       image: '/images/cockpit-driver.jpg',
       fallback: 'https://images.unsplash.com/photo-1491921125492-f0b9c835b699?auto=format&fit=crop&w=1920&q=85',
-      tag: 'CABIN SENSING AXIS',
-      pin: { top: '22%', left: '72%', text: 'Driver Monitoring Vision // 30 FPS' },
+      tag: 'AXIS // CABIN_01',
+      spec: '468 FACIAL MESH NODES // SUB-15MS LATENCY',
     },
     {
       id: 'vehicle',
       num: '02',
-      tabLabel: 'Chassis Form',
-      title: 'Intelligent Aerodynamic Form',
-      subtitle: 'Pristine exhibition showroom context demonstrating zero cloud intrusion',
+      tabLabel: 'CHASSIS TELEMETRY',
+      title: 'AERODYNAMIC EDGE PLATFORM',
+      subtitle: 'Self-contained on-device architecture operating with zero external cloud transmission',
       image: '/images/hero-car.jpg',
       fallback: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=1920&q=85',
-      tag: 'CHASSIS DYNAMICS',
-      pin: { top: '34%', left: '46%', text: 'Sensor Integration // 468 Landmark Mesh' },
+      tag: 'CHASSIS // EDGE_NODE',
+      spec: 'AIR-GAPPED SQLITE VAULT // 100% PRIVATE',
     },
     {
       id: 'hologram',
       num: '03',
-      tabLabel: '3D Neural Mesh',
-      title: 'Interactive 3D Driver Hologram',
-      subtitle: 'Real-time Three.js spatial telemetry reacting dynamically to head rotation and eyelids',
+      tabLabel: '3D SPATIAL KINEMATICS',
+      title: 'INTERACTIVE 3D CRANIAL MESH',
+      subtitle: 'Real-time Three.js spatial telemetry reacting dynamically to physical head rotation and eyelids',
       is3D: true,
-      tag: 'SPATIAL TELEMETRY',
-      pin: { top: '50%', left: '50%', text: 'Live Spatial Head Pose Kinematics' },
+      tag: 'KINEMATICS // 3D_PnP',
+      spec: '6-DOF LEVENBERG-MARQUARDT POSE ESTIMATION',
     },
   ];
 
   const currentView = perspectives[activePerspective];
 
-  // Interactive state machine demo trigger (Decathlon Yestalgia interactive storytelling)
+  // Interactive Scenario Simulator state
   const [simActiveState, setSimActiveState] = useState('NOMINAL');
 
   return (
-    <div className="dg-overview-wrapper">
+    <div className="sstr-overview-container sstr-grid-bg">
       {/* Editorial Safety Alert Banner */}
       <AlertBanner
         alertState={riskLevel}
@@ -119,1817 +121,1151 @@ export default function OverviewView({
       />
 
       {/* ===================================================================== */}
-      {/* SECTION A: GRAND CINEMATIC HERO (EXPLORA JOURNEYS + NOMU DOCK)         */}
+      {/* SECTION A: SSTR HERO // INDUSTRIAL ENGINEERING MASTHEAD               */}
       {/* ===================================================================== */}
-      <section className="dg-hero-section">
-        {/* Editorial Masthead Eyebrow */}
-        <div className="dg-masthead-eyebrow cinematic-fade-in">
-          <div className="dg-stamp-badge">
-            <span className="dg-stamp-dot" />
-            <span>VOLUME 2026 // ISSUE IV</span>
-          </div>
-          <span className="dg-masthead-divider">•</span>
-          <span className="dg-masthead-category">EDGE COMPUTER VISION ARCHITECTURE</span>
-          <span className="dg-masthead-divider">•</span>
-          <span className="dg-masthead-status">
-            {isLive ? 'LIVE OPTICAL ENGINE RUNNING' : 'SYSTEM CALIBRATED // STANDBY'}
+      <section className="sstr-hero-section">
+        {/* Technical Header Line */}
+        <div className="sstr-hero-meta animate-sstr-fade-in">
+          <span className="sstr-tag">SYSTEM ARCHITECTURE // SPEC.01</span>
+          <span className="sstr-meta-divider">|</span>
+          <span className="sstr-meta-item">ZERO-LATENCY EDGE VISION</span>
+          <span className="sstr-meta-divider">|</span>
+          <span className="sstr-meta-status">
+            {isLive ? 'STATUS: ENGINE ONLINE (30 FPS)' : 'STATUS: HARDWARE STANDBY'}
           </span>
         </div>
 
-        {/* Master Editorial Title (Playfair Serif + Syne Modern Sans) */}
-        <div className="dg-hero-title-container hero-headline-reveal">
-          <span className="dg-hero-pre-title">THE ARCHITECTURE OF VIGILANCE</span>
-          <h1 className="dg-hero-title">
-            Where machine intelligence meets human intuition on the open road.
+        {/* Massive SSTR Engineering Headline */}
+        <div className="sstr-hero-headline-block animate-sstr-headline">
+          <h1 className="sstr-hero-title">
+            FRICTIONLESS <br />
+            <span className="sstr-title-accent">DRIVER VIGILANCE.</span>
           </h1>
-          <p className="dg-hero-subtitle">
-            A bespoke on-device driver attentiveness system powered by sub-15ms facial landmark geometry.
-            Non-intrusive, zero cloud transmission, preserving privacy and life.
+          <p className="sstr-hero-description">
+            High-performance edge computer vision engineered for autonomous driver attentiveness,
+            micro-sleep suppression, and non-intrusive 468-point spatial facial landmark kinematics.
           </p>
         </div>
 
-        {/* Primary Interaction Buttons (Tactile Luxury Deck) */}
-        <div className="dg-hero-actions-deck cinematic-fade-in">
-          {!isMonitoring && onStartMonitoring ? (
-            <button onClick={onStartMonitoring} className="dg-hero-cta-primary">
-              <Play size={13} fill="currentColor" />
-              <span>START MONITORING</span>
-              <span className="dg-cta-badge">ENGINE</span>
-            </button>
-          ) : (
-            <button onClick={onNavigateToMonitor} className="dg-hero-cta-primary">
-              <Camera size={14} />
-              <span>ENTER COCKPIT HUD</span>
-              <ArrowRight size={13} />
-            </button>
-          )}
-
-          <button onClick={onNavigateToMonitor} className="dg-hero-cta-secondary">
-            <span>INSPECT OPTICAL STREAM</span>
-            <ArrowUpRight size={14} />
-          </button>
-        </div>
-
-        {/* Centerpiece Visual Exhibit: 3-Way Perspective Canvas (Chassis, Cabin, 3D Three.js) */}
-        <div className="dg-hero-canvas-frame hero-image-reveal">
-          {/* Top Gallery Header Bar */}
-          <div className="dg-canvas-top-bar">
-            <div className="dg-canvas-tag">
-              <span className="dg-tag-accent" />
-              <span>{currentView.tag}</span>
-            </div>
-
-            {/* NOMU Segmented Perspective Switcher */}
-            <div className="dg-perspective-dock">
+        {/* Hero Interactive Viewport Frame */}
+        <div className="sstr-hero-viewport sstr-reticle">
+          {/* Top Viewport Navigation Bar */}
+          <div className="sstr-viewport-bar">
+            <div className="sstr-perspective-switcher">
               {perspectives.map((p, idx) => (
                 <button
                   key={p.id}
                   onClick={() => setActivePerspective(idx)}
-                  className={`dg-perspective-btn ${activePerspective === idx ? 'active' : ''}`}
+                  className={`sstr-perspective-tab ${activePerspective === idx ? 'active' : ''}`}
                 >
-                  <span className="dg-perspective-num">{p.num}</span>
-                  <span className="dg-perspective-label">{p.tabLabel}</span>
+                  <span className="sstr-p-num">{p.num}</span>
+                  <span className="sstr-p-label">{p.tabLabel}</span>
                 </button>
               ))}
             </div>
 
-            <div className="dg-canvas-coords">
-              <span>LAT 45.4642° N</span>
-              <span>//</span>
-              <span>LON 9.1900° E</span>
+            <div className="sstr-viewport-telemetry">
+              <span className="sstr-telemetry-item">TOLERANCE: ±0.02°</span>
+              <span className="sstr-telemetry-item">LATENCY: {latencyMs > 0 ? `${latencyMs}ms` : '12ms'}</span>
             </div>
           </div>
 
-          {/* Visual Display: Either 3D Three.js Hologram or High-Res Editorial Photography */}
-          <div className="dg-canvas-viewport">
+          {/* Active Visual Screen */}
+          <div className="sstr-viewport-screen">
             {currentView.is3D ? (
-              <div className="dg-three-container">
-                <InteractiveCockpit3D
-                  telemetryData={telemetryData}
-                  isMonitoring={isMonitoring}
-                  height="clamp(380px, 52vw, 560px)"
-                  theme="light"
-                />
-                <div className="dg-3d-hint">
-                  <Sparkles size={12} color="var(--color-gold)" />
-                  <span>INTERACTIVE THREE.JS SCENE • DRAG MOUSE TO ROTATE ORBIT</span>
-                </div>
-              </div>
+              <InteractiveCockpit3D
+                telemetryData={telemetryData}
+                isMonitoring={isMonitoring}
+                height="clamp(380px, 50vw, 560px)"
+                theme="dark"
+              />
             ) : (
-              <div className="dg-image-container zoom-container">
+              <div className="sstr-image-stage">
                 <img
-                  key={currentView.id}
                   src={currentView.image}
                   alt={currentView.title}
-                  className="dg-hero-image"
                   onError={(e) => {
                     e.currentTarget.src = currentView.fallback;
                   }}
+                  className="sstr-stage-img"
                 />
-
-                {/* Hotspot Sensor Callout */}
-                <div
-                  className="dg-sensor-hotspot"
-                  style={{ top: currentView.pin.top, left: currentView.pin.left }}
-                >
-                  <span className="dg-hotspot-beacon" />
-                  <span className="dg-hotspot-text">{currentView.pin.text}</span>
+                <div className="sstr-stage-gradient" />
+                <div className="sstr-stage-overlay-specs">
+                  <span className="sstr-stage-tag">{currentView.tag}</span>
+                  <h3 className="sstr-stage-title">{currentView.title}</h3>
+                  <p className="sstr-stage-desc">{currentView.subtitle}</p>
+                  <div className="sstr-stage-badge">
+                    <Activity size={12} color="#FE5B2A" />
+                    <span>{currentView.spec}</span>
+                  </div>
                 </div>
               </div>
             )}
-
-            {/* Subtle Vignette & Frame Brackets */}
-            <div className="dg-canvas-bracket top-left">┌</div>
-            <div className="dg-canvas-bracket top-right">┐</div>
-            <div className="dg-canvas-bracket bottom-left">└</div>
-            <div className="dg-canvas-bracket bottom-right">┘</div>
-
-            {/* Nav Arrows */}
-            <button
-              onClick={() => setActivePerspective((prev) => (prev === 0 ? perspectives.length - 1 : prev - 1))}
-              className="dg-canvas-arrow left"
-              aria-label="Previous Perspective"
-            >
-              <ChevronLeft size={16} />
-            </button>
-            <button
-              onClick={() => setActivePerspective((prev) => (prev === perspectives.length - 1 ? 0 : prev + 1))}
-              className="dg-canvas-arrow right"
-              aria-label="Next Perspective"
-            >
-              <ChevronRight size={16} />
-            </button>
-          </div>
-
-          {/* Bottom Exhibition Caption Footer */}
-          <div className="dg-canvas-caption-bar">
-            <div>
-              <h3 className="dg-caption-title">{currentView.title}</h3>
-              <p className="dg-caption-desc">{currentView.subtitle}</p>
-            </div>
-            <div className="dg-caption-specs">
-              <span className="dg-spec-item">
-                <strong>468</strong> NODES MESH
-              </span>
-              <span className="dg-spec-divider">|</span>
-              <span className="dg-spec-item">
-                <strong>{fps > 0 ? `${fps} FPS` : '30 FPS'}</strong> INFERENCE
-              </span>
-              <span className="dg-spec-divider">|</span>
-              <span className="dg-spec-item">
-                <strong>100%</strong> LOCAL PRIVACY
-              </span>
-            </div>
           </div>
         </div>
 
-        {/* NOMU Animated Continuous Telemetry Ticker Ribbon */}
-        <div className="dg-marquee-container">
-          <div className="dg-marquee-content animate-ticker">
-            <span>EAR METRIC: {ear.toFixed(2)}</span>
-            <span className="ticker-dot">•</span>
-            <span>MOUTH MAR: {mar.toFixed(2)}</span>
-            <span className="ticker-dot">•</span>
-            <span>HEAD YAW: {headYaw.toFixed(1)}°</span>
-            <span className="ticker-dot">•</span>
-            <span>PITCH: {headPitch.toFixed(1)}°</span>
-            <span className="ticker-dot">•</span>
-            <span>ROLL: {headRoll.toFixed(1)}°</span>
-            <span className="ticker-dot">•</span>
-            <span>PERCLOS OCULAR: {perclos.toFixed(1)}%</span>
-            <span className="ticker-dot">•</span>
-            <span>FACIAL LANDMARK MESH: 468 VECTORS</span>
-            <span className="ticker-dot">•</span>
-            <span>LATENCY: {latencyMs > 0 ? `${latencyMs}MS` : '12MS'}</span>
-            <span className="ticker-dot">•</span>
-            <span>STATUS: {isLive ? 'STREAMING ACTIVE' : 'CALIBRATED'}</span>
-            <span className="ticker-dot">•</span>
-            {/* Duplicate for seamless looping */}
-            <span>EAR METRIC: {ear.toFixed(2)}</span>
-            <span className="ticker-dot">•</span>
-            <span>MOUTH MAR: {mar.toFixed(2)}</span>
-            <span className="ticker-dot">•</span>
-            <span>HEAD YAW: {headYaw.toFixed(1)}°</span>
-            <span className="ticker-dot">•</span>
-            <span>PITCH: {headPitch.toFixed(1)}°</span>
-            <span className="ticker-dot">•</span>
-            <span>ROLL: {headRoll.toFixed(1)}°</span>
-            <span className="ticker-dot">•</span>
-            <span>PERCLOS OCULAR: {perclos.toFixed(1)}%</span>
-            <span className="ticker-dot">•</span>
-            <span>FACIAL LANDMARK MESH: 468 VECTORS</span>
-            <span className="ticker-dot">•</span>
-            <span>LATENCY: {latencyMs > 0 ? `${latencyMs}MS` : '12MS'}</span>
-            <span className="ticker-dot">•</span>
-          </div>
-        </div>
-      </section>
-
-      {/* ===================================================================== */}
-      {/* CHAPTER 01: THE TEMPORAL HAZARD (EXPLORA JOURNEYS EDITORIAL SPREAD)   */}
-      {/* ===================================================================== */}
-      <section className="dg-editorial-spread-section">
-        <div className="dg-spread-container">
-          <div className="dg-spread-grid">
-            {/* Left Column: Bold Narrative & Critical Metrics */}
-            <div className="dg-spread-narrative">
-              <div className="dg-chapter-eyebrow">
-                <span className="dg-chapter-num">CHAPTER 01</span>
-                <span className="dg-chapter-line" />
-                <span className="dg-chapter-tag">THE TEMPORAL MARGIN</span>
-              </div>
-
-              <h2 className="dg-spread-headline">
-                In 1.8 seconds at 100 km/h, a vehicle travels 50 meters blind.
-              </h2>
-
-              <p className="dg-spread-body">
-                Fatigue and cognitive distraction are rarely instantaneous catastrophes. They manifest as subtle,
-                measurable micro-alterations in palpebral aperture velocity and persistent cranial pitch deviation.
-                By the time human conscious awareness registers a lapse, critical braking margins have already vanished.
-              </p>
-
-              {/* 3 Precision Technical Benchmarks */}
-              <div className="dg-benchmarks-grid">
-                <div className="dg-benchmark-card">
-                  <span className="dg-bm-num">01 // PHYSIOLOGICAL</span>
-                  <span className="dg-bm-value">120 ms</span>
-                  <span className="dg-bm-desc">Filtered nominal involuntary blink</span>
-                </div>
-
-                <div className="dg-benchmark-card warning">
-                  <span className="dg-bm-num">02 // CAUTION GATE</span>
-                  <span className="dg-bm-value">1.00 s</span>
-                  <span className="dg-bm-desc">Subtle acoustic warn threshold</span>
-                </div>
-
-                <div className="dg-benchmark-card critical">
-                  <span className="dg-bm-num">03 // CRITICAL EMERGENCY</span>
-                  <span className="dg-bm-value">1.80 s</span>
-                  <span className="dg-bm-desc">Emergency acoustic tone & incident tag</span>
-                </div>
-              </div>
+        {/* Continuous Mechanical Telemetry Ticker Marquee */}
+        <div className="sstr-ticker-wrap">
+          <div className="animate-ticker">
+            <div className="sstr-ticker-track">
+              <span>SYS // DRIVEGUARD.AI</span>
+              <span>•</span>
+              <span>MEDIAPIPE 468-POINT MESH</span>
+              <span>•</span>
+              <span>LATENCY &lt; 15MS</span>
+              <span>•</span>
+              <span>PALPEBRAL EAR TOLERANCE 0.22</span>
+              <span>•</span>
+              <span>6-DOF LEVENBERG-MARQUARDT POSE</span>
+              <span>•</span>
+              <span>MOUTH MAR THRESHOLD 0.55</span>
+              <span>•</span>
+              <span>SQLITE PERSISTENT AUDIT VAULT</span>
+              <span>•</span>
+              <span>ZERO EXTERNAL CLOUD TELEMETRY</span>
+              <span>•</span>
+              <span>ISO-26262 ROAD COMPLIANCE</span>
+              <span>•</span>
             </div>
-
-            {/* Right Column: High-Impact Atmospheric Editorial Image */}
-            <div className="dg-spread-media-col">
-              <div className="dg-spread-image-card zoom-container">
-                <img
-                  src="/images/problem-car.jpg"
-                  alt="Atmospheric vehicle perspective on dusk motorway"
-                  className="dg-spread-img"
-                  onError={(e) => {
-                    e.currentTarget.src =
-                      'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1920&q=85';
-                  }}
-                />
-                <div className="dg-spread-badge">
-                  <span>FIG. 01 // KINEMATIC DANGER ENVELOPE</span>
-                  <span className="dg-spread-badge-sub">VELOCITY 100 KM/H • NIGHTTIME ROAD ENVELOPE</span>
-                </div>
-              </div>
+            <div className="sstr-ticker-track" aria-hidden="true">
+              <span>SYS // DRIVEGUARD.AI</span>
+              <span>•</span>
+              <span>MEDIAPIPE 468-POINT MESH</span>
+              <span>•</span>
+              <span>LATENCY &lt; 15MS</span>
+              <span>•</span>
+              <span>PALPEBRAL EAR TOLERANCE 0.22</span>
+              <span>•</span>
+              <span>6-DOF LEVENBERG-MARQUARDT POSE</span>
+              <span>•</span>
+              <span>MOUTH MAR THRESHOLD 0.55</span>
+              <span>•</span>
+              <span>SQLITE PERSISTENT AUDIT VAULT</span>
+              <span>•</span>
+              <span>ZERO EXTERNAL CLOUD TELEMETRY</span>
+              <span>•</span>
+              <span>ISO-26262 ROAD COMPLIANCE</span>
+              <span>•</span>
             </div>
           </div>
         </div>
       </section>
 
       {/* ===================================================================== */}
-      {/* CHAPTER 02: REAL-TIME SENSING HUD (LUXURY WARM CHAMPAGNE INSTRUMENT)  */}
+      {/* SECTION 01 // THE TEMPORAL MARGIN (THE CRITICAL ENGINEERING PROBLEM)  */}
       {/* ===================================================================== */}
-      <section className="dg-hud-chapter-section section-c-hud">
-        <div className="dg-hud-container">
-          <div className="dg-hud-header-row">
-            <div>
-              <div className="dg-chapter-eyebrow" style={{ color: '#A77B5A' }}>
-                <span className="dg-chapter-num" style={{ color: '#8B7565' }}>CHAPTER 02</span>
-                <span className="dg-chapter-line" style={{ backgroundColor: '#D1B198' }} />
-                <span className="dg-chapter-tag" style={{ color: '#8B7565' }}>NEURAL COCKPIT INSTRUMENT</span>
-              </div>
-              <h2 className="dg-hud-headline">Optical Telemetry HUD.</h2>
-              <p className="dg-hud-subtext">
-                Live facial landmark telemetry stream processed directly on your silicon. Zero network latency,
-                100% offline privacy, and mathematical Euclidean precision.
-              </p>
-            </div>
-
-            <div className="dg-hud-actions">
-              <button
-                onClick={onToggleMonitoring}
-                className="dg-hud-btn"
-              >
-                {isMonitoring ? (
-                  <>
-                    <Square size={12} fill="currentColor" />
-                    <span>HALT MONITORING</span>
-                  </>
-                ) : (
-                  <>
-                    <Play size={12} fill="currentColor" />
-                    <span>START SENSING</span>
-                  </>
-                )}
-              </button>
-
-              <button onClick={onNavigateToMonitor} className="dg-hud-btn-outline">
-                <span>FULL COCKPIT VIEW</span>
-                <ArrowRight size={13} />
-              </button>
-            </div>
-          </div>
-
-          {/* Main Cockpit Split Grid */}
-          <div className="dg-hud-grid">
-            {/* Left: Video Viewport / Standby Calibration Canvas */}
-            <div className="dg-hud-viewport-card">
-              <div className="dg-hud-viewport-bar">
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <Camera size={14} color="#756052" />
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', fontWeight: 600, color: '#382C27' }}>
-                    OPTICAL CAM_01 // 640x480 RAW STREAM
-                  </span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <span
-                    style={{
-                      width: '6px',
-                      height: '6px',
-                      borderRadius: '50%',
-                      backgroundColor: isLive ? '#10B981' : '#8B7565',
-                    }}
-                    className={isLive ? 'telemetry-pulse' : ''}
-                  />
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: '#756052' }}>
-                    {isEngineConnected ? (isMonitoring ? `${fps} FPS ACTIVE` : 'STANDBY') : 'AWAITING ENGINE'}
-                  </span>
-                </div>
-              </div>
-
-              <div className="dg-hud-viewport-body">
-                {isEngineConnected && isMonitoring ? (
-                  <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: '340px' }}>
-                    <img
-                      src="http://localhost:8000/video_feed"
-                      alt="Live Optical Telemetry Stream"
-                      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none';
-                      }}
-                    />
-                  </div>
-                ) : (
-                  <div className="dg-hud-calib-canvas">
-                    <DriverIllustration state={riskLevel} size={200} animated={true} />
-                    <div className="dg-hud-calib-copy">
-                      <h4 className="dg-calib-title">
-                        {isSimMode ? 'Simulation Test Harness Active' : 'Waiting for Python Optical Pipeline'}
-                      </h4>
-                      <p className="dg-calib-desc">
-                        {isSimMode
-                          ? 'Simulated driver events are currently driving the risk gauge and acoustic warnings.'
-                          : 'To stream your webcam through the MediaPipe neural detection pipeline, start the Python engine:'}
-                      </p>
-                      {!isSimMode && (
-                        <code className="dg-code-pill">
-                          python run_production_bridge.py
-                        </code>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Right: Real-time Telemetry Metrics & Dial */}
-            <div className="dg-hud-metrics-card">
-              <div className="dg-hud-gauge-wrap">
-                <RiskGauge score={riskScore} state={riskLevel} size={180} />
-              </div>
-
-              {/* 4 Precision Gauges */}
-              <div className="dg-hud-telemetry-boxes">
-                <div className="dg-hud-box">
-                  <span className="dg-box-label">EAR (EYE APERTURE)</span>
-                  <span className="dg-box-val">{ear.toFixed(2)}</span>
-                  <span className="dg-box-sub">{ear < 0.22 ? 'FATIGUE DETECTED' : 'NOMINAL > 0.22'}</span>
-                </div>
-
-                <div className="dg-hud-box">
-                  <span className="dg-box-label">MAR (MOUTH EXCURSION)</span>
-                  <span className="dg-box-val">{mar.toFixed(2)}</span>
-                  <span className="dg-box-sub">{mar > 0.55 ? 'YAWNING ACTIVE' : 'NOMINAL < 0.55'}</span>
-                </div>
-
-                <div className="dg-hud-box">
-                  <span className="dg-box-label">HEAD YAW (LATERAL)</span>
-                  <span className="dg-box-val">{headYaw > 0 ? `+${headYaw.toFixed(1)}°` : `${headYaw.toFixed(1)}°`}</span>
-                  <span className="dg-box-sub">CENTERED DRIVING CONE</span>
-                </div>
-
-                <div className="dg-hud-box">
-                  <span className="dg-box-label">HEAD PITCH (DOWNWARD)</span>
-                  <span className="dg-box-val">{headPitch.toFixed(1)}°</span>
-                  <span className="dg-box-sub">{headPitch < -16 ? 'PHONE GLANCE HAZARD' : 'ROAD FOCUS'}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ===================================================================== */}
-      {/* CHAPTER 03: EARLY DETECTION TAXONOMY (DECATHLON RETRO-TECH CARDS)     */}
-      {/* ===================================================================== */}
-      <section className="dg-taxonomy-section">
-        <div className="dg-container">
-          <div className="dg-section-header-split">
-            <div>
-              <div className="dg-chapter-eyebrow">
-                <span className="dg-chapter-num">CHAPTER 03</span>
-                <span className="dg-chapter-line" />
-                <span className="dg-chapter-tag">EARLY BIOMETRIC INTERVENTION</span>
-              </div>
-              <h2 className="dg-section-headline">Detection Taxonomy.</h2>
-              <p className="dg-section-sub">
-                Three discrete physiological markers isolating fatigue from natural road behavior.
-              </p>
-            </div>
-
-            <button
-              onClick={onToggleSimMode}
-              className="dg-btn-subtle"
-            >
-              <Sliders size={13} />
-              <span>{isSimMode ? 'EXIT DIAGNOSTIC HARNESS' : 'TOGGLE TEST HARNESS'}</span>
-            </button>
-          </div>
-
-          <div className="dg-cards-triad">
-            {/* Card 01: Palpebral Closure */}
-            <div className="dg-spec-card">
-              <div className="dg-spec-top">
-                <span className="dg-spec-tag">SPEC. 01 // OCULAR</span>
-                <Eye size={18} color="var(--text-primary)" />
-              </div>
-              <h3 className="dg-spec-title">Prolonged Palpebral Aperture Closure</h3>
-              <p className="dg-spec-body">
-                Continuous measurement of upper-to-lower eyelid Euclidean separation. Eliminates nominal 120ms
-                involuntary blinks; escalates from warning at 1.0s to critical acoustic intervention at 1.8s.
-              </p>
-              <div className="dg-spec-footer">
-                <div>
-                  <span className="dg-spec-lbl">WARN ESCALATION</span>
-                  <span className="dg-spec-metric">1.00 s</span>
-                </div>
-                <div>
-                  <span className="dg-spec-lbl">CRITICAL STOP</span>
-                  <span className="dg-spec-metric accent-red">1.80 s</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 02: Head Pose */}
-            <div className="dg-spec-card">
-              <div className="dg-spec-top">
-                <span className="dg-spec-tag">SPEC. 02 // KINEMATICS</span>
-                <Compass size={18} color="var(--text-primary)" />
-              </div>
-              <h3 className="dg-spec-title">3D Head Pose &amp; Downward Glance</h3>
-              <p className="dg-spec-body">
-                Perspective-n-Point facial geometry isolates center-console and phone gaze (-16° pitch)
-                from true ocular drowsiness, preventing false fatigue triggers while flagging inattention.
-              </p>
-              <div className="dg-spec-footer">
-                <div>
-                  <span className="dg-spec-lbl">PITCH DOWNWARD</span>
-                  <span className="dg-spec-metric">&lt; -16.0°</span>
-                </div>
-                <div>
-                  <span className="dg-spec-lbl">LATERAL DIVERSION</span>
-                  <span className="dg-spec-metric">&gt; 24.0°</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 03: Yawn Expansion */}
-            <div className="dg-spec-card">
-              <div className="dg-spec-top">
-                <span className="dg-spec-tag">SPEC. 03 // PALATAL</span>
-                <Activity size={18} color="var(--text-primary)" />
-              </div>
-              <h3 className="dg-spec-title">Sustained Yawning &amp; Aperture Velocity</h3>
-              <p className="dg-spec-body">
-                Mouth Aspect Ratio (MAR) computes vertical lip excursion against oral width.
-                Distinguishes conversation and vocal articulation from prolonged yawning fatigue excursions.
-              </p>
-              <div className="dg-spec-footer">
-                <div>
-                  <span className="dg-spec-lbl">YAWN THRESHOLD</span>
-                  <span className="dg-spec-metric">&gt; 0.55</span>
-                </div>
-                <div>
-                  <span className="dg-spec-lbl">TEMPORAL GATE</span>
-                  <span className="dg-spec-metric">1.20 s</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ===================================================================== */}
-      {/* CHAPTER 04: RISK ESCALATION STATE MACHINE (INTERACTIVE STORYTELLING)  */}
-      {/* ===================================================================== */}
-      <section className="dg-state-machine-section">
-        <div className="dg-container">
-          <div className="dg-state-machine-header">
-            <div>
-              <div className="dg-chapter-eyebrow">
-                <span className="dg-chapter-num">CHAPTER 04</span>
-                <span className="dg-chapter-line" />
-                <span className="dg-chapter-tag">ALGORITHMIC ATTENTIVENESS PROGRESSION</span>
-              </div>
-              <h2 className="dg-section-headline">Precision Risk Escalation.</h2>
-              <p className="dg-section-sub">
-                DriveGuard implements an algorithmic state machine that debounces momentary fluctuations
-                and ensures acoustic warnings match true physical urgency.
-              </p>
-            </div>
-
-            {/* Decathlon Yestalgia Interactive Incident Simulator Controls */}
-            <div className="dg-sim-triggers-deck">
-              <span className="dg-sim-deck-title">INTERACTIVE SCENARIO SIMULATOR:</span>
-              <div className="dg-sim-buttons-row">
-                <button
-                  onClick={() => setSimActiveState('NOMINAL')}
-                  className={`dg-sim-pill ${simActiveState === 'NOMINAL' ? 'active' : ''}`}
-                >
-                  <CheckCircle size={12} color="#10B981" />
-                  <span>01 Nominal</span>
-                </button>
-                <button
-                  onClick={() => setSimActiveState('WARNING')}
-                  className={`dg-sim-pill ${simActiveState === 'WARNING' ? 'active' : ''}`}
-                >
-                  <AlertTriangle size={12} color="#D97706" />
-                  <span>02 Yawn Caution</span>
-                </button>
-                <button
-                  onClick={() => setSimActiveState('CRITICAL')}
-                  className={`dg-sim-pill ${simActiveState === 'CRITICAL' ? 'active' : ''}`}
-                >
-                  <AlertTriangle size={12} color="#E84B32" />
-                  <span>03 Micro-Sleep</span>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div className="dg-stages-grid">
-            {/* Stage 01: Nominal */}
-            <div className={`dg-stage-card ${simActiveState === 'NOMINAL' ? 'highlighted' : ''}`}>
-              <div className="dg-stage-top">
-                <span className="dg-stage-badge nominal">STAGE 01 // NOMINAL</span>
-                <CheckCircle size={16} color="#10B981" />
-              </div>
-              <div className="dg-stage-score">0% – 34%</div>
-              <p className="dg-stage-desc">
-                Eyes open (EAR &gt; 0.22), natural periodic blinks (120ms). Cranial orientation centered within driving cone.
-                Silent background monitoring.
-              </p>
-              <div className="dg-stage-audio-tag">
-                <span className="dg-audio-dot green" />
-                <span>SILENT TELEMETRY RUN</span>
-              </div>
-            </div>
-
-            {/* Stage 02: Warning */}
-            <div className={`dg-stage-card ${simActiveState === 'WARNING' ? 'highlighted-warning' : ''}`}>
-              <div className="dg-stage-top">
-                <span className="dg-stage-badge warning">STAGE 02 // WARNING</span>
-                <AlertTriangle size={16} color="#D97706" />
-              </div>
-              <div className="dg-stage-score" style={{ color: '#D97706' }}>35% – 69%</div>
-              <p className="dg-stage-desc">
-                Debounced threshold exceeded (&gt;1.0s eye closure or &gt;1.2s sustained yawn). Emits double-pulse acoustic chime at 587 Hz.
-              </p>
-              <div className="dg-stage-audio-tag">
-                <span className="dg-audio-dot amber" />
-                <span>587 HZ CHIME PULSE</span>
-              </div>
-            </div>
-
-            {/* Stage 03: Critical */}
-            <div className={`dg-stage-card ${simActiveState === 'CRITICAL' ? 'highlighted-critical' : ''}`}>
-              <div className="dg-stage-top">
-                <span className="dg-stage-badge critical">STAGE 03 // CRITICAL</span>
-                <AlertTriangle size={16} color="#E84B32" />
-              </div>
-              <div className="dg-stage-score" style={{ color: '#E84B32' }}>70% – 100%</div>
-              <p className="dg-stage-desc">
-                Prolonged micro-sleep (&gt;1.8s) or sustained downward distraction (&gt;4.5s). Loud emergency 880 Hz alarm with 3.5s cooldown recovery gate.
-              </p>
-              <div className="dg-stage-audio-tag">
-                <span className="dg-audio-dot red" />
-                <span>880 HZ CONTINUOUS ALARM</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ===================================================================== */}
-      {/* CHAPTER 05: AUDIT VAULT PREVIEW (EXPLORA JOURNEYS CERTIFIED LEDGER)   */}
-      {/* ===================================================================== */}
-      <section className="dg-vault-section">
-        <div className="dg-container">
-          <div className="dg-vault-card">
-            <div className="dg-vault-left">
-              <div className="dg-chapter-eyebrow">
-                <span className="dg-chapter-num">CHAPTER 05</span>
-                <span className="dg-chapter-line" />
-                <span className="dg-chapter-tag">CRYPTOGRAPHIC COMPLIANCE LEDGER</span>
-              </div>
-              <h2 className="dg-vault-headline">Deterministic Session Vault.</h2>
-              <p className="dg-vault-desc">
-                Every completed driving session is committed directly to SQLite database storage on your device.
-                Tamper-evident trip certificates, palpebral closure metrics, and verified safety standard grades.
-              </p>
-              <button onClick={onNavigateToMonitor} className="dg-vault-btn">
-                <span>INSPECT SESSION LEDGER</span>
-                <ArrowRight size={15} />
-              </button>
-            </div>
-
-            <div className="dg-vault-stats-grid">
-              <div className="dg-stat-box">
-                <span className="dg-stat-lbl">DATABASE INTEGRITY</span>
-                <span className="dg-stat-val">19 TRIPS</span>
-                <span className="dg-stat-sub">Persisted SQLite ledger</span>
-              </div>
-              <div className="dg-stat-box">
-                <span className="dg-stat-lbl">CLASSIFICATION ACCURACY</span>
-                <span className="dg-stat-val" style={{ color: '#10B981' }}>99.40%</span>
-                <span className="dg-stat-sub">MediaPipe facial landmark mesh</span>
-              </div>
-              <div className="dg-stat-box">
-                <span className="dg-stat-lbl">MINIMUM SESSION GATE</span>
-                <span className="dg-stat-val">5.0 SEC</span>
-                <span className="dg-stat-sub">Anti-toggle noise filter</span>
-              </div>
-              <div className="dg-stat-box">
-                <span className="dg-stat-lbl">FLEET COMPLIANCE</span>
-                <span className="dg-stat-val">GRADE A</span>
-                <span className="dg-stat-sub">Optimal driver standard</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ===================================================================== */}
-      {/* EPILOGUE: THE OPEN HORIZON CTA (DEEP RACING GREEN LUXURY EXPERIENCE) */}
-      {/* ===================================================================== */}
-      <section className="dg-final-cta-section">
-        <div className="dg-cta-backdrop">
-          <img
-            src="/images/cockpit-interior.jpg"
-            alt="Atmospheric luxury sports car cockpit"
-            className="dg-cta-bg-img"
-            onError={(e) => {
-              e.currentTarget.src =
-                'https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&w=1920&q=85';
-            }}
-          />
-          <div className="dg-cta-overlay" />
-        </div>
-
-        <div className="dg-cta-content">
-          <div className="dg-cta-stamp">
-            <span className="dg-stamp-dot red" />
-            <span>SYSTEM READY FOR DEPLOYMENT // ZERO INTRUSION</span>
-          </div>
-
-          <h2 className="dg-cta-heading">Elevate your awareness on every journey.</h2>
-
-          <p className="dg-cta-subtext">
-            Connect any standard USB or built-in laptop camera. Real-time computer-vision inference
-            begins immediately with sub-15ms temporal response.
+      <section className="sstr-section">
+        <div className="sstr-section-header">
+          <span className="sstr-tag">SECTION 01 // THE PROBLEM STATEMENT</span>
+          <h2 className="sstr-section-title">THE TEMPORAL DEFICIT.</h2>
+          <p className="sstr-section-desc">
+            At 100 km/h, a motor vehicle traverses 27.7 metres every second. Physiological fatigue
+            introduces irreversible latency into human perception-reaction cycles.
           </p>
+        </div>
 
-          <button onClick={onNavigateToMonitor} className="dg-cta-launch-btn">
-            <span>LAUNCH LIVE COCKPIT HUD</span>
-            <ArrowUpRight size={18} />
-          </button>
+        <div className="sstr-problem-grid">
+          {/* Card 1 */}
+          <div className="sstr-card sstr-reticle">
+            <div className="sstr-card-num">01 // LATENCY</div>
+            <h3 className="sstr-card-title">120ms Neural Ingestion</h3>
+            <p className="sstr-card-body">
+              Standard biological reflex threshold before motor cortex stimulus. Edge optical
+              inference tracks micro-tremors 8x faster than human realization.
+            </p>
+            <div className="sstr-card-stat">
+              <span className="sstr-stat-value">14ms</span>
+              <span className="sstr-stat-label">DRIVEGUARD AI INFERENCE</span>
+            </div>
+          </div>
+
+          {/* Card 2 */}
+          <div className="sstr-card sstr-reticle sstr-card-orange">
+            <div className="sstr-card-num">02 // MICROSLEEP</div>
+            <h3 className="sstr-card-title">1.0s Blind Distance</h3>
+            <p className="sstr-card-body">
+              At highway velocities, one second of sustained palpebral aperture closure translates
+              into 28 metres of unguided, zero-control kinetic travel.
+            </p>
+            <div className="sstr-card-stat">
+              <span className="sstr-stat-value">27.7m</span>
+              <span className="sstr-stat-label">BLIND TRAVEL IN 1.0 SEC</span>
+            </div>
+          </div>
+
+          {/* Card 3 */}
+          <div className="sstr-card sstr-reticle">
+            <div className="sstr-card-num">03 // CATASTROPHE</div>
+            <h3 className="sstr-card-title">1.8s Critical Braking Loss</h3>
+            <p className="sstr-card-body">
+              Without active acoustic intervention, distracted cranial orientation past 20 degrees
+              reduces available emergency stopping distance below survival margins.
+            </p>
+            <div className="sstr-card-stat">
+              <span className="sstr-stat-value">-64%</span>
+              <span className="sstr-stat-label">BRAKING MARGIN DEFICIT</span>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Scoped CSS Styles for Overview Luxury Editorial Experience */}
+      {/* ===================================================================== */}
+      {/* SECTION 02 // REAL-TIME OPTICAL COCKPIT HUD PREVIEW                   */}
+      {/* ===================================================================== */}
+      <section className="sstr-section">
+        <div className="sstr-section-header">
+          <span className="sstr-tag">SECTION 02 // OPTICAL HUD INSTRUMENTATION</span>
+          <h2 className="sstr-section-title">REAL-TIME TELEMETRY CLUSTER.</h2>
+          <p className="sstr-section-desc">
+            Direct interface into edge computer-vision tensors, dynamic attentiveness score,
+            and mathematical landmark ratios.
+          </p>
+        </div>
+
+        <div className="sstr-cockpit-split">
+          {/* Left: Viewport Live Frame */}
+          <div className="sstr-live-frame sstr-reticle">
+            <div className="sstr-frame-header">
+              <div className="sstr-frame-cam">
+                <Camera size={14} color="#FE5B2A" />
+                <span>CAM_01 // RAW OPTICAL STREAM</span>
+              </div>
+              <div className="sstr-frame-fps">
+                <span className="sstr-fps-dot" />
+                <span>{isLive ? `${fps || 30} FPS` : 'STANDBY'}</span>
+              </div>
+            </div>
+
+            <div className="sstr-frame-canvas">
+              <DriverIllustration state={riskLevel} size={220} animated={true} />
+              <div className="animate-laser-scan sstr-laser-beam" />
+            </div>
+
+            <div className="sstr-frame-footer">
+              <span>SENSOR: WEBCAM_HD (640x480)</span>
+              <span>EAR: {isLive ? ear.toFixed(2) : '0.33'} | MAR: {isLive ? mar.toFixed(2) : '0.12'}</span>
+            </div>
+          </div>
+
+          {/* Right: Technical Gauges & Controls */}
+          <div className="sstr-gauges-col">
+            <div className="sstr-card">
+              <span className="sstr-card-num">METRIC // DYNAMIC ATTENTIVENESS</span>
+              <div className="sstr-gauge-center">
+                <RiskGauge
+                  score={isLive ? riskScore : 0}
+                  level={isLive ? riskLevel : 'STANDBY'}
+                  isLive={isLive}
+                  size={180}
+                />
+              </div>
+            </div>
+
+            <div className="sstr-card">
+              <span className="sstr-card-num">TOLERANCE // CRANIAL ORIENTATION</span>
+              <div className="sstr-angles-grid">
+                <div className="sstr-angle-box">
+                  <span className="sstr-angle-lbl">PITCH</span>
+                  <span className="sstr-angle-val">{isLive ? `${headPitch.toFixed(1)}°` : '0.0°'}</span>
+                </div>
+                <div className="sstr-angle-box">
+                  <span className="sstr-angle-lbl">YAW</span>
+                  <span className="sstr-angle-val">{isLive ? `${headYaw.toFixed(1)}°` : '0.0°'}</span>
+                </div>
+                <div className="sstr-angle-box">
+                  <span className="sstr-angle-lbl">ROLL</span>
+                  <span className="sstr-angle-val">{isLive ? `${headRoll.toFixed(1)}°` : '0.0°'}</span>
+                </div>
+              </div>
+
+              <div style={{ marginTop: '1.25rem' }}>
+                <button
+                  onClick={onNavigateToMonitor}
+                  className="sstr-btn"
+                  style={{ width: '100%' }}
+                >
+                  <Activity size={13} />
+                  <span>LAUNCH FULL LIVE COCKPIT HUD</span>
+                  <ArrowRight size={13} />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===================================================================== */}
+      {/* SECTION 03 // MATHEMATICAL TAXONOMY & SENSOR FORMULATIONS            */}
+      {/* ===================================================================== */}
+      <section className="sstr-section">
+        <div className="sstr-section-header">
+          <span className="sstr-tag">SECTION 03 // ALGORITHMIC TAXONOMY</span>
+          <h2 className="sstr-section-title">THE MATHEMATICS OF DETECTION.</h2>
+          <p className="sstr-section-desc">
+            Deterministic geometry calculated across 468 discrete 3D landmark points. Zero black-box hallucination.
+          </p>
+        </div>
+
+        <div className="sstr-taxonomy-grid">
+          {/* Card 1: Palpebral Closure */}
+          <div className="sstr-card sstr-reticle">
+            <div className="sstr-card-top">
+              <Eye size={18} color="#FE5B2A" />
+              <span className="sstr-card-num">MOD // 01</span>
+            </div>
+            <h3 className="sstr-card-title">Eye Aspect Ratio (EAR)</h3>
+            <p className="sstr-card-body">
+              Calculates Euclidean distances between perpendicular eyelid coordinate pairs divided by
+              horizontal eye fissure span:
+            </p>
+            <code className="sstr-code-formula">
+              EAR = (||p2-p6|| + ||p3-p5||) / (2 * ||p1-p4||)
+            </code>
+            <div className="sstr-card-footer">
+              <span>CRITICAL LIMIT: &lt; 0.22</span>
+              <span>SUSTAINED: &gt; 1.0 SEC</span>
+            </div>
+          </div>
+
+          {/* Card 2: 3D Cranial Kinematics */}
+          <div className="sstr-card sstr-reticle">
+            <div className="sstr-card-top">
+              <Compass size={18} color="#FE5B2A" />
+              <span className="sstr-card-num">MOD // 02</span>
+            </div>
+            <h3 className="sstr-card-title">3D Cranial PnP Kinematics</h3>
+            <p className="sstr-card-body">
+              Maps 2D optical facial projections against a calibrated 3D anthropometric head model
+              using Perspective-n-Point iterative rotation matrices:
+            </p>
+            <code className="sstr-code-formula">
+              s · [u, v, 1]ᵀ = K · [R | t] · [X, Y, Z, 1]ᵀ
+            </code>
+            <div className="sstr-card-footer">
+              <span>DEVIATION LIMIT: &gt; 25°</span>
+              <span>DOWNTURN: &lt; -15°</span>
+            </div>
+          </div>
+
+          {/* Card 3: Mouth MAR Yawn */}
+          <div className="sstr-card sstr-reticle">
+            <div className="sstr-card-top">
+              <Gauge size={18} color="#FE5B2A" />
+              <span className="sstr-card-num">MOD // 03</span>
+            </div>
+            <h3 className="sstr-card-title">Mouth Aspect Ratio (MAR)</h3>
+            <p className="sstr-card-body">
+              Detects fatigue-induced yawning through continuous lip aperture tracking against
+              horizontal commissure width:
+            </p>
+            <code className="sstr-code-formula">
+              MAR = (||m2-m8|| + ||m4-m6||) / (2 * ||m1-m5||)
+            </code>
+            <div className="sstr-card-footer">
+              <span>WARNING THRESHOLD: &gt; 0.55</span>
+              <span>TRIGGER: &gt; 2.5 SEC</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===================================================================== */}
+      {/* SECTION 04 // DECATHLON / SSTR INTERACTIVE HARDWARE SIMULATION        */}
+      {/* ===================================================================== */}
+      <section className="sstr-section">
+        <div className="sstr-section-header">
+          <span className="sstr-tag">SECTION 04 // HARDWARE TEST DIAL</span>
+          <h2 className="sstr-section-title">INTERACTIVE TEST HARNESS.</h2>
+          <p className="sstr-section-desc">
+            Audit instantaneous reactivity across all safety states. Simulates acute microsleep,
+            lateral distraction, and nominal alertness.
+          </p>
+        </div>
+
+        <div className="sstr-sim-deck sstr-reticle">
+          <div className="sstr-deck-header">
+            <div className="sstr-deck-title">
+              <Sliders size={15} color="#FE5B2A" />
+              <span>TEST HARNESS SCENARIO DIAL</span>
+            </div>
+            <span className="sstr-deck-badge">AIR-GAPPED SIMULATION ENGINE</span>
+          </div>
+
+          <div className="sstr-scenarios-grid">
+            <button
+              onClick={() => {
+                setSimActiveState('NOMINAL');
+                onToggleSimMode?.();
+              }}
+              className={`sstr-scenario-btn ${simActiveState === 'NOMINAL' ? 'active' : ''}`}
+            >
+              <div className="sstr-scenario-tag">STATE 01 // NOMINAL</div>
+              <div className="sstr-scenario-name">Attentive Baseline</div>
+              <div className="sstr-scenario-spec">EAR 0.35 • MAR 0.12 • PITCH 0.5°</div>
+            </button>
+
+            <button
+              onClick={() => {
+                setSimActiveState('HEAD_DOWN');
+                onToggleSimMode?.();
+              }}
+              className={`sstr-scenario-btn ${simActiveState === 'HEAD_DOWN' ? 'active' : ''}`}
+            >
+              <div className="sstr-scenario-tag" style={{ color: '#F59E0B' }}>STATE 02 // DISTRACTION</div>
+              <div className="sstr-scenario-name">Head-Down Phone Gaze</div>
+              <div className="sstr-scenario-spec">PITCH -21.4° FOR 2.4s</div>
+            </button>
+
+            <button
+              onClick={() => {
+                setSimActiveState('WARNING');
+                onToggleSimMode?.();
+              }}
+              className={`sstr-scenario-btn ${simActiveState === 'WARNING' ? 'active' : ''}`}
+            >
+              <div className="sstr-scenario-tag" style={{ color: '#F59E0B' }}>STATE 03 // FATIGUE</div>
+              <div className="sstr-scenario-name">Sustained Yawn Onset</div>
+              <div className="sstr-scenario-spec">MAR 0.68 FOR 2.8s</div>
+            </button>
+
+            <button
+              onClick={() => {
+                setSimActiveState('CRITICAL');
+                onToggleSimMode?.();
+              }}
+              className={`sstr-scenario-btn ${simActiveState === 'CRITICAL' ? 'active' : ''}`}
+            >
+              <div className="sstr-scenario-tag" style={{ color: '#EF4444' }}>STATE 04 // CRITICAL</div>
+              <div className="sstr-scenario-name">Prolonged Microsleep</div>
+              <div className="sstr-scenario-spec">EAR 0.12 FOR 2.1s • HAZARD CHIME</div>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ===================================================================== */}
+      {/* SECTION 05 // PERSISTENT FLIGHT LEDGER (SQLITE AUDIT VAULT)           */}
+      {/* ===================================================================== */}
+      <section className="sstr-section">
+        <div className="sstr-section-header">
+          <span className="sstr-tag">SECTION 05 // SQLITE IMMUTABLE LEDGER</span>
+          <h2 className="sstr-section-title">THE FLIGHT AUDIT VAULT.</h2>
+          <p className="sstr-section-desc">
+            Every driving session exceeding 5 seconds is persistently certified into SQLite on your local machine.
+          </p>
+        </div>
+
+        <div className="sstr-ledger-card sstr-reticle">
+          <div className="sstr-ledger-header">
+            <div>
+              <span className="sstr-ledger-sub">PERSISTENT REPOSITORY // LOCALHOST:8000</span>
+              <h3 className="sstr-ledger-title">driveguard.db // CERTIFIED SAFETY SESSIONS</h3>
+            </div>
+            <div className="sstr-ledger-badge">
+              <Lock size={12} color="#10B981" />
+              <span>100% PRIVATE & ENCRYPTED</span>
+            </div>
+          </div>
+
+          <div className="sstr-ledger-specs-grid">
+            <div className="sstr-spec-item">
+              <span className="sstr-spec-lbl">STORAGE ENGINE</span>
+              <span className="sstr-spec-val">SQLite3 Local WAL</span>
+            </div>
+            <div className="sstr-spec-item">
+              <span className="sstr-spec-lbl">ENDPOINT SCHEME</span>
+              <span className="sstr-spec-val">REST /api/trips</span>
+            </div>
+            <div className="sstr-spec-item">
+              <span className="sstr-spec-lbl">SPATIAL TELEMETRY</span>
+              <span className="sstr-spec-val">Haversine GPS Trace</span>
+            </div>
+            <div className="sstr-spec-item">
+              <span className="sstr-spec-lbl">INCIDENT DEDUCTIONS</span>
+              <span className="sstr-spec-val">-15pt Sleep / -5pt Yawn</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===================================================================== */}
+      {/* EPILOGUE // INDUSTRIAL HARDWARE LAUNCHPAD CTA                         */}
+      {/* ===================================================================== */}
+      <section className="sstr-epilogue-banner sstr-reticle">
+        <div className="sstr-epilogue-content">
+          <span className="sstr-tag" style={{ color: '#FE5B2A' }}>MISSION READY // OPERATIONAL COCKPIT</span>
+          <h2 className="sstr-epilogue-title">
+            ZERO LATENCY. <br />
+            ZERO COMPROMISE.
+          </h2>
+          <p className="sstr-epilogue-desc">
+            Engage the high-performance optical pipeline and experience computer-vision driver protection.
+          </p>
+          <div className="sstr-epilogue-actions">
+            <button
+              onClick={onNavigateToMonitor}
+              className="sstr-btn"
+              style={{ padding: '0.85rem 2rem', fontSize: '0.85rem' }}
+            >
+              <Play size={14} fill="#FFFFFF" />
+              <span>LAUNCH LIVE COCKPIT</span>
+            </button>
+
+            <button
+              onClick={() => onSelectTab?.('history')}
+              className="sstr-btn-secondary"
+              style={{ padding: '0.85rem 1.8rem', fontSize: '0.85rem' }}
+            >
+              <span>INSPECT FLIGHT LEDGER</span>
+              <ArrowUpRight size={14} />
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Scoped CSS Styles for SSTR Overview Experience */}
       <style>{`
-        .dg-overview-wrapper {
-          display: flex;
-          flex-direction: column;
-          gap: clamp(4rem, 8vw, 7rem);
-          position: relative;
-          width: 100%;
-        }
-
-        /* SECTION A: HERO STYLES */
-        .dg-hero-section {
-          position: relative;
-          width: 100%;
-          padding: clamp(2.5rem, 5vw, 4.5rem) clamp(1.25rem, 4vw, 3.5rem) clamp(3rem, 6vw, 5rem);
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          text-align: center;
-          border-bottom: 1px solid var(--border-subtle);
-        }
-
-        .dg-masthead-eyebrow {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.65rem;
-          font-family: var(--font-mono);
-          font-size: 0.72rem;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-          color: var(--text-muted);
-          margin-bottom: 1.5rem;
-          flex-wrap: wrap;
-          justify-content: center;
-        }
-
-        .dg-stamp-badge {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.45rem;
-          padding: 0.25rem 0.65rem;
-          border-radius: 9999px;
-          background: rgba(17, 17, 17, 0.05);
-          border: 1px solid rgba(17, 17, 17, 0.09);
-          color: var(--text-primary);
-          font-weight: 600;
-        }
-        .dg-stamp-dot {
-          width: 6px;
-          height: 6px;
-          border-radius: 50%;
-          background: var(--color-gold);
-        }
-        .dg-stamp-dot.red {
-          background: #E84B32;
-        }
-        .dg-masthead-divider {
-          opacity: 0.4;
-        }
-
-        .dg-hero-title-container {
-          max-width: 980px;
-          margin-bottom: 2rem;
-        }
-        .dg-hero-pre-title {
-          display: block;
-          font-family: var(--font-display);
-          font-size: 0.85rem;
-          letter-spacing: 0.22em;
-          color: var(--color-gold);
-          margin-bottom: 0.75rem;
-          font-weight: 600;
-        }
-        .dg-hero-title {
-          font-family: var(--font-serif);
-          font-size: clamp(2.6rem, 5.6vw, 5.2rem);
-          font-weight: 500;
-          line-height: 1.08;
-          letter-spacing: -0.025em;
-          color: var(--text-primary);
-          margin: 0 0 1.25rem 0;
-        }
-        .dg-hero-subtitle {
-          font-family: var(--font-sans);
-          font-size: clamp(1rem, 1.4vw, 1.15rem);
-          line-height: 1.65;
-          color: var(--text-secondary);
-          max-width: 680px;
+        .sstr-overview-container {
+          max-width: 1440px;
           margin: 0 auto;
-        }
-
-        .dg-hero-actions-deck {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 0.95rem;
-          margin-bottom: clamp(3rem, 5vw, 4.5rem);
-          flex-wrap: wrap;
-        }
-        .dg-hero-cta-primary {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.65rem;
-          background-color: #111111;
-          color: #FFFFFF;
-          border: 1px solid #111111;
-          border-radius: 9999px;
-          padding: 0.85rem 2.25rem;
-          font-family: var(--font-sans);
-          font-size: 0.88rem;
-          font-weight: 600;
-          letter-spacing: 0.05em;
-          cursor: pointer;
-          transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-        }
-        .dg-hero-cta-primary:hover {
-          background-color: #000000;
-          transform: translateY(-1px);
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
-        }
-        .dg-cta-badge {
-          font-family: var(--font-mono);
-          font-size: 0.62rem;
-          padding: 2px 6px;
-          background: rgba(255, 255, 255, 0.15);
-          border-radius: 4px;
-        }
-
-        .dg-hero-cta-secondary {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-          background-color: transparent;
-          color: var(--text-primary);
-          border: 1px solid var(--border-subtle);
-          border-radius: 9999px;
-          padding: 0.85rem 2rem;
-          font-family: var(--font-sans);
-          font-size: 0.88rem;
-          font-weight: 500;
-          letter-spacing: 0.05em;
-          cursor: pointer;
-          transition: all var(--transition-fast);
-        }
-        .dg-hero-cta-secondary:hover {
-          border-color: var(--text-primary);
-          background: rgba(17, 17, 17, 0.03);
-        }
-
-        /* 3-Way Perspective Exhibit Canvas */
-        .dg-hero-canvas-frame {
-          position: relative;
-          width: 100%;
-          max-width: 1240px;
-          border-radius: 12px;
-          overflow: hidden;
-          background: #FFFFFF;
-          border: 1px solid var(--border-subtle);
-          box-shadow: 0 24px 60px -15px rgba(0, 0, 0, 0.08);
+          padding: clamp(1.5rem, 4vw, 3rem) clamp(1.25rem, 3.5vw, 3rem) 6rem;
           display: flex;
           flex-direction: column;
+          gap: 5rem;
         }
 
-        .dg-canvas-top-bar {
+        /* Hero Section */
+        .sstr-hero-section {
+          display: flex;
+          flex-direction: column;
+          gap: 2rem;
+        }
+
+        .sstr-hero-meta {
           display: flex;
           align-items: center;
-          justify-content: space-between;
-          padding: 0.85rem 1.5rem;
-          border-bottom: 1px solid var(--border-subtle);
-          background: rgba(247, 246, 242, 0.85);
+          gap: 0.85rem;
+          flex-wrap: wrap;
           font-family: var(--font-mono);
           font-size: 0.72rem;
+          color: var(--text-secondary);
+        }
+        .sstr-meta-divider {
+          color: rgba(255, 255, 255, 0.15);
+        }
+        .sstr-meta-status {
+          color: #10B981;
+          font-weight: 600;
+        }
+
+        .sstr-hero-headline-block {
+          max-width: 980px;
+        }
+        .sstr-hero-title {
+          font-family: var(--font-display);
+          font-size: clamp(2.8rem, 6.5vw, 5.2rem);
+          font-weight: 800;
+          line-height: 0.98;
+          letter-spacing: -0.03em;
+          color: #FFFFFF;
+          margin: 0 0 1.25rem 0;
+          text-transform: uppercase;
+        }
+        .sstr-title-accent {
+          color: #FE5B2A;
+          text-shadow: 0 0 35px rgba(254, 91, 42, 0.35);
+        }
+        .sstr-hero-description {
+          font-family: var(--font-sans);
+          font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+          line-height: 1.6;
+          color: #9FA4B0;
+          max-width: 720px;
+          margin: 0;
+        }
+
+        /* Hero Viewport */
+        .sstr-hero-viewport {
+          background: #141518;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 8px;
+          overflow: hidden;
+          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+        }
+        .sstr-viewport-bar {
+          background: #18191B;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          padding: 0.75rem 1.25rem;
+          display: flex;
+          justifyContent: space-between;
+          align-items: center;
           flex-wrap: wrap;
           gap: 1rem;
         }
-        .dg-canvas-tag {
-          display: flex;
+        .sstr-perspective-switcher {
+          display: inline-flex;
           align-items: center;
-          gap: 0.5rem;
-          font-weight: 600;
-          color: var(--text-primary);
+          background: #0D0E10;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 4px;
+          padding: 2px;
+          gap: 2px;
         }
-        .dg-tag-accent {
-          width: 6px;
-          height: 6px;
-          border-radius: 50%;
-          background-color: var(--color-gold);
-        }
-
-        .dg-perspective-dock {
-          display: flex;
-          align-items: center;
-          gap: 4px;
-          background: rgba(239, 236, 230, 0.7);
-          border: 1px solid var(--border-subtle);
-          border-radius: 9999px;
-          padding: 3px;
-        }
-        .dg-perspective-btn {
+        .sstr-perspective-tab {
           background: transparent;
           border: none;
-          padding: 0.35rem 0.85rem;
-          border-radius: 9999px;
+          padding: 0.45rem 1rem;
+          color: #9FA4B0;
+          font-family: var(--font-mono);
+          font-size: 0.72rem;
+          font-weight: 600;
           cursor: pointer;
-          font-family: var(--font-sans);
-          font-size: 0.75rem;
-          color: var(--text-secondary);
+          border-radius: 3px;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.45rem;
+          transition: all 0.2s ease;
+        }
+        .sstr-perspective-tab:hover {
+          color: #FFFFFF;
+        }
+        .sstr-perspective-tab.active {
+          background: #202226;
+          color: #FFFFFF;
+        }
+        .sstr-perspective-tab.active .sstr-p-num {
+          color: #FE5B2A;
+        }
+        .sstr-p-num {
+          color: #5F6470;
+        }
+        .sstr-viewport-telemetry {
           display: flex;
           align-items: center;
-          gap: 0.4rem;
-          transition: all var(--transition-fast);
-        }
-        .dg-perspective-btn.active {
-          background: #FFFFFF;
-          color: #111111;
-          font-weight: 600;
-          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-        }
-        .dg-perspective-num {
+          gap: 1rem;
           font-family: var(--font-mono);
-          font-size: 0.62rem;
-          opacity: 0.7;
-        }
-        .dg-canvas-coords {
-          color: var(--text-muted);
-          display: flex;
-          gap: 0.4rem;
+          font-size: 0.72rem;
+          color: #5F6470;
         }
 
-        .dg-canvas-viewport {
+        .sstr-viewport-screen {
+          position: relative;
+          min-height: clamp(380px, 48vw, 540px);
+          background: #0D0E10;
+          display: flex;
+          align-items: center;
+          justifyContent: center;
+        }
+        .sstr-image-stage {
           position: relative;
           width: 100%;
-          height: clamp(380px, 52vw, 560px);
+          height: clamp(380px, 48vw, 540px);
           overflow: hidden;
-          background-color: #0E1012;
         }
-        .dg-image-container {
-          width: 100%;
-          height: 100%;
-          position: relative;
-        }
-        .dg-hero-image {
+        .sstr-stage-img {
           width: 100%;
           height: 100%;
           object-fit: cover;
           display: block;
+          filter: contrast(1.05) brightness(0.85);
         }
-        .dg-three-container {
-          width: 100%;
-          height: 100%;
-          position: relative;
-          background: radial-gradient(circle at center, #18221D 0%, #0A0F0D 100%);
-        }
-        .dg-3d-hint {
+        .sstr-stage-gradient {
           position: absolute;
-          bottom: 1rem;
-          left: 50%;
-          transform: translateX(-50%);
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          background: rgba(17, 17, 17, 0.78);
-          backdrop-filter: blur(8px);
-          color: #FFFFFF;
-          padding: 0.35rem 0.85rem;
-          border-radius: 9999px;
-          font-family: var(--font-mono);
-          font-size: 0.68rem;
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          inset: 0;
+          background: linear-gradient(180deg, rgba(13, 14, 16, 0.1) 0%, rgba(13, 14, 16, 0.85) 100%);
         }
-
-        .dg-sensor-hotspot {
+        .sstr-stage-overlay-specs {
           position: absolute;
-          transform: translate(-50%, -50%);
-          display: flex;
-          align-items: center;
-          gap: 0.45rem;
-          background: rgba(17, 17, 17, 0.82);
-          backdrop-filter: blur(10px);
-          color: #FFFFFF;
-          padding: 0.35rem 0.75rem;
-          border-radius: 9999px;
-          font-family: var(--font-mono);
-          font-size: 0.68rem;
-          border: 1px solid rgba(255, 255, 255, 0.18);
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-          pointer-events: none;
-        }
-        .dg-hotspot-beacon {
-          width: 6px;
-          height: 6px;
-          border-radius: 50%;
-          background: #E84B32;
-          box-shadow: 0 0 8px rgba(232, 75, 50, 0.8);
-        }
-
-        .dg-canvas-bracket {
-          position: absolute;
-          font-family: var(--font-mono);
-          font-size: 1.2rem;
-          color: rgba(255, 255, 255, 0.4);
-          pointer-events: none;
-          z-index: 2;
-        }
-        .dg-canvas-bracket.top-left { top: 0.75rem; left: 0.75rem; }
-        .dg-canvas-bracket.top-right { top: 0.75rem; right: 0.75rem; }
-        .dg-canvas-bracket.bottom-left { bottom: 0.75rem; left: 0.75rem; }
-        .dg-canvas-bracket.bottom-right { bottom: 0.75rem; right: 0.75rem; }
-
-        .dg-canvas-arrow {
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-          width: 38px;
-          height: 38px;
-          border-radius: 50%;
-          background: rgba(255, 255, 255, 0.9);
-          backdrop-filter: blur(8px);
-          border: 1px solid rgba(0, 0, 0, 0.08);
-          color: #111111;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          transition: all var(--transition-fast);
+          bottom: 2rem;
+          left: 2rem;
+          max-width: 580px;
           z-index: 5;
         }
-        .dg-canvas-arrow.left { left: 1rem; }
-        .dg-canvas-arrow.right { right: 1rem; }
-        .dg-canvas-arrow:hover {
-          background: #FFFFFF;
-          transform: translateY(-50%) scale(1.08);
-        }
-
-        .dg-canvas-caption-bar {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 1.25rem 1.75rem;
-          background: #FFFFFF;
-          border-top: 1px solid var(--border-subtle);
-          flex-wrap: wrap;
-          gap: 1rem;
-        }
-        .dg-caption-title {
-          font-family: var(--font-display);
-          font-size: 1.15rem;
-          font-weight: 600;
-          color: var(--text-primary);
-          margin: 0 0 0.2rem 0;
-        }
-        .dg-caption-desc {
-          font-size: 0.82rem;
-          color: var(--text-secondary);
-          margin: 0;
-        }
-        .dg-caption-specs {
-          display: flex;
-          align-items: center;
-          gap: 0.85rem;
-          font-family: var(--font-mono);
-          font-size: 0.75rem;
-          color: var(--text-secondary);
-        }
-        .dg-spec-divider { opacity: 0.3; }
-
-        /* NOMU Continuous Telemetry Marquee */
-        .dg-marquee-container {
-          width: 100%;
-          overflow: hidden;
-          margin-top: 2.5rem;
-          border-top: 1px solid var(--border-subtle);
-          border-bottom: 1px solid var(--border-subtle);
-          padding: 0.65rem 0;
-          background: rgba(239, 236, 230, 0.4);
-        }
-        .dg-marquee-content {
-          font-family: var(--font-mono);
-          font-size: 0.74rem;
-          letter-spacing: 0.12em;
-          color: var(--text-secondary);
-          display: flex;
-          align-items: center;
-          gap: 1.25rem;
-        }
-        .ticker-dot {
-          color: var(--color-gold);
-        }
-
-        /* CHAPTER 01: SPREAD SECTION */
-        .dg-editorial-spread-section {
-          width: 100%;
-          max-width: 1440px;
-          margin: 0 auto;
-          padding: 0 clamp(1.25rem, 4vw, 3.5rem);
-        }
-        .dg-spread-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-          gap: 4rem;
-          align-items: center;
-        }
-        .dg-chapter-eyebrow {
-          display: flex;
-          align-items: center;
-          gap: 0.65rem;
-          font-family: var(--font-mono);
-          font-size: 0.72rem;
-          letter-spacing: 0.14em;
-          color: var(--color-gold);
-          margin-bottom: 1rem;
-        }
-        .dg-chapter-line {
-          width: 24px;
-          height: 1px;
-          background-color: var(--color-gold);
-        }
-        .dg-spread-headline {
-          font-family: var(--font-serif);
-          font-size: clamp(2.4rem, 4.6vw, 4rem);
-          font-weight: 500;
-          line-height: 1.05;
-          letter-spacing: -0.02em;
-          color: var(--text-primary);
-          margin: 0 0 1.5rem 0;
-        }
-        .dg-spread-body {
-          font-size: 1.05rem;
-          line-height: 1.7;
-          color: var(--text-secondary);
-          margin-bottom: 2.5rem;
-        }
-
-        .dg-benchmarks-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 1.25rem;
-          border-top: 1px solid var(--border-subtle);
-          padding-top: 1.75rem;
-        }
-        .dg-benchmark-card {
-          display: flex;
-          flex-direction: column;
-          gap: 0.25rem;
-        }
-        .dg-bm-num {
-          font-family: var(--font-mono);
-          font-size: 0.65rem;
-          color: var(--text-muted);
-        }
-        .dg-bm-value {
-          font-family: var(--font-display);
-          font-size: 2rem;
-          font-weight: 700;
-          color: var(--text-primary);
-        }
-        .dg-benchmark-card.warning .dg-bm-value { color: #D97706; }
-        .dg-benchmark-card.critical .dg-bm-value { color: #E84B32; }
-        .dg-bm-desc {
-          font-size: 0.75rem;
-          color: var(--text-secondary);
-        }
-
-        .dg-spread-image-card {
-          position: relative;
-          border-radius: 8px;
-          overflow: hidden;
-          box-shadow: 0 18px 45px rgba(0, 0, 0, 0.1);
-          min-height: 420px;
-        }
-        .dg-spread-img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          display: block;
-        }
-        .dg-spread-badge {
-          position: absolute;
-          bottom: 1.25rem;
-          left: 1.25rem;
-          right: 1.25rem;
-          background: rgba(13, 14, 16, 0.88);
-          backdrop-filter: blur(12px);
-          padding: 0.75rem 1rem;
-          border-radius: 4px;
-          color: #FFFFFF;
-          display: flex;
-          flex-direction: column;
-          gap: 2px;
+        .sstr-stage-tag {
           font-family: var(--font-mono);
           font-size: 0.7rem;
+          color: #FE5B2A;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          font-weight: 700;
         }
-        .dg-spread-badge-sub {
-          font-size: 0.62rem;
-          color: #A3A199;
-        }
-
-        /* CHAPTER 02: WARM BEIGE / CHAMPAGNE HUD SECTION */
-        .dg-hud-chapter-section {
-          background-color: #F3E5D8;
-          border-top: 1px solid #D1B198;
-          border-bottom: 1px solid #D1B198;
-          color: #382C27;
-          padding: clamp(4rem, 7vw, 6.5rem) clamp(1.25rem, 4vw, 3.5rem);
-          width: 100%;
-        }
-        .dg-hud-container {
-          max-width: 1440px;
-          margin: 0 auto;
-        }
-        .dg-hud-header-row {
-          display: flex;
-          justifyContent: space-between;
-          align-items: flex-end;
-          flex-wrap: wrap;
-          gap: 2rem;
-          margin-bottom: 3.5rem;
-        }
-        .dg-hud-headline {
-          font-family: var(--font-serif);
-          font-size: clamp(2.6rem, 5vw, 4.2rem);
-          font-weight: 500;
-          color: #382C27;
-          margin: 0.25rem 0 0.75rem 0;
-        }
-        .dg-hud-subtext {
-          font-size: 1.05rem;
-          line-height: 1.6;
-          color: #756052;
-          max-width: 600px;
-          margin: 0;
-        }
-
-        .dg-hud-actions {
-          display: flex;
-          gap: 0.85rem;
-          flex-wrap: wrap;
-        }
-        .dg-hud-btn {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-          background: #382C27;
-          color: #FAF5EF;
-          border: 1px solid #382C27;
-          padding: 0.75rem 1.65rem;
-          border-radius: 9999px;
-          font-family: var(--font-sans);
-          font-size: 0.82rem;
-          font-weight: 600;
-          letter-spacing: 0.06em;
-          cursor: pointer;
-          transition: all var(--transition-fast);
-        }
-        .dg-hud-btn:hover {
-          background: #1F1714;
-        }
-        .dg-hud-btn-outline {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-          background: transparent;
-          color: #382C27;
-          border: 1px solid #D1B198;
-          padding: 0.75rem 1.65rem;
-          border-radius: 9999px;
-          font-family: var(--font-sans);
-          font-size: 0.82rem;
-          font-weight: 500;
-          cursor: pointer;
-          transition: all var(--transition-fast);
-        }
-        .dg-hud-btn-outline:hover {
-          background: rgba(255, 255, 255, 0.4);
-          border-color: #382C27;
-        }
-
-        .dg-hud-grid {
-          display: grid;
-          grid-template-columns: 1.35fr 1fr;
-          gap: 2rem;
-        }
-        @media (max-width: 960px) {
-          .dg-hud-grid {
-            grid-template-columns: 1fr;
-          }
-        }
-
-        .dg-hud-viewport-card {
-          background: #FAF5EF;
-          border: 1px solid #D1B198;
-          border-radius: 8px;
-          overflow: hidden;
-          box-shadow: 0 12px 30px rgba(56, 44, 39, 0.08);
-          display: flex;
-          flex-direction: column;
-        }
-        .dg-hud-viewport-bar {
-          display: flex;
-          justifyContent: space-between;
-          align-items: center;
-          padding: 0.85rem 1.25rem;
-          border-bottom: 1px solid #D1B198;
-          background: #EAD8C7;
-        }
-        .dg-hud-viewport-body {
-          flex: 1;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          min-height: 380px;
-          background: #FAF5EF;
-        }
-        .dg-hud-calib-canvas {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          padding: 2.5rem;
-          text-align: center;
-        }
-        .dg-calib-title {
+        .sstr-stage-title {
           font-family: var(--font-display);
-          font-size: 1.35rem;
-          font-weight: 600;
-          color: #382C27;
-          margin: 1rem 0 0.5rem 0;
+          font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+          font-weight: 700;
+          color: #FFFFFF;
+          margin: 0.35rem 0;
+          text-transform: uppercase;
         }
-        .dg-calib-desc {
-          font-size: 0.88rem;
-          color: #756052;
-          max-width: 440px;
-          line-height: 1.55;
-          margin-bottom: 1.25rem;
+        .sstr-stage-desc {
+          font-family: var(--font-sans);
+          font-size: 0.9rem;
+          color: #9FA4B0;
+          line-height: 1.5;
+          margin-bottom: 0.85rem;
         }
-        .dg-code-pill {
+        .sstr-stage-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.45rem;
+          background: rgba(0, 0, 0, 0.6);
+          backdrop-filter: blur(8px);
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          padding: 0.3rem 0.75rem;
+          border-radius: 4px;
+          font-family: var(--font-mono);
+          font-size: 0.72rem;
+          color: #FFFFFF;
+        }
+
+        /* Marquee Ticker */
+        .sstr-ticker-wrap {
+          overflow: hidden;
+          background: #141518;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 4px;
+          padding: 0.85rem 0;
+        }
+        .sstr-ticker-track {
+          display: inline-flex;
+          align-items: center;
+          gap: 1.5rem;
+          font-family: var(--font-mono);
+          font-size: 0.74rem;
+          color: #9FA4B0;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          white-space: nowrap;
+          padding: 0 1rem;
+        }
+        .sstr-ticker-track span {
           display: inline-block;
-          font-family: var(--font-mono);
-          font-size: 0.82rem;
-          background: #FFFFFF;
-          border: 1px solid #D1B198;
-          padding: 0.5rem 1.25rem;
-          border-radius: 4px;
-          color: #382C27;
         }
 
-        .dg-hud-metrics-card {
-          background: #FAF5EF;
-          border: 1px solid #D1B198;
-          border-radius: 8px;
-          padding: 2rem;
+        /* Sections General */
+        .sstr-section {
           display: flex;
           flex-direction: column;
-          gap: 1.5rem;
-          justify-content: space-between;
-        }
-        .dg-hud-gauge-wrap {
-          display: flex;
-          justify-content: center;
-          padding: 0.5rem 0;
-        }
-        .dg-hud-telemetry-boxes {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 1rem;
-        }
-        .dg-hud-box {
-          background: #EAD8C7;
-          border: 1px solid #D1B198;
-          border-radius: 4px;
-          padding: 1rem;
-          display: flex;
-          flex-direction: column;
-          gap: 0.2rem;
-        }
-        .dg-box-label {
-          font-family: var(--font-mono);
-          font-size: 0.65rem;
-          color: #8B7565;
-          letter-spacing: 0.05em;
-        }
-        .dg-box-val {
-          font-family: var(--font-display);
-          font-size: 1.7rem;
-          font-weight: 700;
-          color: #382C27;
-        }
-        .dg-box-sub {
-          font-size: 0.68rem;
-          color: #756052;
-          font-family: var(--font-mono);
-        }
-
-        /* CHAPTER 03 & 04 COMMON WRAPPERS */
-        .dg-container {
-          max-width: 1440px;
-          margin: 0 auto;
-          padding: 0 clamp(1.25rem, 4vw, 3.5rem);
-          width: 100%;
-        }
-        .dg-section-header-split {
-          display: flex;
-          justifyContent: space-between;
-          align-items: flex-end;
-          flex-wrap: wrap;
-          gap: 1.5rem;
-          margin-bottom: 3.5rem;
-        }
-        .dg-section-headline {
-          font-family: var(--font-serif);
-          font-size: clamp(2.4rem, 4.8vw, 3.8rem);
-          font-weight: 500;
-          color: var(--text-primary);
-          margin: 0.25rem 0 0.75rem 0;
-        }
-        .dg-section-sub {
-          font-size: 1.05rem;
-          color: var(--text-secondary);
-          max-width: 620px;
-          margin: 0;
-          line-height: 1.6;
-        }
-
-        .dg-btn-subtle {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.45rem;
-          background: transparent;
-          border: 1px solid var(--border-subtle);
-          border-radius: 9999px;
-          padding: 0.65rem 1.45rem;
-          font-family: var(--font-sans);
-          font-size: 0.8rem;
-          font-weight: 500;
-          color: var(--text-primary);
-          cursor: pointer;
-          transition: all var(--transition-fast);
-        }
-        .dg-btn-subtle:hover {
-          border-color: var(--text-primary);
-          background: rgba(17, 17, 17, 0.03);
-        }
-
-        /* CARDS TRIAD */
-        .dg-cards-triad {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
           gap: 2rem;
         }
-        .dg-spec-card {
-          background: var(--bg-surface);
-          border: 1px solid var(--border-subtle);
-          border-radius: 8px;
-          padding: 2.5rem 2rem;
+        .sstr-section-header {
           display: flex;
           flex-direction: column;
-          justify-content: space-between;
-          min-height: 340px;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-          transition: transform 0.3s var(--ease-cinematic), box-shadow 0.3s var(--ease-cinematic);
-        }
-        .dg-spec-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 16px 36px rgba(0, 0, 0, 0.06);
-        }
-        .dg-spec-top {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 1.5rem;
-        }
-        .dg-spec-tag {
-          font-family: var(--font-mono);
-          font-size: 0.72rem;
-          color: var(--color-gold);
-          font-weight: 600;
-          letter-spacing: 0.1em;
-        }
-        .dg-spec-title {
-          font-family: var(--font-display);
-          font-size: 1.6rem;
-          font-weight: 600;
-          color: var(--text-primary);
-          margin: 0 0 1rem 0;
-          line-height: 1.2;
-        }
-        .dg-spec-body {
-          font-size: 0.92rem;
-          color: var(--text-secondary);
-          line-height: 1.65;
-          margin: 0;
-        }
-        .dg-spec-footer {
-          display: flex;
-          gap: 2rem;
-          border-top: 1px solid var(--border-subtle);
-          padding-top: 1.5rem;
-          margin-top: 2rem;
-        }
-        .dg-spec-lbl {
-          font-family: var(--font-mono);
-          font-size: 0.65rem;
-          color: var(--text-muted);
-          display: block;
-        }
-        .dg-spec-metric {
-          font-family: var(--font-display);
-          font-size: 1.8rem;
-          font-weight: 700;
-          color: var(--text-primary);
-        }
-        .dg-spec-metric.accent-red { color: #E84B32; }
-
-        /* CHAPTER 04: RISK PROGRESSION & SIMULATOR */
-        .dg-state-machine-header {
-          display: flex;
-          justifyContent: space-between;
-          align-items: flex-end;
-          flex-wrap: wrap;
-          gap: 2rem;
-          margin-bottom: 3.5rem;
-        }
-        .dg-sim-triggers-deck {
-          display: flex;
-          flex-direction: column;
-          gap: 0.5rem;
-        }
-        .dg-sim-deck-title {
-          font-family: var(--font-mono);
-          font-size: 0.68rem;
-          letter-spacing: 0.08em;
-          color: var(--text-muted);
-        }
-        .dg-sim-buttons-row {
-          display: flex;
-          gap: 0.5rem;
-          background: rgba(239, 236, 230, 0.7);
-          border: 1px solid var(--border-subtle);
-          border-radius: 9999px;
-          padding: 3px;
-        }
-        .dg-sim-pill {
-          background: transparent;
-          border: none;
-          padding: 0.4rem 0.85rem;
-          border-radius: 9999px;
-          font-family: var(--font-mono);
-          font-size: 0.74rem;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
           gap: 0.4rem;
-          color: var(--text-secondary);
-          transition: all var(--transition-fast);
+          max-width: 800px;
         }
-        .dg-sim-pill.active {
-          background: #FFFFFF;
-          color: #111111;
-          font-weight: 600;
-          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-        }
-
-        .dg-stages-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-          gap: 1.75rem;
-        }
-        .dg-stage-card {
-          background: var(--bg-surface);
-          border: 1px solid var(--border-subtle);
-          border-radius: 8px;
-          padding: 2.25rem 2rem;
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-          transition: all 0.3s var(--ease-cinematic);
-        }
-        .dg-stage-card.highlighted {
-          border-color: #10B981;
-          box-shadow: 0 12px 30px rgba(16, 185, 129, 0.12);
-          transform: translateY(-2px);
-        }
-        .dg-stage-card.highlighted-warning {
-          border-color: #D97706;
-          box-shadow: 0 12px 30px rgba(217, 119, 6, 0.12);
-          transform: translateY(-2px);
-        }
-        .dg-stage-card.highlighted-critical {
-          border-color: #E84B32;
-          box-shadow: 0 12px 30px rgba(232, 75, 50, 0.15);
-          transform: translateY(-2px);
-        }
-
-        .dg-stage-top {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        }
-        .dg-stage-badge {
-          font-family: var(--font-mono);
-          font-size: 0.72rem;
-          font-weight: 600;
-          letter-spacing: 0.08em;
-        }
-        .dg-stage-badge.nominal { color: #10B981; }
-        .dg-stage-badge.warning { color: #D97706; }
-        .dg-stage-badge.critical { color: #E84B32; }
-
-        .dg-stage-score {
+        .sstr-section-title {
           font-family: var(--font-display);
-          font-size: 2.4rem;
-          font-weight: 700;
-          color: var(--text-primary);
-        }
-        .dg-stage-desc {
-          font-size: 0.88rem;
-          color: var(--text-secondary);
-          line-height: 1.6;
+          font-size: clamp(2rem, 4vw, 3.2rem);
+          font-weight: 800;
+          color: #FFFFFF;
           margin: 0;
-        }
-        .dg-stage-audio-tag {
-          display: flex;
-          align-items: center;
-          gap: 0.45rem;
-          font-family: var(--font-mono);
-          font-size: 0.68rem;
-          color: var(--text-muted);
-          border-top: 1px solid var(--border-subtle);
-          padding-top: 0.75rem;
-          margin-top: 0.5rem;
-        }
-        .dg-audio-dot {
-          width: 5px;
-          height: 5px;
-          border-radius: 50%;
-        }
-        .dg-audio-dot.green { background: #10B981; }
-        .dg-audio-dot.amber { background: #D97706; }
-        .dg-audio-dot.red { background: #E84B32; }
-
-        /* CHAPTER 05: VAULT LEDGER SECTION */
-        .dg-vault-card {
-          background: #FFFFFF;
-          border: 1px solid var(--border-subtle);
-          border-radius: 8px;
-          padding: clamp(2.5rem, 5vw, 4.5rem);
-          display: grid;
-          grid-template-columns: 1.15fr 1fr;
-          gap: 3.5rem;
-          align-items: center;
-          box-shadow: 0 16px 45px rgba(0, 0, 0, 0.04);
-        }
-        @media (max-width: 960px) {
-          .dg-vault-card {
-            grid-template-columns: 1fr;
-          }
-        }
-        .dg-vault-headline {
-          font-family: var(--font-serif);
-          font-size: clamp(2.4rem, 4.5vw, 3.6rem);
-          font-weight: 500;
-          color: var(--text-primary);
-          margin: 0.5rem 0 1rem 0;
-        }
-        .dg-vault-desc {
-          font-size: 1rem;
-          color: var(--text-secondary);
-          line-height: 1.65;
-          margin-bottom: 2rem;
-        }
-        .dg-vault-btn {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-          background: #111111;
-          color: #FFFFFF;
-          border: none;
-          padding: 0.85rem 2rem;
-          border-radius: 9999px;
-          font-family: var(--font-sans);
-          font-size: 0.85rem;
-          font-weight: 600;
-          letter-spacing: 0.06em;
-          cursor: pointer;
-          transition: all var(--transition-fast);
-        }
-        .dg-vault-btn:hover {
-          background: #000000;
-          transform: translateY(-1px);
-        }
-
-        .dg-vault-stats-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 1.25rem;
-        }
-        .dg-stat-box {
-          background: var(--bg-canvas);
-          border: 1px solid var(--border-subtle);
-          border-radius: 6px;
-          padding: 1.5rem;
-          display: flex;
-          flex-direction: column;
-          gap: 0.25rem;
-        }
-        .dg-stat-lbl {
-          font-family: var(--font-mono);
-          font-size: 0.65rem;
-          color: var(--text-muted);
-        }
-        .dg-stat-val {
-          font-family: var(--font-display);
-          font-size: 2.2rem;
-          font-weight: 700;
-          color: var(--text-primary);
-        }
-        .dg-stat-sub {
-          font-size: 0.74rem;
-          color: var(--text-secondary);
-        }
-
-        /* EPILOGUE: FINAL CTA SECTION (DEEP FOREST RACING GREEN) */
-        .dg-final-cta-section {
-          position: relative;
-          background: #0E1612;
-          color: #FFFFFF;
-          border-radius: 12px;
-          margin: 0 clamp(1.25rem, 4vw, 3.5rem);
-          padding: clamp(5rem, 9vw, 8rem) clamp(1.5rem, 5vw, 4rem);
-          overflow: hidden;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          text-align: center;
-          box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
-        }
-        .dg-cta-backdrop {
-          position: absolute;
-          inset: 0;
-          pointer-events: none;
-        }
-        .dg-cta-bg-img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          opacity: 0.24;
-          filter: contrast(1.15) brightness(0.8);
-        }
-        .dg-cta-overlay {
-          position: absolute;
-          inset: 0;
-          background: radial-gradient(circle at center, rgba(14, 22, 18, 0.7) 0%, rgba(10, 15, 12, 0.95) 100%);
-        }
-
-        .dg-cta-content {
-          position: relative;
-          z-index: 2;
-          max-width: 820px;
-        }
-        .dg-cta-stamp {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-          font-family: var(--font-mono);
-          font-size: 0.72rem;
-          letter-spacing: 0.16em;
-          color: var(--color-gold);
-          margin-bottom: 1.5rem;
-        }
-        .dg-cta-heading {
-          font-family: var(--font-serif);
-          font-size: clamp(2.8rem, 6.2vw, 5.2rem);
-          font-weight: 500;
-          line-height: 1.02;
           letter-spacing: -0.02em;
-          color: #FFFFFF;
-          margin: 0 0 1.5rem 0;
+          text-transform: uppercase;
         }
-        .dg-cta-subtext {
-          font-size: 1.15rem;
-          line-height: 1.65;
-          color: #C2BFB6;
-          max-width: 600px;
-          margin: 0 auto 2.75rem;
-        }
-
-        .dg-cta-launch-btn {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.65rem;
-          background: #FFFFFF;
-          color: #0E1612;
-          border: none;
-          padding: 1rem 2.75rem;
-          border-radius: 9999px;
+        .sstr-section-desc {
           font-family: var(--font-sans);
           font-size: 0.95rem;
-          font-weight: 600;
-          letter-spacing: 0.05em;
-          cursor: pointer;
-          transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+          color: #9FA4B0;
+          line-height: 1.6;
+          margin: 0;
         }
-        .dg-cta-launch-btn:hover {
-          background: #F7F6F2;
+
+        /* Cards & Grid */
+        .sstr-problem-grid,
+        .sstr-taxonomy-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 1.5rem;
+        }
+
+        .sstr-card {
+          background: #141518;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 6px;
+          padding: 1.85rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.85rem;
+          transition: all 0.25s ease;
+        }
+        .sstr-card:hover {
+          border-color: rgba(255, 255, 255, 0.2);
           transform: translateY(-2px);
-          box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
+        }
+        .sstr-card-orange {
+          border-color: rgba(254, 91, 42, 0.35);
+          background: rgba(254, 91, 42, 0.04);
+        }
+        .sstr-card-num {
+          font-family: var(--font-mono);
+          font-size: 0.7rem;
+          color: #FE5B2A;
+          letter-spacing: 0.1em;
+          font-weight: 700;
+        }
+        .sstr-card-title {
+          font-family: var(--font-display);
+          font-size: 1.35rem;
+          font-weight: 700;
+          color: #FFFFFF;
+          margin: 0;
+        }
+        .sstr-card-body {
+          font-family: var(--font-sans);
+          font-size: 0.88rem;
+          color: #9FA4B0;
+          line-height: 1.55;
+          margin: 0;
+        }
+        .sstr-card-stat {
+          margin-top: auto;
+          padding-top: 1rem;
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
+          display: flex;
+          flex-direction: column;
+        }
+        .sstr-stat-value {
+          font-family: var(--font-display);
+          font-size: 2.2rem;
+          font-weight: 800;
+          color: #FFFFFF;
+          line-height: 1;
+        }
+        .sstr-stat-label {
+          font-family: var(--font-mono);
+          font-size: 0.68rem;
+          color: #5F6470;
+          letter-spacing: 0.08em;
+          margin-top: 0.35rem;
+        }
+
+        .sstr-code-formula {
+          font-family: var(--font-mono);
+          font-size: 0.76rem;
+          color: #FE5B2A;
+          background: #0D0E10;
+          padding: 0.65rem 0.85rem;
+          border-radius: 4px;
+          border: 1px solid rgba(254, 91, 42, 0.2);
+          word-break: break-all;
+        }
+
+        .sstr-card-footer {
+          margin-top: auto;
+          display: flex;
+          justifyContent: space-between;
+          font-family: var(--font-mono);
+          font-size: 0.68rem;
+          color: #5F6470;
+          padding-top: 0.85rem;
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Cockpit Split */
+        .sstr-cockpit-split {
+          display: grid;
+          grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+          gap: 1.5rem;
+          align-items: start;
+        }
+        @media (max-width: 992px) {
+          .sstr-cockpit-split {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        .sstr-live-frame {
+          background: #141518;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 6px;
+          overflow: hidden;
+        }
+        .sstr-frame-header {
+          padding: 0.85rem 1.25rem;
+          background: #18191B;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          display: flex;
+          justifyContent: space-between;
+          align-items: center;
+          font-family: var(--font-mono);
+          font-size: 0.72rem;
+        }
+        .sstr-frame-cam {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          color: #FFFFFF;
+          font-weight: 600;
+        }
+        .sstr-frame-fps {
+          display: flex;
+          align-items: center;
+          gap: 0.45rem;
+          color: #10B981;
+        }
+        .sstr-fps-dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background-color: #10B981;
+        }
+        .sstr-frame-canvas {
+          position: relative;
+          min-height: 380px;
+          background: #0D0E10;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 2rem;
+          overflow: hidden;
+        }
+        .sstr-laser-beam {
+          position: absolute;
+          left: 0;
+          right: 0;
+          height: 2px;
+          background-color: #FE5B2A;
+          box-shadow: 0 0 12px #FE5B2A;
+          pointer-events: none;
+        }
+        .sstr-frame-footer {
+          padding: 0.75rem 1.25rem;
+          background: #18191B;
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
+          display: flex;
+          justifyContent: space-between;
+          align-items: center;
+          font-family: var(--font-mono);
+          font-size: 0.7rem;
+          color: #5F6470;
+        }
+
+        .sstr-gauges-col {
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+        }
+        .sstr-gauge-center {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 1.25rem 0;
+        }
+        .sstr-angles-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 0.65rem;
+          margin-top: 0.65rem;
+        }
+        .sstr-angle-box {
+          background: #0D0E10;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 4px;
+          padding: 0.65rem 0.45rem;
+          text-align: center;
+        }
+        .sstr-angle-lbl {
+          font-family: var(--font-mono);
+          font-size: 0.65rem;
+          color: #5F6470;
+          display: block;
+        }
+        .sstr-angle-val {
+          font-family: var(--font-display);
+          font-size: 1.2rem;
+          font-weight: 700;
+          color: #FFFFFF;
+        }
+
+        /* Simulator Deck */
+        .sstr-sim-deck {
+          background: #141518;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 6px;
+          padding: 1.85rem;
+        }
+        .sstr-deck-header {
+          display: flex;
+          justifyContent: space-between;
+          align-items: center;
+          margin-bottom: 1.5rem;
+          flex-wrap: wrap;
+          gap: 0.75rem;
+        }
+        .sstr-deck-title {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-family: var(--font-mono);
+          font-size: 0.76rem;
+          font-weight: 700;
+          color: #FFFFFF;
+        }
+        .sstr-deck-badge {
+          font-family: var(--font-mono);
+          font-size: 0.68rem;
+          color: #5F6470;
+        }
+        .sstr-scenarios-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+          gap: 0.85rem;
+        }
+        .sstr-scenario-btn {
+          background: #0D0E10;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 4px;
+          padding: 1rem;
+          text-align: left;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+        .sstr-scenario-btn:hover {
+          border-color: rgba(255, 255, 255, 0.25);
+          background: #18191B;
+        }
+        .sstr-scenario-btn.active {
+          border-color: #FE5B2A;
+          background: rgba(254, 91, 42, 0.08);
+        }
+        .sstr-scenario-tag {
+          font-family: var(--font-mono);
+          font-size: 0.65rem;
+          color: #10B981;
+          font-weight: 700;
+          margin-bottom: 0.35rem;
+        }
+        .sstr-scenario-name {
+          font-family: var(--font-sans);
+          font-size: 0.88rem;
+          font-weight: 700;
+          color: #FFFFFF;
+        }
+        .sstr-scenario-spec {
+          font-family: var(--font-mono);
+          font-size: 0.7rem;
+          color: #5F6470;
+          margin-top: 0.4rem;
+        }
+
+        /* Ledger Card */
+        .sstr-ledger-card {
+          background: #141518;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 6px;
+          padding: 2rem;
+        }
+        .sstr-ledger-header {
+          display: flex;
+          justifyContent: space-between;
+          align-items: flex-start;
+          flex-wrap: wrap;
+          gap: 1rem;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          padding-bottom: 1.25rem;
+          margin-bottom: 1.5rem;
+        }
+        .sstr-ledger-sub {
+          font-family: var(--font-mono);
+          font-size: 0.68rem;
+          color: #FE5B2A;
+          letter-spacing: 0.1em;
+          display: block;
+        }
+        .sstr-ledger-title {
+          font-family: var(--font-mono);
+          font-size: 1.2rem;
+          font-weight: 700;
+          color: #FFFFFF;
+          margin: 0.25rem 0 0 0;
+        }
+        .sstr-ledger-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.45rem;
+          background: rgba(16, 185, 129, 0.1);
+          border: 1px solid rgba(16, 185, 129, 0.25);
+          padding: 0.35rem 0.85rem;
+          border-radius: 4px;
+          font-family: var(--font-mono);
+          font-size: 0.7rem;
+          color: #10B981;
+          font-weight: 600;
+        }
+        .sstr-ledger-specs-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 1.25rem;
+        }
+        .sstr-spec-item {
+          display: flex;
+          flex-direction: column;
+          gap: 0.35rem;
+        }
+        .sstr-spec-lbl {
+          font-family: var(--font-mono);
+          font-size: 0.65rem;
+          color: #5F6470;
+          letter-spacing: 0.08em;
+        }
+        .sstr-spec-val {
+          font-family: var(--font-mono);
+          font-size: 0.88rem;
+          font-weight: 600;
+          color: #FFFFFF;
+        }
+
+        /* Epilogue */
+        .sstr-epilogue-banner {
+          background: #141518;
+          border: 1px solid rgba(254, 91, 42, 0.3);
+          border-radius: 8px;
+          padding: clamp(2.5rem, 5vw, 4.5rem) clamp(1.5rem, 4vw, 3rem);
+          position: relative;
+          overflow: hidden;
+        }
+        .sstr-epilogue-banner::after {
+          content: '';
+          position: absolute;
+          top: -40%;
+          right: -10%;
+          width: 500px;
+          height: 500px;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(254, 91, 42, 0.15) 0%, transparent 70%);
+          pointer-events: none;
+        }
+        .sstr-epilogue-content {
+          max-width: 680px;
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          position: relative;
+          z-index: 5;
+        }
+        .sstr-epilogue-title {
+          font-family: var(--font-display);
+          font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+          font-weight: 800;
+          line-height: 1;
+          color: #FFFFFF;
+          margin: 0;
+          letter-spacing: -0.02em;
+        }
+        .sstr-epilogue-desc {
+          font-family: var(--font-sans);
+          font-size: 0.95rem;
+          color: #9FA4B0;
+          line-height: 1.6;
+          margin: 0;
+        }
+        .sstr-epilogue-actions {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          flex-wrap: wrap;
+          margin-top: 0.85rem;
         }
       `}</style>
     </div>

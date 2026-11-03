@@ -1,17 +1,16 @@
 import React from 'react';
-import { Shield, ArrowUp, Activity, CheckCircle, Database, Cpu } from 'lucide-react';
+import { Shield, ArrowUp, Activity, CheckCircle, Database, Cpu, Radio } from 'lucide-react';
 
 const FOOTER_NAV_LINKS = [
-  { id: 'overview', label: 'Overview' },
-  { id: 'monitor', label: 'Live Monitor' },
-  { id: 'analytics', label: 'Safety Analytics' },
-  { id: 'history', label: 'Trip History' },
+  { id: 'overview', label: '01 // OVERVIEW' },
+  { id: 'monitor', label: '02 // LIVE COCKPIT' },
+  { id: 'analytics', label: '03 // SAFETY ANALYTICS' },
+  { id: 'history', label: '04 // FLIGHT VAULT' },
 ];
 
 /**
- * Bang & Olufsen A9-Inspired Editorial Footer
- * Deep forest charcoal background, refined typography, fine hairlines,
- * working application navigation links, and restrained project architecture status.
+ * SSTR-Inspired Industrial Engineering Footer
+ * Primary Reference: SSTR (https://sstr.tech/en/)
  */
 export default function Footer({
   activeTab,
@@ -35,7 +34,7 @@ export default function Footer({
   return (
     <footer
       style={{
-        backgroundColor: '#0E1311', // Deep-forest charcoal
+        backgroundColor: '#0A0B0D',
         color: '#E6E4DE',
         borderTop: '1px solid rgba(255, 255, 255, 0.08)',
         position: 'relative',
@@ -79,39 +78,34 @@ export default function Footer({
               onClick={() => handleNavClick('overview')}
               role="button"
               tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  handleNavClick('overview');
-                }
-              }}
               aria-label="DriveGuard AI Homepage"
             >
-              <Shield
-                size={18}
-                strokeWidth={2}
-                style={{ color: '#FFFFFF', opacity: 0.95 }}
-              />
+              <div
+                style={{
+                  width: '30px',
+                  height: '30px',
+                  borderRadius: '4px',
+                  backgroundColor: '#18191B',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Shield size={16} strokeWidth={2.2} style={{ color: '#FE5B2A' }} />
+              </div>
               <span
                 style={{
-                  fontFamily: 'var(--font-sans)',
-                  fontSize: '1.05rem',
-                  fontWeight: 600,
-                  letterSpacing: '0.14em',
+                  fontFamily: 'var(--font-display)',
+                  fontSize: '1.1rem',
+                  fontWeight: 800,
+                  letterSpacing: '0.08em',
                   textTransform: 'uppercase',
                   color: '#FFFFFF',
                 }}
               >
                 DRIVEGUARD
-                <span
-                  style={{
-                    fontWeight: 400,
-                    color: '#8C8A83',
-                    marginLeft: '0.35rem',
-                  }}
-                >
-                  AI
-                </span>
+                <span style={{ color: '#FE5B2A', marginLeft: '0.35rem' }}>// AI</span>
               </span>
             </div>
 
@@ -120,17 +114,17 @@ export default function Footer({
                 fontFamily: 'var(--font-sans)',
                 fontSize: '0.88rem',
                 lineHeight: 1.65,
-                color: '#9E9C95',
+                color: '#9FA4B0',
                 margin: 0,
-                fontWeight: 400,
               }}
             >
-              Real-time edge computer vision for driver attentiveness, fatigue prevention, and occupant safety.
-              Non-intrusive 468-point facial landmark telemetry with local SQLite session persistence.
+              High-performance edge computer vision engineered for autonomous driver attentiveness,
+              micro-sleep prevention, and 468-point spatial facial landmark kinematics.
+              100% on-device processing with local SQLite session persistence.
             </p>
           </div>
 
-          {/* Restrained Live Engine Status Indicator Pill */}
+          {/* SSTR Status Indicator Pill */}
           <div
             style={{
               display: 'flex',
@@ -146,13 +140,13 @@ export default function Footer({
                 alignItems: 'center',
                 gap: '0.6rem',
                 padding: '0.45rem 1rem',
-                borderRadius: '9999px',
+                borderRadius: '4px',
                 backgroundColor: 'rgba(255, 255, 255, 0.04)',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
                 fontFamily: 'var(--font-mono)',
                 fontSize: '0.74rem',
                 letterSpacing: '0.06em',
-                color: '#FAF9F6',
+                color: '#FFFFFF',
               }}
             >
               <span
@@ -162,10 +156,10 @@ export default function Footer({
                   borderRadius: '50%',
                   backgroundColor:
                     isOnline && isMonitoring
-                      ? 'var(--color-safe)'
+                      ? '#10B981'
                       : isOnline
-                      ? '#D97706'
-                      : '#6B7280',
+                      ? '#FE5B2A'
+                      : '#5F6470',
                 }}
                 className={isOnline && isMonitoring ? 'telemetry-pulse' : ''}
               />
@@ -179,19 +173,19 @@ export default function Footer({
               style={{
                 fontFamily: 'var(--font-mono)',
                 fontSize: '0.68rem',
-                color: '#7A7872',
+                color: '#5F6470',
                 letterSpacing: '0.08em',
                 textTransform: 'uppercase',
               }}
             >
               {isOnline
-                ? `LATENCY: ${latencyMs}MS • 0 CLOUD INTRUSION`
-                : 'WAITING FOR ENGINE WEBSOCKET'}
+                ? `LATENCY: ${latencyMs}MS • ZERO CLOUD INTRUSION`
+                : 'WAITING FOR HARDWARE WEBSOCKET BRIDGE'}
             </span>
           </div>
         </div>
 
-        {/* Navigation & System Information Columns */}
+        {/* Navigation & Technical Columns */}
         <div
           style={{
             display: 'grid',
@@ -205,14 +199,14 @@ export default function Footer({
               style={{
                 fontFamily: 'var(--font-mono)',
                 fontSize: '0.72rem',
-                fontWeight: 600,
+                fontWeight: 700,
                 letterSpacing: '0.14em',
                 textTransform: 'uppercase',
-                color: '#FAF9F6',
+                color: '#FE5B2A',
                 marginBottom: '1.25rem',
               }}
             >
-              NAVIGATION
+              SYSTEM NAVIGATION
             </div>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
               {FOOTER_NAV_LINKS.map((link) => {
@@ -227,17 +221,16 @@ export default function Footer({
                         border: 'none',
                         padding: 0,
                         cursor: 'pointer',
-                        fontFamily: 'var(--font-sans)',
-                        fontSize: '0.86rem',
-                        color: isActive ? '#FFFFFF' : '#9E9C95',
-                        fontWeight: isActive ? 600 : 400,
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '0.78rem',
+                        color: isActive ? '#FE5B2A' : '#9FA4B0',
+                        fontWeight: isActive ? 700 : 500,
                         textAlign: 'left',
                         display: 'inline-flex',
                         alignItems: 'center',
                         gap: '0.5rem',
                         transition: 'color var(--transition-fast)',
                       }}
-                      aria-current={isActive ? 'page' : undefined}
                     >
                       {isActive && (
                         <span
@@ -245,7 +238,7 @@ export default function Footer({
                             width: '4px',
                             height: '4px',
                             borderRadius: '50%',
-                            backgroundColor: 'var(--color-safe)',
+                            backgroundColor: '#FE5B2A',
                           }}
                         />
                       )}
@@ -257,16 +250,16 @@ export default function Footer({
             </ul>
           </div>
 
-          {/* Column 2: Architectural Capabilities */}
+          {/* Column 2: Core Engineering Capabilities */}
           <div>
             <div
               style={{
                 fontFamily: 'var(--font-mono)',
                 fontSize: '0.72rem',
-                fontWeight: 600,
+                fontWeight: 700,
                 letterSpacing: '0.14em',
                 textTransform: 'uppercase',
-                color: '#FAF9F6',
+                color: '#FE5B2A',
                 marginBottom: '1.25rem',
               }}
             >
@@ -280,15 +273,15 @@ export default function Footer({
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '0.85rem',
-                fontFamily: 'var(--font-sans)',
-                fontSize: '0.86rem',
-                color: '#9E9C95',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.78rem',
+                color: '#9FA4B0',
               }}
             >
               <li>MediaPipe 468-Point Mesh</li>
               <li>Ocular PERCLOS &amp; EAR Engine</li>
               <li>Mouth MAR Yawn Tracking</li>
-              <li>Head Pose PnP Estimation</li>
+              <li>6-DOF Levenberg-Marquardt PnP</li>
             </ul>
           </div>
 
@@ -298,10 +291,10 @@ export default function Footer({
               style={{
                 fontFamily: 'var(--font-mono)',
                 fontSize: '0.72rem',
-                fontWeight: 600,
+                fontWeight: 700,
                 letterSpacing: '0.14em',
                 textTransform: 'uppercase',
-                color: '#FAF9F6',
+                color: '#FE5B2A',
                 marginBottom: '1.25rem',
               }}
             >
@@ -315,20 +308,20 @@ export default function Footer({
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '0.85rem',
-                fontFamily: 'var(--font-sans)',
-                fontSize: '0.86rem',
-                color: '#9E9C95',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.78rem',
+                color: '#9FA4B0',
               }}
             >
-              <li>Step 9 Benchmark Certified (99.4%)</li>
-              <li>Local SQLite Session Database</li>
+              <li>Local SQLite WAL Ledger</li>
               <li>FastAPI Async WebSocket Bridge</li>
-              <li>100% On-Device Local Processing</li>
+              <li>Sub-15ms Edge Pipeline</li>
+              <li>100% On-Device Processing</li>
             </ul>
           </div>
         </div>
 
-        {/* Bottom Bar: Fine Separator, Copyright & Smooth Back to Top */}
+        {/* Bottom Bar: Copyright & Back to Top */}
         <div
           style={{
             paddingTop: '2rem',
@@ -340,25 +333,25 @@ export default function Footer({
             gap: '1.25rem',
             fontSize: '0.74rem',
             fontFamily: 'var(--font-mono)',
-            color: '#7A7872',
+            color: '#5F6470',
           }}
         >
           <div>
-            &copy; 2026 DriveGuard AI. Edge Driver Safety Intelligence. All rights reserved.
+            &copy; 2026 DRIVEGUARD AI. HIGH-PERFORMANCE DRIVER INTELLIGENCE. ALL RIGHTS RESERVED.
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flexWrap: 'wrap' }}>
-            <span>Core v1.0.4 • Local Edge Mode</span>
+            <span>BUILD: v1.0.4-SSTR // EDGE HARNESS</span>
 
             <button
               onClick={handleScrollToTop}
               className="footer-back-to-top"
               style={{
-                background: 'transparent',
-                border: '1px solid rgba(255, 255, 255, 0.15)',
-                color: '#FAF9F6',
-                padding: '0.35rem 0.75rem',
-                borderRadius: '9999px',
+                background: '#141518',
+                border: '1px solid rgba(255, 255, 255, 0.12)',
+                color: '#FFFFFF',
+                padding: '0.35rem 0.85rem',
+                borderRadius: '4px',
                 cursor: 'pointer',
                 fontFamily: 'var(--font-mono)',
                 fontSize: '0.7rem',
@@ -376,14 +369,14 @@ export default function Footer({
         </div>
       </div>
 
-      {/* Scoped CSS for Footer Links & Mobile Alignment */}
+      {/* Scoped CSS for Footer Links */}
       <style>{`
         .footer-link-btn:hover {
           color: #FFFFFF !important;
         }
         .footer-back-to-top:hover {
-          border-color: #FFFFFF !important;
-          background-color: rgba(255, 255, 255, 0.08) !important;
+          border-color: #FE5B2A !important;
+          color: #FE5B2A !important;
         }
         @media (max-width: 640px) {
           .footer-status-block {

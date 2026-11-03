@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BarChart3, AlertTriangle, RefreshCw, Award, Activity, TrendingUp, ShieldCheck } from 'lucide-react';
+import { BarChart3, AlertTriangle, RefreshCw, Award, Activity, TrendingUp, ShieldCheck, Lock, Terminal } from 'lucide-react';
 import { API_BASE_URL, getApiBaseUrl } from '../config/api';
 
 /**
@@ -18,7 +18,7 @@ function parseDurationToSeconds(durationStr) {
 }
 
 /**
- * Formats total seconds into human-readable duration matching DriveGuard editorial standard.
+ * Formats total seconds into human-readable duration matching SSTR engineering standards.
  */
 function formatSecondsToDuration(totalSecs) {
   if (!totalSecs || isNaN(totalSecs) || totalSecs <= 0) return '0s';
@@ -50,8 +50,10 @@ function categorizeIncident(incidentType = '') {
 
 /**
  * AnalyticsView Component
- * Luxury Editorial Fleet Compliance & Telemetry Waveform
- * Design: Explora Journeys (editorial typographic hierarchy) + NOMU (minimalist metric cards) + Decathlon Yestalgia (verification seals)
+ * High-End Industrial Fleet Compliance & Telemetry Waveform
+ * Primary Reference: SSTR (https://sstr.tech/en/) — Awwwards Site of the Day (SOTD) & Developer Award
+ * Strict modular carbon grid, SSTR Electric Safety Orange (#FE5B2A), precision laser raster scans,
+ * and high-contrast telemetry dials.
  */
 export default function AnalyticsView({ telemetryHistory = [], isEngineConnected = false }) {
   const [activeMode, setActiveMode] = useState('live'); // 'live' | 'historical'
@@ -126,12 +128,12 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
 
   // Tally incident categories
   const incidentCategories = {
-    lateral: { label: 'Lateral Head Deviation', count: 0, color: '#3B82F6' },
-    eye_closure: { label: 'Prolonged Eye Closure', count: 0, color: '#DC2626' },
-    head_down: { label: 'Head-Down Distraction', count: 0, color: '#D97706' },
-    yawn: { label: 'Sustained Yawning', count: 0, color: '#8B5CF6' },
-    head_up: { label: 'Head-Up Vertical Shift', count: 0, color: '#64748B' },
-    other: { label: 'Other Detected Anomalies', count: 0, color: '#94A3B8' },
+    lateral: { label: 'Lateral Head Deviation', count: 0, color: '#38BDF8' },
+    eye_closure: { label: 'Prolonged Eye Closure', count: 0, color: '#EF4444' },
+    head_down: { label: 'Head-Down Distraction', count: 0, color: '#FE5B2A' },
+    yawn: { label: 'Sustained Yawning', count: 0, color: '#F59E0B' },
+    head_up: { label: 'Head-Up Vertical Shift', count: 0, color: '#9FA4B0' },
+    other: { label: 'Other Detected Anomalies', count: 0, color: '#5F6470' },
   };
 
   allIncidents.forEach((inc) => {
@@ -145,10 +147,10 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
 
   // Tally grade distribution
   const gradeDistribution = {
-    A: { label: 'Grade A / A+ (Optimal)', count: 0, color: '#2E7D32' },
-    B: { label: 'Grade B / B+ / B- (Caution)', count: 0, color: '#4B5563' },
-    C: { label: 'Grade C (Elevated Risk)', count: 0, color: '#D97706' },
-    F: { label: 'Grade F (Critical)', count: 0, color: '#DC2626' },
+    A: { label: 'Grade A / A+ (Optimal)', count: 0, color: '#10B981' },
+    B: { label: 'Grade B / B+ / B- (Caution)', count: 0, color: '#FE5B2A' },
+    C: { label: 'Grade C (Elevated Risk)', count: 0, color: '#F59E0B' },
+    F: { label: 'Grade F (Critical Hazard)', count: 0, color: '#EF4444' },
   };
 
   trips.forEach((t) => {
@@ -162,121 +164,40 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
   const chronologicalTrips = [...trips].reverse();
 
   return (
-    <div
-      className="cinematic-fade-in"
-      style={{
-        maxWidth: '1440px',
-        margin: '0 auto',
-        padding: 'clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 3vw, 2.5rem)',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '2.5rem',
-      }}
-    >
+    <div className="sstr-analytics-wrapper sstr-grid-bg">
       {/* View Header with Mode Selector Toggle */}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'flex-end',
-          flexWrap: 'wrap',
-          gap: '1.5rem',
-          borderBottom: '1px solid rgba(23, 23, 23, 0.12)',
-          paddingBottom: '1.5rem',
-        }}
-      >
+      <div className="sstr-analytics-masthead">
         <div>
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.72rem',
-              letterSpacing: '0.14em',
-              textTransform: 'uppercase',
-              color: 'var(--text-secondary)',
-              marginBottom: '0.4rem',
-            }}
-          >
-            <Activity size={12} color="#DC2626" />
-            <span>SECTION 03 // TELEMETRY & AUDIT VAULT</span>
+          <div className="sstr-analytics-meta">
+            <span className="sstr-tag">SECTION 03 // TELEMETRY & AUDIT VAULT</span>
+            <span className="sstr-meta-divider">|</span>
+            <span className="sstr-meta-item">ROLLING EDGE BUFFER</span>
           </div>
 
-          <h1
-            style={{
-              fontFamily: 'var(--font-serif)',
-              fontSize: 'clamp(2.3rem, 4.4vw, 3.5rem)',
-              fontWeight: 400,
-              letterSpacing: '-0.02em',
-              lineHeight: 1.05,
-              color: 'var(--text-primary)',
-              margin: '0.1rem 0 0.5rem 0',
-            }}
-          >
-            {activeMode === 'live' ? 'Attentiveness Waveform' : 'Safety Compliance Vault'}
+          <h1 className="sstr-analytics-title">
+            {activeMode === 'live' ? 'ATTENTIVENESS WAVEFORM' : 'SAFETY COMPLIANCE VAULT'}
+            <span style={{ color: '#FE5B2A' }}>.</span>
           </h1>
 
-          <p
-            style={{
-              color: 'var(--text-secondary)',
-              fontSize: '0.92rem',
-              maxWidth: '680px',
-              lineHeight: 1.6,
-              margin: 0,
-              fontFamily: 'var(--font-sans)',
-            }}
-          >
+          <p className="sstr-analytics-subtitle">
             {activeMode === 'live'
-              ? 'Real-time temporal risk distribution, palpebral tracking, and cranial kinematics streaming directly from edge inference.'
+              ? 'Real-time temporal risk amplitude, palpebral tracking, and cranial kinematics streaming directly from edge inference.'
               : 'Cumulative compliance analytics compiled from verified driving sessions persistently stored in SQLite.'}
           </p>
         </div>
 
         {/* Minimalist Tactile Segmented Toggle */}
-        <div
-          style={{
-            display: 'inline-flex',
-            backgroundColor: '#FFFFFF',
-            border: '1px solid rgba(23, 23, 23, 0.12)',
-            borderRadius: '9999px',
-            padding: '3px',
-            gap: '3px',
-            boxShadow: '0 2px 10px rgba(0, 0, 0, 0.03)',
-          }}
-        >
+        <div className="sstr-mode-toggle">
           <button
             onClick={() => setActiveMode('live')}
-            style={{
-              padding: '0.55rem 1.35rem',
-              borderRadius: '9999px',
-              fontFamily: 'var(--font-sans)',
-              fontSize: '0.82rem',
-              fontWeight: 600,
-              border: 'none',
-              cursor: 'pointer',
-              backgroundColor: activeMode === 'live' ? '#171717' : 'transparent',
-              color: activeMode === 'live' ? '#FFFFFF' : 'var(--text-secondary)',
-              transition: 'all 0.2s ease',
-            }}
+            className={`sstr-toggle-btn ${activeMode === 'live' ? 'active' : ''}`}
           >
             Live Waveform
           </button>
 
           <button
             onClick={() => setActiveMode('historical')}
-            style={{
-              padding: '0.55rem 1.35rem',
-              borderRadius: '9999px',
-              fontFamily: 'var(--font-sans)',
-              fontSize: '0.82rem',
-              fontWeight: 600,
-              border: 'none',
-              cursor: 'pointer',
-              backgroundColor: activeMode === 'historical' ? '#171717' : 'transparent',
-              color: activeMode === 'historical' ? '#FFFFFF' : 'var(--text-secondary)',
-              transition: 'all 0.2s ease',
-            }}
+            className={`sstr-toggle-btn ${activeMode === 'historical' ? 'active' : ''}`}
           >
             Historical Vault ({trips.length})
           </button>
@@ -287,281 +208,88 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
       {/* MODE 1: LIVE SESSION WAVEFORM                                         */}
       {/* ===================================================================== */}
       {activeMode === 'live' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
           {/* Live Summary Metric Cards */}
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-              gap: '1.25rem',
-            }}
-          >
+          <div className="sstr-kpi-grid">
             {/* Card 1: Average Session Risk */}
-            <div
-              style={{
-                backgroundColor: '#FFFFFF',
-                border: '1px solid rgba(23, 23, 23, 0.1)',
-                borderRadius: '16px',
-                padding: '1.75rem',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                minHeight: '160px',
-                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
-              }}
-            >
+            <div className="sstr-card sstr-reticle">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span
-                  style={{
-                    fontSize: '0.72rem',
-                    fontFamily: 'var(--font-mono)',
-                    fontWeight: 600,
-                    letterSpacing: '0.1em',
-                    color: 'var(--text-secondary)',
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  Average Session Risk
-                </span>
-                <span
-                  style={{
-                    fontSize: '0.68rem',
-                    fontFamily: 'var(--font-mono)',
-                    padding: '0.2rem 0.55rem',
-                    borderRadius: '9999px',
-                    backgroundColor: '#F3EFEA',
-                    color: 'var(--text-primary)',
-                    fontWeight: 600,
-                  }}
-                >
-                  TARGET &lt; 25%
-                </span>
+                <span className="sstr-card-num">METRIC // AVERAGE RISK</span>
+                <span className="sstr-kpi-badge">TARGET &lt; 25%</span>
               </div>
-              <div
-                style={{
-                  fontFamily: 'var(--font-serif)',
-                  fontSize: '3.6rem',
-                  fontWeight: 400,
-                  lineHeight: 1,
-                  color: 'var(--text-primary)',
-                  margin: '0.4rem 0',
-                }}
-              >
+              <div className="sstr-kpi-val">
                 {hasLiveData ? `${averageRisk}%` : '--'}
               </div>
-              <span style={{ fontSize: '0.78rem', color: '#9CA3AF', fontFamily: 'var(--font-sans)' }}>
-                Rolling mean across active monitoring buffer
-              </span>
+              <span className="sstr-kpi-lbl">Rolling mean across active monitoring buffer</span>
             </div>
 
             {/* Card 2: Peak Transient Risk */}
-            <div
-              style={{
-                backgroundColor: '#FFFFFF',
-                border: '1px solid rgba(23, 23, 23, 0.1)',
-                borderRadius: '16px',
-                padding: '1.75rem',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                minHeight: '160px',
-                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
-              }}
-            >
+            <div className="sstr-card sstr-reticle">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span className="sstr-card-num">METRIC // PEAK RISK</span>
                 <span
+                  className="sstr-kpi-badge"
                   style={{
-                    fontSize: '0.72rem',
-                    fontFamily: 'var(--font-mono)',
-                    fontWeight: 600,
-                    letterSpacing: '0.1em',
-                    color: 'var(--text-secondary)',
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  Peak Transient Risk
-                </span>
-                <span
-                  style={{
-                    fontSize: '0.68rem',
-                    fontFamily: 'var(--font-mono)',
-                    padding: '0.2rem 0.55rem',
-                    borderRadius: '9999px',
-                    backgroundColor: maxRisk > 65 ? '#FEF2F2' : '#F3EFEA',
-                    color: maxRisk > 65 ? '#DC2626' : 'var(--text-secondary)',
-                    fontWeight: 600,
+                    color: maxRisk > 65 ? '#EF4444' : '#10B981',
+                    borderColor: maxRisk > 65 ? 'rgba(239, 68, 68, 0.3)' : 'rgba(16, 185, 129, 0.3)',
                   }}
                 >
                   {maxRisk > 65 ? 'HIGH FATIGUE' : 'CONTROLLED'}
                 </span>
               </div>
               <div
-                style={{
-                  fontFamily: 'var(--font-serif)',
-                  fontSize: '3.6rem',
-                  fontWeight: 400,
-                  lineHeight: 1,
-                  color: maxRisk > 65 ? '#DC2626' : 'var(--text-primary)',
-                  margin: '0.4rem 0',
-                }}
+                className="sstr-kpi-val"
+                style={{ color: maxRisk > 65 ? '#EF4444' : '#FFFFFF' }}
               >
                 {hasLiveData ? `${maxRisk}%` : '--'}
               </div>
-              <span style={{ fontSize: '0.78rem', color: '#9CA3AF', fontFamily: 'var(--font-sans)' }}>
-                Maximum momentary fatigue recorded in window
-              </span>
+              <span className="sstr-kpi-lbl">Maximum momentary fatigue recorded in window</span>
             </div>
 
             {/* Card 3: Synchronized Samples */}
-            <div
-              style={{
-                backgroundColor: '#FFFFFF',
-                border: '1px solid rgba(23, 23, 23, 0.1)',
-                borderRadius: '16px',
-                padding: '1.75rem',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                minHeight: '160px',
-                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
-              }}
-            >
+            <div className="sstr-card sstr-reticle">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span className="sstr-card-num">METRIC // SAMPLES</span>
                 <span
+                  className="sstr-kpi-badge"
                   style={{
-                    fontSize: '0.72rem',
-                    fontFamily: 'var(--font-mono)',
-                    fontWeight: 600,
-                    letterSpacing: '0.1em',
-                    color: 'var(--text-secondary)',
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  Synchronized Telemetry
-                </span>
-                <span
-                  style={{
-                    fontSize: '0.68rem',
-                    fontFamily: 'var(--font-mono)',
-                    padding: '0.2rem 0.65rem',
-                    borderRadius: '9999px',
-                    backgroundColor: isEngineConnected ? '#ECFDF5' : '#F3EFEA',
-                    color: isEngineConnected ? '#2E7D32' : '#9CA3AF',
-                    fontWeight: 600,
+                    color: isEngineConnected ? '#10B981' : '#5F6470',
+                    borderColor: isEngineConnected ? 'rgba(16, 185, 129, 0.3)' : 'rgba(255, 255, 255, 0.1)',
                   }}
                 >
                   {isEngineConnected ? 'ONLINE' : 'OFFLINE'}
                 </span>
               </div>
-              <div
-                style={{
-                  fontFamily: 'var(--font-serif)',
-                  fontSize: '3.6rem',
-                  fontWeight: 400,
-                  lineHeight: 1,
-                  color: 'var(--text-primary)',
-                  margin: '0.4rem 0',
-                }}
-              >
+              <div className="sstr-kpi-val">
                 {telemetryHistory.length}
-                <span style={{ fontSize: '1.25rem', fontFamily: 'var(--font-mono)', color: '#9CA3AF', fontWeight: 400 }}>
+                <span style={{ fontSize: '1.25rem', fontFamily: 'var(--font-mono)', color: '#5F6470', fontWeight: 400 }}>
                   {' '}/ 400 PTS
                 </span>
               </div>
-              <span style={{ fontSize: '0.78rem', color: '#9CA3AF', fontFamily: 'var(--font-sans)' }}>
-                Rolling time window (~13s @ 30 FPS edge ingestion)
-              </span>
+              <span className="sstr-kpi-lbl">Rolling time window (~13s @ 30 FPS ingestion)</span>
             </div>
           </div>
 
           {/* Cinematic Dark SVG Waveform Chart Frame */}
-          <div
-            style={{
-              backgroundColor: '#111214',
-              borderRadius: '16px',
-              padding: 'clamp(1.5rem, 3vw, 2.25rem)',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '1.5rem',
-              boxShadow: '0 8px 30px rgba(0, 0, 0, 0.1)',
-              color: '#FFFFFF',
-              position: 'relative',
-              overflow: 'hidden',
-            }}
-          >
+          <div className="sstr-waveform-card sstr-reticle">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
               <div>
-                <span
-                  style={{
-                    fontSize: '0.7rem',
-                    fontFamily: 'var(--font-mono)',
-                    fontWeight: 600,
-                    letterSpacing: '0.12em',
-                    color: 'rgba(255, 255, 255, 0.5)',
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  TEMPORAL INGESTION CURVE
-                </span>
-                <h3
-                  style={{
-                    fontFamily: 'var(--font-serif)',
-                    fontSize: '1.5rem',
-                    fontWeight: 400,
-                    color: '#FFFFFF',
-                    margin: '0.2rem 0 0 0',
-                  }}
-                >
-                  Real-Time Risk Amplitude Over Time
-                </h3>
+                <span className="sstr-card-num">TEMPORAL INGESTION CURVE</span>
+                <h3 className="sstr-waveform-title">Real-Time Risk Amplitude Over Time</h3>
               </div>
 
               <div style={{ display: 'flex', gap: '0.65rem', alignItems: 'center', flexWrap: 'wrap' }}>
-                <span
-                  style={{
-                    fontSize: '0.7rem',
-                    fontFamily: 'var(--font-mono)',
-                    padding: '0.25rem 0.65rem',
-                    borderRadius: '9999px',
-                    backgroundColor: 'rgba(220, 38, 38, 0.2)',
-                    color: '#F87171',
-                    border: '1px solid rgba(220, 38, 38, 0.4)',
-                    fontWeight: 600,
-                  }}
-                >
+                <span className="sstr-wave-tag" style={{ color: '#EF4444', borderColor: 'rgba(239, 68, 68, 0.35)' }}>
                   CRITICAL: 70%
                 </span>
-                <span
-                  style={{
-                    fontSize: '0.7rem',
-                    fontFamily: 'var(--font-mono)',
-                    padding: '0.25rem 0.65rem',
-                    borderRadius: '9999px',
-                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                    color: 'rgba(255, 255, 255, 0.6)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                  }}
-                >
+                <span className="sstr-wave-tag">
                   BUFFER: {telemetryHistory.length} SAMPLES
                 </span>
               </div>
             </div>
 
             {/* SVG Waveform Visualizer Canvas */}
-            <div
-              style={{
-                width: '100%',
-                height: '240px',
-                backgroundColor: 'rgba(0, 0, 0, 0.4)',
-                borderRadius: '8px',
-                position: 'relative',
-                overflow: 'hidden',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-              }}
-            >
+            <div className="sstr-svg-canvas-box">
               {hasLiveData ? (
                 <svg
                   width="100%"
@@ -571,26 +299,26 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                   style={{ display: 'block' }}
                 >
                   <defs>
-                    <linearGradient id="vantageWaveformGradient" x1="0" y1="0" x2="1" y2="0">
-                      <stop offset="0%" stopColor="#2E7D32" />
-                      <stop offset="60%" stopColor="#F59E0B" />
-                      <stop offset="100%" stopColor="#DC2626" />
+                    <linearGradient id="sstrWaveformGradient" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stopColor="#10B981" />
+                      <stop offset="50%" stopColor="#FE5B2A" />
+                      <stop offset="100%" stopColor="#EF4444" />
                     </linearGradient>
-                    <linearGradient id="vantageAreaGradient" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#DC2626" stopOpacity="0.25" />
-                      <stop offset="100%" stopColor="#DC2626" stopOpacity="0.0" />
+                    <linearGradient id="sstrAreaGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#FE5B2A" stopOpacity="0.25" />
+                      <stop offset="100%" stopColor="#FE5B2A" stopOpacity="0.0" />
                     </linearGradient>
                   </defs>
 
                   {/* Threshold Guidelines */}
-                  <line x1="0" y1="60" x2="800" y2="60" stroke="#DC2626" strokeDasharray="3 3" strokeWidth="1" strokeOpacity="0.6" />
-                  <line x1="0" y1="130" x2="800" y2="130" stroke="#D97706" strokeDasharray="3 3" strokeWidth="1" strokeOpacity="0.45" />
+                  <line x1="0" y1="60" x2="800" y2="60" stroke="#EF4444" strokeDasharray="3 3" strokeWidth="1" strokeOpacity="0.6" />
+                  <line x1="0" y1="130" x2="800" y2="130" stroke="#FE5B2A" strokeDasharray="3 3" strokeWidth="1" strokeOpacity="0.45" />
                   <line x1="0" y1="190" x2="800" y2="190" stroke="rgba(255, 255, 255, 0.12)" strokeWidth="1" />
 
-                  <text x="14" y="54" fill="#F87171" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">
+                  <text x="14" y="54" fill="#EF4444" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">
                     CRITICAL (70%)
                   </text>
-                  <text x="14" y="124" fill="#FBBF24" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">
+                  <text x="14" y="124" fill="#FE5B2A" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">
                     WARNING (35%)
                   </text>
                   <text x="14" y="184" fill="rgba(255, 255, 255, 0.4)" fontSize="10" fontFamily="var(--font-mono)">
@@ -617,13 +345,13 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                     return (
                       <>
                         <polygon
-                          fill="url(#vantageAreaGradient)"
+                          fill="url(#sstrAreaGradient)"
                           points={areaPoints}
                         />
                         <polyline
                           fill="none"
-                          stroke="url(#vantageWaveformGradient)"
-                          strokeWidth="2.4"
+                          stroke="url(#sstrWaveformGradient)"
+                          strokeWidth="2.5"
                           points={points}
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -633,12 +361,12 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                   })()}
                 </svg>
               ) : (
-                <div style={{ textAlign: 'center', color: 'rgba(255, 255, 255, 0.5)', padding: '2rem' }}>
+                <div style={{ textAlign: 'center', color: '#5F6470', padding: '2rem' }}>
                   <div
                     style={{
                       width: '44px',
                       height: '44px',
-                      borderRadius: '50%',
+                      borderRadius: '4px',
                       backgroundColor: 'rgba(255, 255, 255, 0.05)',
                       border: '1px solid rgba(255, 255, 255, 0.1)',
                       display: 'flex',
@@ -647,12 +375,12 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                       margin: '0 auto 0.75rem auto',
                     }}
                   >
-                    <BarChart3 size={20} color="#F87171" />
+                    <BarChart3 size={20} color="#FE5B2A" />
                   </div>
-                  <div style={{ fontFamily: 'var(--font-serif)', fontSize: '1.15rem', color: '#FFFFFF' }}>
-                    No live telemetry buffer recorded yet
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', color: '#FFFFFF', fontWeight: 700 }}>
+                    NO LIVE TELEMETRY BUFFER RECORDED YET
                   </div>
-                  <div style={{ fontSize: '0.78rem', color: 'rgba(255, 255, 255, 0.5)', marginTop: '0.35rem', fontFamily: 'var(--font-mono)' }}>
+                  <div style={{ fontSize: '0.78rem', color: '#9FA4B0', marginTop: '0.35rem', fontFamily: 'var(--font-mono)' }}>
                     Start Live Monitoring or trigger Diagnostic tests to visualize real-time waveform.
                   </div>
                 </div>
@@ -661,87 +389,41 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
           </div>
 
           {/* Real-Time Biometric Diagnostics Strip */}
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))',
-              gap: '1rem',
-            }}
-          >
-            <div
-              style={{
-                backgroundColor: '#FFFFFF',
-                border: '1px solid rgba(23, 23, 23, 0.1)',
-                borderRadius: '12px',
-                padding: '1.35rem',
-                boxShadow: '0 2px 10px rgba(0, 0, 0, 0.02)',
-              }}
-            >
-              <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                Eye Aspect Ratio (EAR)
-              </span>
-              <div style={{ fontFamily: 'var(--font-serif)', fontSize: '2.5rem', fontWeight: 400, color: 'var(--text-primary)', margin: '0.2rem 0' }}>
+          <div className="sstr-biometrics-strip">
+            <div className="sstr-card">
+              <span className="sstr-card-num">EYE ASPECT RATIO (EAR)</span>
+              <div className="sstr-bio-val">
                 {latestTelemetry && typeof latestTelemetry.ear === 'number' ? latestTelemetry.ear.toFixed(2) : '--'}
               </div>
-              <span style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: '#9CA3AF' }}>Nominal baseline: &gt; 0.22</span>
+              <span className="sstr-bio-lbl">Baseline: &gt; 0.22</span>
             </div>
 
-            <div
-              style={{
-                backgroundColor: '#FFFFFF',
-                border: '1px solid rgba(23, 23, 23, 0.1)',
-                borderRadius: '12px',
-                padding: '1.35rem',
-                boxShadow: '0 2px 10px rgba(0, 0, 0, 0.02)',
-              }}
-            >
-              <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                Mouth Aspect Ratio (MAR)
-              </span>
-              <div style={{ fontFamily: 'var(--font-serif)', fontSize: '2.5rem', fontWeight: 400, color: 'var(--text-primary)', margin: '0.2rem 0' }}>
+            <div className="sstr-card">
+              <span className="sstr-card-num">MOUTH ASPECT RATIO (MAR)</span>
+              <div className="sstr-bio-val">
                 {latestTelemetry && typeof latestTelemetry.mar === 'number' ? latestTelemetry.mar.toFixed(2) : '--'}
               </div>
-              <span style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: '#9CA3AF' }}>Yawn threshold: &gt; 0.55</span>
+              <span className="sstr-bio-lbl">Yawn trigger: &gt; 0.55</span>
             </div>
 
-            <div
-              style={{
-                backgroundColor: '#FFFFFF',
-                border: '1px solid rgba(23, 23, 23, 0.1)',
-                borderRadius: '12px',
-                padding: '1.35rem',
-                boxShadow: '0 2px 10px rgba(0, 0, 0, 0.02)',
-              }}
-            >
-              <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                Cranial Pitch
-              </span>
-              <div style={{ fontFamily: 'var(--font-serif)', fontSize: '2.5rem', fontWeight: 400, color: 'var(--text-primary)', margin: '0.2rem 0' }}>
+            <div className="sstr-card">
+              <span className="sstr-card-num">CRANIAL PITCH</span>
+              <div className="sstr-bio-val">
                 {latestTelemetry && typeof latestTelemetry.headPitch === 'number'
                   ? `${latestTelemetry.headPitch.toFixed(1)}°`
                   : '--'}
               </div>
-              <span style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: '#9CA3AF' }}>Head-down trigger: &lt; -10°</span>
+              <span className="sstr-bio-lbl">Downturn limit: &lt; -10°</span>
             </div>
 
-            <div
-              style={{
-                backgroundColor: '#FFFFFF',
-                border: '1px solid rgba(23, 23, 23, 0.1)',
-                borderRadius: '12px',
-                padding: '1.35rem',
-                boxShadow: '0 2px 10px rgba(0, 0, 0, 0.02)',
-              }}
-            >
-              <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                PERCLOS Index
-              </span>
-              <div style={{ fontFamily: 'var(--font-serif)', fontSize: '2.5rem', fontWeight: 400, color: 'var(--text-primary)', margin: '0.2rem 0' }}>
+            <div className="sstr-card">
+              <span className="sstr-card-num">PERCLOS INDEX</span>
+              <div className="sstr-bio-val">
                 {latestTelemetry && typeof latestTelemetry.perclos === 'number'
                   ? `${latestTelemetry.perclos.toFixed(1)}%`
                   : '--'}
               </div>
-              <span style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: '#9CA3AF' }}>Fatigue warning: &gt; 15%</span>
+              <span className="sstr-bio-lbl">Fatigue warning: &gt; 15%</span>
             </div>
           </div>
         </div>
@@ -751,122 +433,62 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
       {/* MODE 2: HISTORICAL AUDIT VAULT                                        */}
       {/* ===================================================================== */}
       {activeMode === 'historical' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
           {/* Header Status & Sync Button */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span
-              style={{
-                fontSize: '0.75rem',
-                fontFamily: 'var(--font-mono)',
-                fontWeight: 600,
-                color: 'var(--text-secondary)',
-                letterSpacing: '0.08em',
-              }}
-            >
+            <span className="sstr-tag">
               SQLITE DATABASE AUDIT LEDGER • {trips.length} PERSISTED SESSIONS
             </span>
 
             <button
               onClick={fetchHistoricalTrips}
               disabled={isLoadingHistory}
-              title="Refresh ledger from database"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.45rem',
-                padding: '0.5rem 1.15rem',
-                backgroundColor: '#FFFFFF',
-                border: '1px solid rgba(23, 23, 23, 0.15)',
-                borderRadius: '9999px',
-                fontSize: '0.78rem',
-                fontFamily: 'var(--font-sans)',
-                fontWeight: 500,
-                color: 'var(--text-primary)',
-                cursor: isLoadingHistory ? 'wait' : 'pointer',
-              }}
+              className="sstr-btn-secondary"
+              style={{ padding: '0.45rem 1rem' }}
             >
               <RefreshCw size={12} className={isLoadingHistory ? 'animate-spin' : ''} />
-              <span>{isLoadingHistory ? 'Syncing...' : 'Sync Vault'}</span>
+              <span>{isLoadingHistory ? 'SYNCING...' : 'SYNC VAULT'}</span>
             </button>
           </div>
 
           {/* Loading State */}
           {isLoadingHistory && (
-            <div
-              style={{
-                backgroundColor: '#FFFFFF',
-                border: '1px solid rgba(23, 23, 23, 0.1)',
-                borderRadius: '16px',
-                padding: '3.5rem 2rem',
-                textAlign: 'center',
-                color: 'var(--text-secondary)',
-              }}
-            >
-              <RefreshCw size={24} className="animate-spin" style={{ display: 'inline-block', marginBottom: '0.75rem', color: '#DC2626' }} />
-              <div style={{ fontFamily: 'var(--font-serif)', fontSize: '1.25rem', color: 'var(--text-primary)' }}>
-                Accessing SQLite Session Audit Ledger...
+            <div className="sstr-card" style={{ padding: '3.5rem 2rem', textAlign: 'center' }}>
+              <RefreshCw size={24} className="animate-spin" style={{ display: 'inline-block', marginBottom: '0.75rem', color: '#FE5B2A' }} />
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', color: '#FFFFFF', fontWeight: 700 }}>
+                ACCESSING SQLITE SESSION AUDIT LEDGER...
               </div>
             </div>
           )}
 
           {/* Backend Unavailable Error State */}
           {!isLoadingHistory && historyError && (
-            <div
-              style={{
-                backgroundColor: '#FFFFFF',
-                border: '1.5px solid #DC2626',
-                borderRadius: '16px',
-                padding: '2.5rem',
-                textAlign: 'center',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: '0.85rem',
-              }}
-            >
-              <AlertTriangle size={32} color="#DC2626" />
-              <h4 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.5rem', color: 'var(--text-primary)', margin: 0 }}>
-                Audit Ledger Unavailable
+            <div className="sstr-card" style={{ borderColor: '#EF4444', padding: '2.5rem', textAlign: 'center', alignItems: 'center' }}>
+              <AlertTriangle size={32} color="#EF4444" />
+              <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', color: '#FFFFFF', margin: '0.5rem 0' }}>
+                AUDIT LEDGER UNAVAILABLE
               </h4>
-              <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', maxWidth: '500px', margin: 0 }}>
+              <p style={{ fontSize: '0.88rem', color: '#9FA4B0', maxWidth: '500px', margin: 0 }}>
                 Could not connect to backend database ({historyError}). Ensure the FastAPI server is running on port 8000.
               </p>
               <button
                 onClick={fetchHistoricalTrips}
-                style={{
-                  marginTop: '0.5rem',
-                  padding: '0.55rem 1.4rem',
-                  backgroundColor: '#171717',
-                  color: '#FFFFFF',
-                  borderRadius: '9999px',
-                  border: 'none',
-                  cursor: 'pointer',
-                  fontFamily: 'var(--font-sans)',
-                  fontSize: '0.82rem',
-                }}
+                className="sstr-btn"
+                style={{ marginTop: '1rem' }}
               >
-                Retry Connection
+                RETRY CONNECTION
               </button>
             </div>
           )}
 
           {/* Empty Historical State */}
           {!isLoadingHistory && !historyError && !hasHistoryData && (
-            <div
-              style={{
-                backgroundColor: '#FFFFFF',
-                border: '1px solid rgba(23, 23, 23, 0.1)',
-                borderRadius: '16px',
-                padding: '3.5rem 2rem',
-                textAlign: 'center',
-                color: 'var(--text-secondary)',
-              }}
-            >
-              <Award size={32} style={{ opacity: 0.4, marginBottom: '0.75rem', display: 'inline-block', color: '#9CA3AF' }} />
-              <h4 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.5rem', color: 'var(--text-primary)', margin: 0 }}>
-                No Historical Sessions Found
+            <div className="sstr-card" style={{ padding: '3.5rem 2rem', textAlign: 'center' }}>
+              <Award size={32} style={{ opacity: 0.4, marginBottom: '0.75rem', display: 'inline-block', color: '#5F6470' }} />
+              <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', color: '#FFFFFF', margin: 0 }}>
+                NO HISTORICAL SESSIONS FOUND
               </h4>
-              <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', maxWidth: '500px', margin: '0.5rem auto 0' }}>
+              <p style={{ fontSize: '0.88rem', color: '#9FA4B0', maxWidth: '500px', margin: '0.5rem auto 0' }}>
                 No completed driving sessions have been committed to SQLite yet. Sessions longer than 5 seconds are saved automatically when monitoring stops.
               </p>
             </div>
@@ -876,236 +498,58 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
           {!isLoadingHistory && !historyError && hasHistoryData && (
             <>
               {/* Four Summary Cards */}
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-                  gap: '1.25rem',
-                }}
-              >
+              <div className="sstr-kpi-grid">
                 {/* Card 1: Mean Recorded Safety Score */}
-                <div
-                  style={{
-                    backgroundColor: '#FFFFFF',
-                    border: '1px solid rgba(23, 23, 23, 0.1)',
-                    borderRadius: '16px',
-                    padding: '1.75rem',
-                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
-                  }}
-                >
-                  <span
-                    style={{
-                      fontSize: '0.72rem',
-                      fontFamily: 'var(--font-mono)',
-                      fontWeight: 600,
-                      letterSpacing: '0.1em',
-                      color: 'var(--text-secondary)',
-                      textTransform: 'uppercase',
-                    }}
-                  >
-                    Mean Safety Score
-                  </span>
-                  <div
-                    style={{
-                      fontFamily: 'var(--font-serif)',
-                      fontSize: '3.6rem',
-                      fontWeight: 400,
-                      lineHeight: 1,
-                      color: 'var(--text-primary)',
-                      margin: '0.4rem 0',
-                    }}
-                  >
-                    {averageHistoricalSafetyScore}%
-                  </div>
-                  <span style={{ fontSize: '0.78rem', color: '#9CA3AF', fontFamily: 'var(--font-sans)' }}>
-                    Algorithmic heuristic across {validTrips.length} sessions
-                  </span>
+                <div className="sstr-card sstr-reticle">
+                  <span className="sstr-card-num">METRIC // MEAN SAFETY</span>
+                  <div className="sstr-kpi-val">{averageHistoricalSafetyScore}%</div>
+                  <span className="sstr-kpi-lbl">Algorithmic heuristic across {validTrips.length} sessions</span>
                 </div>
 
                 {/* Card 2: Cumulative Monitored Time */}
-                <div
-                  style={{
-                    backgroundColor: '#FFFFFF',
-                    border: '1px solid rgba(23, 23, 23, 0.1)',
-                    borderRadius: '16px',
-                    padding: '1.75rem',
-                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
-                  }}
-                >
-                  <span
-                    style={{
-                      fontSize: '0.72rem',
-                      fontFamily: 'var(--font-mono)',
-                      fontWeight: 600,
-                      letterSpacing: '0.1em',
-                      color: 'var(--text-secondary)',
-                      textTransform: 'uppercase',
-                    }}
-                  >
-                    Cumulative Monitored Time
-                  </span>
-                  <div
-                    style={{
-                      fontFamily: 'var(--font-serif)',
-                      fontSize: '3.6rem',
-                      fontWeight: 400,
-                      lineHeight: 1,
-                      color: 'var(--text-primary)',
-                      margin: '0.4rem 0',
-                    }}
-                  >
-                    {formatSecondsToDuration(cumulativeDurationSecs)}
-                  </div>
-                  <span style={{ fontSize: '0.78rem', color: '#9CA3AF', fontFamily: 'var(--font-sans)' }}>
-                    Active driving across {trips.length} records
-                  </span>
+                <div className="sstr-card sstr-reticle">
+                  <span className="sstr-card-num">METRIC // OPERATING TIME</span>
+                  <div className="sstr-kpi-val">{formatSecondsToDuration(cumulativeDurationSecs)}</div>
+                  <span className="sstr-kpi-lbl">Active driving across {trips.length} records</span>
                 </div>
 
                 {/* Card 3: Recorded Safety Incidents */}
-                <div
-                  style={{
-                    backgroundColor: '#FFFFFF',
-                    border: '1px solid rgba(23, 23, 23, 0.1)',
-                    borderRadius: '16px',
-                    padding: '1.75rem',
-                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
-                  }}
-                >
-                  <span
-                    style={{
-                      fontSize: '0.72rem',
-                      fontFamily: 'var(--font-mono)',
-                      fontWeight: 600,
-                      letterSpacing: '0.1em',
-                      color: 'var(--text-secondary)',
-                      textTransform: 'uppercase',
-                    }}
-                  >
-                    Recorded Incidents
-                  </span>
-                  <div
-                    style={{
-                      fontFamily: 'var(--font-serif)',
-                      fontSize: '3.6rem',
-                      fontWeight: 400,
-                      lineHeight: 1,
-                      color: totalIncidentsCount > 0 ? '#DC2626' : '#2E7D32',
-                      margin: '0.4rem 0',
-                    }}
-                  >
+                <div className="sstr-card sstr-reticle">
+                  <span className="sstr-card-num">METRIC // INCIDENTS</span>
+                  <div className="sstr-kpi-val" style={{ color: totalIncidentsCount > 0 ? '#EF4444' : '#10B981' }}>
                     {totalIncidentsCount}
                   </div>
-                  <span style={{ fontSize: '0.78rem', color: '#9CA3AF', fontFamily: 'var(--font-sans)' }}>
-                    Drowsiness, distraction &amp; deviation events
-                  </span>
+                  <span className="sstr-kpi-lbl">Drowsiness, distraction &amp; deviation events</span>
                 </div>
 
                 {/* Card 4: Optimal Session Ratio */}
-                <div
-                  style={{
-                    backgroundColor: '#0E1311',
-                    color: '#FFFFFF',
-                    borderRadius: '16px',
-                    padding: '1.75rem',
-                    boxShadow: '0 8px 25px rgba(0, 0, 0, 0.08)',
-                  }}
-                >
-                  <span
-                    style={{
-                      fontSize: '0.72rem',
-                      fontFamily: 'var(--font-mono)',
-                      fontWeight: 600,
-                      letterSpacing: '0.1em',
-                      color: '#A7F3D0',
-                      textTransform: 'uppercase',
-                    }}
-                  >
-                    Optimal Session Ratio
-                  </span>
-                  <div
-                    style={{
-                      fontFamily: 'var(--font-serif)',
-                      fontSize: '3.6rem',
-                      fontWeight: 400,
-                      lineHeight: 1,
-                      color: '#FFFFFF',
-                      margin: '0.4rem 0',
-                    }}
-                  >
+                <div className="sstr-card sstr-reticle" style={{ borderColor: 'rgba(254, 91, 42, 0.4)' }}>
+                  <span className="sstr-card-num">METRIC // OPTIMAL RATIO</span>
+                  <div className="sstr-kpi-val" style={{ color: '#FE5B2A' }}>
                     {trips.length > 0
                       ? `${Math.round((gradeDistribution.A.count / trips.length) * 100)}%`
                       : '0%'}
                   </div>
-                  <span style={{ fontSize: '0.78rem', color: 'rgba(255, 255, 255, 0.7)', fontFamily: 'var(--font-sans)' }}>
+                  <span className="sstr-kpi-lbl">
                     {gradeDistribution.A.count} of {trips.length} sessions rated Grade A
                   </span>
                 </div>
               </div>
 
               {/* Chronological Safety-Score Trend Chart (SVG) */}
-              <div
-                style={{
-                  backgroundColor: '#FFFFFF',
-                  border: '1px solid rgba(23, 23, 23, 0.1)',
-                  borderRadius: '16px',
-                  padding: 'clamp(1.5rem, 3vw, 2.25rem)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '1.5rem',
-                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
-                }}
-              >
+              <div className="sstr-waveform-card sstr-reticle">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
                   <div>
-                    <span
-                      style={{
-                        fontSize: '0.7rem',
-                        fontFamily: 'var(--font-mono)',
-                        fontWeight: 600,
-                        letterSpacing: '0.12em',
-                        color: 'var(--text-secondary)',
-                        textTransform: 'uppercase',
-                      }}
-                    >
-                      CHRONOLOGICAL SAFETY TRAJECTORY
-                    </span>
-                    <h3
-                      style={{
-                        fontFamily: 'var(--font-serif)',
-                        fontSize: '1.5rem',
-                        fontWeight: 400,
-                        color: 'var(--text-primary)',
-                        margin: '0.2rem 0 0 0',
-                      }}
-                    >
-                      Session-by-Session Compliance Progression
-                    </h3>
+                    <span className="sstr-card-num">CHRONOLOGICAL SAFETY TRAJECTORY</span>
+                    <h3 className="sstr-waveform-title">Session-by-Session Compliance Progression</h3>
                   </div>
-                  <div
-                    style={{
-                      fontSize: '0.7rem',
-                      fontFamily: 'var(--font-mono)',
-                      padding: '0.25rem 0.65rem',
-                      borderRadius: '9999px',
-                      backgroundColor: '#F3EFEA',
-                      color: 'var(--text-secondary)',
-                    }}
-                  >
+                  <div className="sstr-wave-tag">
                     OLDEST (LEFT) → NEWEST (RIGHT)
                   </div>
                 </div>
 
                 {/* SVG Trend Chart Canvas */}
-                <div
-                  style={{
-                    width: '100%',
-                    height: '240px',
-                    backgroundColor: '#FDFBF7',
-                    borderRadius: '8px',
-                    position: 'relative',
-                    border: '1px solid rgba(23, 23, 23, 0.08)',
-                  }}
-                >
+                <div className="sstr-svg-canvas-box">
                   <svg
                     width="100%"
                     height="100%"
@@ -1114,13 +558,13 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                     style={{ display: 'block' }}
                   >
                     {/* Horizontal Guidelines */}
-                    <line x1="50" y1="56" x2="780" y2="56" stroke="#2E7D32" strokeDasharray="3 3" strokeWidth="1" strokeOpacity="0.5" />
-                    <line x1="50" y1="95" x2="780" y2="95" stroke="rgba(23, 23, 23, 0.15)" strokeDasharray="3 3" strokeWidth="1" />
-                    <line x1="50" y1="135" x2="780" y2="135" stroke="#DC2626" strokeDasharray="3 3" strokeWidth="1" strokeOpacity="0.4" />
+                    <line x1="50" y1="56" x2="780" y2="56" stroke="#10B981" strokeDasharray="3 3" strokeWidth="1" strokeOpacity="0.5" />
+                    <line x1="50" y1="95" x2="780" y2="95" stroke="rgba(255, 255, 255, 0.12)" strokeDasharray="3 3" strokeWidth="1" />
+                    <line x1="50" y1="135" x2="780" y2="135" stroke="#EF4444" strokeDasharray="3 3" strokeWidth="1" strokeOpacity="0.4" />
 
-                    <text x="14" y="60" fill="#2E7D32" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">90% A</text>
-                    <text x="14" y="99" fill="var(--text-secondary)" fontSize="10" fontFamily="var(--font-mono)">75% B</text>
-                    <text x="14" y="139" fill="#DC2626" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">60% C</text>
+                    <text x="14" y="60" fill="#10B981" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">90% A</text>
+                    <text x="14" y="99" fill="#9FA4B0" fontSize="10" fontFamily="var(--font-mono)">75% B</text>
+                    <text x="14" y="139" fill="#EF4444" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">60% C</text>
 
                     {/* Polyline connecting points in chronological order */}
                     {(() => {
@@ -1145,8 +589,8 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                         <>
                           <polyline
                             fill="none"
-                            stroke="#171717"
-                            strokeWidth="2.2"
+                            stroke="#FE5B2A"
+                            strokeWidth="2.4"
                             points={pointsStr}
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -1155,10 +599,10 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                             const isSelected = selectedTripIndex === i;
                             const pointColor =
                               c.trip.safetyScore >= 85
-                                ? '#2E7D32'
+                                ? '#10B981'
                                 : c.trip.safetyScore >= 70
-                                ? '#171717'
-                                : '#DC2626';
+                                ? '#FE5B2A'
+                                : '#EF4444';
 
                             return (
                               <g
@@ -1179,7 +623,7 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                                     x={Math.min(720, Math.max(80, c.x))}
                                     y={c.y > 60 ? c.y - 12 : c.y + 20}
                                     textAnchor="middle"
-                                    fill="#171717"
+                                    fill="#FFFFFF"
                                     fontSize="10"
                                     fontFamily="var(--font-mono)"
                                     fontWeight="bold"
@@ -1196,43 +640,24 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                   </svg>
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.78rem', color: '#9CA3AF' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.78rem', color: '#5F6470' }}>
                   <span>Click any plot node to inspect session score details.</span>
                   <span className="font-mono">{chronologicalTrips.length} AUDIT SESSIONS LOGGED</span>
                 </div>
               </div>
 
               {/* Two Column Detailed Breakdown */}
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-                  gap: '1.5rem',
-                }}
-              >
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem' }}>
                 {/* Column 1: Incident Category Breakdown */}
-                <div
-                  style={{
-                    backgroundColor: '#FFFFFF',
-                    border: '1px solid rgba(23, 23, 23, 0.1)',
-                    borderRadius: '16px',
-                    padding: '1.75rem',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '1.25rem',
-                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
-                  }}
-                >
+                <div className="sstr-card sstr-reticle">
                   <div>
-                    <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', fontWeight: 600, letterSpacing: '0.12em', color: 'var(--text-secondary)', textTransform: 'uppercase' }}>
-                      TAXONOMY BREAKDOWN
-                    </span>
-                    <h4 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.4rem', fontWeight: 400, color: 'var(--text-primary)', margin: '0.2rem 0 0 0' }}>
+                    <span className="sstr-card-num">TAXONOMY BREAKDOWN</span>
+                    <h4 className="sstr-card-title" style={{ fontSize: '1.25rem', marginTop: '0.25rem' }}>
                       Safety Violations by Category
                     </h4>
                   </div>
 
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '0.5rem' }}>
                     {Object.entries(incidentCategories)
                       .filter(([_, cat]) => cat.count > 0 || totalIncidentsCount === 0)
                       .map(([key, cat]) => {
@@ -1241,28 +666,18 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                         return (
                           <div key={key} style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.82rem' }}>
-                              <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>{cat.label}</span>
-                              <span className="font-mono" style={{ color: 'var(--text-secondary)', fontSize: '0.75rem' }}>
+                              <span style={{ color: '#FFFFFF', fontWeight: 600 }}>{cat.label}</span>
+                              <span className="font-mono" style={{ color: '#FE5B2A', fontSize: '0.75rem' }}>
                                 {cat.count} ({pct}%)
                               </span>
                             </div>
 
-                            <div
-                              style={{
-                                width: '100%',
-                                height: '6px',
-                                backgroundColor: '#F3EFEA',
-                                borderRadius: '3px',
-                                overflow: 'hidden',
-                              }}
-                            >
+                            <div className="sstr-progress-track">
                               <div
+                                className="sstr-progress-fill"
                                 style={{
                                   width: `${pct}%`,
-                                  height: '100%',
                                   backgroundColor: cat.color,
-                                  borderRadius: '3px',
-                                  transition: 'width 0.4s ease',
                                 }}
                               />
                             </div>
@@ -1273,56 +688,33 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
                 </div>
 
                 {/* Column 2: Safety Grade Distribution */}
-                <div
-                  style={{
-                    backgroundColor: '#FFFFFF',
-                    border: '1px solid rgba(23, 23, 23, 0.1)',
-                    borderRadius: '16px',
-                    padding: '1.75rem',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '1.25rem',
-                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
-                  }}
-                >
+                <div className="sstr-card sstr-reticle">
                   <div>
-                    <span style={{ fontSize: '0.7rem', fontFamily: 'var(--font-mono)', fontWeight: 600, letterSpacing: '0.12em', color: 'var(--text-secondary)', textTransform: 'uppercase' }}>
-                      FLEET COMPLIANCE
-                    </span>
-                    <h4 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.4rem', fontWeight: 400, color: 'var(--text-primary)', margin: '0.2rem 0 0 0' }}>
+                    <span className="sstr-card-num">FLEET COMPLIANCE</span>
+                    <h4 className="sstr-card-title" style={{ fontSize: '1.25rem', marginTop: '0.25rem' }}>
                       Session Safety Grade Spread
                     </h4>
                   </div>
 
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '0.5rem' }}>
                     {Object.entries(gradeDistribution).map(([gradeKey, item]) => {
                       const pct = trips.length > 0 ? Math.round((item.count / trips.length) * 100) : 0;
 
                       return (
                         <div key={gradeKey} style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
                           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.82rem' }}>
-                            <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>{item.label}</span>
-                            <span className="font-mono" style={{ color: 'var(--text-secondary)', fontSize: '0.75rem' }}>
+                            <span style={{ color: '#FFFFFF', fontWeight: 600 }}>{item.label}</span>
+                            <span className="font-mono" style={{ color: '#9FA4B0', fontSize: '0.75rem' }}>
                               {item.count} sessions ({pct}%)
                             </span>
                           </div>
 
-                          <div
-                            style={{
-                              width: '100%',
-                              height: '6px',
-                              backgroundColor: '#F3EFEA',
-                              borderRadius: '3px',
-                              overflow: 'hidden',
-                            }}
-                          >
+                          <div className="sstr-progress-track">
                             <div
+                              className="sstr-progress-fill"
                               style={{
                                 width: `${pct}%`,
-                                height: '100%',
                                 backgroundColor: item.color,
-                                borderRadius: '3px',
-                                transition: 'width 0.4s ease',
                               }}
                             />
                           </div>
@@ -1336,16 +728,16 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
               {/* Integrity & Compliance Disclaimer Note */}
               <div
                 style={{
-                  backgroundColor: '#FDFBF7',
-                  border: '1px solid rgba(23, 23, 23, 0.08)',
-                  borderRadius: '12px',
+                  backgroundColor: '#141518',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRadius: '6px',
                   padding: '1.25rem 1.5rem',
                   fontSize: '0.8rem',
-                  color: 'var(--text-secondary)',
+                  color: '#9FA4B0',
                   lineHeight: 1.6,
                 }}
               >
-                <strong style={{ color: 'var(--text-primary)' }}>NOTE ON HEURISTIC SCORING: </strong>
+                <strong style={{ color: '#FE5B2A' }}>NOTE ON HEURISTIC SCORING: </strong>
                 Safety scores are algorithmic heuristics calculated by DriveGuard AI based on computer-vision event
                 deductions (15 points per prolonged eye closure and 5 points per distraction or yawning anomaly).
                 They reflect driver attentiveness during recorded sessions and are not an accredited medical diagnosis or legal certification.
@@ -1354,6 +746,169 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
           )}
         </div>
       )}
+
+      {/* Scoped CSS Styles for SSTR Analytics */}
+      <style>{`
+        .sstr-analytics-wrapper {
+          max-width: 1440px;
+          margin: 0 auto;
+          padding: clamp(1.5rem, 3.5vw, 2.5rem) clamp(1rem, 3.5vw, 2.5rem) 5rem;
+          display: flex;
+          flex-direction: column;
+          gap: 2.5rem;
+        }
+
+        .sstr-analytics-masthead {
+          display: flex;
+          justifyContent: space-between;
+          align-items: flex-end;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          padding-bottom: 1.5rem;
+          flex-wrap: wrap;
+          gap: 1.5rem;
+        }
+
+        .sstr-analytics-meta {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          font-family: var(--font-mono);
+          font-size: 0.72rem;
+          color: #9FA4B0;
+          margin-bottom: 0.4rem;
+          flex-wrap: wrap;
+        }
+        .sstr-analytics-title {
+          font-family: var(--font-display);
+          font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+          font-weight: 800;
+          color: #FFFFFF;
+          margin: 0;
+          line-height: 1.05;
+          letter-spacing: -0.02em;
+        }
+        .sstr-analytics-subtitle {
+          font-family: var(--font-sans);
+          font-size: 0.92rem;
+          color: #9FA4B0;
+          margin: 0.35rem 0 0 0;
+          max-width: 680px;
+        }
+
+        .sstr-mode-toggle {
+          display: inline-flex;
+          background: #18191B;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 4px;
+          padding: 3px;
+          gap: 3px;
+        }
+        .sstr-toggle-btn {
+          padding: 0.5rem 1.25rem;
+          border-radius: 3px;
+          font-family: var(--font-mono);
+          font-size: 0.76rem;
+          font-weight: 700;
+          border: none;
+          cursor: pointer;
+          background: transparent;
+          color: #9FA4B0;
+          transition: all 0.2s ease;
+          text-transform: uppercase;
+        }
+        .sstr-toggle-btn.active {
+          background: #FE5B2A;
+          color: #FFFFFF;
+        }
+
+        .sstr-kpi-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+          gap: 1.25rem;
+        }
+        .sstr-kpi-badge {
+          font-family: var(--font-mono);
+          font-size: 0.68rem;
+          padding: 0.2rem 0.55rem;
+          border-radius: 4px;
+          background: #0D0E10;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          color: #FFFFFF;
+          font-weight: 600;
+        }
+        .sstr-kpi-val {
+          font-family: var(--font-display);
+          font-size: 3.6rem;
+          font-weight: 800;
+          line-height: 1;
+          color: #FFFFFF;
+          margin: 0.4rem 0;
+        }
+        .sstr-kpi-lbl {
+          font-family: var(--font-sans);
+          font-size: 0.78rem;
+          color: #5F6470;
+        }
+
+        .sstr-waveform-card {
+          background: #141518;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 6px;
+          padding: clamp(1.5rem, 3vw, 2.25rem);
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+        }
+        .sstr-waveform-title {
+          font-family: var(--font-display);
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: #FFFFFF;
+          margin: 0.2rem 0 0 0;
+        }
+        .sstr-wave-tag {
+          font-family: var(--font-mono);
+          font-size: 0.7rem;
+          padding: 0.25rem 0.65rem;
+          border-radius: 4px;
+          background: #0D0E10;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          color: #9FA4B0;
+          font-weight: 600;
+        }
+
+        .sstr-svg-canvas-box {
+          width: 100%;
+          height: 240px;
+          background: #0D0E10;
+          border-radius: 4px;
+          position: relative;
+          overflow: hidden;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .sstr-biometrics-strip {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+          gap: 1rem;
+        }
+        .sstr-bio-val {
+          font-family: var(--font-display);
+          font-size: 2.5rem;
+          font-weight: 800;
+          color: #FFFFFF;
+          margin: 0.2rem 0;
+        }
+        .sstr-bio-lbl {
+          font-family: var(--font-mono);
+          font-size: 0.72rem;
+          color: #5F6470;
+        }
+      `}</style>
     </div>
   );
 }

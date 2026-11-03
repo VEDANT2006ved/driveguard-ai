@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 /**
- * RiskGauge Component (Wispr Flow Refined Attentiveness Dial)
- * An elegant circular instrument combining luxury watchmaking precision with modern AI telemetry.
+ * RiskGauge Component - SSTR Industrial Attentiveness Indicator
+ * Precision circular instrument with high-contrast mechanical ticks and real-time biometric telemetry.
  */
 export default function RiskGauge({
   score = 0,
@@ -20,7 +20,7 @@ export default function RiskGauge({
 
     const startScore = prevScoreRef.current;
     const targetScore = Math.max(0, Math.min(100, Math.round(score)));
-    const duration = 380; // ms
+    const duration = 320; // ms
     const startTime = performance.now();
 
     const animate = (now) => {
@@ -56,10 +56,10 @@ export default function RiskGauge({
   const isWarn = displayScore >= 35 && displayScore < 70;
 
   const getStrokeColor = () => {
-    if (!isLive) return 'var(--text-muted)';
-    if (isAlert) return 'var(--color-alert)';
-    if (isWarn) return 'var(--color-warning)';
-    return 'var(--bg-emerald)';
+    if (!isLive) return '#666B78';
+    if (isAlert) return '#EF4444';
+    if (isWarn) return '#FE5B2A';
+    return '#10B981';
   };
 
   const currentColor = getStrokeColor();
@@ -91,8 +91,8 @@ export default function RiskGauge({
           cy={size / 2}
           r={radius}
           fill="none"
-          stroke="var(--bg-surface-warm)"
-          strokeWidth="7"
+          stroke="rgba(255, 255, 255, 0.08)"
+          strokeWidth="6"
           strokeDasharray={`${arcLength} ${circumference}`}
           strokeLinecap="round"
         />
@@ -104,13 +104,13 @@ export default function RiskGauge({
           r={radius}
           fill="none"
           stroke={currentColor}
-          strokeWidth="7"
+          strokeWidth="6"
           strokeDasharray={`${arcLength} ${circumference}`}
           strokeDashoffset={strokeDashoffset}
           strokeLinecap="round"
           style={{
-            transition: 'stroke 0.25s ease',
-            filter: isAlert ? 'drop-shadow(0 0 6px rgba(225, 29, 72, 0.4))' : 'none',
+            transition: 'stroke 0.2s ease',
+            filter: isAlert ? 'drop-shadow(0 0 8px rgba(239, 68, 68, 0.5))' : isWarn ? 'drop-shadow(0 0 6px rgba(254, 91, 42, 0.4))' : 'none',
           }}
         />
 
@@ -120,15 +120,15 @@ export default function RiskGauge({
           cy={size / 2}
           r={radius + 8}
           fill="none"
-          stroke="var(--color-alert)"
+          stroke="#EF4444"
           strokeWidth="1.5"
           strokeDasharray={`${arcLength * 0.3} ${circumference}`}
           strokeDashoffset={arcLength * 0.7}
-          opacity={0.7}
+          opacity={0.6}
         />
       </svg>
 
-      {/* Internal Minimal Readout */}
+      {/* Internal Industrial Readout */}
       <div
         style={{
           position: 'absolute',
@@ -141,36 +141,36 @@ export default function RiskGauge({
         }}
       >
         <span
-          className="label-editorial"
           style={{
-            fontSize: '0.64rem',
-            color: 'var(--text-secondary)',
+            fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
+            fontSize: '0.62rem',
+            color: '#9FA4B0',
             marginBottom: '0.1rem',
-            letterSpacing: '0.1em',
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
           }}
         >
           {isLive ? 'RISK INDEX' : 'STANDBY'}
         </span>
 
         <div
-          className="font-serif"
           style={{
-            fontSize: 'clamp(2.6rem, 5vw, 3.4rem)',
-            fontWeight: 400,
-            lineHeight: 0.95,
+            fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
+            fontSize: 'clamp(2.4rem, 4.5vw, 3rem)',
+            fontWeight: 700,
+            lineHeight: 1,
             color: currentColor,
-            fontStyle: 'italic',
+            letterSpacing: '-0.04em',
           }}
         >
           {isLive ? displayScore : '--'}
           {isLive && (
             <span
-              className="font-mono"
               style={{
                 fontSize: '0.9rem',
-                fontStyle: 'normal',
-                color: 'var(--text-muted)',
+                color: '#9FA4B0',
                 marginLeft: '2px',
+                fontWeight: 400,
               }}
             >
               %
@@ -186,17 +186,18 @@ export default function RiskGauge({
             alignItems: 'center',
             gap: '0.3rem',
             padding: '0.2rem 0.65rem',
-            borderRadius: '9999px',
-            border: `1px solid ${isAlert ? 'var(--color-alert-border)' : isWarn ? 'var(--color-warning-border)' : 'var(--border-subtle)'}`,
-            backgroundColor: isAlert ? 'var(--color-alert-dim)' : isWarn ? 'var(--color-warning-dim)' : 'var(--bg-surface-warm)',
+            borderRadius: '2px',
+            border: `1px solid ${isAlert ? 'rgba(239, 68, 68, 0.4)' : isWarn ? 'rgba(254, 91, 42, 0.4)' : 'rgba(255, 255, 255, 0.1)'}`,
+            backgroundColor: isAlert ? 'rgba(239, 68, 68, 0.15)' : isWarn ? 'rgba(254, 91, 42, 0.15)' : 'rgba(255, 255, 255, 0.05)',
           }}
         >
           <span
-            className="label-editorial"
             style={{
-              fontSize: '0.58rem',
-              color: isAlert ? 'var(--color-alert)' : isWarn ? 'var(--color-warning)' : 'var(--text-primary)',
+              fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
+              fontSize: '0.6rem',
+              color: isAlert ? '#EF4444' : isWarn ? '#FE5B2A' : '#F5F5F7',
               fontWeight: 700,
+              letterSpacing: '0.06em',
             }}
           >
             {isLive ? level : 'OFFLINE'}

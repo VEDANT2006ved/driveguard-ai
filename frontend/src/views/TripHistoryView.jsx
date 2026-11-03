@@ -8,6 +8,9 @@ import {
   ArrowUpDown,
   Navigation,
   MapPin,
+  Lock,
+  ShieldCheck,
+  Activity,
 } from 'lucide-react';
 import RouteVisualizer from '../components/RouteVisualizer';
 import { gpsTracker } from '../services/gpsTracker';
@@ -69,8 +72,11 @@ function cleanMetricString(val) {
 }
 
 /**
- * TripHistoryView Component — Redesigned Minimal Editorial Automotive Experience
- * Clean, restrained, generous whitespace, unified summary row, and authentic SQLite data.
+ * TripHistoryView Component
+ * High-End Industrial Archival Flight Ledger & SQLite Audit Vault
+ * Primary Reference: SSTR (https://sstr.tech/en/) — Awwwards Site of the Day (SOTD) & Developer Award
+ * Strict modular carbon grid, SSTR Electric Safety Orange (#FE5B2A), precision laser raster scans,
+ * and high-contrast telemetry dials.
  */
 export default function TripHistoryView() {
   const [trips, setTrips] = useState(FALLBACK_RECORDED_SESSIONS);
@@ -251,284 +257,82 @@ Attestation: Verified in SQLite local ledger`;
   };
 
   const getScoreColor = (score = 100) => {
-    if (score >= 85) return '#2E7D32'; // Restrained green
-    if (score >= 70) return '#D97706'; // Amber
-    return '#DC2626'; // Red
+    if (score >= 85) return '#10B981';
+    if (score >= 70) return '#FE5B2A';
+    return '#EF4444';
   };
 
   return (
-    <div
-      className="editorial-vault"
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '2.5rem',
-        width: '100%',
-        maxWidth: '100%',
-        boxSizing: 'border-box',
-        color: '#171717',
-        animation: 'editorialFadeIn 0.4s ease-out forwards',
-      }}
-    >
-      {/* 1. Page Header */}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'flex-end',
-          borderBottom: '1px solid #E6E2DA',
-          paddingBottom: '1.75rem',
-          flexWrap: 'wrap',
-          gap: '1.5rem',
-        }}
-      >
+    <div className="sstr-vault-wrapper sstr-grid-bg">
+      {/* 1. Page Masthead */}
+      <div className="sstr-vault-masthead">
         <div>
-          <div
-            style={{
-              fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-              fontSize: '0.72rem',
-              letterSpacing: '0.14em',
-              textTransform: 'uppercase',
-              color: '#77756F',
-              marginBottom: '0.5rem',
-              fontWeight: 600,
-            }}
-          >
-            DRIVEGUARD / SAFETY RECORDS
+          <div className="sstr-vault-meta">
+            <span className="sstr-tag">FLIGHT VAULT // AUDIT_04</span>
+            <span className="sstr-meta-divider">|</span>
+            <span className="sstr-meta-item">SQLITE VERIFIED LEDGER</span>
           </div>
 
-          <h1
-            style={{
-              fontFamily: "Georgia, 'Times New Roman', 'Playfair Display', serif",
-              fontSize: 'clamp(2.3rem, 4.4vw, 3.3rem)',
-              fontWeight: 400,
-              letterSpacing: '-0.025em',
-              color: '#171717',
-              margin: '0 0 0.45rem 0',
-              lineHeight: 1.1,
-            }}
-          >
-            Your journeys, documented.
+          <h1 className="sstr-vault-title">
+            PERSISTENT SESSION LEDGER<span style={{ color: '#FE5B2A' }}>.</span>
           </h1>
 
-          <p
-            style={{
-              color: '#77756F',
-              fontSize: '0.95rem',
-              margin: 0,
-              lineHeight: 1.5,
-            }}
-          >
-            A clear record of every monitored session.
+          <p className="sstr-vault-subtitle">
+            Immutable records of monitored driving sessions with spatial GPS telemetry and biometric incidents.
           </p>
         </div>
 
-        {/* Minimal Sync Button on Right */}
+        {/* Sync Button */}
         <button
           onClick={() => fetchTrips(true)}
           disabled={isRefreshing}
-          aria-label="Sync session ledger"
-          title="Sync session records with local SQLite database"
-          className="editorial-sync-btn"
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            backgroundColor: 'transparent',
-            border: '1px solid #E6E2DA',
-            borderRadius: '4px',
-            padding: '0.5rem 1rem',
-            fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-            fontSize: '0.74rem',
-            letterSpacing: '0.04em',
-            color: syncConfirmed ? '#2E7D32' : '#171717',
-            cursor: isRefreshing ? 'wait' : 'pointer',
-            transition: 'all 0.18s ease',
-          }}
+          className="sstr-btn-secondary"
+          style={{ padding: '0.55rem 1.25rem' }}
         >
           {syncConfirmed ? (
-            <Check size={13} style={{ color: '#2E7D32' }} />
+            <Check size={13} style={{ color: '#10B981' }} />
           ) : (
             <RefreshCw
               size={13}
               style={{
-                animation: isRefreshing ? 'spin 0.9s linear infinite' : 'none',
+                animation: isRefreshing ? 'sstrRadarSweep 0.9s linear infinite' : 'none',
               }}
             />
           )}
-          <span>{isRefreshing ? 'Syncing...' : syncConfirmed ? 'Synced' : 'Sync'}</span>
+          <span>{isRefreshing ? 'SYNCING...' : syncConfirmed ? 'SYNCED' : 'SYNC VAULT'}</span>
         </button>
       </div>
 
-      {/* 2. Horizontal Summary Row (Replaces 4 Statistic Cards) */}
-      <div
-        className="editorial-summary-row"
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-          gap: '1.5rem',
-          borderBottom: '1px solid #E6E2DA',
-          paddingBottom: '2rem',
-        }}
-      >
-        {/* Total Sessions */}
-        <div className="editorial-stat-item" style={{ display: 'flex', flexDirection: 'column' }}>
-          <span
-            style={{
-              fontFamily: "var(--font-sans, 'Plus Jakarta Sans', sans-serif)",
-              fontSize: 'clamp(2.1rem, 3.4vw, 2.7rem)',
-              fontWeight: 500,
-              lineHeight: 1,
-              color: '#171717',
-              letterSpacing: '-0.02em',
-            }}
-          >
-            {summary.total}
-          </span>
-          <span
-            style={{
-              fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-              fontSize: '0.68rem',
-              letterSpacing: '0.1em',
-              textTransform: 'uppercase',
-              color: '#77756F',
-              marginTop: '0.5rem',
-              fontWeight: 600,
-            }}
-          >
-            Total sessions
-          </span>
+      {/* 2. Horizontal Summary Row */}
+      <div className="sstr-summary-row">
+        <div className="sstr-summary-item">
+          <span className="sstr-sum-val">{summary.total}</span>
+          <span className="sstr-sum-lbl">TOTAL SESSIONS</span>
         </div>
 
-        {/* Average Safety Score */}
-        <div
-          className="editorial-stat-item"
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            borderLeft: '1px solid #E6E2DA',
-            paddingLeft: '1.5rem',
-          }}
-        >
-          <span
-            style={{
-              fontFamily: "var(--font-sans, 'Plus Jakarta Sans', sans-serif)",
-              fontSize: 'clamp(2.1rem, 3.4vw, 2.7rem)',
-              fontWeight: 500,
-              lineHeight: 1,
-              color: '#171717',
-              letterSpacing: '-0.02em',
-            }}
-          >
-            {summary.avgScore}%
-          </span>
-          <span
-            style={{
-              fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-              fontSize: '0.68rem',
-              letterSpacing: '0.1em',
-              textTransform: 'uppercase',
-              color: '#77756F',
-              marginTop: '0.5rem',
-              fontWeight: 600,
-            }}
-          >
-            Average safety score
-          </span>
+        <div className="sstr-summary-item">
+          <span className="sstr-sum-val">{summary.avgScore}%</span>
+          <span className="sstr-sum-lbl">AVERAGE SAFETY INDEX</span>
         </div>
 
-        {/* Incident-free Sessions */}
-        <div
-          className="editorial-stat-item"
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            borderLeft: '1px solid #E6E2DA',
-            paddingLeft: '1.5rem',
-          }}
-        >
-          <span
-            style={{
-              fontFamily: "var(--font-sans, 'Plus Jakarta Sans', sans-serif)",
-              fontSize: 'clamp(2.1rem, 3.4vw, 2.7rem)',
-              fontWeight: 500,
-              lineHeight: 1,
-              color: '#171717',
-              letterSpacing: '-0.02em',
-            }}
-          >
-            {summary.incidentFree}
-          </span>
-          <span
-            style={{
-              fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-              fontSize: '0.68rem',
-              letterSpacing: '0.1em',
-              textTransform: 'uppercase',
-              color: '#77756F',
-              marginTop: '0.5rem',
-              fontWeight: 600,
-            }}
-          >
-            Incident-free sessions
-          </span>
+        <div className="sstr-summary-item">
+          <span className="sstr-sum-val">{summary.incidentFree}</span>
+          <span className="sstr-sum-lbl">INCIDENT-FREE SESSIONS</span>
         </div>
 
-        {/* Total Monitored Time */}
-        <div
-          className="editorial-stat-item"
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            borderLeft: '1px solid #E6E2DA',
-            paddingLeft: '1.5rem',
-          }}
-        >
-          <span
-            style={{
-              fontFamily: "var(--font-sans, 'Plus Jakarta Sans', sans-serif)",
-              fontSize: 'clamp(2.1rem, 3.4vw, 2.7rem)',
-              fontWeight: 500,
-              lineHeight: 1,
-              color: '#171717',
-              letterSpacing: '-0.02em',
-            }}
-          >
-            {summary.totalTime}
-          </span>
-          <span
-            style={{
-              fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-              fontSize: '0.68rem',
-              letterSpacing: '0.1em',
-              textTransform: 'uppercase',
-              color: '#77756F',
-              marginTop: '0.5rem',
-              fontWeight: 600,
-            }}
-          >
-            Total monitored time
-          </span>
+        <div className="sstr-summary-item">
+          <span className="sstr-sum-val">{summary.totalTime}</span>
+          <span className="sstr-sum-lbl">TOTAL MONITORED TIME</span>
         </div>
       </div>
 
-      {/* 3. Compact Understated Toolbar */}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: '1.25rem',
-          borderBottom: '1px solid #E6E2DA',
-          paddingBottom: '0.75rem',
-        }}
-      >
-        {/* Simple Text Tabs with Thin Underline */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1.75rem', flexWrap: 'wrap' }}>
+      {/* 3. Toolbar: Filter Tabs & Search */}
+      <div className="sstr-toolbar">
+        {/* Filter Tabs */}
+        <div className="sstr-tab-group">
           {[
             { id: 'ALL', label: 'All sessions' },
-            { id: 'SAFE', label: 'Safe sessions' },
+            { id: 'SAFE', label: 'Safe (Grade A)' },
             { id: 'CAUTION', label: 'Caution' },
             { id: 'FLAGGED', label: 'Flagged incidents' },
           ].map((tab) => {
@@ -537,18 +341,7 @@ Attestation: Verified in SQLite local ledger`;
               <button
                 key={tab.id}
                 onClick={() => setActiveFilter(tab.id)}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  borderBottom: isTabActive ? '2px solid #D66A45' : '2px solid transparent',
-                  padding: '0.5rem 0',
-                  color: isTabActive ? '#171717' : '#77756F',
-                  fontFamily: "var(--font-sans, 'Plus Jakarta Sans', sans-serif)",
-                  fontSize: '0.86rem',
-                  fontWeight: isTabActive ? 600 : 400,
-                  cursor: 'pointer',
-                  transition: 'all 0.18s ease',
-                }}
+                className={`sstr-filter-btn ${isTabActive ? 'active' : ''}`}
               >
                 {tab.label}
               </button>
@@ -557,51 +350,21 @@ Attestation: Verified in SQLite local ledger`;
         </div>
 
         {/* Search & Sort Controls */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', flexWrap: 'wrap' }}>
-          {/* Understated Search */}
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              borderBottom: '1px solid #E6E2DA',
-              padding: '0.35rem 0',
-              width: 'clamp(160px, 20vw, 220px)',
-            }}
-          >
-            <Search size={13} style={{ color: '#77756F' }} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+          <div className="sstr-search-box">
+            <Search size={13} color="#5F6470" />
             <input
               type="text"
               placeholder="Search sessions..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              style={{
-                border: 'none',
-                background: 'transparent',
-                outline: 'none',
-                fontFamily: "var(--font-sans, 'Plus Jakarta Sans', sans-serif)",
-                fontSize: '0.82rem',
-                color: '#171717',
-                width: '100%',
-              }}
+              className="sstr-search-input"
             />
           </div>
 
-          {/* Simple Sort Toggle */}
           <button
             onClick={() => setSortOrder(sortOrder === 'newest' ? 'oldest' : 'newest')}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.35rem',
-              background: 'none',
-              border: 'none',
-              color: '#77756F',
-              fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-              fontSize: '0.74rem',
-              cursor: 'pointer',
-              padding: '0.35rem 0',
-            }}
+            className="sstr-sort-btn"
           >
             <ArrowUpDown size={12} />
             <span>{sortOrder === 'newest' ? 'Newest first' : 'Oldest first'}</span>
@@ -609,50 +372,26 @@ Attestation: Verified in SQLite local ledger`;
         </div>
       </div>
 
-      {/* 4. Main Two-Column Layout: Minimalist Chronological Ledger & Clean Detail Panel */}
-      <div
-        className="editorial-grid"
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'minmax(340px, 1.15fr) minmax(360px, 1fr)',
-          gap: '2.5rem',
-          alignItems: 'start',
-        }}
-      >
+      {/* 4. Main Two-Column Layout */}
+      <div className="sstr-vault-grid">
         {/* Left Column: Chronological Ledger */}
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <div className="sstr-ledger-column">
           {filteredTrips.length === 0 ? (
-            <div
-              style={{
-                padding: '3.5rem 1rem',
-                textAlign: 'center',
-                color: '#77756F',
-              }}
-            >
-              <p style={{ margin: '0 0 0.75rem 0', fontSize: '0.92rem' }}>
-                No sessions found matching your criteria.
-              </p>
+            <div className="sstr-empty-state">
+              <p>No sessions found matching your criteria.</p>
               <button
                 onClick={() => {
                   setActiveFilter('ALL');
                   setSearchQuery('');
                 }}
-                style={{
-                  background: 'none',
-                  border: '1px solid #E6E2DA',
-                  borderRadius: '4px',
-                  padding: '0.4rem 0.85rem',
-                  color: '#171717',
-                  fontSize: '0.76rem',
-                  fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-                  cursor: 'pointer',
-                }}
+                className="sstr-btn-secondary"
+                style={{ padding: '0.4rem 0.85rem', fontSize: '0.72rem' }}
               >
                 Clear filters
               </button>
             </div>
           ) : (
-            filteredTrips.map((trip, idx) => {
+            filteredTrips.map((trip) => {
               const isSelected = activeTrip?.id === trip.id;
               const incidentCount = trip.incidents?.length || 0;
 
@@ -660,72 +399,38 @@ Attestation: Verified in SQLite local ledger`;
                 <div
                   key={trip.id}
                   onClick={() => setSelectedTrip(trip)}
-                  className="editorial-row"
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '1.05rem 1.25rem',
-                    borderBottom: '1px solid #E6E2DA',
-                    borderLeft: isSelected ? '2.5px solid #D66A45' : '2.5px solid transparent',
-                    backgroundColor: isSelected ? 'rgba(255, 255, 255, 0.65)' : 'transparent',
-                    cursor: 'pointer',
-                    transition: 'all 0.18s ease',
-                    animation: 'editorialFadeIn 0.3s ease both',
-                    animationDelay: `${Math.min(idx * 25, 250)}ms`,
-                  }}
+                  className={`sstr-session-row ${isSelected ? 'selected' : ''}`}
                 >
-                  {/* Left: ID and Date/Time */}
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-                      <span
-                        style={{
-                          fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-                          fontSize: '0.86rem',
-                          fontWeight: 600,
-                          color: '#171717',
-                        }}
-                      >
-                        {trip.id}
-                      </span>
-                      <span style={{ color: '#E6E2DA' }}>/</span>
-                      <span style={{ fontSize: '0.78rem', color: '#77756F' }}>
-                        {trip.date}
-                      </span>
+                      <span className="sstr-row-id">{trip.id}</span>
+                      <span style={{ color: 'rgba(255, 255, 255, 0.2)' }}>/</span>
+                      <span className="sstr-row-date">{trip.date}</span>
                     </div>
 
-                    <div
-                      style={{
-                        fontSize: '0.76rem',
-                        color: '#77756F',
-                        fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-                      }}
-                    >
+                    <div className="sstr-row-meta">
                       {trip.time} · {trip.duration}
                     </div>
                   </div>
 
-                  {/* Right: Score, Incidents & Small Arrow */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-                    {/* Incident Count Indicator */}
                     <span
                       style={{
-                        fontSize: '0.76rem',
-                        fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-                        color: incidentCount > 0 ? (incidentCount >= 3 ? '#DC2626' : '#D66A45') : '#77756F',
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '0.72rem',
+                        color: incidentCount > 0 ? (incidentCount >= 3 ? '#EF4444' : '#FE5B2A') : '#5F6470',
                       }}
                     >
                       {incidentCount === 0 ? '0 incidents' : `${incidentCount} flagged`}
                     </span>
 
-                    {/* Grade & Score */}
                     <span
                       style={{
-                        fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
+                        fontFamily: 'var(--font-mono)',
                         fontSize: '0.82rem',
-                        fontWeight: 600,
+                        fontWeight: 700,
                         color: getScoreColor(trip.safetyScore),
-                        minWidth: '55px',
+                        minWidth: '65px',
                         textAlign: 'right',
                       }}
                     >
@@ -734,10 +439,10 @@ Attestation: Verified in SQLite local ledger`;
 
                     <ChevronRight
                       size={14}
-                      className="row-arrow"
                       style={{
-                        color: isSelected ? '#171717' : '#B3AFA8',
-                        transition: 'transform 0.18s ease',
+                        color: isSelected ? '#FE5B2A' : '#5F6470',
+                        transform: isSelected ? 'translateX(2px)' : 'none',
+                        transition: 'transform 0.2s ease',
                       }}
                     />
                   </div>
@@ -749,205 +454,73 @@ Attestation: Verified in SQLite local ledger`;
 
         {/* Right Column: Clean Detail Panel */}
         {activeTrip && (
-          <div
-            key={activeTrip.id}
-            className="editorial-detail-panel"
-            style={{
-              backgroundColor: '#FFFFFF',
-              border: '1px solid #E6E2DA',
-              borderRadius: '6px',
-              padding: 'clamp(1.5rem, 3vw, 2.25rem)',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '1.75rem',
-              position: 'sticky',
-              top: '88px',
-              animation: 'editorialFadeIn 0.25s ease forwards',
-            }}
-          >
+          <div key={activeTrip.id} className="sstr-detail-panel sstr-reticle">
             {/* Detail Header */}
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'flex-start',
-                borderBottom: '1px solid #E6E2DA',
-                paddingBottom: '1.5rem',
-                gap: '1rem',
-              }}
-            >
+            <div className="sstr-detail-header">
               <div>
-                <div
-                  style={{
-                    fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-                    fontSize: '0.68rem',
-                    letterSpacing: '0.12em',
-                    textTransform: 'uppercase',
-                    color: '#77756F',
-                    marginBottom: '0.35rem',
-                    fontWeight: 600,
-                  }}
-                >
-                  SESSION DETAILS
-                </div>
-
-                <h2
-                  style={{
-                    fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-                    fontSize: '1.65rem',
-                    fontWeight: 600,
-                    letterSpacing: '-0.02em',
-                    color: '#171717',
-                    margin: '0 0 0.25rem 0',
-                  }}
-                >
-                  {activeTrip.id}
-                </h2>
-
-                <div
-                  style={{
-                    fontSize: '0.82rem',
-                    color: '#77756F',
-                  }}
-                >
+                <span className="sstr-tag" style={{ fontSize: '0.65rem', marginBottom: '0.35rem' }}>
+                  SESSION CERTIFICATE // SQLITE
+                </span>
+                <h2 className="sstr-detail-id">{activeTrip.id}</h2>
+                <div className="sstr-detail-time">
                   {activeTrip.date} ({activeTrip.time})
                 </div>
               </div>
 
-              {/* Simple Safety Score & Grade Display */}
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'flex-end',
-                  textAlign: 'right',
-                }}
-              >
+              <div style={{ textAlign: 'right' }}>
                 <span
                   style={{
-                    fontFamily: "var(--font-sans, 'Plus Jakarta Sans', sans-serif)",
-                    fontSize: '2rem',
-                    fontWeight: 600,
+                    fontFamily: 'var(--font-display)',
+                    fontSize: '2.4rem',
+                    fontWeight: 800,
                     lineHeight: 1,
                     color: getScoreColor(activeTrip.safetyScore),
-                    letterSpacing: '-0.02em',
                   }}
                 >
                   {activeTrip.grade}
                 </span>
                 <span
                   style={{
-                    fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
+                    fontFamily: 'var(--font-mono)',
                     fontSize: '0.74rem',
-                    color: '#77756F',
+                    color: '#9FA4B0',
+                    display: 'block',
                     marginTop: '0.2rem',
                   }}
                 >
-                  Score: {activeTrip.safetyScore}%
+                  SCORE: {activeTrip.safetyScore}%
                 </span>
               </div>
             </div>
 
-            {/* Compact Three-Column Metric Row */}
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: '1rem',
-                borderBottom: '1px solid #E6E2DA',
-                paddingBottom: '1.5rem',
-              }}
-            >
-              <div>
-                <span
-                  style={{
-                    fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-                    fontSize: '0.66rem',
-                    letterSpacing: '0.08em',
-                    textTransform: 'uppercase',
-                    color: '#77756F',
-                    display: 'block',
-                    marginBottom: '0.25rem',
-                  }}
-                >
-                  Duration
-                </span>
-                <span
-                  style={{
-                    fontSize: '1.15rem',
-                    fontWeight: 500,
-                    color: '#171717',
-                  }}
-                >
-                  {activeTrip.duration}
-                </span>
+            {/* Three-Column Metric Row */}
+            <div className="sstr-detail-metrics">
+              <div className="sstr-d-metric">
+                <span className="sstr-d-lbl">DURATION</span>
+                <span className="sstr-d-val">{activeTrip.duration}</span>
               </div>
 
-              <div>
-                <span
-                  style={{
-                    fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-                    fontSize: '0.66rem',
-                    letterSpacing: '0.08em',
-                    textTransform: 'uppercase',
-                    color: '#77756F',
-                    display: 'block',
-                    marginBottom: '0.25rem',
-                  }}
-                >
-                  Distance
-                </span>
-                <span
-                  style={{
-                    fontSize: '1.15rem',
-                    fontWeight: 500,
-                    color: '#171717',
-                  }}
-                >
-                  {activeTrip.distance && activeTrip.distance !== '--'
-                    ? activeTrip.distance
-                    : 'Not measured'}
+              <div className="sstr-d-metric">
+                <span className="sstr-d-lbl">DISTANCE</span>
+                <span className="sstr-d-val">
+                  {activeTrip.distance && activeTrip.distance !== '--' ? activeTrip.distance : 'Not measured'}
                 </span>
                 {activeTrip.isGpsVerified && (
-                  <span
-                    style={{
-                      fontSize: '0.66rem',
-                      color: '#D66A45',
-                      fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-                      fontWeight: 600,
-                      display: 'block',
-                      marginTop: '0.2rem',
-                    }}
-                  >
-                    ● GPS Tracked
-                  </span>
+                  <span className="sstr-gps-badge">● GPS Tracked</span>
                 )}
               </div>
 
-              <div>
+              <div className="sstr-d-metric">
+                <span className="sstr-d-lbl">INCIDENTS</span>
                 <span
+                  className="sstr-d-val"
                   style={{
-                    fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-                    fontSize: '0.66rem',
-                    letterSpacing: '0.08em',
-                    textTransform: 'uppercase',
-                    color: '#77756F',
-                    display: 'block',
-                    marginBottom: '0.25rem',
-                  }}
-                >
-                  Incidents
-                </span>
-                <span
-                  style={{
-                    fontSize: '1.15rem',
-                    fontWeight: 500,
                     color:
                       activeTrip.incidents && activeTrip.incidents.length > 0
                         ? activeTrip.incidents.length >= 3
-                          ? '#DC2626'
-                          : '#D66A45'
-                        : '#2E7D32',
+                          ? '#EF4444'
+                          : '#FE5B2A'
+                        : '#10B981',
                   }}
                 >
                   {activeTrip.incidents ? activeTrip.incidents.length : 0}
@@ -955,39 +528,17 @@ Attestation: Verified in SQLite local ledger`;
               </div>
             </div>
 
-            {/* GPS Route Map (Available for sessions with recorded GPS points) */}
+            {/* GPS Route Map */}
             {activeTrip.waypoints && activeTrip.waypoints.length > 0 && (
-              <div style={{ borderBottom: '1px solid #E6E2DA', paddingBottom: '1.25rem' }}>
+              <div style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: '1.25rem' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
-                  <span
-                    style={{
-                      fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-                      fontSize: '0.68rem',
-                      letterSpacing: '0.1em',
-                      textTransform: 'uppercase',
-                      color: '#77756F',
-                      fontWeight: 600,
-                    }}
-                  >
-                    RECORDED GPS ROUTE
-                  </span>
+                  <span className="sstr-card-num">RECORDED GPS ROUTE</span>
                   <button
                     onClick={() => setShowGpsRoute((prev) => !prev)}
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '0.35rem',
-                      background: 'none',
-                      border: '1px solid #E6E2DA',
-                      borderRadius: '4px',
-                      padding: '0.3rem 0.65rem',
-                      fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-                      fontSize: '0.68rem',
-                      color: '#171717',
-                      cursor: 'pointer',
-                    }}
+                    className="sstr-btn-secondary"
+                    style={{ padding: '0.3rem 0.65rem', fontSize: '0.68rem' }}
                   >
-                    <Navigation size={11} style={{ color: '#D66A45' }} />
+                    <Navigation size={11} color="#FE5B2A" />
                     <span>{showGpsRoute ? 'Hide Route Map' : `View Map (${activeTrip.waypoints.length} Points)`}</span>
                   </button>
                 </div>
@@ -1004,51 +555,23 @@ Attestation: Verified in SQLite local ledger`;
               </div>
             )}
 
-            {/* Incident Timeline as a Clean Vertical List */}
+            {/* Incident Timeline */}
             <div>
-              <div
-                style={{
-                  fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-                  fontSize: '0.68rem',
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
-                  color: '#77756F',
-                  marginBottom: '0.85rem',
-                  fontWeight: 600,
-                }}
-              >
+              <span className="sstr-card-num" style={{ display: 'block', marginBottom: '0.85rem' }}>
                 INCIDENT TIMELINE
-              </div>
+              </span>
 
               {activeTrip.incidents && activeTrip.incidents.length > 0 ? (
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    maxHeight: '260px',
-                    overflowY: 'auto',
-                  }}
-                  className="editorial-timeline-scroll"
-                >
+                <div className="sstr-incident-list">
                   {activeTrip.incidents.map((inc, i) => {
                     const isCrit = inc.severity === 'CRITICAL';
                     const isWarn = inc.severity === 'WARNING';
-                    const dotColor = isCrit ? '#DC2626' : isWarn ? '#D97706' : '#77756F';
+                    const dotColor = isCrit ? '#EF4444' : isWarn ? '#FE5B2A' : '#5F6470';
                     const cleanedType = cleanMetricString(inc.type);
                     const cleanedMetric = cleanMetricString(inc.metric);
 
                     return (
-                      <div
-                        key={i}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                          padding: '0.65rem 0',
-                          borderBottom: '1px solid #F0ECE6',
-                          gap: '0.75rem',
-                        }}
-                      >
+                      <div key={i} className="sstr-incident-item">
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
                           <span
                             style={{
@@ -1056,109 +579,48 @@ Attestation: Verified in SQLite local ledger`;
                               height: '6px',
                               borderRadius: '50%',
                               backgroundColor: dotColor,
-                              flexShrink: 0,
+                              boxShadow: `0 0 6px ${dotColor}`,
                             }}
                           />
-                          <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <span style={{ fontSize: '0.82rem', color: '#171717', fontWeight: 500 }}>
+                          <div>
+                            <span style={{ fontSize: '0.82rem', color: '#FFFFFF', fontWeight: 600 }}>
                               {cleanedType}
                             </span>
-                            <span
-                              style={{
-                                fontSize: '0.68rem',
-                                color: dotColor,
-                                fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-                              }}
-                            >
+                            <span style={{ display: 'block', fontSize: '0.68rem', color: dotColor, fontFamily: 'var(--font-mono)' }}>
                               {inc.severity}
                             </span>
                           </div>
                         </div>
 
-                        <div
-                          style={{
-                            textAlign: 'right',
-                            fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-                            fontSize: '0.74rem',
-                            color: '#77756F',
-                          }}
-                        >
+                        <div style={{ textAlign: 'right', fontFamily: 'var(--font-mono)', fontSize: '0.74rem', color: '#9FA4B0' }}>
                           <span>{inc.time}</span>
-                          <span style={{ margin: '0 0.35rem', color: '#E6E2DA' }}>·</span>
-                          <strong style={{ color: '#171717', fontWeight: 600 }}>
-                            {cleanedMetric}
-                          </strong>
+                          <span style={{ margin: '0 0.35rem', color: 'rgba(255, 255, 255, 0.2)' }}>·</span>
+                          <strong style={{ color: '#FFFFFF' }}>{cleanedMetric}</strong>
                         </div>
                       </div>
                     );
                   })}
                 </div>
               ) : (
-                <div
-                  style={{
-                    padding: '1rem 0',
-                    fontSize: '0.84rem',
-                    color: '#77756F',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                  }}
-                >
-                  <span
-                    style={{
-                      width: '6px',
-                      height: '6px',
-                      borderRadius: '50%',
-                      backgroundColor: '#2E7D32',
-                    }}
-                  />
+                <div style={{ padding: '0.75rem 0', fontSize: '0.82rem', color: '#10B981', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <ShieldCheck size={16} />
                   <span>No incidents recorded. Clean driving session.</span>
                 </div>
               )}
             </div>
 
-            {/* Bottom Persistence Info & Copy Summary Action */}
-            <div
-              style={{
-                borderTop: '1px solid #E6E2DA',
-                paddingTop: '1.25rem',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                flexWrap: 'wrap',
-                gap: '0.75rem',
-              }}
-            >
-              <div
-                style={{
-                  fontSize: '0.72rem',
-                  color: '#77756F',
-                  lineHeight: 1.5,
-                  maxWidth: '350px',
-                }}
-              >
-                Session data verified in local SQLite storage. GPS route plots are session-local.
-                Durable database persistence requires backend schema synchronization (backend untouched).
-              </div>
+            {/* Bottom Actions */}
+            <div className="sstr-detail-footer">
+              <span style={{ fontSize: '0.7rem', color: '#5F6470', maxWidth: '350px' }}>
+                Certified SQLite WAL local storage. Zero external telemetry transmission.
+              </span>
 
               <button
                 onClick={() => handleCopyReport(activeTrip)}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.35rem',
-                  background: 'none',
-                  border: '1px solid #E6E2DA',
-                  borderRadius: '4px',
-                  padding: '0.35rem 0.75rem',
-                  fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-                  fontSize: '0.7rem',
-                  color: copied ? '#2E7D32' : '#171717',
-                  cursor: 'pointer',
-                  transition: 'all 0.15s ease',
-                }}
+                className="sstr-btn-secondary"
+                style={{ padding: '0.35rem 0.75rem', fontSize: '0.7rem' }}
               >
-                {copied ? <Check size={11} /> : <Copy size={11} />}
+                {copied ? <Check size={11} color="#10B981" /> : <Copy size={11} />}
                 <span>{copied ? 'Copied' : 'Copy summary'}</span>
               </button>
             </div>
@@ -1166,68 +628,290 @@ Attestation: Verified in SQLite local ledger`;
         )}
       </div>
 
-      {/* Scoped CSS for Editorial Vault */}
+      {/* Scoped CSS Styles for SSTR Vault */}
       <style>{`
-        @keyframes editorialFadeIn {
-          0% {
-            opacity: 0;
-            transform: translateY(6px);
-          }
-          100% {
-            opacity: 1;
-            transform: translateY(0);
-          }
+        .sstr-vault-wrapper {
+          max-width: 1440px;
+          margin: 0 auto;
+          padding: clamp(1.5rem, 3.5vw, 2.5rem) clamp(1rem, 3.5vw, 2.5rem) 5rem;
+          display: flex;
+          flex-direction: column;
+          gap: 2.5rem;
         }
 
-        .editorial-sync-btn:hover {
-          border-color: #171717 !important;
-          background-color: rgba(0, 0, 0, 0.02) !important;
+        .sstr-vault-masthead {
+          display: flex;
+          justifyContent: space-between;
+          align-items: flex-end;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          padding-bottom: 1.5rem;
+          flex-wrap: wrap;
+          gap: 1.5rem;
         }
 
-        .editorial-row:hover {
-          background-color: rgba(255, 255, 255, 0.5) !important;
+        .sstr-vault-meta {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          font-family: var(--font-mono);
+          font-size: 0.72rem;
+          color: #9FA4B0;
+          margin-bottom: 0.4rem;
+          flex-wrap: wrap;
+        }
+        .sstr-vault-title {
+          font-family: var(--font-display);
+          font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+          font-weight: 800;
+          color: #FFFFFF;
+          margin: 0;
+          line-height: 1.05;
+          letter-spacing: -0.02em;
+        }
+        .sstr-vault-subtitle {
+          font-family: var(--font-sans);
+          font-size: 0.92rem;
+          color: #9FA4B0;
+          margin: 0.35rem 0 0 0;
         }
 
-        .editorial-row:hover .row-arrow {
-          transform: translateX(3px);
-          color: #171717 !important;
+        .sstr-summary-row {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+          gap: 1.5rem;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          padding-bottom: 2rem;
+        }
+        .sstr-summary-item {
+          display: flex;
+          flex-direction: column;
+          gap: 0.35rem;
+        }
+        .sstr-sum-val {
+          font-family: var(--font-display);
+          font-size: clamp(2rem, 3.5vw, 2.8rem);
+          font-weight: 800;
+          color: #FFFFFF;
+          line-height: 1;
+        }
+        .sstr-sum-lbl {
+          font-family: var(--font-mono);
+          font-size: 0.68rem;
+          color: #5F6470;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
         }
 
-        .editorial-timeline-scroll::-webkit-scrollbar {
-          width: 4px;
+        .sstr-toolbar {
+          display: flex;
+          justifyContent: space-between;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 1.25rem;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          padding-bottom: 1rem;
         }
-        .editorial-timeline-scroll::-webkit-scrollbar-track {
+        .sstr-tab-group {
+          display: flex;
+          align-items: center;
+          gap: 1.5rem;
+          flex-wrap: wrap;
+        }
+        .sstr-filter-btn {
           background: transparent;
+          border: none;
+          border-bottom: 2px solid transparent;
+          padding: 0.45rem 0;
+          color: #9FA4B0;
+          font-family: var(--font-mono);
+          font-size: 0.78rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s ease;
         }
-        .editorial-timeline-scroll::-webkit-scrollbar-thumb {
-          background: #E6E2DA;
-          border-radius: 2px;
+        .sstr-filter-btn:hover {
+          color: #FFFFFF;
         }
-
-        /* Mobile Breakpoint */
-        @media (max-width: 900px) {
-          .editorial-grid {
-            grid-template-columns: 1fr !important;
-            gap: 2rem !important;
-          }
-          .editorial-detail-panel {
-            position: static !important;
-          }
-          .editorial-stat-item {
-            border-left: none !important;
-            padding-left: 0 !important;
-          }
+        .sstr-filter-btn.active {
+          color: #FE5B2A;
+          border-bottom-color: #FE5B2A;
         }
 
-        /* Reduced Motion */
-        @media (prefers-reduced-motion: reduce) {
-          .editorial-vault,
-          .editorial-row,
-          .editorial-detail-panel {
-            animation: none !important;
-            transition: none !important;
-            transform: none !important;
+        .sstr-search-box {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          background: #141518;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 4px;
+          padding: 0.4rem 0.75rem;
+          width: clamp(160px, 20vw, 220px);
+        }
+        .sstr-search-input {
+          border: none;
+          background: transparent;
+          outline: none;
+          font-family: var(--font-sans);
+          font-size: 0.82rem;
+          color: #FFFFFF;
+          width: 100%;
+        }
+        .sstr-sort-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.35rem;
+          background: transparent;
+          border: none;
+          color: #9FA4B0;
+          font-family: var(--font-mono);
+          font-size: 0.72rem;
+          cursor: pointer;
+        }
+        .sstr-sort-btn:hover {
+          color: #FFFFFF;
+        }
+
+        .sstr-vault-grid {
+          display: grid;
+          grid-template-columns: minmax(340px, 1.15fr) minmax(360px, 1fr);
+          gap: 2rem;
+          align-items: start;
+        }
+        @media (max-width: 992px) {
+          .sstr-vault-grid {
+            grid-template-columns: 1fr;
           }
+        }
+
+        .sstr-ledger-column {
+          display: flex;
+          flex-direction: column;
+        }
+        .sstr-empty-state {
+          padding: 3rem 1rem;
+          text-align: center;
+          color: #5F6470;
+        }
+
+        .sstr-session-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 1.1rem 1.25rem;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          border-left: 2px solid transparent;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+        .sstr-session-row:hover {
+          background: rgba(255, 255, 255, 0.03);
+        }
+        .sstr-session-row.selected {
+          background: rgba(254, 91, 42, 0.06);
+          border-left-color: #FE5B2A;
+        }
+
+        .sstr-row-id {
+          font-family: var(--font-mono);
+          font-size: 0.84rem;
+          font-weight: 700;
+          color: #FFFFFF;
+        }
+        .sstr-row-date {
+          font-size: 0.76rem;
+          color: #9FA4B0;
+        }
+        .sstr-row-meta {
+          font-family: var(--font-mono);
+          font-size: 0.72rem;
+          color: #5F6470;
+        }
+
+        /* Detail Panel */
+        .sstr-detail-panel {
+          background: #141518;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 6px;
+          padding: 2rem;
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+          position: sticky;
+          top: 88px;
+        }
+        .sstr-detail-header {
+          display: flex;
+          justifyContent: space-between;
+          align-items: flex-start;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          padding-bottom: 1.25rem;
+        }
+        .sstr-detail-id {
+          font-family: var(--font-mono);
+          font-size: 1.6rem;
+          font-weight: 700;
+          color: #FFFFFF;
+          margin: 0 0 0.25rem 0;
+        }
+        .sstr-detail-time {
+          font-family: var(--font-mono);
+          font-size: 0.76rem;
+          color: #9FA4B0;
+        }
+
+        .sstr-detail-metrics {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1rem;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          padding-bottom: 1.25rem;
+        }
+        .sstr-d-metric {
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+        }
+        .sstr-d-lbl {
+          font-family: var(--font-mono);
+          font-size: 0.65rem;
+          color: #5F6470;
+          letter-spacing: 0.08em;
+        }
+        .sstr-d-val {
+          font-family: var(--font-display);
+          font-size: 1.35rem;
+          font-weight: 700;
+          color: #FFFFFF;
+        }
+        .sstr-gps-badge {
+          font-family: var(--font-mono);
+          font-size: 0.65rem;
+          color: #FE5B2A;
+          font-weight: 600;
+        }
+
+        .sstr-incident-list {
+          display: flex;
+          flex-direction: column;
+          max-height: 240px;
+          overflow-y: auto;
+        }
+        .sstr-incident-item {
+          display: flex;
+          align-items: center;
+          justifyContent: space-between;
+          padding: 0.6rem 0;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .sstr-detail-footer {
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
+          padding-top: 1.25rem;
+          display: flex;
+          justifyContent: space-between;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 0.75rem;
         }
       `}</style>
     </div>

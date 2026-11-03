@@ -16,16 +16,17 @@ import {
 } from 'lucide-react';
 
 const NAV_TABS = [
-  { id: 'overview', num: '01', label: 'Overview' },
-  { id: 'monitor', num: '02', label: 'Live Monitor' },
-  { id: 'analytics', num: '03', label: 'Analytics' },
-  { id: 'history', num: '04', label: 'Trip History' },
+  { id: 'overview', num: '01', label: 'OVERVIEW' },
+  { id: 'monitor', num: '02', label: 'LIVE COCKPIT' },
+  { id: 'analytics', num: '03', label: 'ANALYTICS' },
+  { id: 'history', num: '04', label: 'FLIGHT VAULT' },
 ];
 
 /**
- * DriveGuard AI — Luxury Automotive Minimalist Navigation Bar
- * Architectural, product-focused with warm ivory glassmorphism, charcoal typography,
- * floating segmented dock navigation, unified quick-control deck, and a tactile ignition CTA.
+ * DriveGuard AI — SSTR-Inspired Industrial Engineering Navigation Bar
+ * Reference: SSTR (https://sstr.tech/en/)
+ * High-precision carbon obsidian field, SSTR Electric Safety Orange (#FE5B2A) beacon,
+ * crisp monospace indices, and tactile hardware ignition CTA.
  */
 export default function Navigation({
   activeTab,
@@ -90,9 +91,9 @@ export default function Navigation({
   };
 
   return (
-    <header className="dg-navbar-header" role="banner">
-      <div className="dg-navbar-container">
-        {/* Left: Brand Crest & Wordmark */}
+    <header className="sstr-navbar-header" role="banner">
+      <div className="sstr-navbar-container">
+        {/* Left: Industrial Brand Crest & Index */}
         <div
           onClick={() => onSelectTab('overview')}
           onKeyDown={(e) => {
@@ -104,12 +105,12 @@ export default function Navigation({
           tabIndex={0}
           role="button"
           aria-label="DriveGuard AI Homepage"
-          className="dg-brand-button"
+          className="sstr-brand-button"
         >
-          <div className="dg-brand-crest">
-            <Shield size={15} strokeWidth={2.2} className="dg-shield-icon" />
+          <div className="sstr-brand-crest">
+            <Shield size={16} strokeWidth={2.2} className="sstr-shield-icon" />
             <span
-              className={`dg-beacon-dot ${
+              className={`sstr-beacon-dot ${
                 isOnline && isMonitoring
                   ? 'active'
                   : isOnline
@@ -119,33 +120,34 @@ export default function Navigation({
             />
           </div>
 
-          <div className="dg-brand-text-group">
-            <span className="dg-brand-title">DRIVEGUARD</span>
-            <span className="dg-brand-badge">AI</span>
+          <div className="sstr-brand-text-group">
+            <span className="sstr-brand-title">DRIVEGUARD</span>
+            <span className="sstr-brand-badge">// AI</span>
+            <span className="sstr-brand-index">SYS.01</span>
           </div>
         </div>
 
-        {/* Center: Segmented Navigation Dock */}
-        <nav className="dg-nav-dock" aria-label="Main Navigation">
+        {/* Center: Segmented Hardware Navigation Dock */}
+        <nav className="sstr-nav-dock" aria-label="Main Navigation">
           {NAV_TABS.map((tab) => {
             const isActive = activeTab === tab.id;
             return (
               <button
                 key={tab.id}
                 onClick={() => onSelectTab(tab.id)}
-                className={`dg-nav-tab ${isActive ? 'active' : ''}`}
+                className={`sstr-nav-tab ${isActive ? 'active' : ''}`}
                 aria-current={isActive ? 'page' : undefined}
               >
-                <span className="dg-tab-num">{tab.num}</span>
-                <span className="dg-tab-label">{tab.label}</span>
-                {isActive && <span className="dg-tab-active-dot" />}
+                <span className="sstr-tab-num">{tab.num}</span>
+                <span className="sstr-tab-label">{tab.label}</span>
+                {isActive && <span className="sstr-tab-active-pip" />}
               </button>
             );
           })}
         </nav>
 
         {/* Right: Unified Controls, Diagnostics & Ignition CTA */}
-        <div className="dg-controls-cluster">
+        <div className="sstr-controls-cluster">
           {/* Telemetry / Engine Status Pill */}
           <button
             onClick={onOpenDiagnostics}
@@ -155,12 +157,12 @@ export default function Navigation({
                 : 'Engine Disconnected. Click to connect local engine or Cloudflare Tunnel.'
             }
             aria-label="Engine connection diagnostics"
-            className={`dg-status-pill ${
+            className={`sstr-status-pill ${
               isOnline ? (isMonitoring ? 'online' : 'standby') : 'offline'
             }`}
           >
-            <span className="dg-status-pulse-ring" />
-            <span className="dg-status-label">
+            <span className="sstr-status-pulse-ring" />
+            <span className="sstr-status-label">
               {isOnline
                 ? isMonitoring
                   ? fps > 0
@@ -169,21 +171,21 @@ export default function Navigation({
                   : 'STANDBY'
                 : 'OFFLINE'}
             </span>
-            <Activity size={12} className="dg-status-icon" />
+            <Activity size={12} className="sstr-status-icon" />
           </button>
 
           {/* Grouped Audio & Notification Quick Toggles */}
-          <div className="dg-utility-group">
+          <div className="sstr-utility-group">
             <button
               onClick={onToggleAudio}
               title={isAudioMuted ? 'Unmute safety audio chimes' : 'Mute safety audio chimes'}
               aria-label={isAudioMuted ? 'Unmute safety audio' : 'Mute safety audio'}
-              className={`dg-util-btn ${isAudioMuted ? 'muted' : 'active'}`}
+              className={`sstr-util-btn ${isAudioMuted ? 'muted' : 'active'}`}
             >
               {isAudioMuted ? <VolumeX size={14} /> : <Volume2 size={14} />}
             </button>
 
-            <span className="dg-util-divider" />
+            <span className="sstr-util-divider" />
 
             <button
               onClick={onToggleNotifications}
@@ -195,7 +197,7 @@ export default function Navigation({
                   : 'Enable desktop safety alerts'
               }
               aria-label="Toggle notifications"
-              className={`dg-util-btn ${
+              className={`sstr-util-btn ${
                 notificationPermission === 'denied'
                   ? 'denied'
                   : isNotificationsEnabled
@@ -204,27 +206,27 @@ export default function Navigation({
               }`}
             >
               {isNotificationsEnabled ? <Bell size={14} /> : <BellOff size={14} />}
-              {isNotificationsEnabled && <span className="dg-notif-indicator" />}
+              {isNotificationsEnabled && <span className="sstr-notif-indicator" />}
             </button>
           </div>
 
-          {/* Primary Action Button (Automotive Ignition CTA) */}
+          {/* Primary Action Button (SSTR Electric Safety Orange Ignition CTA) */}
           <button
             onClick={handleMonitoringAction}
             aria-label={isMonitoring ? 'Halt active driver monitoring' : 'Start real-time driver monitoring'}
-            className={`dg-cta-btn ${isMonitoring ? 'monitoring' : 'idle'}`}
+            className={`sstr-cta-btn ${isMonitoring ? 'monitoring' : 'idle'}`}
           >
             {isMonitoring ? (
               <>
-                <Square size={11} fill="currentColor" className="dg-cta-icon" />
-                <span className="dg-cta-text-full">HALT SENSING</span>
-                <span className="dg-cta-text-compact">HALT</span>
+                <Square size={11} fill="currentColor" className="sstr-cta-icon" />
+                <span className="sstr-cta-text-full">HALT SENSING</span>
+                <span className="sstr-cta-text-compact">HALT</span>
               </>
             ) : (
               <>
-                <Play size={11} fill="currentColor" className="dg-cta-icon" />
-                <span className="dg-cta-text-full">START MONITORING</span>
-                <span className="dg-cta-text-compact">START</span>
+                <Play size={11} fill="currentColor" className="sstr-cta-icon" />
+                <span className="sstr-cta-text-full">START MONITORING</span>
+                <span className="sstr-cta-text-compact">START</span>
               </>
             )}
           </button>
@@ -235,7 +237,7 @@ export default function Navigation({
             aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-navigation-drawer"
-            className="dg-hamburger-btn"
+            className="sstr-hamburger-btn"
           >
             {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
@@ -250,17 +252,17 @@ export default function Navigation({
           role="dialog"
           aria-modal="true"
           aria-label="Mobile Navigation"
-          className="dg-mobile-overlay"
+          className="sstr-mobile-overlay"
           onClick={(e) => {
             if (e.target === e.currentTarget) {
               setMobileMenuOpen(false);
             }
           }}
         >
-          <div className="dg-mobile-drawer">
+          <div className="sstr-mobile-drawer">
             {/* System Status Banner in Drawer */}
             <div
-              className={`dg-mobile-status-card ${
+              className={`sstr-mobile-status-card ${
                 isOnline ? (isMonitoring ? 'online' : 'standby') : 'offline'
               }`}
               onClick={() => {
@@ -268,18 +270,18 @@ export default function Navigation({
                 onOpenDiagnostics?.();
               }}
             >
-              <div className="dg-mobile-status-left">
-                <span className="dg-mobile-status-dot" />
+              <div className="sstr-mobile-status-left">
+                <span className="sstr-mobile-status-dot" />
                 <div>
-                  <div className="dg-mobile-status-title">
+                  <div className="sstr-mobile-status-title">
                     {isOnline
                       ? isMonitoring
-                        ? `ENGINE ONLINE • ${fps} FPS`
-                        : 'ENGINE STANDBY'
-                      : 'ENGINE DISCONNECTED'}
+                        ? `OPTICAL PIPELINE ONLINE • ${fps} FPS`
+                        : 'HARDWARE ON STANDBY'
+                      : 'PIPELINE DISCONNECTED'}
                   </div>
-                  <div className="dg-mobile-status-sub">
-                    {isOnline ? `Latency: ${latencyMs}ms • Tap for Diagnostics` : 'Tap to configure tunnel / bridge'}
+                  <div className="sstr-mobile-status-sub">
+                    {isOnline ? `Latency: ${latencyMs}ms • Diagnostics` : 'Configure Tunnel or Bridge'}
                   </div>
                 </div>
               </div>
@@ -287,7 +289,7 @@ export default function Navigation({
             </div>
 
             {/* Mobile Navigation Links */}
-            <div className="dg-mobile-nav-list">
+            <div className="sstr-mobile-nav-list">
               {NAV_TABS.map((tab) => {
                 const isActive = activeTab === tab.id;
                 return (
@@ -297,53 +299,44 @@ export default function Navigation({
                       onSelectTab(tab.id);
                       setMobileMenuOpen(false);
                     }}
-                    className={`dg-mobile-nav-item ${isActive ? 'active' : ''}`}
-                    aria-current={isActive ? 'page' : undefined}
+                    className={`sstr-mobile-nav-item ${isActive ? 'active' : ''}`}
                   >
-                    <div className="dg-mobile-item-left">
-                      <span className="dg-mobile-item-num">{tab.num}</span>
-                      <span className="dg-mobile-item-label">{tab.label}</span>
+                    <div className="sstr-mobile-nav-left">
+                      <span className="sstr-mobile-nav-num">{tab.num}</span>
+                      <span className="sstr-mobile-nav-label">{tab.label}</span>
                     </div>
-                    <ChevronRight
-                      size={16}
-                      className="dg-mobile-item-chevron"
-                    />
+                    {isActive ? (
+                      <span className="sstr-mobile-nav-active-pip" />
+                    ) : (
+                      <ChevronRight size={14} className="sstr-mobile-nav-arrow" />
+                    )}
                   </button>
                 );
               })}
             </div>
 
-            {/* Mobile Ignition Action */}
-            <button
-              onClick={handleMonitoringAction}
-              className={`dg-mobile-cta-btn ${isMonitoring ? 'monitoring' : 'idle'}`}
-            >
-              {isMonitoring ? (
-                <>
-                  <Square size={13} fill="currentColor" />
-                  <span>HALT ACTIVE SENSING</span>
-                </>
-              ) : (
-                <>
-                  <Play size={13} fill="currentColor" />
-                  <span>START REAL-TIME MONITORING</span>
-                </>
-              )}
-            </button>
-
-            {/* Mobile Utility Controls */}
-            <div className="dg-mobile-utils-row">
+            {/* Mobile Action Controls */}
+            <div className="sstr-mobile-actions">
               <button
-                onClick={onToggleAudio}
-                className={`dg-mobile-util-chip ${isAudioMuted ? 'muted' : 'active'}`}
+                onClick={handleMonitoringAction}
+                className={`sstr-mobile-cta-btn ${isMonitoring ? 'monitoring' : 'idle'}`}
               >
-                {isAudioMuted ? <VolumeX size={14} /> : <Volume2 size={14} />}
-                <span>{isAudioMuted ? 'AUDIO MUTED' : 'AUDIO ON'}</span>
+                {isMonitoring ? (
+                  <>
+                    <Square size={14} fill="currentColor" />
+                    <span>HALT SENSING</span>
+                  </>
+                ) : (
+                  <>
+                    <Play size={14} fill="currentColor" />
+                    <span>START MONITORING</span>
+                  </>
+                )}
               </button>
 
               <button
                 onClick={onToggleNotifications}
-                className={`dg-mobile-util-chip ${
+                className={`sstr-mobile-util-btn ${
                   notificationPermission === 'denied'
                     ? 'denied'
                     : isNotificationsEnabled
@@ -365,27 +358,26 @@ export default function Navigation({
         </div>
       )}
 
-      {/* Scoped CSS Styles for Modern Navbar */}
+      {/* Scoped CSS Styles for SSTR Industrial Navbar */}
       <style>{`
-        /* Header Container */
-        .dg-navbar-header {
+        .sstr-navbar-header {
           position: sticky;
           top: 0;
           z-index: 1000;
           width: 100%;
-          background: rgba(247, 246, 242, 0.90);
+          background: rgba(13, 14, 16, 0.88);
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
-          border-bottom: 1px solid rgba(226, 223, 214, 0.85);
-          box-shadow: 0 4px 20px -2px rgba(17, 17, 17, 0.025);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
           transition: background-color var(--transition-fast), border-color var(--transition-fast);
         }
 
-        .dg-navbar-container {
+        .sstr-navbar-container {
           max-width: 1440px;
           margin: 0 auto;
           height: 68px;
-          padding: 0 clamp(1.25rem, 4vw, 3.5rem);
+          padding: 0 clamp(1.25rem, 3.5vw, 3rem);
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -393,167 +385,166 @@ export default function Navigation({
         }
 
         /* Brand Styling */
-        .dg-brand-button {
+        .sstr-brand-button {
           display: inline-flex;
           align-items: center;
-          gap: 0.75rem;
+          gap: 0.85rem;
           cursor: pointer;
           user-select: none;
           outline: none;
-          transition: opacity var(--transition-fast), transform var(--transition-fast);
+          transition: opacity var(--transition-fast);
         }
-        .dg-brand-button:hover {
+        .sstr-brand-button:hover {
           opacity: 0.92;
         }
 
-        .dg-brand-crest {
+        .sstr-brand-crest {
           position: relative;
-          width: 32px;
-          height: 32px;
-          border-radius: 8px;
-          background: #111111;
+          width: 34px;
+          height: 34px;
+          border-radius: 4px;
+          background: #18191B;
+          border: 1px solid rgba(255, 255, 255, 0.12);
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
         }
-        .dg-shield-icon {
-          color: #F7F6F2;
+        .sstr-shield-icon {
+          color: #FE5B2A;
         }
 
-        .dg-beacon-dot {
+        .sstr-beacon-dot {
           position: absolute;
           top: -2px;
           right: -2px;
           width: 8px;
           height: 8px;
           border-radius: 50%;
-          border: 1.5px solid #F7F6F2;
-          background-color: var(--text-muted);
+          border: 1.5px solid #0D0E10;
+          background-color: #5F6470;
           transition: background-color var(--transition-fast);
         }
-        .dg-beacon-dot.active {
+        .sstr-beacon-dot.active {
           background-color: #10B981;
-          box-shadow: 0 0 8px rgba(16, 185, 129, 0.7);
+          box-shadow: 0 0 8px rgba(16, 185, 129, 0.8);
         }
-        .dg-beacon-dot.standby {
-          background-color: #D97706;
+        .sstr-beacon-dot.standby {
+          background-color: #FE5B2A;
+          box-shadow: 0 0 8px rgba(254, 91, 42, 0.8);
         }
-        .dg-beacon-dot.offline {
-          background-color: #9CA3AF;
+        .sstr-beacon-dot.offline {
+          background-color: #5F6470;
         }
 
-        .dg-brand-text-group {
+        .sstr-brand-text-group {
           display: flex;
           align-items: center;
           gap: 0.45rem;
         }
-        .dg-brand-title {
-          font-family: var(--font-sans);
-          font-size: 0.95rem;
-          font-weight: 700;
-          letter-spacing: 0.14em;
-          color: var(--text-primary);
+        .sstr-brand-title {
+          font-family: var(--font-display);
+          font-size: 0.98rem;
+          font-weight: 800;
+          letter-spacing: 0.08em;
+          color: #FFFFFF;
           line-height: 1;
         }
-        .dg-brand-badge {
+        .sstr-brand-badge {
           font-family: var(--font-mono);
-          font-size: 0.65rem;
-          font-weight: 600;
-          letter-spacing: 0.08em;
-          color: var(--text-secondary);
-          background: rgba(17, 17, 17, 0.05);
-          border: 1px solid rgba(17, 17, 17, 0.08);
-          padding: 2px 6px;
-          border-radius: 4px;
+          font-size: 0.72rem;
+          font-weight: 700;
+          color: #FE5B2A;
           line-height: 1.2;
         }
-
-        /* Center Segmented Dock */
-        .dg-nav-dock {
-          display: flex;
-          align-items: center;
-          background: rgba(239, 236, 230, 0.65);
-          border: 1px solid rgba(226, 223, 214, 0.9);
-          border-radius: 9999px;
-          padding: 4px;
-          gap: 2px;
-          box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02);
+        .sstr-brand-index {
+          font-family: var(--font-mono);
+          font-size: 0.65rem;
+          color: #5F6470;
+          margin-left: 0.25rem;
+          letter-spacing: 0.08em;
         }
 
-        .dg-nav-tab {
+        /* Center Segmented Hardware Dock */
+        .sstr-nav-dock {
+          display: flex;
+          align-items: center;
+          background: rgba(24, 25, 27, 0.8);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 6px;
+          padding: 3px;
+          gap: 2px;
+        }
+
+        .sstr-nav-tab {
           background: transparent;
           border: 1px solid transparent;
-          border-radius: 9999px;
+          border-radius: 4px;
           padding: 0.42rem 0.95rem;
           cursor: pointer;
           display: inline-flex;
           align-items: center;
-          gap: 0.45rem;
-          transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+          gap: 0.5rem;
+          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
           outline: none;
           position: relative;
         }
-        .dg-tab-num {
+        .sstr-tab-num {
           font-family: var(--font-mono);
-          font-size: 0.62rem;
-          color: var(--text-muted);
+          font-size: 0.65rem;
+          color: #5F6470;
           letter-spacing: 0.06em;
-          font-weight: 500;
+          font-weight: 600;
           transition: color var(--transition-fast);
         }
-        .dg-tab-label {
-          font-family: var(--font-sans);
-          font-size: 0.78rem;
-          font-weight: 500;
-          letter-spacing: 0.04em;
-          color: var(--text-secondary);
+        .sstr-tab-label {
+          font-family: var(--font-mono);
+          font-size: 0.75rem;
+          font-weight: 600;
+          letter-spacing: 0.06em;
+          color: #9FA4B0;
           transition: color var(--transition-fast);
         }
-        .dg-tab-active-dot {
+        .sstr-tab-active-pip {
           width: 4px;
           height: 4px;
           border-radius: 50%;
-          background-color: var(--text-primary);
-          margin-left: 1px;
+          background-color: #FE5B2A;
+          box-shadow: 0 0 6px #FE5B2A;
+          margin-left: 2px;
         }
 
-        .dg-nav-tab:hover:not(.active) {
-          background: rgba(255, 255, 255, 0.5);
-          color: var(--text-primary);
+        .sstr-nav-tab:hover:not(.active) {
+          background: rgba(255, 255, 255, 0.04);
         }
-        .dg-nav-tab:hover:not(.active) .dg-tab-label {
-          color: var(--text-primary);
+        .sstr-nav-tab:hover:not(.active) .sstr-tab-label {
+          color: #FFFFFF;
         }
 
-        .dg-nav-tab.active {
-          background: #FFFFFF;
-          border-color: rgba(17, 17, 17, 0.06);
-          box-shadow: 0 2px 8px rgba(17, 17, 17, 0.05);
+        .sstr-nav-tab.active {
+          background: #202226;
+          border-color: rgba(255, 255, 255, 0.12);
         }
-        .dg-nav-tab.active .dg-tab-num {
-          color: var(--text-primary);
-          font-weight: 600;
+        .sstr-nav-tab.active .sstr-tab-num {
+          color: #FE5B2A;
         }
-        .dg-nav-tab.active .dg-tab-label {
-          color: var(--text-primary);
-          font-weight: 600;
+        .sstr-nav-tab.active .sstr-tab-label {
+          color: #FFFFFF;
         }
 
         /* Right Controls Cluster */
-        .dg-controls-cluster {
+        .sstr-controls-cluster {
           display: flex;
           align-items: center;
           gap: 0.65rem;
         }
 
         /* Telemetry Status Capsule */
-        .dg-status-pill {
+        .sstr-status-pill {
           display: inline-flex;
           align-items: center;
           gap: 0.45rem;
-          padding: 0.4rem 0.75rem;
-          border-radius: 9999px;
+          padding: 0.45rem 0.85rem;
+          border-radius: 4px;
           font-family: var(--font-mono);
           font-size: 0.7rem;
           font-weight: 600;
@@ -561,394 +552,299 @@ export default function Navigation({
           cursor: pointer;
           outline: none;
           transition: all var(--transition-fast);
-          border: 1px solid var(--border-subtle);
-          background: rgba(255, 255, 255, 0.65);
-          color: var(--text-secondary);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: rgba(24, 25, 27, 0.7);
+          color: #9FA4B0;
         }
-        .dg-status-pill:hover {
-          border-color: var(--text-primary);
-          color: var(--text-primary);
-          transform: translateY(-0.5px);
+        .sstr-status-pill:hover {
+          border-color: rgba(255, 255, 255, 0.25);
+          color: #FFFFFF;
         }
-        .dg-status-pill.online {
-          background: rgba(16, 185, 129, 0.08);
+        .sstr-status-pill.online {
+          background: rgba(16, 185, 129, 0.1);
           border-color: rgba(16, 185, 129, 0.35);
-          color: #065F46;
+          color: #34D399;
         }
-        .dg-status-pill.standby {
-          background: rgba(217, 119, 6, 0.08);
-          border-color: rgba(217, 119, 6, 0.3);
-          color: #92400E;
+        .sstr-status-pill.standby {
+          background: rgba(254, 91, 42, 0.1);
+          border-color: rgba(254, 91, 42, 0.35);
+          color: #FE5B2A;
         }
-        .dg-status-pill.offline {
-          background: rgba(232, 75, 50, 0.06);
-          border-color: rgba(232, 75, 50, 0.25);
-          color: #991B1B;
+        .sstr-status-pill.offline {
+          background: rgba(239, 68, 68, 0.1);
+          border-color: rgba(239, 68, 68, 0.3);
+          color: #F87171;
         }
 
-        .dg-status-pulse-ring {
+        .sstr-status-pulse-ring {
           width: 6px;
           height: 6px;
           border-radius: 50%;
           background-color: currentColor;
         }
-        .dg-status-pill.online .dg-status-pulse-ring {
-          animation: redTelemetryPulse 2s ease-in-out infinite;
+        .sstr-status-pill.online .sstr-status-pulse-ring {
+          animation: sstrGreenPulse 2s ease-in-out infinite;
         }
-        .dg-status-icon {
-          opacity: 0.6;
-          transition: opacity var(--transition-fast);
+        .sstr-status-pill.standby .sstr-status-pulse-ring {
+          animation: sstrOrangePulse 2s ease-in-out infinite;
         }
-        .dg-status-pill:hover .dg-status-icon {
-          opacity: 1;
+        .sstr-status-icon {
+          opacity: 0.7;
         }
 
-        /* Quick Utility Group (Audio & Notifications) */
-        .dg-utility-group {
+        /* Audio & Notifications Capsule */
+        .sstr-utility-group {
           display: inline-flex;
           align-items: center;
-          gap: 2px;
-          background: rgba(255, 255, 255, 0.7);
-          border: 1px solid var(--border-subtle);
-          border-radius: 9999px;
+          background: rgba(24, 25, 27, 0.8);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 4px;
           padding: 2px 4px;
         }
-        .dg-util-btn {
-          width: 30px;
-          height: 30px;
-          border-radius: 50%;
-          border: none;
+        .sstr-util-btn {
           background: transparent;
-          color: var(--text-secondary);
+          border: none;
+          padding: 0.38rem 0.55rem;
+          color: #9FA4B0;
+          cursor: pointer;
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          cursor: pointer;
-          position: relative;
+          border-radius: 3px;
           transition: all var(--transition-fast);
+          position: relative;
         }
-        .dg-util-btn:hover {
-          color: var(--text-primary);
-          background: rgba(17, 17, 17, 0.05);
+        .sstr-util-btn:hover {
+          color: #FFFFFF;
+          background: rgba(255, 255, 255, 0.06);
         }
-        .dg-util-btn.muted {
-          color: var(--text-muted);
+        .sstr-util-btn.muted {
+          color: #EF4444;
         }
-        .dg-util-btn.active {
-          color: var(--text-primary);
+        .sstr-util-btn.denied {
+          color: #EF4444;
         }
-        .dg-util-btn.denied {
-          color: var(--color-alert);
-        }
-
-        .dg-notif-indicator {
-          position: absolute;
-          top: 6px;
-          right: 6px;
-          width: 5px;
-          height: 5px;
-          border-radius: 50%;
-          background-color: #10B981;
-        }
-        .dg-util-divider {
+        .sstr-util-divider {
           width: 1px;
           height: 14px;
-          background-color: var(--border-subtle);
+          background-color: rgba(255, 255, 255, 0.1);
+          margin: 0 2px;
+        }
+        .sstr-notif-indicator {
+          position: absolute;
+          top: 3px;
+          right: 3px;
+          width: 4px;
+          height: 4px;
+          border-radius: 50%;
+          background-color: #FE5B2A;
         }
 
-        /* Primary Action Ignition Button */
-        .dg-cta-btn {
+        /* Ignition CTA Button */
+        .sstr-cta-btn {
           display: inline-flex;
           align-items: center;
-          gap: 0.5rem;
-          padding: 0.52rem 1.25rem;
-          border-radius: 9999px;
-          font-family: var(--font-sans);
-          font-size: 0.78rem;
-          font-weight: 600;
+          gap: 0.55rem;
+          padding: 0.55rem 1.25rem;
+          border-radius: 4px;
+          font-family: var(--font-mono);
+          font-size: 0.76rem;
+          font-weight: 700;
           letter-spacing: 0.08em;
           text-transform: uppercase;
           cursor: pointer;
-          outline: none;
-          transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        }
-        .dg-cta-btn.idle {
-          background-color: #111111;
-          color: #FFFFFF;
-          border: 1px solid #111111;
-        }
-        .dg-cta-btn.idle:hover {
-          background-color: #000000;
-          transform: translateY(-1px);
-          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16);
-        }
-        .dg-cta-btn.monitoring {
-          background-color: #18191B;
-          color: #FFFFFF;
-          border: 1px solid rgba(232, 75, 50, 0.5);
-          box-shadow: 0 2px 10px rgba(232, 75, 50, 0.15);
-        }
-        .dg-cta-btn.monitoring:hover {
-          background-color: #0E0F11;
-          border-color: rgba(232, 75, 50, 0.9);
-          transform: translateY(-1px);
-          box-shadow: 0 4px 16px rgba(232, 75, 50, 0.25);
-        }
-        .dg-cta-icon {
-          flex-shrink: 0;
-        }
-        .dg-cta-text-compact {
-          display: none;
-        }
-
-        /* Hamburger Button */
-        .dg-hamburger-btn {
-          width: 36px;
-          height: 36px;
-          border-radius: 9999px;
-          border: 1px solid var(--border-subtle);
-          background: rgba(255, 255, 255, 0.6);
-          color: var(--text-primary);
-          display: none;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
           transition: all var(--transition-fast);
+          border: none;
         }
-        .dg-hamburger-btn:hover {
-          background: #FFFFFF;
-          border-color: var(--text-primary);
+        .sstr-cta-btn.idle {
+          background-color: #FE5B2A;
+          color: #FFFFFF;
+          box-shadow: 0 2px 14px rgba(254, 91, 42, 0.35);
+        }
+        .sstr-cta-btn.idle:hover {
+          background-color: #FF6E3F;
+          box-shadow: 0 4px 20px rgba(254, 91, 42, 0.5);
+          transform: translateY(-1px);
+        }
+        .sstr-cta-btn.monitoring {
+          background-color: #202226;
+          color: #EF4444;
+          border: 1px solid rgba(239, 68, 68, 0.35);
+        }
+        .sstr-cta-btn.monitoring:hover {
+          background-color: #282A30;
+          border-color: #EF4444;
         }
 
-        /* Mobile Drawer */
-        .dg-mobile-overlay {
+        .sstr-cta-text-compact {
+          display: none;
+        }
+
+        .sstr-hamburger-btn {
+          display: none;
+          background: rgba(24, 25, 27, 0.8);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 4px;
+          padding: 0.45rem;
+          color: #FFFFFF;
+          cursor: pointer;
+        }
+
+        /* Mobile Drawer Styles */
+        .sstr-mobile-overlay {
           position: fixed;
           inset: 0;
-          top: 68px;
-          background: rgba(17, 17, 17, 0.45);
-          backdrop-filter: blur(14px);
-          -webkit-backdrop-filter: blur(14px);
-          z-index: 999;
+          z-index: 1050;
+          background: rgba(0, 0, 0, 0.8);
+          backdrop-filter: blur(12px);
+          display: flex;
+          justifyContent: flex-end;
+        }
+        .sstr-mobile-drawer {
+          width: 85%;
+          max-width: 380px;
+          height: 100%;
+          background: #141518;
+          border-left: 1px solid rgba(255, 255, 255, 0.1);
+          padding: 2rem 1.5rem;
           display: flex;
           flex-direction: column;
+          gap: 1.5rem;
+          overflow-y: auto;
         }
-        .dg-mobile-drawer {
-          background: var(--bg-canvas);
-          border-bottom: 1px solid var(--border-subtle);
-          padding: 1.5rem clamp(1.25rem, 5vw, 2.5rem);
+        .sstr-mobile-status-card {
+          padding: 1rem;
+          border-radius: 6px;
+          background: #18191B;
+          border: 1px solid rgba(255, 255, 255, 0.1);
           display: flex;
-          flex-direction: column;
-          gap: 1.25rem;
-          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
-          animation: dgDrawerSlide 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        @keyframes dgDrawerSlide {
-          from {
-            opacity: 0;
-            transform: translateY(-8px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        .dg-mobile-status-card {
-          display: flex;
+          justifyContent: space-between;
           align-items: center;
-          justify-content: space-between;
-          padding: 0.85rem 1rem;
-          border-radius: 8px;
-          background: #FFFFFF;
-          border: 1px solid var(--border-subtle);
           cursor: pointer;
-          transition: all var(--transition-fast);
         }
-        .dg-mobile-status-card:hover {
-          border-color: var(--text-primary);
-        }
-        .dg-mobile-status-left {
+        .sstr-mobile-status-left {
           display: flex;
           align-items: center;
           gap: 0.75rem;
         }
-        .dg-mobile-status-dot {
+        .sstr-mobile-status-dot {
           width: 8px;
           height: 8px;
           border-radius: 50%;
-          background-color: var(--text-muted);
+          background-color: #FE5B2A;
         }
-        .dg-mobile-status-card.online .dg-mobile-status-dot {
-          background-color: #10B981;
-          box-shadow: 0 0 8px rgba(16, 185, 129, 0.7);
-        }
-        .dg-mobile-status-card.standby .dg-mobile-status-dot {
-          background-color: #D97706;
-        }
-        .dg-mobile-status-card.offline .dg-mobile-status-dot {
-          background-color: #E84B32;
-        }
-        .dg-mobile-status-title {
+        .sstr-mobile-status-title {
           font-family: var(--font-mono);
           font-size: 0.75rem;
-          font-weight: 600;
-          color: var(--text-primary);
-          letter-spacing: 0.05em;
+          font-weight: 700;
+          color: #FFFFFF;
         }
-        .dg-mobile-status-sub {
+        .sstr-mobile-status-sub {
+          font-family: var(--font-sans);
           font-size: 0.72rem;
-          color: var(--text-secondary);
-          margin-top: 2px;
+          color: #9FA4B0;
         }
-
-        .dg-mobile-nav-list {
+        .sstr-mobile-nav-list {
           display: flex;
           flex-direction: column;
+          gap: 0.5rem;
         }
-        .dg-mobile-nav-item {
-          background: transparent;
-          border: none;
-          border-bottom: 1px solid var(--border-subtle);
-          padding: 0.95rem 0.25rem;
+        .sstr-mobile-nav-item {
           display: flex;
+          justifyContent: space-between;
           align-items: center;
-          justify-content: space-between;
+          padding: 0.85rem 1rem;
+          background: #18191B;
+          border: 1px solid rgba(255, 255, 255, 0.06);
+          border-radius: 4px;
           cursor: pointer;
+          color: #FFFFFF;
           text-align: left;
         }
-        .dg-mobile-item-left {
+        .sstr-mobile-nav-item.active {
+          border-color: #FE5B2A;
+          background: rgba(254, 91, 42, 0.08);
+        }
+        .sstr-mobile-nav-left {
           display: flex;
           align-items: center;
-          gap: 0.85rem;
+          gap: 0.75rem;
         }
-        .dg-mobile-item-num {
+        .sstr-mobile-nav-num {
           font-family: var(--font-mono);
-          font-size: 0.72rem;
-          color: var(--text-muted);
+          font-size: 0.7rem;
+          color: #FE5B2A;
+          font-weight: 700;
         }
-        .dg-mobile-item-label {
-          font-family: var(--font-sans);
-          font-size: 1.05rem;
-          font-weight: 500;
-          color: var(--text-secondary);
-          letter-spacing: 0.04em;
-        }
-        .dg-mobile-item-chevron {
-          color: var(--text-muted);
-          transition: transform var(--transition-fast), color var(--transition-fast);
-        }
-        .dg-mobile-nav-item.active .dg-mobile-item-label {
-          color: var(--text-primary);
+        .sstr-mobile-nav-label {
+          font-family: var(--font-mono);
+          font-size: 0.8rem;
           font-weight: 600;
+          letter-spacing: 0.06em;
         }
-        .dg-mobile-nav-item.active .dg-mobile-item-num {
-          color: var(--text-primary);
-          font-weight: 600;
+        .sstr-mobile-nav-active-pip {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background-color: #FE5B2A;
+          box-shadow: 0 0 8px #FE5B2A;
         }
-        .dg-mobile-nav-item.active .dg-mobile-item-chevron {
-          color: var(--text-primary);
-          transform: translateX(3px);
+        .sstr-mobile-actions {
+          margin-top: auto;
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
         }
-
-        .dg-mobile-cta-btn {
+        .sstr-mobile-cta-btn {
           width: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 0.65rem;
-          padding: 0.85rem 1.5rem;
-          border-radius: 9999px;
-          font-family: var(--font-sans);
-          font-size: 0.85rem;
-          font-weight: 600;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          cursor: pointer;
+          padding: 0.85rem;
+          background: #FE5B2A;
+          color: #FFFFFF;
           border: none;
-        }
-        .dg-mobile-cta-btn.idle {
-          background-color: #111111;
-          color: #FFFFFF;
-        }
-        .dg-mobile-cta-btn.monitoring {
-          background-color: #18191B;
-          color: #FFFFFF;
-          border: 1px solid rgba(232, 75, 50, 0.6);
-        }
-
-        .dg-mobile-utils-row {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 0.65rem;
-          padding-top: 0.5rem;
-        }
-        .dg-mobile-util-chip {
+          border-radius: 4px;
+          font-family: var(--font-mono);
+          font-size: 0.82rem;
+          font-weight: 700;
+          cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 0.45rem;
-          padding: 0.65rem;
-          border-radius: 9999px;
-          border: 1px solid var(--border-subtle);
-          background: #FFFFFF;
+          gap: 0.5rem;
+        }
+        .sstr-mobile-util-btn {
+          width: 100%;
+          padding: 0.75rem;
+          background: #18191B;
+          color: #9FA4B0;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 4px;
           font-family: var(--font-mono);
-          font-size: 0.72rem;
-          font-weight: 500;
-          color: var(--text-secondary);
+          font-size: 0.75rem;
           cursor: pointer;
-        }
-        .dg-mobile-util-chip.active {
-          color: #065F46;
-          border-color: rgba(16, 185, 129, 0.4);
-          background: rgba(16, 185, 129, 0.06);
-        }
-        .dg-mobile-util-chip.denied {
-          color: var(--color-alert);
-          border-color: rgba(232, 75, 50, 0.3);
-          background: rgba(232, 75, 50, 0.06);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
         }
 
         /* Responsive Breakpoints */
-        @media (max-width: 980px) {
-          .dg-nav-dock {
-            display: none !important;
+        @media (max-width: 1024px) {
+          .sstr-nav-dock {
+            display: none;
           }
-          .dg-hamburger-btn {
-            display: flex !important;
-          }
-          .dg-utility-group {
-            display: none !important;
+          .sstr-hamburger-btn {
+            display: flex;
           }
         }
-
-        @media (max-width: 600px) {
-          .dg-status-pill {
-            display: none !important;
+        @media (max-width: 640px) {
+          .sstr-cta-text-full {
+            display: none;
           }
-          .dg-cta-text-full {
-            display: none !important;
+          .sstr-cta-text-compact {
+            display: inline;
           }
-          .dg-cta-text-compact {
-            display: inline !important;
-          }
-          .dg-cta-btn {
-            padding: 0.45rem 0.85rem !important;
-            font-size: 0.74rem !important;
-          }
-        }
-
-        /* Reduced Motion */
-        @media (prefers-reduced-motion: reduce) {
-          .dg-mobile-drawer {
-            animation: none !important;
-          }
-          .dg-nav-tab,
-          .dg-cta-btn,
-          .dg-status-pill {
-            transition: none !important;
-            transform: none !important;
+          .sstr-utility-group {
+            display: none;
           }
         }
       `}</style>

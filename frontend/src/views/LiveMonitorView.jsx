@@ -17,13 +17,17 @@ import {
   Eye,
   Info,
   ExternalLink,
+  ChevronRight,
+  Gauge,
+  Compass,
 } from 'lucide-react';
 
 /**
  * LiveMonitorView Component
- * High-End Luxury Automotive Optical Cockpit
- * Design Inspiration: Explora Journeys (editorial layout), NOMU (minimal tactile controls),
- * and Decathlon Yestalgia (retro-futuristic telemetry crosshairs & scenario dials).
+ * High-End Industrial Optical Cockpit HUD
+ * Primary Reference: SSTR (https://sstr.tech/en/) — Awwwards Site of the Day (SOTD) & Developer Award
+ * Strict modular carbon grid, SSTR Electric Safety Orange (#FE5B2A), precision laser raster scans,
+ * and high-contrast telemetry dials.
  */
 export default function LiveMonitorView({
   telemetryData = {},
@@ -59,10 +63,10 @@ export default function LiveMonitorView({
   const isLive = isSimMode || (isEngineConnected && isMonitoring);
 
   const getRiskBorder = () => {
-    if (!isLive) return 'rgba(23, 23, 23, 0.12)';
-    if (riskLevel === 'CRITICAL' || riskScore >= 70) return '#DC2626';
-    if (riskLevel === 'WARNING' || riskScore >= 35) return '#D97706';
-    return 'rgba(46, 125, 50, 0.35)';
+    if (!isLive) return 'rgba(255, 255, 255, 0.1)';
+    if (riskLevel === 'CRITICAL' || riskScore >= 70) return '#EF4444';
+    if (riskLevel === 'WARNING' || riskScore >= 35) return '#FE5B2A';
+    return 'rgba(16, 185, 129, 0.4)';
   };
 
   const handleCopyCommand = (text) => {
@@ -82,17 +86,7 @@ export default function LiveMonitorView({
   };
 
   return (
-    <div
-      className="cinematic-fade-in"
-      style={{
-        maxWidth: '1440px',
-        margin: '0 auto',
-        padding: 'clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 3vw, 2.5rem)',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '2.5rem',
-      }}
-    >
+    <div className="sstr-cockpit-wrapper sstr-grid-bg">
       {/* Editorial Safety Alert Banner */}
       <AlertBanner
         alertState={riskLevel}
@@ -103,96 +97,33 @@ export default function LiveMonitorView({
         isRecovering={isRecovering}
       />
 
-      {/* Viewport Header: Editorial Luxury Masthead */}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'flex-end',
-          borderBottom: '1px solid rgba(23, 23, 23, 0.12)',
-          paddingBottom: '1.5rem',
-          flexWrap: 'wrap',
-          gap: '1.5rem',
-        }}
-      >
+      {/* Cockpit Masthead */}
+      <div className="sstr-cockpit-masthead">
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '0.4rem' }}>
-            <span
-              style={{
-                width: '7px',
-                height: '7px',
-                borderRadius: '50%',
-                backgroundColor: isLive ? '#2E7D32' : '#9CA3AF',
-              }}
-              className={isLive ? 'telemetry-pulse' : ''}
-            />
-            <span
-              style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.72rem',
-                color: 'var(--text-secondary)',
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-              }}
-            >
-              COCKPIT SENSING // REAL-TIME OPTICAL HUD
-            </span>
+          <div className="sstr-masthead-meta">
+            <span className="sstr-tag">COCKPIT SENSING // 02</span>
+            <span className="sstr-meta-divider">|</span>
+            <span className="sstr-meta-item">REAL-TIME EDGE PIPELINE</span>
+            <span className="sstr-meta-divider">|</span>
+            <span className="sstr-meta-item">640x480 RAW OPTICAL STREAM</span>
           </div>
 
-          <h1
-            style={{
-              fontFamily: 'var(--font-serif)',
-              fontSize: 'clamp(2.4rem, 4.5vw, 3.6rem)',
-              fontWeight: 400,
-              letterSpacing: '-0.02em',
-              color: 'var(--text-primary)',
-              margin: 0,
-              lineHeight: 1.05,
-            }}
-          >
-            Optical Telemetry HUD
+          <h1 className="sstr-cockpit-title">
+            OPTICAL TELEMETRY HUD<span className="sstr-title-dot">.</span>
           </h1>
-          <p
-            style={{
-              fontFamily: 'var(--font-sans)',
-              fontSize: '0.92rem',
-              color: 'var(--text-secondary)',
-              marginTop: '0.4rem',
-              marginBottom: 0,
-              maxWidth: '620px',
-            }}
-          >
-            Continuous computer-vision driver monitoring. MediaPipe palpebral closure & cranial pose classification.
+          <p className="sstr-cockpit-subtitle">
+            Edge neural ingestion of palpebral aperture closure (EAR) and 3D cranial kinematics.
           </p>
         </div>
 
         {/* Live Controls Capsule */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', flexWrap: 'wrap' }}>
+        <div className="sstr-cockpit-controls">
           {/* Status Badge */}
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              padding: '0.55rem 1.15rem',
-              backgroundColor: '#FFFFFF',
-              border: '1px solid rgba(23, 23, 23, 0.12)',
-              borderRadius: '9999px',
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.72rem',
-              letterSpacing: '0.06em',
-              color: 'var(--text-primary)',
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.03)',
-            }}
-          >
+          <div className="sstr-status-chip">
             <span
-              style={{
-                width: '6px',
-                height: '6px',
-                borderRadius: '50%',
-                backgroundColor: isLive ? '#2E7D32' : isSimMode ? '#D97706' : '#9CA3AF',
-              }}
-              className={isLive ? 'telemetry-pulse' : ''}
+              className={`sstr-status-beacon ${
+                isLive ? 'active' : isSimMode ? 'sim' : 'idle'
+              }`}
             />
             <span>
               {isEngineConnected
@@ -201,7 +132,7 @@ export default function LiveMonitorView({
                   : 'STANDBY (PAUSED)'
                 : isSimMode
                 ? 'SIMULATION HARNESS'
-                : 'ENGINE DISCONNECTED'}
+                : 'PIPELINE DISCONNECTED'}
             </span>
           </div>
 
@@ -209,31 +140,16 @@ export default function LiveMonitorView({
           {isEngineConnected ? (
             <button
               onClick={onToggleMonitoring}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                backgroundColor: isMonitoring ? '#171717' : '#2E7D32',
-                color: '#FFFFFF',
-                border: 'none',
-                padding: '0.62rem 1.45rem',
-                borderRadius: '9999px',
-                fontFamily: 'var(--font-sans)',
-                fontSize: '0.82rem',
-                fontWeight: 600,
-                letterSpacing: '0.04em',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-              }}
+              className={`sstr-ignition-btn ${isMonitoring ? 'monitoring' : 'idle'}`}
             >
               {isMonitoring ? (
                 <>
-                  <Square size={12} fill="#FFFFFF" />
+                  <Square size={12} fill="currentColor" />
                   <span>HALT SENSING</span>
                 </>
               ) : (
                 <>
-                  <Play size={12} fill="#FFFFFF" />
+                  <Play size={12} fill="currentColor" />
                   <span>START MONITORING</span>
                 </>
               )}
@@ -241,393 +157,130 @@ export default function LiveMonitorView({
           ) : (
             <button
               onClick={onOpenDiagnostics}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                backgroundColor: '#171717',
-                color: '#FFFFFF',
-                border: 'none',
-                padding: '0.62rem 1.4rem',
-                borderRadius: '9999px',
-                fontFamily: 'var(--font-sans)',
-                fontSize: '0.82rem',
-                fontWeight: 500,
-                cursor: 'pointer',
-              }}
+              className="sstr-btn-secondary"
+              style={{ padding: '0.55rem 1.15rem' }}
             >
               <Radio size={12} />
-              <span>DIAGNOSTICS & TUNNEL</span>
+              <span>TUNNEL / DIAGNOSTICS</span>
             </button>
           )}
         </div>
       </div>
 
       {/* Main Responsive Split Grid */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'minmax(0, 1.35fr) minmax(0, 1fr)',
-          gap: '2rem',
-          alignItems: 'start',
-        }}
-        className="cockpit-hud-grid"
-      >
+      <div className="cockpit-hud-grid">
         {/* Left Column: Primary Optical Viewport Frame */}
         <div
-          style={{
-            backgroundColor: '#FFFFFF',
-            border: `1.5px solid ${getRiskBorder()}`,
-            borderRadius: '16px',
-            overflow: 'hidden',
-            display: 'flex',
-            flexDirection: 'column',
-            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.05)',
-            position: 'relative',
-            transition: 'border-color 0.3s ease',
-          }}
+          className="sstr-viewport-card sstr-reticle"
+          style={{ borderColor: getRiskBorder() }}
         >
-          {/* Decathlon Yestalgia Retro-Futuristic Reticle Marks */}
-          <span
-            style={{
-              position: 'absolute',
-              top: '8px',
-              left: '10px',
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.65rem',
-              color: 'rgba(23, 23, 23, 0.3)',
-              pointerEvents: 'none',
-              zIndex: 15,
-            }}
-          >
-            +
-          </span>
-          <span
-            style={{
-              position: 'absolute',
-              top: '8px',
-              right: '10px',
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.65rem',
-              color: 'rgba(23, 23, 23, 0.3)',
-              pointerEvents: 'none',
-              zIndex: 15,
-            }}
-          >
-            +
-          </span>
-
           {/* Viewport Technical Header Bar */}
-          <div
-            style={{
-              padding: '0.9rem 1.5rem',
-              borderBottom: '1px solid rgba(23, 23, 23, 0.08)',
-              backgroundColor: '#FDFBF7',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-              <Camera size={14} color="var(--text-primary)" />
-              <span
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.74rem',
-                  fontWeight: 600,
-                  color: 'var(--text-primary)',
-                  letterSpacing: '0.08em',
-                }}
-              >
-                CAM_01 // 640x480 RAW OPTICAL STREAM
-              </span>
+          <div className="sstr-vp-header">
+            <div className="sstr-vp-cam">
+              <Camera size={14} color="#FE5B2A" />
+              <span>CAM_01 // 640x480 RAW OPTICAL STREAM</span>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <div className="sstr-vp-state">
               <span
-                style={{
-                  width: '6px',
-                  height: '6px',
-                  borderRadius: '50%',
-                  backgroundColor: isLive ? '#2E7D32' : '#9CA3AF',
-                }}
-                className={isLive ? 'telemetry-pulse' : ''}
+                className={`sstr-vp-dot ${isLive ? 'live' : 'standby'}`}
               />
-              <span
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.72rem',
-                  color: isLive ? 'var(--text-primary)' : 'var(--text-secondary)',
-                }}
-              >
+              <span>
                 {isEngineConnected ? (isMonitoring ? `${fps} FPS` : 'CAMERA RELEASED') : 'STANDBY'}
               </span>
             </div>
           </div>
 
           {/* Video Stream / Standby Area */}
-          <div
-            style={{
-              position: 'relative',
-              width: '100%',
-              minHeight: 'clamp(340px, 45vw, 480px)',
-              backgroundColor: '#111214',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              overflow: 'hidden',
-            }}
-          >
+          <div className="sstr-vp-canvas">
             {isEngineConnected && videoStreamUrl ? (
-              <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: 'clamp(340px, 45vw, 480px)' }}>
+              <div className="sstr-vp-stream-box">
                 <img
                   src={videoStreamUrl}
                   alt="Live Driver Safety Optical Feed"
+                  className="sstr-vp-stream-img"
                   style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    display: 'block',
-                    filter: !isMonitoring ? 'grayscale(0.6) contrast(0.95)' : 'none',
-                    transition: 'filter 0.3s ease',
+                    filter: !isMonitoring ? 'grayscale(0.7) contrast(0.95)' : 'none',
                   }}
                 />
 
                 {/* Laser scan line overlay when monitoring */}
                 {isMonitoring && (
-                  <div
-                    className="animate-laser-scan"
-                    style={{
-                      position: 'absolute',
-                      left: 0,
-                      right: 0,
-                      height: '1.5px',
-                      backgroundColor: 'rgba(16, 185, 129, 0.8)',
-                      boxShadow: '0 0 10px rgba(16, 185, 129, 0.8)',
-                      pointerEvents: 'none',
-                    }}
-                  />
+                  <div className="animate-laser-scan sstr-laser-scanline" />
                 )}
 
                 {/* Halted Overlay */}
                 {!isMonitoring && (
-                  <div
-                    style={{
-                      position: 'absolute',
-                      inset: 0,
-                      backgroundColor: 'rgba(13, 14, 16, 0.88)',
-                      backdropFilter: 'blur(8px)',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      padding: '2.5rem',
-                      textAlign: 'center',
-                      zIndex: 10,
-                      color: '#FFFFFF',
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontFamily: 'var(--font-mono)',
-                        fontSize: '0.72rem',
-                        color: '#EF4444',
-                        letterSpacing: '0.14em',
-                        fontWeight: 600,
-                      }}
-                    >
-                      // SENSOR CAPTURE HALTED
-                    </span>
-                    <h3
-                      style={{
-                        fontFamily: 'var(--font-serif)',
-                        fontSize: '2rem',
-                        fontWeight: 400,
-                        margin: '0.6rem 0',
-                      }}
-                    >
-                      Optical Stream Paused
-                    </h3>
-                    <p
-                      style={{
-                        fontFamily: 'var(--font-sans)',
-                        maxWidth: '420px',
-                        fontSize: '0.88rem',
-                        color: 'rgba(255, 255, 255, 0.75)',
-                        lineHeight: 1.55,
-                        marginBottom: '1.75rem',
-                      }}
-                    >
+                  <div className="sstr-halted-overlay">
+                    <span className="sstr-halted-tag">// SENSOR CAPTURE HALTED</span>
+                    <h3 className="sstr-halted-title">Optical Stream Paused</h3>
+                    <p className="sstr-halted-desc">
                       Webcam hardware is cleanly released and neural inference is stopped. Driver privacy is protected.
                     </p>
                     <button
                       onClick={onStartMonitoring}
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '0.5rem',
-                        backgroundColor: '#FFFFFF',
-                        color: '#171717',
-                        border: 'none',
-                        padding: '0.75rem 2rem',
-                        borderRadius: '9999px',
-                        fontFamily: 'var(--font-sans)',
-                        fontSize: '0.85rem',
-                        fontWeight: 600,
-                        cursor: 'pointer',
-                      }}
+                      className="sstr-btn"
+                      style={{ padding: '0.75rem 2rem' }}
                     >
-                      <Play size={13} fill="#171717" />
+                      <Play size={13} fill="#FFFFFF" />
                       <span>RESUME MONITORING</span>
                     </button>
                   </div>
                 )}
               </div>
             ) : (
-              /* Bespoke Standby Calibration Canvas (Explora / NOMU / Decathlon Aesthetic) */
-              <div
-                style={{
-                  width: '100%',
-                  minHeight: 'clamp(380px, 46vw, 500px)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  padding: 'clamp(2rem, 4vw, 3rem)',
-                  textAlign: 'center',
-                  position: 'relative',
-                  backgroundColor: '#FBF9F5',
-                }}
-              >
-                {/* Visual driver illustration */}
+              /* SSTR Standby Calibration Canvas */
+              <div className="sstr-standby-box">
                 <div style={{ marginBottom: '1.25rem' }}>
                   <DriverIllustration state={riskLevel} size={210} animated={true} />
                 </div>
 
-                <div style={{ maxWidth: '480px' }}>
-                  <div
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '0.4rem',
-                      padding: '0.3rem 0.85rem',
-                      backgroundColor: isSimMode ? 'rgba(217, 119, 6, 0.1)' : 'rgba(23, 23, 23, 0.05)',
-                      borderRadius: '9999px',
-                      marginBottom: '0.85rem',
-                    }}
-                  >
+                <div className="sstr-standby-info">
+                  <div className="sstr-standby-pill">
                     <span
                       style={{
                         width: '6px',
                         height: '6px',
                         borderRadius: '50%',
-                        backgroundColor: isSimMode ? '#D97706' : '#9CA3AF',
+                        backgroundColor: isSimMode ? '#FE5B2A' : '#5F6470',
                       }}
                     />
-                    <span
-                      style={{
-                        fontFamily: 'var(--font-mono)',
-                        fontSize: '0.68rem',
-                        color: isSimMode ? '#D97706' : 'var(--text-secondary)',
-                        letterSpacing: '0.08em',
-                        textTransform: 'uppercase',
-                        fontWeight: 600,
-                      }}
-                    >
+                    <span>
                       {isSimMode ? 'SIMULATION HARNESS ACTIVE' : 'AWAITING HARDWARE PIPELINE'}
                     </span>
                   </div>
 
-                  <h3
-                    style={{
-                      fontFamily: 'var(--font-serif)',
-                      fontSize: 'clamp(1.5rem, 3vw, 1.95rem)',
-                      fontWeight: 400,
-                      color: 'var(--text-primary)',
-                      margin: '0 0 0.65rem 0',
-                      lineHeight: 1.2,
-                    }}
-                  >
+                  <h3 className="sstr-standby-title">
                     {isSimMode ? 'Simulated Driver Telemetry' : 'Waiting for Python Optical Pipeline'}
                   </h3>
 
-                  <p
-                    style={{
-                      fontFamily: 'var(--font-sans)',
-                      fontSize: '0.88rem',
-                      color: 'var(--text-secondary)',
-                      lineHeight: 1.6,
-                      marginBottom: '1.5rem',
-                    }}
-                  >
+                  <p className="sstr-standby-desc">
                     {isSimMode
-                      ? 'Synthetic attentiveness telemetry is currently driving the risk dial, acoustic warnings, and GPS tags below.'
+                      ? 'Synthetic attentiveness telemetry is driving the risk dial, acoustic warnings, and GPS tags.'
                       : 'To stream your physical webcam through the MediaPipe neural detection pipeline, launch the Python engine on your laptop:'}
                   </p>
 
                   {!isSimMode && (
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.85rem' }}>
+                    <div className="sstr-standby-actions">
                       {/* Copyable terminal command */}
                       <div
                         onClick={() => handleCopyCommand('python run_production_bridge.py')}
                         title="Click to copy start command"
-                        style={{
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '0.75rem',
-                          padding: '0.65rem 1.25rem',
-                          backgroundColor: '#FFFFFF',
-                          border: '1px solid rgba(23, 23, 23, 0.15)',
-                          borderRadius: '8px',
-                          cursor: 'pointer',
-                          boxShadow: '0 2px 10px rgba(0, 0, 0, 0.04)',
-                          transition: 'all 0.2s ease',
-                        }}
+                        className="sstr-copy-cmd"
                       >
-                        <code
-                          style={{
-                            fontFamily: 'var(--font-mono)',
-                            fontSize: '0.82rem',
-                            color: 'var(--text-primary)',
-                            letterSpacing: '0.04em',
-                          }}
-                        >
-                          python run_production_bridge.py
-                        </code>
-                        <div
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            width: '24px',
-                            height: '24px',
-                            borderRadius: '4px',
-                            backgroundColor: copiedCmd ? '#ECFDF5' : 'rgba(23, 23, 23, 0.05)',
-                          }}
-                        >
-                          {copiedCmd ? <Check size={13} color="#2E7D32" /> : <Copy size={13} color="#6B7280" />}
+                        <code>python run_production_bridge.py</code>
+                        <div className="sstr-copy-btn">
+                          {copiedCmd ? <Check size={12} color="#10B981" /> : <Copy size={12} color="#9FA4B0" />}
                         </div>
                       </div>
 
                       {/* Action buttons row */}
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+                      <div className="sstr-action-row">
                         {onOpenDiagnostics && (
                           <button
                             onClick={onOpenDiagnostics}
-                            style={{
-                              display: 'inline-flex',
-                              alignItems: 'center',
-                              gap: '0.45rem',
-                              padding: '0.55rem 1.25rem',
-                              backgroundColor: '#171717',
-                              color: '#FFFFFF',
-                              border: 'none',
-                              borderRadius: '9999px',
-                              fontSize: '0.78rem',
-                              fontFamily: 'var(--font-sans)',
-                              fontWeight: 500,
-                              cursor: 'pointer',
-                            }}
+                            className="sstr-btn-secondary"
+                            style={{ padding: '0.55rem 1.25rem', fontSize: '0.76rem' }}
                           >
                             <Radio size={12} />
                             <span>CONNECT TUNNEL / DIAGNOSTICS</span>
@@ -637,22 +290,10 @@ export default function LiveMonitorView({
                         {onToggleSimMode && (
                           <button
                             onClick={onToggleSimMode}
-                            style={{
-                              display: 'inline-flex',
-                              alignItems: 'center',
-                              gap: '0.45rem',
-                              padding: '0.55rem 1.25rem',
-                              backgroundColor: '#FFFFFF',
-                              color: 'var(--text-primary)',
-                              border: '1px solid rgba(23, 23, 23, 0.18)',
-                              borderRadius: '9999px',
-                              fontSize: '0.78rem',
-                              fontFamily: 'var(--font-sans)',
-                              fontWeight: 500,
-                              cursor: 'pointer',
-                            }}
+                            className="sstr-btn"
+                            style={{ padding: '0.55rem 1.25rem', fontSize: '0.76rem' }}
                           >
-                            <Sparkles size={12} color="#D97706" />
+                            <Sparkles size={12} />
                             <span>LAUNCH SIMULATION DEMO</span>
                           </button>
                         )}
@@ -665,22 +306,7 @@ export default function LiveMonitorView({
           </div>
 
           {/* Viewport Telemetry Footer Bar */}
-          <div
-            style={{
-              padding: '0.85rem 1.5rem',
-              backgroundColor: '#FDFBF7',
-              borderTop: '1px solid rgba(23, 23, 23, 0.08)',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              flexWrap: 'wrap',
-              gap: '0.5rem',
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.72rem',
-              color: 'var(--text-secondary)',
-              letterSpacing: '0.04em',
-            }}
-          >
+          <div className="sstr-vp-footer">
             <span>
               MODE: {isEngineConnected ? (isMonitoring ? 'LIVE HARDWARE (OPENCV)' : 'STANDBY (CAMERA RELEASED)') : isSimMode ? 'SYNTHETIC HARNESS' : 'DISCONNECTED'}
             </span>
@@ -689,94 +315,45 @@ export default function LiveMonitorView({
         </div>
 
         {/* Right Column: Technical Biometric Meters & Risk Dial */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+        <div className="sstr-telemetry-col">
           {/* Risk Gauge Card */}
-          <div
-            style={{
-              backgroundColor: '#FFFFFF',
-              border: '1px solid rgba(23, 23, 23, 0.1)',
-              borderRadius: '16px',
-              padding: '2rem 1.75rem',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
-              position: 'relative',
-            }}
-          >
-            <span
-              style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.72rem',
-                letterSpacing: '0.12em',
-                color: 'var(--text-secondary)',
-                marginBottom: '1.25rem',
-                textTransform: 'uppercase',
-              }}
-            >
-              DYNAMIC ATTENTIVENESS INDEX
-            </span>
-            <RiskGauge
-              score={isLive ? riskScore : 0}
-              level={isLive ? riskLevel : isEngineConnected && !isMonitoring ? 'PAUSED' : 'STANDBY'}
-              isLive={isLive}
-              size={195}
-            />
+          <div className="sstr-card sstr-reticle" style={{ padding: '2rem 1.5rem', alignItems: 'center' }}>
+            <span className="sstr-card-num">METRIC // DYNAMIC ATTENTIVENESS</span>
+            <div style={{ margin: '1rem 0' }}>
+              <RiskGauge
+                score={isLive ? riskScore : 0}
+                level={isLive ? riskLevel : isEngineConnected && !isMonitoring ? 'PAUSED' : 'STANDBY'}
+                isLive={isLive}
+                size={195}
+              />
+            </div>
           </div>
 
           {/* EAR & MAR Biometric Ratio Bars */}
-          <div
-            style={{
-              backgroundColor: '#FFFFFF',
-              border: '1px solid rgba(23, 23, 23, 0.1)',
-              borderRadius: '16px',
-              padding: '1.75rem',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '1.5rem',
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
-            }}
-          >
+          <div className="sstr-card sstr-reticle">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.72rem',
-                  letterSpacing: '0.12em',
-                  color: 'var(--text-secondary)',
-                  textTransform: 'uppercase',
-                }}
-              >
-                BIOMETRIC SIGNAL RATIOS
-              </span>
-              <span
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.68rem',
-                  color: '#9CA3AF',
-                }}
-              >
-                68-POINT MESH
+              <span className="sstr-card-num">BIOMETRICS // 68-POINT MESH</span>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: '#5F6470' }}>
+                SUB-15MS INGESTION
               </span>
             </div>
 
             {/* Eye Aspect Ratio (EAR) */}
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.45rem' }}>
-                <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', fontWeight: 600, color: '#FFFFFF' }}>
                   Eye Aspect Ratio (EAR)
                 </span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.82rem', color: 'var(--text-primary)' }}>
-                  {isLive ? ear.toFixed(2) : '--'} <span style={{ color: '#9CA3AF' }}>/ 0.22 crit</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: '#FE5B2A' }}>
+                  {isLive ? ear.toFixed(2) : '--'} <span style={{ color: '#5F6470' }}>/ 0.22 crit</span>
                 </span>
               </div>
-              <div style={{ width: '100%', height: '6px', backgroundColor: '#F3EFEA', borderRadius: '3px', overflow: 'hidden' }}>
+              <div className="sstr-progress-track">
                 <div
+                  className="sstr-progress-fill"
                   style={{
                     width: isLive ? `${Math.min(100, (ear / 0.45) * 100)}%` : '0%',
-                    height: '100%',
-                    backgroundColor: ear < 0.22 ? '#DC2626' : '#171717',
-                    transition: 'width 0.25s ease',
+                    backgroundColor: ear < 0.22 ? '#EF4444' : '#10B981',
                   }}
                 />
               </div>
@@ -785,180 +362,83 @@ export default function LiveMonitorView({
             {/* Mouth Aspect Ratio (MAR) */}
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.45rem' }}>
-                <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', fontWeight: 600, color: '#FFFFFF' }}>
                   Mouth Aspect Ratio (MAR)
                 </span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.82rem', color: 'var(--text-primary)' }}>
-                  {isLive ? mar.toFixed(2) : '--'} <span style={{ color: '#9CA3AF' }}>/ 0.55 warn</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: '#FE5B2A' }}>
+                  {isLive ? mar.toFixed(2) : '--'} <span style={{ color: '#5F6470' }}>/ 0.55 warn</span>
                 </span>
               </div>
-              <div style={{ width: '100%', height: '6px', backgroundColor: '#F3EFEA', borderRadius: '3px', overflow: 'hidden' }}>
+              <div className="sstr-progress-track">
                 <div
+                  className="sstr-progress-fill"
                   style={{
                     width: isLive ? `${Math.min(100, (mar / 0.8) * 100)}%` : '0%',
-                    height: '100%',
-                    backgroundColor: mar > 0.55 ? '#D97706' : '#171717',
-                    transition: 'width 0.25s ease',
+                    backgroundColor: mar > 0.55 ? '#FE5B2A' : '#10B981',
                   }}
                 />
               </div>
             </div>
 
             {/* 3D Cranial Pose Angle Boxes */}
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: '0.65rem',
-                borderTop: '1px solid rgba(23, 23, 23, 0.08)',
-                paddingTop: '1.25rem',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.75rem',
-                textAlign: 'center',
-              }}
-            >
-              <div style={{ backgroundColor: '#FDFBF7', border: '1px solid rgba(23, 23, 23, 0.06)', padding: '0.65rem 0.35rem', borderRadius: '8px' }}>
-                <span style={{ color: '#9CA3AF', display: 'block', fontSize: '0.65rem', letterSpacing: '0.08em' }}>PITCH</span>
-                <span style={{ fontFamily: 'var(--font-serif)', color: 'var(--text-primary)', fontWeight: 600, fontSize: '1.2rem' }}>
-                  {isLive ? `${headPitch.toFixed(1)}°` : '--'}
-                </span>
+            <div className="sstr-angles-grid">
+              <div className="sstr-angle-box">
+                <span className="sstr-angle-lbl">PITCH</span>
+                <span className="sstr-angle-val">{isLive ? `${headPitch.toFixed(1)}°` : '--'}</span>
               </div>
-              <div style={{ backgroundColor: '#FDFBF7', border: '1px solid rgba(23, 23, 23, 0.06)', padding: '0.65rem 0.35rem', borderRadius: '8px' }}>
-                <span style={{ color: '#9CA3AF', display: 'block', fontSize: '0.65rem', letterSpacing: '0.08em' }}>YAW</span>
-                <span style={{ fontFamily: 'var(--font-serif)', color: 'var(--text-primary)', fontWeight: 600, fontSize: '1.2rem' }}>
-                  {isLive ? `${headYaw.toFixed(1)}°` : '--'}
-                </span>
+              <div className="sstr-angle-box">
+                <span className="sstr-angle-lbl">YAW</span>
+                <span className="sstr-angle-val">{isLive ? `${headYaw.toFixed(1)}°` : '--'}</span>
               </div>
-              <div style={{ backgroundColor: '#FDFBF7', border: '1px solid rgba(23, 23, 23, 0.06)', padding: '0.65rem 0.35rem', borderRadius: '8px' }}>
-                <span style={{ color: '#9CA3AF', display: 'block', fontSize: '0.65rem', letterSpacing: '0.08em' }}>ROLL</span>
-                <span style={{ fontFamily: 'var(--font-serif)', color: 'var(--text-primary)', fontWeight: 600, fontSize: '1.2rem' }}>
-                  {isLive ? `${headRoll.toFixed(1)}°` : '--'}
-                </span>
+              <div className="sstr-angle-box">
+                <span className="sstr-angle-lbl">ROLL</span>
+                <span className="sstr-angle-val">{isLive ? `${headRoll.toFixed(1)}°` : '--'}</span>
               </div>
             </div>
           </div>
 
-          {/* Decathlon Yestalgia Interactive Incident Simulation Controls */}
-          <div
-            style={{
-              backgroundColor: '#FFFFFF',
-              border: '1px solid rgba(23, 23, 23, 0.1)',
-              borderRadius: '16px',
-              padding: '1.75rem',
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
+          {/* Interactive Incident Simulation Controls */}
+          <div className="sstr-card sstr-reticle">
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.85rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <Sliders size={14} color="var(--text-primary)" />
-                <span
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '0.72rem',
-                    letterSpacing: '0.12em',
-                    fontWeight: 600,
-                    color: 'var(--text-primary)',
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  DIAGNOSTICS SCENARIO DIAL
-                </span>
+                <Sliders size={14} color="#FE5B2A" />
+                <span className="sstr-card-num">DIAGNOSTICS SCENARIO DIAL</span>
               </div>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: '#9CA3AF' }}>
-                DECATHLON TEST HARNESS
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: '#5F6470' }}>
+                AIR-GAPPED
               </span>
             </div>
-
-            <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: 1.5, margin: '0 0 1rem 0' }}>
-              Instantly test UI reactivity, audio alarms, desktop notifications, and GPS safety event tagging:
-            </p>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.65rem' }}>
               <button
                 onClick={() => handleScenarioSelect('NORMAL')}
-                style={{
-                  padding: '0.65rem 0.85rem',
-                  backgroundColor: activeScenario === 'NORMAL' && isSimMode ? '#171717' : '#FDFBF7',
-                  color: activeScenario === 'NORMAL' && isSimMode ? '#FFFFFF' : 'var(--text-primary)',
-                  border: '1px solid rgba(23, 23, 23, 0.12)',
-                  borderRadius: '8px',
-                  fontFamily: 'var(--font-sans)',
-                  fontSize: '0.78rem',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  textAlign: 'left',
-                  transition: 'all 0.2s ease',
-                }}
+                className={`sstr-dial-btn ${activeScenario === 'NORMAL' && isSimMode ? 'active' : ''}`}
               >
-                <div style={{ fontSize: '0.68rem', color: activeScenario === 'NORMAL' && isSimMode ? '#A7F3D0' : '#2E7D32', marginBottom: '0.15rem' }}>
-                  STATE 01 // NOMINAL
-                </div>
+                <div className="sstr-dial-tag" style={{ color: '#10B981' }}>STATE 01 // NOMINAL</div>
                 Attentive Driver
               </button>
 
               <button
                 onClick={() => handleScenarioSelect('HEAD_DOWN')}
-                style={{
-                  padding: '0.65rem 0.85rem',
-                  backgroundColor: activeScenario === 'HEAD_DOWN' && isSimMode ? '#171717' : '#FDFBF7',
-                  color: activeScenario === 'HEAD_DOWN' && isSimMode ? '#FFFFFF' : 'var(--text-primary)',
-                  border: '1px solid rgba(23, 23, 23, 0.12)',
-                  borderRadius: '8px',
-                  fontFamily: 'var(--font-sans)',
-                  fontSize: '0.78rem',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  textAlign: 'left',
-                  transition: 'all 0.2s ease',
-                }}
+                className={`sstr-dial-btn ${activeScenario === 'HEAD_DOWN' && isSimMode ? 'active' : ''}`}
               >
-                <div style={{ fontSize: '0.68rem', color: activeScenario === 'HEAD_DOWN' && isSimMode ? '#FDE68A' : '#D97706', marginBottom: '0.15rem' }}>
-                  STATE 02 // DISTRACTION
-                </div>
+                <div className="sstr-dial-tag" style={{ color: '#FE5B2A' }}>STATE 02 // DISTRACTION</div>
                 Head-Down (-21°)
               </button>
 
               <button
                 onClick={() => handleScenarioSelect('WARNING')}
-                style={{
-                  padding: '0.65rem 0.85rem',
-                  backgroundColor: activeScenario === 'WARNING' && isSimMode ? '#171717' : '#FDFBF7',
-                  color: activeScenario === 'WARNING' && isSimMode ? '#FFFFFF' : 'var(--text-primary)',
-                  border: '1px solid rgba(23, 23, 23, 0.12)',
-                  borderRadius: '8px',
-                  fontFamily: 'var(--font-sans)',
-                  fontSize: '0.78rem',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  textAlign: 'left',
-                  transition: 'all 0.2s ease',
-                }}
+                className={`sstr-dial-btn ${activeScenario === 'WARNING' && isSimMode ? 'active' : ''}`}
               >
-                <div style={{ fontSize: '0.68rem', color: activeScenario === 'WARNING' && isSimMode ? '#FDE68A' : '#D97706', marginBottom: '0.15rem' }}>
-                  STATE 03 // FATIGUE
-                </div>
+                <div className="sstr-dial-tag" style={{ color: '#FE5B2A' }}>STATE 03 // FATIGUE</div>
                 Yawn (MAR &gt; 0.65)
               </button>
 
               <button
                 onClick={() => handleScenarioSelect('CRITICAL')}
-                style={{
-                  padding: '0.65rem 0.85rem',
-                  backgroundColor: activeScenario === 'CRITICAL' && isSimMode ? '#DC2626' : '#FEF2F2',
-                  color: activeScenario === 'CRITICAL' && isSimMode ? '#FFFFFF' : '#DC2626',
-                  border: '1px solid rgba(220, 38, 38, 0.3)',
-                  borderRadius: '8px',
-                  fontFamily: 'var(--font-sans)',
-                  fontSize: '0.78rem',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  textAlign: 'left',
-                  transition: 'all 0.2s ease',
-                }}
+                className={`sstr-dial-btn ${activeScenario === 'CRITICAL' && isSimMode ? 'active-crit' : ''}`}
               >
-                <div style={{ fontSize: '0.68rem', color: activeScenario === 'CRITICAL' && isSimMode ? '#FCA5A5' : '#991B1B', marginBottom: '0.15rem' }}>
-                  STATE 04 // CRITICAL
-                </div>
+                <div className="sstr-dial-tag" style={{ color: '#EF4444' }}>STATE 04 // CRITICAL</div>
                 Microsleep (2.1s)
               </button>
             </div>
@@ -967,9 +447,371 @@ export default function LiveMonitorView({
       </div>
 
       {/* GPS Trip Route & Distance Telemetry Section */}
-      <div style={{ marginTop: '1rem' }}>
+      <div style={{ marginTop: '2rem' }}>
         <GpsTripPanel />
       </div>
+
+      {/* Scoped CSS Styles for SSTR Live Cockpit HUD */}
+      <style>{`
+        .sstr-cockpit-wrapper {
+          max-width: 1440px;
+          margin: 0 auto;
+          padding: clamp(1.5rem, 3.5vw, 2.5rem) clamp(1rem, 3.5vw, 2.5rem) 5rem;
+          display: flex;
+          flex-direction: column;
+          gap: 2.5rem;
+        }
+
+        .sstr-cockpit-masthead {
+          display: flex;
+          justifyContent: space-between;
+          align-items: flex-end;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          padding-bottom: 1.5rem;
+          flex-wrap: wrap;
+          gap: 1.5rem;
+        }
+
+        .sstr-masthead-meta {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          font-family: var(--font-mono);
+          font-size: 0.72rem;
+          color: #9FA4B0;
+          margin-bottom: 0.4rem;
+          flex-wrap: wrap;
+        }
+        .sstr-cockpit-title {
+          font-family: var(--font-display);
+          font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+          font-weight: 800;
+          color: #FFFFFF;
+          margin: 0;
+          line-height: 1.05;
+          letter-spacing: -0.02em;
+        }
+        .sstr-title-dot {
+          color: #FE5B2A;
+        }
+        .sstr-cockpit-subtitle {
+          font-family: var(--font-sans);
+          font-size: 0.92rem;
+          color: #9FA4B0;
+          margin: 0.35rem 0 0 0;
+        }
+
+        .sstr-cockpit-controls {
+          display: flex;
+          align-items: center;
+          gap: 0.85rem;
+          flex-wrap: wrap;
+        }
+        .sstr-status-chip {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.55rem 1rem;
+          background: #18191B;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 4px;
+          font-family: var(--font-mono);
+          font-size: 0.72rem;
+          color: #FFFFFF;
+        }
+        .sstr-status-beacon {
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          background: #5F6470;
+        }
+        .sstr-status-beacon.active {
+          background: #10B981;
+          box-shadow: 0 0 8px rgba(16, 185, 129, 0.8);
+        }
+        .sstr-status-beacon.sim {
+          background: #FE5B2A;
+          box-shadow: 0 0 8px rgba(254, 91, 42, 0.8);
+        }
+
+        .sstr-ignition-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.6rem 1.45rem;
+          border-radius: 4px;
+          font-family: var(--font-mono);
+          font-size: 0.78rem;
+          font-weight: 700;
+          cursor: pointer;
+          border: none;
+          text-transform: uppercase;
+        }
+        .sstr-ignition-btn.idle {
+          background: #FE5B2A;
+          color: #FFFFFF;
+        }
+        .sstr-ignition-btn.monitoring {
+          background: #202226;
+          color: #EF4444;
+          border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        /* Viewport Card */
+        .sstr-viewport-card {
+          background: #141518;
+          border: 1.5px solid rgba(255, 255, 255, 0.1);
+          border-radius: 6px;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+          transition: border-color 0.3s ease;
+        }
+        .sstr-vp-header {
+          padding: 0.85rem 1.25rem;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          background: #18191B;
+          display: flex;
+          justifyContent: space-between;
+          align-items: center;
+          font-family: var(--font-mono);
+          font-size: 0.72rem;
+        }
+        .sstr-vp-cam {
+          display: flex;
+          align-items: center;
+          gap: 0.55rem;
+          color: #FFFFFF;
+          font-weight: 600;
+        }
+        .sstr-vp-state {
+          display: flex;
+          align-items: center;
+          gap: 0.45rem;
+          color: #9FA4B0;
+        }
+        .sstr-vp-dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: #5F6470;
+        }
+        .sstr-vp-dot.live {
+          background: #10B981;
+          box-shadow: 0 0 6px #10B981;
+        }
+
+        .sstr-vp-canvas {
+          position: relative;
+          min-height: clamp(340px, 45vw, 480px);
+          background: #0D0E10;
+          display: flex;
+          align-items: center;
+          justifyContent: center;
+          overflow: hidden;
+        }
+        .sstr-vp-stream-box {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          min-height: clamp(340px, 45vw, 480px);
+        }
+        .sstr-vp-stream-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+        .sstr-laser-scanline {
+          position: absolute;
+          left: 0;
+          right: 0;
+          height: 2px;
+          background-color: #FE5B2A;
+          box-shadow: 0 0 10px #FE5B2A;
+          pointer-events: none;
+        }
+
+        .sstr-halted-overlay {
+          position: absolute;
+          inset: 0;
+          background: rgba(13, 14, 16, 0.9);
+          backdrop-filter: blur(8px);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justifyContent: center;
+          padding: 2rem;
+          text-align: center;
+          z-index: 10;
+        }
+        .sstr-halted-tag {
+          font-family: var(--font-mono);
+          font-size: 0.72rem;
+          color: #EF4444;
+          letter-spacing: 0.12em;
+          font-weight: 700;
+        }
+        .sstr-halted-title {
+          font-family: var(--font-display);
+          font-size: 1.8rem;
+          font-weight: 700;
+          color: #FFFFFF;
+          margin: 0.5rem 0;
+        }
+        .sstr-halted-desc {
+          font-family: var(--font-sans);
+          font-size: 0.88rem;
+          color: #9FA4B0;
+          max-width: 420px;
+          margin-bottom: 1.5rem;
+        }
+
+        /* Standby */
+        .sstr-standby-box {
+          width: 100%;
+          min-height: clamp(380px, 46vw, 500px);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justifyContent: center;
+          padding: clamp(2rem, 4vw, 3rem);
+          text-align: center;
+          position: relative;
+          background: #0D0E10;
+        }
+        .sstr-standby-info {
+          max-width: 480px;
+        }
+        .sstr-standby-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.45rem;
+          padding: 0.3rem 0.85rem;
+          background: #18191B;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 4px;
+          margin-bottom: 0.85rem;
+          font-family: var(--font-mono);
+          font-size: 0.68rem;
+          color: #9FA4B0;
+          font-weight: 600;
+        }
+        .sstr-standby-title {
+          font-family: var(--font-display);
+          font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+          font-weight: 700;
+          color: #FFFFFF;
+          margin: 0 0 0.5rem 0;
+          text-transform: uppercase;
+        }
+        .sstr-standby-desc {
+          font-family: var(--font-sans);
+          font-size: 0.88rem;
+          color: #9FA4B0;
+          line-height: 1.6;
+          margin-bottom: 1.5rem;
+        }
+        .sstr-standby-actions {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.85rem;
+        }
+        .sstr-copy-cmd {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.75rem;
+          padding: 0.65rem 1.25rem;
+          background: #18191B;
+          border: 1px solid rgba(254, 91, 42, 0.3);
+          border-radius: 4px;
+          cursor: pointer;
+          font-family: var(--font-mono);
+          font-size: 0.82rem;
+          color: #FFFFFF;
+        }
+        .sstr-copy-btn {
+          width: 22px;
+          height: 22px;
+          border-radius: 3px;
+          background: #202226;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .sstr-action-row {
+          display: flex;
+          align-items: center;
+          gap: 0.65rem;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
+        .sstr-vp-footer {
+          padding: 0.85rem 1.25rem;
+          background: #18191B;
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
+          display: flex;
+          justifyContent: space-between;
+          align-items: center;
+          font-family: var(--font-mono);
+          font-size: 0.72rem;
+          color: #5F6470;
+        }
+
+        /* Telemetry Column */
+        .sstr-telemetry-col {
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+        }
+        .sstr-progress-track {
+          width: 100%;
+          height: 6px;
+          background: #0D0E10;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 3px;
+          overflow: hidden;
+        }
+        .sstr-progress-fill {
+          height: 100%;
+          transition: width 0.25s ease;
+        }
+
+        .sstr-dial-btn {
+          background: #0D0E10;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 4px;
+          padding: 0.75rem 0.85rem;
+          font-family: var(--font-sans);
+          font-size: 0.82rem;
+          font-weight: 600;
+          color: #FFFFFF;
+          cursor: pointer;
+          text-align: left;
+          transition: all 0.2s ease;
+        }
+        .sstr-dial-btn:hover {
+          border-color: rgba(255, 255, 255, 0.25);
+          background: #18191B;
+        }
+        .sstr-dial-btn.active {
+          border-color: #FE5B2A;
+          background: rgba(254, 91, 42, 0.1);
+        }
+        .sstr-dial-btn.active-crit {
+          border-color: #EF4444;
+          background: rgba(239, 68, 68, 0.15);
+        }
+        .sstr-dial-tag {
+          font-family: var(--font-mono);
+          font-size: 0.65rem;
+          font-weight: 700;
+          margin-bottom: 0.2rem;
+        }
+      `}</style>
     </div>
   );
 }

@@ -400,7 +400,7 @@ export default function App() {
           style={{
             position: 'fixed',
             inset: 0,
-            backgroundColor: 'rgba(13, 14, 16, 0.75)',
+            backgroundColor: 'rgba(13, 14, 16, 0.85)',
             backdropFilter: 'blur(8px)',
             display: 'flex',
             alignItems: 'center',
@@ -413,13 +413,12 @@ export default function App() {
           <div
             className="animate-fade-up"
             style={{
-              backgroundColor: 'var(--bg-surface)',
-              border: '1px solid var(--border-subtle)',
-              borderRadius: 'var(--radius-card-lg)',
+              backgroundColor: '#18191B',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+              borderRadius: '4px',
               padding: 'clamp(1.75rem, 3.5vw, 2.5rem)',
               maxWidth: '540px',
               width: '100%',
-              boxShadow: 'var(--shadow-lg)',
               display: 'flex',
               flexDirection: 'column',
               gap: '1.5rem',
@@ -434,9 +433,9 @@ export default function App() {
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '0.4rem',
-                    color: 'var(--color-accent-red)',
+                    color: '#FE5B2A',
                     fontSize: '0.72rem',
-                    fontFamily: 'var(--font-mono)',
+                    fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
                     fontWeight: 700,
                     letterSpacing: '0.1em',
                     textTransform: 'uppercase',
@@ -444,16 +443,16 @@ export default function App() {
                   }}
                 >
                   <AlertTriangle size={12} />
-                  <span>SYS.05 // BROWSER PERMISSIONS</span>
+                  <span>SYS // 05 • BROWSER PERMISSIONS</span>
                 </div>
                 <h3
                   style={{
-                    fontFamily: 'var(--font-condensed)',
-                    fontSize: '1.8rem',
-                    fontWeight: 600,
-                    letterSpacing: '0.04em',
+                    fontFamily: "var(--font-display, 'Syne', sans-serif)",
+                    fontSize: '1.5rem',
+                    fontWeight: 700,
+                    letterSpacing: '-0.02em',
                     textTransform: 'uppercase',
-                    color: 'var(--text-primary)',
+                    color: '#F5F5F7',
                     margin: '0.1rem 0 0 0',
                   }}
                 >
@@ -464,74 +463,74 @@ export default function App() {
                 onClick={() => setShowNotificationGuide(false)}
                 aria-label="Close"
                 style={{
-                  background: 'var(--bg-ivory-subtle)',
-                  border: '1px solid var(--border-subtle)',
-                  borderRadius: 'var(--radius-btn)',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRadius: '2px',
                   cursor: 'pointer',
-                  color: 'var(--text-secondary)',
+                  color: '#9FA4B0',
                   width: '32px',
                   height: '32px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  transition: 'all var(--transition-fast)',
+                  transition: 'all 0.15s ease',
                 }}
               >
                 <X size={16} />
               </button>
             </div>
 
-            <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.55, margin: 0 }}>
-              Your browser has notifications set to <strong style={{ color: 'var(--text-primary)' }}>Block</strong> for this origin (<code className="font-mono" style={{ fontSize: '0.8rem', backgroundColor: 'var(--bg-ivory-subtle)', padding: '0.2rem 0.45rem', borderRadius: '3px' }}>localhost:5173</code>). Browser security requires enabling permissions manually in Chrome site settings.
+            <p style={{ fontSize: '0.88rem', color: '#9FA4B0', lineHeight: 1.55, margin: 0 }}>
+              Your browser has notifications set to <strong style={{ color: '#F5F5F7' }}>Block</strong> for this origin. Browser security requires enabling permissions manually in browser site settings to dispatch real-time critical safety alarms.
             </p>
 
             {/* Step-by-Step Instructions */}
             <div
               style={{
-                backgroundColor: 'var(--bg-ivory-subtle)',
-                borderRadius: 'var(--radius-card)',
+                backgroundColor: '#141518',
+                borderRadius: '2px',
                 padding: '1.25rem 1.4rem',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '1rem',
                 fontSize: '0.86rem',
-                border: '1px solid var(--border-subtle)',
+                border: '1px solid rgba(255, 255, 255, 0.05)',
               }}
             >
               <div style={{ display: 'flex', gap: '0.85rem', alignItems: 'flex-start' }}>
                 <span
                   style={{
-                    fontFamily: 'var(--font-mono)',
+                    fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
                     fontWeight: 700,
-                    color: '#FFFFFF',
+                    color: '#0D0E10',
                     fontSize: '0.72rem',
-                    backgroundColor: 'var(--text-primary)',
+                    backgroundColor: '#FE5B2A',
                     padding: '0.15rem 0.45rem',
-                    borderRadius: 'var(--radius-btn)',
+                    borderRadius: '2px',
                   }}
                 >
                   01
                 </span>
-                <span style={{ color: 'var(--text-primary)', lineHeight: 1.45 }}>
-                  Click the <strong>Tune / Padlock</strong> icon (site info) immediately to the left of <strong>localhost:5173</strong> in your browser address bar.
+                <span style={{ color: '#F5F5F7', lineHeight: 1.45 }}>
+                  Click the <strong>Tune / Padlock</strong> icon (site info) immediately to the left of the URL in your browser address bar.
                 </span>
               </div>
 
               <div style={{ display: 'flex', gap: '0.85rem', alignItems: 'flex-start' }}>
                 <span
                   style={{
-                    fontFamily: 'var(--font-mono)',
+                    fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
                     fontWeight: 700,
-                    color: '#FFFFFF',
+                    color: '#0D0E10',
                     fontSize: '0.72rem',
-                    backgroundColor: 'var(--text-primary)',
+                    backgroundColor: '#FE5B2A',
                     padding: '0.15rem 0.45rem',
-                    borderRadius: 'var(--radius-btn)',
+                    borderRadius: '2px',
                   }}
                 >
                   02
                 </span>
-                <span style={{ color: 'var(--text-primary)', lineHeight: 1.45 }}>
+                <span style={{ color: '#F5F5F7', lineHeight: 1.45 }}>
                   In the site settings dropdown, find <strong>Notifications</strong> and change the toggle from <strong>Block</strong> to <strong>Allow</strong>.
                 </span>
               </div>
@@ -539,18 +538,18 @@ export default function App() {
               <div style={{ display: 'flex', gap: '0.85rem', alignItems: 'flex-start' }}>
                 <span
                   style={{
-                    fontFamily: 'var(--font-mono)',
+                    fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
                     fontWeight: 700,
-                    color: '#FFFFFF',
+                    color: '#0D0E10',
                     fontSize: '0.72rem',
-                    backgroundColor: 'var(--text-primary)',
+                    backgroundColor: '#FE5B2A',
                     padding: '0.15rem 0.45rem',
-                    borderRadius: 'var(--radius-btn)',
+                    borderRadius: '2px',
                   }}
                 >
                   03
                 </span>
-                <span style={{ color: 'var(--text-primary)', lineHeight: 1.45 }}>
+                <span style={{ color: '#F5F5F7', lineHeight: 1.45 }}>
                   Switch back to DriveGuard AI. The system will automatically detect the updated permission and activate real-time notifications.
                 </span>
               </div>
@@ -571,10 +570,10 @@ export default function App() {
                 <button
                   onClick={() => alertController.playWarningChime(false)}
                   title="Test audible warning sound"
-                  className="vantage-btn-outline"
+                  className="sstr-btn-secondary"
                   style={{
                     padding: '0.45rem 0.95rem',
-                    fontSize: '0.8rem',
+                    fontSize: '0.75rem',
                   }}
                 >
                   <Volume2 size={13} />
@@ -584,12 +583,12 @@ export default function App() {
                 <button
                   onClick={() => alertController.playCriticalAlarm(false)}
                   title="Test loud critical alarm"
-                  className="vantage-btn-outline"
+                  className="sstr-btn-secondary"
                   style={{
                     padding: '0.45rem 0.95rem',
-                    fontSize: '0.8rem',
-                    borderColor: 'var(--color-alert-border)',
-                    color: 'var(--color-accent-red)',
+                    fontSize: '0.75rem',
+                    borderColor: 'rgba(239, 68, 68, 0.4)',
+                    color: '#EF4444',
                   }}
                 >
                   <Volume2 size={13} />
@@ -599,9 +598,9 @@ export default function App() {
 
               <button
                 onClick={() => setShowNotificationGuide(false)}
-                className="vantage-btn"
+                className="sstr-btn"
                 style={{
-                  padding: '0.55rem 1.4rem',
+                  padding: '0.5rem 1.4rem',
                 }}
               >
                 Acknowledge

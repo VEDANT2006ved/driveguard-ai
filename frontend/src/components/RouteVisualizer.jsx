@@ -3,7 +3,7 @@ import { Compass, ZoomIn, ZoomOut, RotateCcw, AlertTriangle, Navigation, MapPin 
 
 /**
  * RouteVisualizer Component
- * Renders an interactive, responsive SVG route plot based exclusively on recorded GPS coordinates.
+ * High-End SSTR Industrial Responsive SVG Route Plot based exclusively on recorded GPS coordinates.
  * Shows start/end pins, plotted path, compass rose, scale bar, and location-tagged safety incident markers.
  */
 export default function RouteVisualizer({
@@ -39,7 +39,6 @@ export default function RouteVisualizer({
       if (p.lng > maxLng) maxLng = p.lng;
     });
 
-    // Also include incidents with coordinates in bounding box
     incidents.forEach((inc) => {
       if (inc.lat !== null && inc.lng !== null) {
         if (inc.lat < minLat) minLat = inc.lat;
@@ -49,7 +48,6 @@ export default function RouteVisualizer({
       }
     });
 
-    // Ensure non-zero span to prevent division by zero
     const latSpan = Math.max(maxLat - minLat, 0.0008);
     const lngSpan = Math.max(maxLng - minLng, 0.0008);
 
@@ -67,7 +65,6 @@ export default function RouteVisualizer({
   const project = (lat, lng) => {
     if (!bounds) return { x: SVG_WIDTH / 2, y: SVG_HEIGHT / 2 };
     const normX = (lng - bounds.minLng) / bounds.lngSpan;
-    // Invert Y because SVG y-axis runs downward while latitude runs upward
     const normY = 1 - (lat - bounds.minLat) / bounds.latSpan;
 
     const x = PADDING + normX * (SVG_WIDTH - 2 * PADDING);
@@ -115,27 +112,27 @@ export default function RouteVisualizer({
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-          <span style={{ color: '#77756F' }}>
-            WAYPOINTS: <strong style={{ color: '#171717' }}>{waypoints.length}</strong>
+          <span style={{ color: '#5F6470' }}>
+            WAYPOINTS: <strong style={{ color: '#FFFFFF' }}>{waypoints.length}</strong>
           </span>
-          <span style={{ color: '#E6E2DA' }}>·</span>
-          <span style={{ color: '#77756F' }}>
-            HAUL: <strong style={{ color: '#D66A45' }}>{totalDistanceKm.toFixed(2)} km</strong>
+          <span style={{ color: 'rgba(255, 255, 255, 0.15)' }}>·</span>
+          <span style={{ color: '#5F6470' }}>
+            HAUL: <strong style={{ color: '#FE5B2A' }}>{totalDistanceKm.toFixed(2)} km</strong>
           </span>
 
           {isSimulated && (
             <span
               style={{
-                backgroundColor: 'rgba(214, 106, 69, 0.1)',
-                color: '#D66A45',
-                border: '1px solid rgba(214, 106, 69, 0.3)',
+                backgroundColor: 'rgba(254, 91, 42, 0.1)',
+                color: '#FE5B2A',
+                border: '1px solid rgba(254, 91, 42, 0.3)',
                 padding: '0.15rem 0.5rem',
                 borderRadius: '3px',
                 fontSize: '0.68rem',
                 fontWeight: 600,
               }}
             >
-              DEV LAB SIMULATION
+              SIMULATION ROUTE
             </span>
           )}
         </div>
@@ -147,12 +144,12 @@ export default function RouteVisualizer({
             title="Zoom In"
             aria-label="Zoom in on route map"
             style={{
-              background: '#FFFFFF',
-              border: '1px solid #E6E2DA',
+              background: '#18191B',
+              border: '1px solid rgba(255, 255, 255, 0.12)',
               borderRadius: '3px',
               padding: '0.3rem 0.5rem',
               cursor: 'pointer',
-              color: '#171717',
+              color: '#FFFFFF',
               display: 'flex',
               alignItems: 'center',
             }}
@@ -164,12 +161,12 @@ export default function RouteVisualizer({
             title="Zoom Out"
             aria-label="Zoom out on route map"
             style={{
-              background: '#FFFFFF',
-              border: '1px solid #E6E2DA',
+              background: '#18191B',
+              border: '1px solid rgba(255, 255, 255, 0.12)',
               borderRadius: '3px',
               padding: '0.3rem 0.5rem',
               cursor: 'pointer',
-              color: '#171717',
+              color: '#FFFFFF',
               display: 'flex',
               alignItems: 'center',
             }}
@@ -181,12 +178,12 @@ export default function RouteVisualizer({
             title="Reset View"
             aria-label="Reset route zoom"
             style={{
-              background: '#FFFFFF',
-              border: '1px solid #E6E2DA',
+              background: '#18191B',
+              border: '1px solid rgba(255, 255, 255, 0.12)',
               borderRadius: '3px',
               padding: '0.3rem 0.5rem',
               cursor: 'pointer',
-              color: '#77756F',
+              color: '#9FA4B0',
               display: 'flex',
               alignItems: 'center',
             }}
@@ -200,12 +197,12 @@ export default function RouteVisualizer({
       <div
         style={{
           width: '100%',
-          backgroundColor: '#FFFFFF',
-          border: '1px solid #E6E2DA',
-          borderRadius: '6px',
+          backgroundColor: '#0D0E10',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          borderRadius: '4px',
           overflow: 'hidden',
           position: 'relative',
-          boxShadow: '0 1px 3px rgba(0, 0, 0, 0.02)',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4)',
         }}
       >
         <svg
@@ -215,7 +212,7 @@ export default function RouteVisualizer({
             height: 'auto',
             maxHeight: '400px',
             display: 'block',
-            backgroundColor: '#FAF9F6',
+            backgroundColor: '#0D0E10',
             transform: `scale(${zoomLevel})`,
             transformOrigin: 'center center',
             transition: 'transform 0.2s ease',
@@ -223,20 +220,20 @@ export default function RouteVisualizer({
         >
           {/* Subtle Grid Background Pattern */}
           <defs>
-            <pattern id="gpsGrid" width="32" height="32" patternUnits="userSpaceOnUse">
-              <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#EFECE6" strokeWidth="0.8" />
+            <pattern id="sstrGpsGrid" width="32" height="32" patternUnits="userSpaceOnUse">
+              <path d="M 32 0 L 0 0 0 32" fill="none" stroke="rgba(255, 255, 255, 0.04)" strokeWidth="0.8" />
             </pattern>
-            <linearGradient id="routeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#2E7D32" stopOpacity="0.85" />
-              <stop offset="60%" stopColor="#D66A45" stopOpacity="0.9" />
-              <stop offset="100%" stopColor="#D66A45" stopOpacity="1" />
+            <linearGradient id="sstrRouteGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#10B981" stopOpacity="0.9" />
+              <stop offset="60%" stopColor="#FE5B2A" stopOpacity="0.95" />
+              <stop offset="100%" stopColor="#FE5B2A" stopOpacity="1" />
             </linearGradient>
-            <filter id="routeShadow" x="-10%" y="-10%" width="120%" height="120%">
-              <feDropShadow dx="0" dy="1.5" stdDeviation="2" floodColor="#171717" floodOpacity="0.12" />
+            <filter id="sstrRouteGlow" x="-10%" y="-10%" width="120%" height="120%">
+              <feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#FE5B2A" floodOpacity="0.5" />
             </filter>
           </defs>
 
-          <rect width="100%" height="100%" fill="url(#gpsGrid)" />
+          <rect width="100%" height="100%" fill="url(#sstrGpsGrid)" />
 
           {/* Empty State: Waiting for GPS Points */}
           {waypoints.length === 0 && (
@@ -246,18 +243,18 @@ export default function RouteVisualizer({
                 cy={SVG_HEIGHT / 2}
                 r="60"
                 fill="none"
-                stroke="#E6E2DA"
+                stroke="rgba(255, 255, 255, 0.1)"
                 strokeWidth="1.5"
                 strokeDasharray="4 4"
               />
-              <circle cx={SVG_WIDTH / 2} cy={SVG_HEIGHT / 2} r="4" fill="#B3AFA8" />
+              <circle cx={SVG_WIDTH / 2} cy={SVG_HEIGHT / 2} r="4" fill="#FE5B2A" />
               <text
                 x={SVG_WIDTH / 2}
                 y={SVG_HEIGHT / 2 + 35}
                 textAnchor="middle"
                 fontFamily="var(--font-mono, monospace)"
                 fontSize="11"
-                fill="#77756F"
+                fill="#5F6470"
                 letterSpacing="0.08em"
               >
                 WAITING FOR GPS POSITION FIX
@@ -273,20 +270,20 @@ export default function RouteVisualizer({
                 cy={startPoint.y}
                 r="28"
                 fill="none"
-                stroke="#D66A45"
+                stroke="#FE5B2A"
                 strokeWidth="1.5"
                 opacity="0.4"
                 className="telemetry-pulse"
               />
-              <circle cx={startPoint.x} cy={startPoint.y} r="8" fill="#D66A45" />
+              <circle cx={startPoint.x} cy={startPoint.y} r="8" fill="#FE5B2A" />
               <text
                 x={startPoint.x}
                 y={startPoint.y - 14}
                 textAnchor="middle"
                 fontFamily="var(--font-mono, monospace)"
                 fontSize="10"
-                fontWeight="600"
-                fill="#171717"
+                fontWeight="700"
+                fill="#FFFFFF"
               >
                 CURRENT FIX
               </text>
@@ -300,21 +297,21 @@ export default function RouteVisualizer({
               <polyline
                 points={pointsString}
                 fill="none"
-                stroke="#D66A45"
-                strokeWidth="7"
+                stroke="#FE5B2A"
+                strokeWidth="6"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                opacity="0.18"
+                opacity="0.25"
               />
               {/* Core Route Path */}
               <polyline
                 points={pointsString}
                 fill="none"
-                stroke="url(#routeGradient)"
-                strokeWidth="3.2"
+                stroke="url(#sstrRouteGrad)"
+                strokeWidth="2.8"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                filter="url(#routeShadow)"
+                filter="url(#sstrRouteGlow)"
               />
             </g>
           )}
@@ -322,7 +319,7 @@ export default function RouteVisualizer({
           {/* Start Point Pin */}
           {startPoint && waypoints.length >= 2 && (
             <g>
-              <circle cx={startPoint.x} cy={startPoint.y} r="7" fill="#2E7D32" stroke="#FFFFFF" strokeWidth="2" />
+              <circle cx={startPoint.x} cy={startPoint.y} r="7" fill="#10B981" stroke="#0D0E10" strokeWidth="2" />
               <circle cx={startPoint.x} cy={startPoint.y} r="2.5" fill="#FFFFFF" />
               <text
                 x={startPoint.x}
@@ -331,7 +328,7 @@ export default function RouteVisualizer({
                 fontFamily="var(--font-mono, monospace)"
                 fontSize="9"
                 fontWeight="700"
-                fill="#2E7D32"
+                fill="#10B981"
                 letterSpacing="0.05em"
               >
                 START
@@ -348,13 +345,13 @@ export default function RouteVisualizer({
                   cy={currentPoint.y}
                   r="14"
                   fill="none"
-                  stroke="#D66A45"
+                  stroke="#FE5B2A"
                   strokeWidth="1.5"
                   opacity="0.4"
                   className="telemetry-pulse"
                 />
               )}
-              <circle cx={currentPoint.x} cy={currentPoint.y} r="8" fill="#D66A45" stroke="#FFFFFF" strokeWidth="2" />
+              <circle cx={currentPoint.x} cy={currentPoint.y} r="8" fill="#FE5B2A" stroke="#0D0E10" strokeWidth="2" />
               <circle cx={currentPoint.x} cy={currentPoint.y} r="3" fill="#FFFFFF" />
               <text
                 x={currentPoint.x}
@@ -363,7 +360,7 @@ export default function RouteVisualizer({
                 fontFamily="var(--font-mono, monospace)"
                 fontSize="9"
                 fontWeight="700"
-                fill="#D66A45"
+                fill="#FE5B2A"
                 letterSpacing="0.05em"
               >
                 {isLive ? 'LIVE' : 'END'}
@@ -376,122 +373,88 @@ export default function RouteVisualizer({
             if (inc.lat === null || inc.lng === null) return null;
             const pos = project(inc.lat, inc.lng);
             const isCrit = inc.severity === 'CRITICAL';
-            const color = isCrit ? '#DC2626' : '#D97706';
+            const color = isCrit ? '#EF4444' : '#FE5B2A';
 
             return (
               <g
-                key={inc.id || i}
-                onClick={() => setActiveTooltip(activeTooltip?.id === inc.id ? null : inc)}
+                key={i}
                 style={{ cursor: 'pointer' }}
+                onClick={() => setActiveTooltip(activeTooltip === i ? null : i)}
               >
-                <circle cx={pos.x} cy={pos.y} r="9" fill={color} stroke="#FFFFFF" strokeWidth="1.5" />
-                <circle cx={pos.x} cy={pos.y} r="3.5" fill="#FFFFFF" />
-                <text
-                  x={pos.x}
-                  y={pos.y - 12}
-                  textAnchor="middle"
-                  fontFamily="var(--font-mono, monospace)"
-                  fontSize="8.5"
-                  fontWeight="700"
-                  fill={color}
-                >
-                  !
-                </text>
+                <circle cx={pos.x} cy={pos.y} r="9" fill={color} stroke="#0D0E10" strokeWidth="2" />
+                <circle cx={pos.x} cy={pos.y} r="3" fill="#FFFFFF" />
+                {activeTooltip === i && (
+                  <g>
+                    <rect
+                      x={pos.x - 70}
+                      y={pos.y - 42}
+                      width="140"
+                      height="32"
+                      rx="4"
+                      fill="#18191B"
+                      stroke="rgba(255, 255, 255, 0.2)"
+                      strokeWidth="1"
+                    />
+                    <text
+                      x={pos.x}
+                      y={pos.y - 28}
+                      textAnchor="middle"
+                      fill="#FFFFFF"
+                      fontFamily="var(--font-mono, monospace)"
+                      fontSize="9"
+                      fontWeight="700"
+                    >
+                      {inc.type}
+                    </text>
+                    <text
+                      x={pos.x}
+                      y={pos.y - 16}
+                      textAnchor="middle"
+                      fill="#9FA4B0"
+                      fontFamily="var(--font-mono, monospace)"
+                      fontSize="8"
+                    >
+                      {inc.time} • {inc.metric || inc.severity}
+                    </text>
+                  </g>
+                )}
               </g>
             );
           })}
-
-          {/* Compass Rose Indicator (Top Right) */}
-          <g transform={`translate(${SVG_WIDTH - 42}, 36)`}>
-            <circle cx="0" cy="0" r="16" fill="#FFFFFF" stroke="#E6E2DA" strokeWidth="1" />
-            {/* North pointer */}
-            <polygon points="0,-12 3,2 0,0" fill="#D66A45" />
-            <polygon points="0,-12 -3,2 0,0" fill="#171717" />
-            {/* South pointer */}
-            <polygon points="0,12 3,-2 0,0" fill="#77756F" />
-            <polygon points="0,12 -3,-2 0,0" fill="#B3AFA8" />
-            <text x="0" y="-14" textAnchor="middle" fontFamily="var(--font-mono, monospace)" fontSize="8" fontWeight="700" fill="#D66A45">
-              N
-            </text>
-          </g>
-
-          {/* Scale Bar Indicator (Bottom Left) */}
-          <g transform={`translate(24, ${SVG_HEIGHT - 22})`}>
-            <rect x="0" y="0" width="60" height="2" fill="#171717" />
-            <line x1="0" y1="-3" x2="0" y2="5" stroke="#171717" strokeWidth="1" />
-            <line x1="60" y1="-3" x2="60" y2="5" stroke="#171717" strokeWidth="1" />
-            <text x="30" y="-5" textAnchor="middle" fontFamily="var(--font-mono, monospace)" fontSize="7.5" fill="#77756F">
-              {totalDistanceKm > 1 ? '1.0 km' : '250 m'}
-            </text>
-          </g>
         </svg>
 
-        {/* Interactive Tooltip for Clicked Incident Pin */}
-        {activeTooltip && (
-          <div
-            style={{
-              position: 'absolute',
-              top: '12px',
-              left: '12px',
-              backgroundColor: '#FFFFFF',
-              border: '1px solid #171717',
-              borderRadius: '4px',
-              padding: '0.65rem 0.95rem',
-              boxShadow: '0 4px 14px rgba(0,0,0,0.1)',
-              maxWidth: '260px',
-              fontSize: '0.74rem',
-              fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-              zIndex: 10,
-            }}
-          >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
-              <span
-                style={{
-                  fontWeight: 700,
-                  color: activeTooltip.severity === 'CRITICAL' ? '#DC2626' : '#D97706',
-                }}
-              >
-                ● {activeTooltip.severity} EVENT
-              </span>
-              <button
-                onClick={() => setActiveTooltip(null)}
-                style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#77756F', fontSize: '0.9rem' }}
-              >
-                ×
-              </button>
-            </div>
-            <div style={{ fontWeight: 600, color: '#171717', marginBottom: '0.2rem' }}>
-              {activeTooltip.type}
-            </div>
-            {activeTooltip.metric && (
-              <div style={{ color: '#77756F', marginBottom: '0.2rem' }}>
-                Metric: {activeTooltip.metric}
-              </div>
-            )}
-            <div style={{ color: '#77756F', fontSize: '0.68rem' }}>
-              GPS: {activeTooltip.lat?.toFixed(5)}°, {activeTooltip.lng?.toFixed(5)}°
-            </div>
+        {/* Legend Overlay */}
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '10px',
+            right: '10px',
+            backgroundColor: 'rgba(20, 21, 24, 0.85)',
+            backdropFilter: 'blur(6px)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            borderRadius: '4px',
+            padding: '0.4rem 0.65rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.75rem',
+            fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
+            fontSize: '0.66rem',
+            color: '#9FA4B0',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#10B981' }} />
+            <span>START</span>
           </div>
-        )}
-      </div>
-
-      {/* Disclaimers & Legal Notice */}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: '0.5rem',
-          fontSize: '0.68rem',
-          color: '#77756F',
-          fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-        }}
-      >
-        <span>
-          Plotted from actual recorded GPS coordinates (straight-line Haversine samples; not turn-by-turn road navigation).
-        </span>
-        <span>NO PAID APIS · ZERO EXTERNAL TELEMETRY LEAKS</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#FE5B2A' }} />
+            <span>ROUTE</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#EF4444' }} />
+            <span>INCIDENT</span>
+          </div>
+        </div>
       </div>
     </div>
   );

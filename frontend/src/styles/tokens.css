@@ -1,83 +1,87 @@
 :root {
-  /* VANTAGE Luxury Automotive Editorial Palette */
-  --bg-canvas: #F7F6F2;           /* Soft warm ivory base */
-  --bg-ivory: #F7F6F2;
-  --bg-ivory-subtle: #EFECE6;    /* Secondary warm ivory */
-  --bg-surface: #FFFFFF;          /* Pure crisp white card/surface */
-  --bg-surface-elevated: #FAF9F6;
+  /* =========================================================================
+     SSTR-INSPIRED INDUSTRIAL ENGINEERING PALETTE
+     Reference: SSTR (https://sstr.tech/en/) — Awwwards SOTD & DEV Award
+     ========================================================================= */
+
+  /* Primary Deep Dark Industrial Canvas */
+  --bg-canvas: #0D0E10;             /* SSTR Deep carbon obsidian */
+  --bg-canvas-subtle: #121316;      /* Gunmetal secondary */
+  --bg-surface: #18191B;            /* SSTR signature dark surface */
+  --bg-surface-elevated: #202226;   /* Elevated industrial card */
+  --bg-surface-highlight: #282A30;
   
-  /* Dark & Cinematic Fields */
-  --bg-dark: #0D0E10;             /* Near-black cinematic field */
-  --bg-dark-card: #15171A;        /* Elevated dark surface */
-  --bg-dark-subtle: #1C1E23;
-  --bg-racing-green: #0A241B;     /* Deep British racing green contrast */
-  --bg-racing-green-deep: #061812;
+  /* Contrast High-Tech Light Modules (for blueprints & schematics) */
+  --bg-light-surface: #F5F5F7;      /* Titanium light surface */
+  --bg-light-subtle: #ECEAE4;
+  --bg-light-card: #FFFFFF;
 
   /* Typography Colors */
-  --text-primary: #111111;        /* High-contrast ink on ivory */
-  --text-secondary: #5E5B54;      /* Refined warm charcoal secondary */
-  --text-muted: #8E8B83;          /* Technical metadata grey */
-  --text-light: #F7F6F2;          /* Ivory text on dark sections */
-  --text-light-muted: #A3A199;    /* Muted text on dark sections */
+  --text-primary: #F5F5F7;          /* High-contrast titanium white */
+  --text-secondary: #9FA4B0;        /* Technical steel metadata */
+  --text-muted: #5F6470;            /* Restrained specification grey */
+  --text-dark-primary: #111215;     /* Dark ink for light contrast sections */
+  --text-dark-secondary: #5E636E;
 
-  /* Precision Automotive & Luxury Editorial Accents */
-  --color-accent-red: #E84B32;    /* Precision alert red */
-  --color-alert: #E84B32;
-  --color-alert-dim: rgba(232, 75, 50, 0.08);
-  --color-alert-border: rgba(232, 75, 50, 0.35);
+  /* SSTR Signature Accents */
+  --color-sstr-orange: #FE5B2A;     /* SSTR Electric Industrial Safety Orange */
+  --color-sstr-orange-hover: #FF6E3F;
+  --color-sstr-orange-dim: rgba(254, 91, 42, 0.12);
+  --color-sstr-orange-border: rgba(254, 91, 42, 0.38);
+  --color-sstr-orange-glow: rgba(254, 91, 42, 0.25);
 
-  --color-accent-green: #10B981;  /* High-precision telemetry green */
+  --color-accent-red: #EF4444;      /* Critical hazard intervention */
+  --color-alert: #EF4444;
+  --color-alert-dim: rgba(239, 68, 68, 0.12);
+  --color-alert-border: rgba(239, 68, 68, 0.4);
+
+  --color-accent-green: #10B981;    /* Precision telemetry green (nominal lock) */
   --color-mint: #10B981;
   --color-safe: #10B981;
-  --color-safe-dim: rgba(16, 185, 129, 0.08);
+  --color-safe-dim: rgba(16, 185, 129, 0.12);
+  --color-safe-border: rgba(16, 185, 129, 0.35);
 
-  --color-warning: #D97706;       /* Amber caution */
-  --color-warning-dim: rgba(217, 119, 6, 0.08);
-  --color-warning-border: rgba(217, 119, 6, 0.35);
+  --color-warning: #F59E0B;         /* Amber caution indicator */
+  --color-warning-dim: rgba(245, 158, 11, 0.12);
+  --color-warning-border: rgba(245, 158, 11, 0.4);
 
-  /* Explora Journeys & NOMU Luxury Champagne & Bronze Accents */
-  --color-gold: #C9A87C;          /* Architectural champagne bronze */
-  --color-gold-light: #DFCAAB;
-  --color-champagne: #F4EBD9;
-  --color-champagne-subtle: #FAF5EC;
-  --color-sand: #E7DDD0;
-  --color-sand-border: #D8CABE;
+  --color-laser-cyan: #38BDF8;      /* Optical mesh & LiDAR ray */
+  --color-laser-dim: rgba(56, 189, 248, 0.12);
 
-  /* Hairlines & Grid Dividers */
-  --border-subtle: #E2DFD6;       /* Razor-sharp light hairline */
-  --border-strong: #111111;
-  --border-hairline: rgba(17, 17, 17, 0.08);
-  --border-dark: rgba(255, 255, 255, 0.1);
-  --border-dark-subtle: rgba(255, 255, 255, 0.06);
+  /* Hairlines & Technical Grid Dividers */
+  --border-subtle: rgba(255, 255, 255, 0.08);   /* Razor-sharp technical hairline */
+  --border-strong: rgba(255, 255, 255, 0.18);
+  --border-hairline: rgba(255, 255, 255, 0.06);
+  --border-orange: var(--color-sstr-orange-border);
+  --border-light-subtle: rgba(17, 18, 21, 0.1);
 
-  /* Typography System (Explora Journeys Editorial Serif + NOMU Modern Display + Decathlon Yestalgia Technical Mono) */
-  --font-serif: 'Playfair Display', Georgia, serif;
+  /* Typography System (SSTR Bold Geometric Display + Technical Telemetry Mono) */
   --font-display: 'Syne', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-condensed: 'Oswald', -apple-system, BlinkMacSystemFont, 'Impact', sans-serif;
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', 'Roboto Mono', monospace;
-  --font-cinzel: 'Cinzel', serif;
+  --font-condensed: 'Oswald', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
 
-  /* Geometry & Radii (Understated, architectural) */
+  /* Industrial Geometry & Radii (Crisp, precision-milled edges) */
   --radius-sharp: 0px;
-  --radius-btn: 3px;
+  --radius-btn: 4px;
   --radius-btn-pill: 9999px;
-  --radius-card: 8px;
-  --radius-card-lg: 14px;
+  --radius-card: 10px;
+  --radius-card-lg: 16px;
 
   /* Motion & Easing */
-  --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-mechanical: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
-  --transition-fast: 160ms var(--ease-cinematic);
-  --transition-normal: 280ms var(--ease-cinematic);
-  --transition-slow: 600ms var(--ease-cinematic);
+  --transition-fast: 160ms var(--ease-mechanical);
+  --transition-normal: 260ms var(--ease-mechanical);
+  --transition-slow: 550ms var(--ease-mechanical);
 
-  /* Shadows */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.18);
-  --shadow-dark: 0 30px 80px rgba(0, 0, 0, 0.6);
+  /* Shadows & Atmospheric Ambient Glows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 25px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.7);
+  --shadow-orange: 0 0 25px rgba(254, 91, 42, 0.28);
 }
 
 /* Global Reset */
@@ -100,26 +104,23 @@ html, body {
   overflow-x: hidden;
 }
 
-/* Scrollbar on Ivory */
+/* Custom Scrollbar for SSTR Precision Industrial Theme */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-canvas);
+  background: #0D0E10;
 }
 ::-webkit-scrollbar-thumb {
-  background: #D4D0C5;
-  border-radius: 2px;
+  background: #282A30;
+  border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #AFAAA0;
+  background: var(--color-sstr-orange);
 }
 
-/* Typography Classes */
-.font-condensed {
-  font-family: var(--font-condensed);
-}
+/* Typography Utility Classes */
 .font-display {
   font-family: var(--font-display);
 }
@@ -129,93 +130,120 @@ html, body {
 .font-mono {
   font-family: var(--font-mono);
 }
-
-.label-num {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  color: var(--text-muted);
+.font-condensed {
+  font-family: var(--font-condensed);
 }
 
-.label-editorial {
+/* SSTR Technical Section Tag / Meta Header */
+.sstr-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   font-family: var(--font-mono);
   font-size: 0.7rem;
+  font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--text-secondary);
+  color: var(--color-sstr-orange);
 }
 
-/* VANTAGE Minimalist Button System */
-.vantage-btn {
+.sstr-tag::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-sstr-orange);
+  box-shadow: 0 0 8px var(--color-sstr-orange);
+}
+
+/* SSTR Button Components */
+.sstr-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.65rem;
-  padding: 0.65rem 1.6rem;
-  font-family: var(--font-condensed);
-  font-size: 0.92rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  border: 1px solid var(--text-primary);
-  background-color: var(--text-primary);
+  gap: 0.6rem;
+  padding: 0.65rem 1.45rem;
+  background-color: var(--color-sstr-orange);
   color: #FFFFFF;
-  cursor: pointer;
+  border: 1px solid var(--color-sstr-orange);
   border-radius: var(--radius-btn);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
   transition: all var(--transition-fast);
+  box-shadow: 0 2px 12px rgba(254, 91, 42, 0.25);
+  text-decoration: none;
 }
 
-.vantage-btn:hover {
-  background-color: #000000;
-  border-color: #000000;
+.sstr-btn:hover {
+  background-color: var(--color-sstr-orange-hover);
+  border-color: var(--color-sstr-orange-hover);
+  box-shadow: 0 4px 20px rgba(254, 91, 42, 0.4);
   transform: translateY(-1px);
 }
 
-.vantage-btn-outline {
-  background-color: transparent;
+.sstr-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.65rem 1.45rem;
+  background-color: rgba(255, 255, 255, 0.04);
   color: var(--text-primary);
-  border-color: var(--border-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-btn);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-decoration: none;
 }
 
-.vantage-btn-outline:hover {
-  border-color: var(--text-primary);
-  background-color: transparent;
-  color: var(--text-primary);
-}
-
-.vantage-btn-dark {
-  background-color: transparent;
-  color: #FFFFFF;
+.sstr-btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.25);
+  color: #FFFFFF;
 }
 
-.vantage-btn-dark:hover {
-  border-color: #FFFFFF;
-  background-color: #FFFFFF;
-  color: #000000;
+/* Industrial Grid Reticle Markers */
+.sstr-reticle {
+  position: relative;
+}
+.sstr-reticle::before,
+.sstr-reticle::after {
+  content: '+';
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.25);
+  pointer-events: none;
+  line-height: 1;
+}
+.sstr-reticle::before {
+  top: 8px;
+  left: 8px;
+}
+.sstr-reticle::after {
+  top: 8px;
+  right: 8px;
 }
 
-/* Arrow Interaction Helper */
-.arrow-slide {
-  transition: transform var(--transition-fast);
-}
-.vantage-btn:hover .arrow-slide,
-.vantage-btn-outline:hover .arrow-slide,
-.vantage-btn-dark:hover .arrow-slide {
-  transform: translateX(4px);
-}
-
-/* Responsive Grid for Live Monitor */
-.live-monitor-grid {
+/* Responsive Grid Containers */
+.cockpit-hud-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.85fr) minmax(320px, 1fr);
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
   gap: 2rem;
   align-items: start;
 }
 
-@media (max-width: 960px) {
-  .live-monitor-grid {
+@media (max-width: 1024px) {
+  .cockpit-hud-grid {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
   }
 }

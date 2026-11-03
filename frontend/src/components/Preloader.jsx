@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 /**
- * Preloader Component (VANTAGE Automotive Editorial Entrance)
- * Provides a refined, swift brand reveal with minimal blocking latency.
+ * Preloader Component - SSTR Industrial Engineering Launch Screen
+ * Provides an instantaneous, mechanical brand reveal with zero blocking latency.
  * Respects reduced-motion preferences immediately.
  */
 export default function Preloader({ onComplete }) {
@@ -16,14 +16,14 @@ export default function Preloader({ onComplete }) {
       return;
     }
 
-    // Swift 450ms reveal: elegant, non-blocking
+    // Swift 400ms reveal
     const timer = setTimeout(() => {
       setIsFading(true);
       const exitTimer = setTimeout(() => {
         onComplete?.();
-      }, 400);
+      }, 350);
       return () => clearTimeout(exitTimer);
-    }, 450);
+    }, 400);
 
     return () => clearTimeout(timer);
   }, [onComplete]);
@@ -42,11 +42,17 @@ export default function Preloader({ onComplete }) {
         justifyContent: 'center',
         opacity: isFading ? 0 : 1,
         transform: isFading ? 'scale(1.02)' : 'scale(1)',
-        transition: 'opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+        transition: 'opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
         pointerEvents: isFading ? 'none' : 'auto',
         cursor: 'pointer',
       }}
     >
+      {/* SSTR Crosshair Reticles in Corners */}
+      <div style={{ position: 'absolute', top: 24, left: 24, color: 'rgba(255, 255, 255, 0.3)', fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)", fontSize: '12px' }}>+</div>
+      <div style={{ position: 'absolute', top: 24, right: 24, color: 'rgba(255, 255, 255, 0.3)', fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)", fontSize: '12px' }}>+</div>
+      <div style={{ position: 'absolute', bottom: 24, left: 24, color: 'rgba(255, 255, 255, 0.3)', fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)", fontSize: '12px' }}>+</div>
+      <div style={{ position: 'absolute', bottom: 24, right: 24, color: 'rgba(255, 255, 255, 0.3)', fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)", fontSize: '12px' }}>+</div>
+
       {/* Central Brand Reveal */}
       <div
         style={{
@@ -57,27 +63,41 @@ export default function Preloader({ onComplete }) {
           textAlign: 'center',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           <div
             style={{
               width: '10px',
               height: '10px',
               borderRadius: '2px',
-              backgroundColor: 'var(--color-accent-red)',
+              backgroundColor: '#FE5B2A',
+              boxShadow: '0 0 12px rgba(254, 91, 42, 0.8)',
             }}
           />
           <span
             style={{
-              fontFamily: 'var(--font-condensed)',
-              fontSize: '2.8rem',
-              fontWeight: 600,
-              letterSpacing: '0.12em',
+              fontFamily: "var(--font-display, 'Syne', sans-serif)",
+              fontSize: '2.5rem',
+              fontWeight: 800,
+              letterSpacing: '0.04em',
               textTransform: 'uppercase',
-              color: '#FFFFFF',
+              color: '#F5F5F7',
               lineHeight: 1,
             }}
           >
-            DRIVEGUARD.AI
+            DRIVEGUARD
+          </span>
+          <span
+            style={{
+              fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
+              fontSize: '0.9rem',
+              color: '#FE5B2A',
+              fontWeight: 700,
+              border: '1px solid rgba(254, 91, 42, 0.4)',
+              padding: '0.1rem 0.4rem',
+              borderRadius: '2px',
+            }}
+          >
+            AI
           </span>
         </div>
 
@@ -86,27 +106,28 @@ export default function Preloader({ onComplete }) {
             display: 'flex',
             alignItems: 'center',
             gap: '0.85rem',
-            fontFamily: 'var(--font-mono)',
+            fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
             fontSize: '0.72rem',
             letterSpacing: '0.16em',
             textTransform: 'uppercase',
-            color: 'var(--text-light-muted)',
+            color: '#9FA4B0',
           }}
         >
-          <span>SYS.01</span>
-          <span>//</span>
-          <span>EDGE BIOMETRIC ATTENTIVENESS</span>
+          <span>SYS // 01</span>
+          <span>•</span>
+          <span>OPTICAL DRIVER VIGILANCE PLATFORM</span>
         </div>
 
         {/* Hairline Progress Indicator */}
         <div
           style={{
-            width: '120px',
-            height: '1px',
-            backgroundColor: 'rgba(255, 255, 255, 0.15)',
+            width: '140px',
+            height: '2px',
+            backgroundColor: 'rgba(255, 255, 255, 0.1)',
             position: 'relative',
             overflow: 'hidden',
             marginTop: '0.5rem',
+            borderRadius: '1px',
           }}
         >
           <div
@@ -115,9 +136,9 @@ export default function Preloader({ onComplete }) {
               left: 0,
               top: 0,
               bottom: 0,
-              width: '40%',
-              backgroundColor: 'var(--color-accent-red)',
-              animation: 'telemetryPulse 1s ease-in-out infinite',
+              width: '50%',
+              backgroundColor: '#FE5B2A',
+              animation: 'laserScan 1.2s ease-in-out infinite alternate',
             }}
           />
         </div>
