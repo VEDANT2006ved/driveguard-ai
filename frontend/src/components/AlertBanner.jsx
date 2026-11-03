@@ -1,10 +1,10 @@
-import React from 'react';
-import { AlertCircle, AlertTriangle, CheckCircle, Terminal, ShieldAlert, Sparkles } from 'lucide-react';
+import React, { useState } from 'react';
+import { AlertCircle, AlertTriangle, CheckCircle, Terminal, ShieldAlert, Sparkles, Copy, Check } from 'lucide-react';
 
 /**
- * AlertBanner Component (Wispr Flow Refined Automotive Safety Banners)
- * Prominently surfaces Critical, Warning, and Recovery states with high visual urgency
- * while maintaining the product's warm cream and rounded card visual language.
+ * AlertBanner Component
+ * Luxury Automotive Safety & System State Banner
+ * Design: Clean editorial pills, champagne hairline dividers, and decisive danger states.
  */
 export default function AlertBanner({
   alertState = 'NOMINAL',
@@ -14,6 +14,16 @@ export default function AlertBanner({
   isMonitoring = true,
   isRecovering = false,
 }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = (cmd) => {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(cmd);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
   if (!isEngineConnected) {
     return (
       <div
@@ -23,11 +33,11 @@ export default function AlertBanner({
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '0.85rem 1.45rem',
-          border: '1px solid var(--border-subtle)',
+          border: '1px solid rgba(23, 23, 23, 0.1)',
           backgroundColor: '#FFFFFF',
-          borderRadius: '20px',
+          borderRadius: '12px',
           boxShadow: '0 4px 18px rgba(23, 23, 23, 0.03)',
-          marginBottom: '2rem',
+          marginBottom: '1.75rem',
           flexWrap: 'wrap',
           gap: '0.75rem',
         }}
@@ -37,32 +47,44 @@ export default function AlertBanner({
             style={{
               width: '28px',
               height: '28px',
-              borderRadius: '9999px',
-              backgroundColor: 'var(--bg-surface-warm)',
+              borderRadius: '50%',
+              backgroundColor: '#F3EFEA',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
             }}
           >
-            <Terminal size={14} color="var(--text-secondary)" />
+            <Terminal size={14} color="#6B7280" />
           </div>
-          <span style={{ fontSize: '0.86rem', color: 'var(--text-secondary)' }}>
-            <strong style={{ color: 'var(--text-primary)', fontWeight: 600 }}>Optical Engine Standby:</strong> Python computer vision server is offline.
+          <span style={{ fontSize: '0.86rem', color: '#4B5563', fontFamily: 'var(--font-sans)' }}>
+            <strong style={{ color: '#171717', fontWeight: 600 }}>Optical Engine Standby:</strong> Python computer vision server is offline.
           </span>
         </div>
-        <code
-          className="font-mono"
+        <div
+          onClick={() => handleCopy('python run_production_bridge.py')}
+          title="Click to copy command"
           style={{
-            fontSize: '0.75rem',
-            padding: '0.3rem 0.75rem',
-            backgroundColor: 'var(--bg-canvas-subtle)',
-            border: '1px solid var(--border-subtle)',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.45rem',
+            cursor: 'pointer',
+            padding: '0.35rem 0.85rem',
+            backgroundColor: '#FDFBF7',
+            border: '1px solid rgba(23, 23, 23, 0.12)',
             borderRadius: '9999px',
-            color: 'var(--text-primary)',
           }}
         >
-          python backend/server.py
-        </code>
+          <code
+            style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.76rem',
+              color: '#171717',
+            }}
+          >
+            python run_production_bridge.py
+          </code>
+          {copied ? <Check size={12} color="#2E7D32" /> : <Copy size={12} color="#9CA3AF" />}
+        </div>
       </div>
     );
   }
@@ -77,11 +99,11 @@ export default function AlertBanner({
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '0.85rem 1.45rem',
-          border: '1px solid var(--border-subtle)',
+          border: '1px solid rgba(23, 23, 23, 0.1)',
           backgroundColor: '#FFFFFF',
-          borderRadius: '20px',
+          borderRadius: '12px',
           boxShadow: '0 4px 18px rgba(23, 23, 23, 0.03)',
-          marginBottom: '2rem',
+          marginBottom: '1.75rem',
           flexWrap: 'wrap',
           gap: '0.75rem',
         }}
@@ -92,21 +114,23 @@ export default function AlertBanner({
               width: '8px',
               height: '8px',
               borderRadius: '50%',
-              backgroundColor: 'var(--color-alert)',
+              backgroundColor: '#DC2626',
               display: 'inline-block',
             }}
           />
-          <span style={{ fontSize: '0.86rem', color: 'var(--text-secondary)' }}>
-            <strong style={{ color: 'var(--text-primary)', fontWeight: 600 }}>Optical Monitoring Paused:</strong> Real-time camera feed and risk scoring are halted. Driver privacy preserved.
+          <span style={{ fontSize: '0.86rem', color: '#4B5563', fontFamily: 'var(--font-sans)' }}>
+            <strong style={{ color: '#171717', fontWeight: 600 }}>Optical Monitoring Paused:</strong> Real-time camera feed and risk scoring are halted. Driver privacy preserved.
           </span>
         </div>
         <span
-          className="label-num"
           style={{
-            backgroundColor: 'var(--color-alert-dim)',
-            color: 'var(--color-alert)',
+            backgroundColor: '#FEF2F2',
+            color: '#DC2626',
+            border: '1px solid rgba(220, 38, 38, 0.2)',
             padding: '0.2rem 0.65rem',
             borderRadius: '9999px',
+            fontFamily: 'var(--font-mono)',
+            fontSize: '0.72rem',
             fontWeight: 600,
           }}
         >
@@ -166,36 +190,41 @@ export default function AlertBanner({
           alignItems: 'center',
           gap: '1rem',
           padding: '1.15rem 1.6rem',
-          border: '2px solid var(--color-alert)',
+          border: '1.5px solid #DC2626',
           backgroundColor: '#FFF1F2',
-          borderRadius: '24px',
-          boxShadow: '0 8px 30px rgba(225, 29, 72, 0.18)',
-          marginBottom: '2rem',
+          borderRadius: '16px',
+          boxShadow: '0 8px 30px rgba(220, 38, 38, 0.15)',
+          marginBottom: '1.75rem',
         }}
       >
         <div
           style={{
-            width: '38px',
-            height: '38px',
-            borderRadius: '9999px',
-            backgroundColor: 'var(--color-alert)',
+            width: '36px',
+            height: '36px',
+            borderRadius: '50%',
+            backgroundColor: '#DC2626',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             flexShrink: 0,
-            boxShadow: '0 4px 14px rgba(225, 29, 72, 0.3)',
+            boxShadow: '0 4px 14px rgba(220, 38, 38, 0.3)',
           }}
         >
-          <AlertCircle size={22} color="#FFFFFF" />
+          <AlertCircle size={20} color="#FFFFFF" />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
           <span
-            className="label-editorial"
-            style={{ color: 'var(--color-alert)', fontWeight: 800, letterSpacing: '0.14em' }}
+            style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.74rem',
+              color: '#DC2626',
+              fontWeight: 700,
+              letterSpacing: '0.12em',
+            }}
           >
             {getAlertTitle()}
           </span>
-          <span style={{ fontSize: '0.94rem', color: '#881337', fontWeight: 600 }}>
+          <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.94rem', color: '#991B1B', fontWeight: 600 }}>
             {message || getFallbackMessage()}
           </span>
         </div>
@@ -213,19 +242,19 @@ export default function AlertBanner({
           alignItems: 'center',
           gap: '1rem',
           padding: '1rem 1.5rem',
-          border: '1.5px solid var(--color-warning)',
+          border: '1.5px solid #D97706',
           backgroundColor: '#FFFBEB',
-          borderRadius: '22px',
+          borderRadius: '16px',
           boxShadow: '0 6px 24px rgba(217, 119, 6, 0.1)',
-          marginBottom: '2rem',
+          marginBottom: '1.75rem',
         }}
       >
         <div
           style={{
             width: '34px',
             height: '34px',
-            borderRadius: '9999px',
-            backgroundColor: 'var(--color-warning)',
+            borderRadius: '50%',
+            backgroundColor: '#D97706',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -236,12 +265,17 @@ export default function AlertBanner({
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.15rem' }}>
           <span
-            className="label-editorial"
-            style={{ color: '#B45309', fontWeight: 700 }}
+            style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.74rem',
+              color: '#B45309',
+              fontWeight: 700,
+              letterSpacing: '0.1em',
+            }}
           >
             {getAlertTitle()}
           </span>
-          <span style={{ fontSize: '0.9rem', color: '#78350F', fontWeight: 500 }}>
+          <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.9rem', color: '#78350F', fontWeight: 500 }}>
             {message || getFallbackMessage()}
           </span>
         </div>
@@ -249,75 +283,102 @@ export default function AlertBanner({
     );
   }
 
-  // 3. POSTURE RESTORATION / RECOVERY ACKNOWLEDGMENT
-  if (isRecovering && alertState === 'NOMINAL') {
+  // 3. RECOVERY CONFIRMATION (Brief Ephemeral Green Banner)
+  if (isRecovering) {
     return (
       <div
-        className="animate-fade-up"
+        className="animate-fade-in"
         style={{
           display: 'flex',
           alignItems: 'center',
           gap: '1rem',
           padding: '0.9rem 1.45rem',
-          border: '1.5px solid var(--color-safe)',
+          border: '1.5px solid #2E7D32',
           backgroundColor: '#ECFDF5',
-          borderRadius: '22px',
-          boxShadow: '0 4px 20px rgba(16, 185, 129, 0.1)',
-          marginBottom: '2rem',
+          borderRadius: '16px',
+          boxShadow: '0 4px 18px rgba(46, 125, 50, 0.08)',
+          marginBottom: '1.75rem',
         }}
       >
         <div
           style={{
-            width: '32px',
-            height: '32px',
-            borderRadius: '9999px',
-            backgroundColor: 'var(--color-safe)',
+            width: '30px',
+            height: '30px',
+            borderRadius: '50%',
+            backgroundColor: '#2E7D32',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             flexShrink: 0,
           }}
         >
-          <CheckCircle size={18} color="#FFFFFF" />
+          <CheckCircle size={16} color="#FFFFFF" />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <span className="label-editorial" style={{ color: 'var(--color-safe)', fontWeight: 700 }}>
-            SAFETY RECOVERY // POSTURE RESTORED
+          <span
+            style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.72rem',
+              color: '#065F46',
+              fontWeight: 700,
+              letterSpacing: '0.1em',
+            }}
+          >
+            ATTENTIVENESS RECOVERED // FORWARD GAZE RESTORED
           </span>
-          <span style={{ fontSize: '0.88rem', color: '#065F46', fontWeight: 500 }}>
-            Driver attention returned to forward trajectory. Biometrics nominal.
+          <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.86rem', color: '#065F46' }}>
+            Driver attention returned within nominal operating envelope. Safety counter reset.
           </span>
         </div>
       </div>
     );
   }
 
-  // 4. NOMINAL STATUS
+  // 4. NOMINAL / STEADY STATE (Understated Subtle Indicator)
   return (
     <div
       style={{
         display: 'flex',
         alignItems: 'center',
-        gap: '0.75rem',
-        padding: '0.75rem 1.35rem',
-        border: '1px solid var(--border-subtle)',
+        justifyContent: 'space-between',
+        padding: '0.75rem 1.4rem',
         backgroundColor: '#FFFFFF',
-        borderRadius: '20px',
-        boxShadow: '0 2px 12px rgba(23, 23, 23, 0.02)',
-        marginBottom: '2rem',
+        border: '1px solid rgba(23, 23, 23, 0.08)',
+        borderRadius: '12px',
+        boxShadow: '0 2px 10px rgba(0, 0, 0, 0.02)',
+        marginBottom: '1.75rem',
+        flexWrap: 'wrap',
+        gap: '0.65rem',
       }}
     >
-      <div
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+        <span
+          style={{
+            width: '7px',
+            height: '7px',
+            borderRadius: '50%',
+            backgroundColor: '#2E7D32',
+          }}
+          className="telemetry-pulse"
+        />
+        <span style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)' }}>
+          <strong style={{ color: 'var(--text-primary)', fontWeight: 600 }}>Optimal Posture:</strong> Driver attentiveness and ocular tracking are within nominal parameters.
+        </span>
+      </div>
+      <span
         style={{
-          width: '8px',
-          height: '8px',
-          borderRadius: '50%',
-          backgroundColor: 'var(--color-safe)',
+          fontFamily: 'var(--font-mono)',
+          fontSize: '0.68rem',
+          color: '#2E7D32',
+          backgroundColor: '#ECFDF5',
+          border: '1px solid rgba(46, 125, 50, 0.2)',
+          padding: '0.2rem 0.65rem',
+          borderRadius: '9999px',
+          fontWeight: 600,
+          letterSpacing: '0.06em',
         }}
-        className="animate-pulse-live"
-      />
-      <span style={{ fontSize: '0.84rem', color: 'var(--text-secondary)' }}>
-        <strong style={{ color: 'var(--text-primary)', fontWeight: 600 }}>Nominal Attentiveness:</strong> Driver head posture aligned with roadway. Eyes open and tracking forward trajectory.
+      >
+        STATE 01 // NOMINAL
       </span>
     </div>
   );

@@ -334,13 +334,13 @@ export default function App() {
           onOpenDiagnostics={() => setIsDiagnosticsOpen(true)}
         />
 
-        {/* View Container */}
+        {/* View Container — Full bleed capable with generous editorial layout */}
         <main
           style={{
-            maxWidth: '1240px',
+            width: '100%',
             margin: '0 auto',
-            padding: 'clamp(2rem, 5vw, 4rem) clamp(1rem, 4vw, 3rem)',
             paddingBottom: '5rem',
+            position: 'relative',
           }}
         >
           {activeTab === 'overview' && (
@@ -368,6 +368,7 @@ export default function App() {
               onStopMonitoring={handleStopMonitoring}
               videoStreamUrl={connectionStatus === 'online' ? getVideoFeedUrl() : null}
               onTriggerTestIncident={handleTriggerTestIncident}
+              onToggleSimMode={handleToggleSimMode}
               onOpenDiagnostics={() => setIsDiagnosticsOpen(true)}
             />
           )}

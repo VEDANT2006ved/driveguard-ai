@@ -1,14 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import RiskGauge from '../components/RiskGauge';
 import AlertBanner from '../components/AlertBanner';
 import DriverIllustration from '../components/DriverIllustration';
 import GpsTripPanel from '../components/GpsTripPanel';
-import { Camera, Eye, Sliders, Play, Square, Activity, Compass, AlertCircle, Radio, Terminal } from 'lucide-react';
+import {
+  Camera,
+  Play,
+  Square,
+  Activity,
+  Sliders,
+  Copy,
+  Check,
+  Radio,
+  Sparkles,
+  Shield,
+  Eye,
+  Info,
+  ExternalLink,
+} from 'lucide-react';
 
 /**
- * LiveMonitorView Component (VANTAGE Luxury Automotive Editorial Reset)
- * Keeps the real webcam feed as the primary visual with a refined cinematic frame,
- * elegant technical labels, well-aligned biometric measurements, and clear warning states.
+ * LiveMonitorView Component
+ * High-End Luxury Automotive Optical Cockpit
+ * Design Inspiration: Explora Journeys (editorial layout), NOMU (minimal tactile controls),
+ * and Decathlon Yestalgia (retro-futuristic telemetry crosshairs & scenario dials).
  */
 export default function LiveMonitorView({
   telemetryData = {},
@@ -22,6 +37,7 @@ export default function LiveMonitorView({
   onTriggerTestIncident,
   isRecovering = false,
   onOpenDiagnostics,
+  onToggleSimMode,
 }) {
   const {
     riskScore = 0,
@@ -37,17 +53,46 @@ export default function LiveMonitorView({
     eyesClosedTime = 0,
   } = telemetryData || {};
 
+  const [copiedCmd, setCopiedCmd] = useState(false);
+  const [activeScenario, setActiveScenario] = useState('NORMAL');
+
   const isLive = isSimMode || (isEngineConnected && isMonitoring);
 
   const getRiskBorder = () => {
-    if (!isLive) return 'var(--border-subtle)';
-    if (riskLevel === 'CRITICAL' || riskScore >= 70) return 'var(--color-accent-red)';
-    if (riskLevel === 'WARNING' || riskScore >= 35) return 'var(--color-warning)';
-    return 'var(--border-subtle)';
+    if (!isLive) return 'rgba(23, 23, 23, 0.12)';
+    if (riskLevel === 'CRITICAL' || riskScore >= 70) return '#DC2626';
+    if (riskLevel === 'WARNING' || riskScore >= 35) return '#D97706';
+    return 'rgba(46, 125, 50, 0.35)';
+  };
+
+  const handleCopyCommand = (text) => {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+      setCopiedCmd(true);
+      setTimeout(() => setCopiedCmd(false), 2200);
+    }
+  };
+
+  const handleScenarioSelect = (scenarioKey) => {
+    setActiveScenario(scenarioKey);
+    if (!isSimMode && onToggleSimMode && !isEngineConnected) {
+      onToggleSimMode();
+    }
+    onTriggerTestIncident?.(scenarioKey);
   };
 
   return (
-    <div className="cinematic-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
+    <div
+      className="cinematic-fade-in"
+      style={{
+        maxWidth: '1440px',
+        margin: '0 auto',
+        padding: 'clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 3vw, 2.5rem)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '2.5rem',
+      }}
+    >
       {/* Editorial Safety Alert Banner */}
       <AlertBanner
         alertState={riskLevel}
@@ -58,66 +103,127 @@ export default function LiveMonitorView({
         isRecovering={isRecovering}
       />
 
-      {/* Viewport Header */}
+      {/* Viewport Header: Editorial Luxury Masthead */}
       <div
         style={{
           display: 'flex',
           justifyContent: 'space-between',
-          alignItems: 'baseline',
-          borderBottom: '1px solid var(--border-subtle)',
-          paddingBottom: '1.25rem',
+          alignItems: 'flex-end',
+          borderBottom: '1px solid rgba(23, 23, 23, 0.12)',
+          paddingBottom: '1.5rem',
           flexWrap: 'wrap',
-          gap: '1rem',
+          gap: '1.5rem',
         }}
       >
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem' }}>
-            <span style={{ width: '6px', height: '6px', backgroundColor: isLive ? 'var(--color-accent-green)' : 'var(--text-muted)' }} className={isLive ? 'telemetry-pulse' : ''} />
-            <span className="font-mono" style={{ fontSize: '0.72rem', color: 'var(--text-muted)', letterSpacing: '0.14em' }}>
-              SECTION 02 // REAL-TIME OPTICAL COCKPIT
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '0.4rem' }}>
+            <span
+              style={{
+                width: '7px',
+                height: '7px',
+                borderRadius: '50%',
+                backgroundColor: isLive ? '#2E7D32' : '#9CA3AF',
+              }}
+              className={isLive ? 'telemetry-pulse' : ''}
+            />
+            <span
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.72rem',
+                color: 'var(--text-secondary)',
+                letterSpacing: '0.14em',
+                textTransform: 'uppercase',
+              }}
+            >
+              COCKPIT SENSING // REAL-TIME OPTICAL HUD
             </span>
           </div>
 
           <h1
-            className="font-condensed"
             style={{
-              fontSize: 'clamp(2.4rem, 4.5vw, 3.8rem)',
-              lineHeight: 0.95,
-              fontWeight: 700,
+              fontFamily: 'var(--font-serif)',
+              fontSize: 'clamp(2.4rem, 4.5vw, 3.6rem)',
+              fontWeight: 400,
               letterSpacing: '-0.02em',
-              textTransform: 'uppercase',
               color: 'var(--text-primary)',
               margin: 0,
+              lineHeight: 1.05,
             }}
           >
-            OPTICAL TELEMETRY HUD.
+            Optical Telemetry HUD
           </h1>
+          <p
+            style={{
+              fontFamily: 'var(--font-sans)',
+              fontSize: '0.92rem',
+              color: 'var(--text-secondary)',
+              marginTop: '0.4rem',
+              marginBottom: 0,
+              maxWidth: '620px',
+            }}
+          >
+            Continuous computer-vision driver monitoring. MediaPipe palpebral closure & cranial pose classification.
+          </p>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-          <span
-            className="font-mono"
+        {/* Live Controls Capsule */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', flexWrap: 'wrap' }}>
+          {/* Status Badge */}
+          <div
             style={{
-              fontSize: '0.74rem',
-              color: isLive ? 'var(--text-primary)' : 'var(--text-muted)',
-              backgroundColor: 'var(--bg-ivory-subtle)',
-              padding: '0.45rem 1rem',
-              borderRadius: '2px',
-              border: '1px solid var(--border-subtle)',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              padding: '0.55rem 1.15rem',
+              backgroundColor: '#FFFFFF',
+              border: '1px solid rgba(23, 23, 23, 0.12)',
+              borderRadius: '9999px',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.72rem',
               letterSpacing: '0.06em',
+              color: 'var(--text-primary)',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.03)',
             }}
           >
-            FEED: {isEngineConnected ? (isMonitoring ? 'WEBSOCKET_MJPEG (ACTIVE)' : 'STANDBY (PAUSED)') : isSimMode ? 'SIMULATION' : 'OFFLINE'}
-          </span>
+            <span
+              style={{
+                width: '6px',
+                height: '6px',
+                borderRadius: '50%',
+                backgroundColor: isLive ? '#2E7D32' : isSimMode ? '#D97706' : '#9CA3AF',
+              }}
+              className={isLive ? 'telemetry-pulse' : ''}
+            />
+            <span>
+              {isEngineConnected
+                ? isMonitoring
+                  ? `LIVE STREAM (${fps} FPS)`
+                  : 'STANDBY (PAUSED)'
+                : isSimMode
+                ? 'SIMULATION HARNESS'
+                : 'ENGINE DISCONNECTED'}
+            </span>
+          </div>
 
-          {isEngineConnected && (
+          {/* Ignition Halt / Resume CTA */}
+          {isEngineConnected ? (
             <button
               onClick={onToggleMonitoring}
-              className="vantage-btn"
               style={{
-                backgroundColor: isMonitoring ? '#111111' : 'var(--text-primary)',
-                borderColor: 'var(--text-primary)',
-                padding: '0.55rem 1.45rem',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                backgroundColor: isMonitoring ? '#171717' : '#2E7D32',
+                color: '#FFFFFF',
+                border: 'none',
+                padding: '0.62rem 1.45rem',
+                borderRadius: '9999px',
+                fontFamily: 'var(--font-sans)',
+                fontSize: '0.82rem',
+                fontWeight: 600,
+                letterSpacing: '0.04em',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
               }}
             >
               {isMonitoring ? (
@@ -132,31 +238,91 @@ export default function LiveMonitorView({
                 </>
               )}
             </button>
+          ) : (
+            <button
+              onClick={onOpenDiagnostics}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                backgroundColor: '#171717',
+                color: '#FFFFFF',
+                border: 'none',
+                padding: '0.62rem 1.4rem',
+                borderRadius: '9999px',
+                fontFamily: 'var(--font-sans)',
+                fontSize: '0.82rem',
+                fontWeight: 500,
+                cursor: 'pointer',
+              }}
+            >
+              <Radio size={12} />
+              <span>DIAGNOSTICS & TUNNEL</span>
+            </button>
           )}
         </div>
       </div>
 
-      {/* Main Responsive Split Grid (2-column on desktop, stacked on mobile) */}
-      <div className="live-monitor-grid">
-        {/* Left: Primary Optical Viewport Frame */}
+      {/* Main Responsive Split Grid */}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'minmax(0, 1.35fr) minmax(0, 1fr)',
+          gap: '2rem',
+          alignItems: 'start',
+        }}
+        className="cockpit-hud-grid"
+      >
+        {/* Left Column: Primary Optical Viewport Frame */}
         <div
           style={{
-            backgroundColor: 'var(--bg-surface)',
+            backgroundColor: '#FFFFFF',
             border: `1.5px solid ${getRiskBorder()}`,
-            borderRadius: 'var(--radius-card)',
+            borderRadius: '16px',
             overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column',
-            boxShadow: 'var(--shadow-md)',
+            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.05)',
+            position: 'relative',
             transition: 'border-color 0.3s ease',
           }}
         >
+          {/* Decathlon Yestalgia Retro-Futuristic Reticle Marks */}
+          <span
+            style={{
+              position: 'absolute',
+              top: '8px',
+              left: '10px',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.65rem',
+              color: 'rgba(23, 23, 23, 0.3)',
+              pointerEvents: 'none',
+              zIndex: 15,
+            }}
+          >
+            +
+          </span>
+          <span
+            style={{
+              position: 'absolute',
+              top: '8px',
+              right: '10px',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.65rem',
+              color: 'rgba(23, 23, 23, 0.3)',
+              pointerEvents: 'none',
+              zIndex: 15,
+            }}
+          >
+            +
+          </span>
+
           {/* Viewport Technical Header Bar */}
           <div
             style={{
-              padding: '0.85rem 1.45rem',
-              borderBottom: '1px solid var(--border-subtle)',
-              backgroundColor: 'var(--bg-ivory-subtle)',
+              padding: '0.9rem 1.5rem',
+              borderBottom: '1px solid rgba(23, 23, 23, 0.08)',
+              backgroundColor: '#FDFBF7',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
@@ -164,7 +330,15 @@ export default function LiveMonitorView({
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
               <Camera size={14} color="var(--text-primary)" />
-              <span className="font-mono" style={{ fontSize: '0.74rem', fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '0.08em' }}>
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.74rem',
+                  fontWeight: 600,
+                  color: 'var(--text-primary)',
+                  letterSpacing: '0.08em',
+                }}
+              >
                 CAM_01 // 640x480 RAW OPTICAL STREAM
               </span>
             </div>
@@ -175,22 +349,28 @@ export default function LiveMonitorView({
                   width: '6px',
                   height: '6px',
                   borderRadius: '50%',
-                  backgroundColor: isLive ? 'var(--color-accent-green)' : 'var(--text-muted)',
+                  backgroundColor: isLive ? '#2E7D32' : '#9CA3AF',
                 }}
                 className={isLive ? 'telemetry-pulse' : ''}
               />
-              <span className="font-mono" style={{ fontSize: '0.72rem', color: isLive ? 'var(--text-primary)' : 'var(--text-muted)' }}>
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.72rem',
+                  color: isLive ? 'var(--text-primary)' : 'var(--text-secondary)',
+                }}
+              >
                 {isEngineConnected ? (isMonitoring ? `${fps} FPS` : 'CAMERA RELEASED') : 'STANDBY'}
               </span>
             </div>
           </div>
 
-          {/* Video Stream Area */}
+          {/* Video Stream / Standby Area */}
           <div
             style={{
               position: 'relative',
               width: '100%',
-              minHeight: 'clamp(320px, 48vw, 480px)',
+              minHeight: 'clamp(340px, 45vw, 480px)',
               backgroundColor: '#111214',
               display: 'flex',
               alignItems: 'center',
@@ -199,7 +379,7 @@ export default function LiveMonitorView({
             }}
           >
             {isEngineConnected && videoStreamUrl ? (
-              <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: 'clamp(320px, 48vw, 480px)' }}>
+              <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: 'clamp(340px, 45vw, 480px)' }}>
                 <img
                   src={videoStreamUrl}
                   alt="Live Driver Safety Optical Feed"
@@ -213,7 +393,7 @@ export default function LiveMonitorView({
                   }}
                 />
 
-                {/* Subtle laser scan line overlay when monitoring */}
+                {/* Laser scan line overlay when monitoring */}
                 {isMonitoring && (
                   <div
                     className="animate-laser-scan"
@@ -235,7 +415,8 @@ export default function LiveMonitorView({
                     style={{
                       position: 'absolute',
                       inset: 0,
-                      backgroundColor: 'rgba(13, 14, 16, 0.9)',
+                      backgroundColor: 'rgba(13, 14, 16, 0.88)',
+                      backdropFilter: 'blur(8px)',
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'center',
@@ -246,101 +427,236 @@ export default function LiveMonitorView({
                       color: '#FFFFFF',
                     }}
                   >
-                    <span className="font-mono" style={{ fontSize: '0.72rem', color: 'var(--color-accent-red)', letterSpacing: '0.12em', fontWeight: 600 }}>
+                    <span
+                      style={{
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '0.72rem',
+                        color: '#EF4444',
+                        letterSpacing: '0.14em',
+                        fontWeight: 600,
+                      }}
+                    >
                       // SENSOR CAPTURE HALTED
                     </span>
-                    <h3 className="font-condensed" style={{ fontSize: '2rem', fontWeight: 600, textTransform: 'uppercase', margin: '0.5rem 0' }}>
-                      MONITORING IS PAUSED
+                    <h3
+                      style={{
+                        fontFamily: 'var(--font-serif)',
+                        fontSize: '2rem',
+                        fontWeight: 400,
+                        margin: '0.6rem 0',
+                      }}
+                    >
+                      Optical Stream Paused
                     </h3>
-                    <p className="font-sans" style={{ maxWidth: '420px', fontSize: '0.88rem', color: 'rgba(255, 255, 255, 0.7)', lineHeight: 1.55, marginBottom: '1.75rem' }}>
-                      Webcam hardware has been cleanly released and neural inference is halted. Driver privacy is protected.
+                    <p
+                      style={{
+                        fontFamily: 'var(--font-sans)',
+                        maxWidth: '420px',
+                        fontSize: '0.88rem',
+                        color: 'rgba(255, 255, 255, 0.75)',
+                        lineHeight: 1.55,
+                        marginBottom: '1.75rem',
+                      }}
+                    >
+                      Webcam hardware is cleanly released and neural inference is stopped. Driver privacy is protected.
                     </p>
                     <button
                       onClick={onStartMonitoring}
-                      className="vantage-btn"
                       style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
                         backgroundColor: '#FFFFFF',
-                        color: '#000000',
-                        borderColor: '#FFFFFF',
+                        color: '#171717',
+                        border: 'none',
                         padding: '0.75rem 2rem',
+                        borderRadius: '9999px',
+                        fontFamily: 'var(--font-sans)',
+                        fontSize: '0.85rem',
+                        fontWeight: 600,
+                        cursor: 'pointer',
                       }}
                     >
-                      <Play size={13} fill="#000000" />
+                      <Play size={13} fill="#171717" />
                       <span>RESUME MONITORING</span>
                     </button>
                   </div>
                 )}
               </div>
             ) : (
-              /* High-End Calibration Canvas */
+              /* Bespoke Standby Calibration Canvas (Explora / NOMU / Decathlon Aesthetic) */
               <div
                 style={{
                   width: '100%',
-                  minHeight: 'clamp(320px, 48vw, 480px)',
+                  minHeight: 'clamp(380px, 46vw, 500px)',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  padding: '2.5rem',
+                  padding: 'clamp(2rem, 4vw, 3rem)',
                   textAlign: 'center',
                   position: 'relative',
-                  backgroundColor: 'var(--bg-canvas)',
+                  backgroundColor: '#FBF9F5',
                 }}
               >
-                <DriverIllustration state={riskLevel} size={240} animated={true} />
+                {/* Visual driver illustration */}
+                <div style={{ marginBottom: '1.25rem' }}>
+                  <DriverIllustration state={riskLevel} size={210} animated={true} />
+                </div>
 
-                <div style={{ maxWidth: '440px', marginTop: '1.5rem' }}>
-                  <h4 className="font-condensed" style={{ fontSize: '1.6rem', fontWeight: 600, textTransform: 'uppercase', color: 'var(--text-primary)', margin: '0 0 0.5rem 0' }}>
-                    {isSimMode ? 'Simulation Test Harness Active' : 'Waiting for Python Optical Pipeline'}
-                  </h4>
-                  <p className="font-sans" style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.55, marginBottom: '1.25rem' }}>
+                <div style={{ maxWidth: '480px' }}>
+                  <div
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.4rem',
+                      padding: '0.3rem 0.85rem',
+                      backgroundColor: isSimMode ? 'rgba(217, 119, 6, 0.1)' : 'rgba(23, 23, 23, 0.05)',
+                      borderRadius: '9999px',
+                      marginBottom: '0.85rem',
+                    }}
+                  >
+                    <span
+                      style={{
+                        width: '6px',
+                        height: '6px',
+                        borderRadius: '50%',
+                        backgroundColor: isSimMode ? '#D97706' : '#9CA3AF',
+                      }}
+                    />
+                    <span
+                      style={{
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '0.68rem',
+                        color: isSimMode ? '#D97706' : 'var(--text-secondary)',
+                        letterSpacing: '0.08em',
+                        textTransform: 'uppercase',
+                        fontWeight: 600,
+                      }}
+                    >
+                      {isSimMode ? 'SIMULATION HARNESS ACTIVE' : 'AWAITING HARDWARE PIPELINE'}
+                    </span>
+                  </div>
+
+                  <h3
+                    style={{
+                      fontFamily: 'var(--font-serif)',
+                      fontSize: 'clamp(1.5rem, 3vw, 1.95rem)',
+                      fontWeight: 400,
+                      color: 'var(--text-primary)',
+                      margin: '0 0 0.65rem 0',
+                      lineHeight: 1.2,
+                    }}
+                  >
+                    {isSimMode ? 'Simulated Driver Telemetry' : 'Waiting for Python Optical Pipeline'}
+                  </h3>
+
+                  <p
+                    style={{
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: '0.88rem',
+                      color: 'var(--text-secondary)',
+                      lineHeight: 1.6,
+                      marginBottom: '1.5rem',
+                    }}
+                  >
                     {isSimMode
-                      ? 'Simulated driver events are currently driving the risk gauge and acoustic warnings.'
-                      : 'To stream your webcam through the MediaPipe neural detection pipeline, start the Python engine:'}
+                      ? 'Synthetic attentiveness telemetry is currently driving the risk dial, acoustic warnings, and GPS tags below.'
+                      : 'To stream your physical webcam through the MediaPipe neural detection pipeline, launch the Python engine on your laptop:'}
                   </p>
 
                   {!isSimMode && (
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.85rem' }}>
-                      <code
-                        className="font-mono"
+                      {/* Copyable terminal command */}
+                      <div
+                        onClick={() => handleCopyCommand('python run_production_bridge.py')}
+                        title="Click to copy start command"
                         style={{
-                          display: 'inline-block',
-                          padding: '0.55rem 1.35rem',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '0.75rem',
+                          padding: '0.65rem 1.25rem',
                           backgroundColor: '#FFFFFF',
-                          border: '1px solid var(--border-subtle)',
-                          borderRadius: '2px',
-                          color: 'var(--text-primary)',
-                          fontSize: '0.84rem',
-                          boxShadow: 'var(--shadow-sm)',
+                          border: '1px solid rgba(23, 23, 23, 0.15)',
+                          borderRadius: '8px',
+                          cursor: 'pointer',
+                          boxShadow: '0 2px 10px rgba(0, 0, 0, 0.04)',
+                          transition: 'all 0.2s ease',
                         }}
                       >
-                        python run_production_bridge.py
-                      </code>
-
-                      {onOpenDiagnostics && (
-                        <button
-                          onClick={onOpenDiagnostics}
+                        <code
                           style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '0.45rem',
-                            padding: '0.52rem 1.25rem',
-                            backgroundColor: '#171717',
-                            color: '#FFFFFF',
-                            border: 'none',
-                            borderRadius: '2px',
-                            fontSize: '0.78rem',
-                            fontFamily: 'var(--font-sans)',
-                            fontWeight: 500,
+                            fontFamily: 'var(--font-mono)',
+                            fontSize: '0.82rem',
+                            color: 'var(--text-primary)',
                             letterSpacing: '0.04em',
-                            cursor: 'pointer',
-                            marginTop: '0.25rem',
                           }}
                         >
-                          <Radio size={12} />
-                          <span>CONNECT TUNNEL / VIEW DIAGNOSTICS</span>
-                        </button>
-                      )}
+                          python run_production_bridge.py
+                        </code>
+                        <div
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            width: '24px',
+                            height: '24px',
+                            borderRadius: '4px',
+                            backgroundColor: copiedCmd ? '#ECFDF5' : 'rgba(23, 23, 23, 0.05)',
+                          }}
+                        >
+                          {copiedCmd ? <Check size={13} color="#2E7D32" /> : <Copy size={13} color="#6B7280" />}
+                        </div>
+                      </div>
+
+                      {/* Action buttons row */}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+                        {onOpenDiagnostics && (
+                          <button
+                            onClick={onOpenDiagnostics}
+                            style={{
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '0.45rem',
+                              padding: '0.55rem 1.25rem',
+                              backgroundColor: '#171717',
+                              color: '#FFFFFF',
+                              border: 'none',
+                              borderRadius: '9999px',
+                              fontSize: '0.78rem',
+                              fontFamily: 'var(--font-sans)',
+                              fontWeight: 500,
+                              cursor: 'pointer',
+                            }}
+                          >
+                            <Radio size={12} />
+                            <span>CONNECT TUNNEL / DIAGNOSTICS</span>
+                          </button>
+                        )}
+
+                        {onToggleSimMode && (
+                          <button
+                            onClick={onToggleSimMode}
+                            style={{
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '0.45rem',
+                              padding: '0.55rem 1.25rem',
+                              backgroundColor: '#FFFFFF',
+                              color: 'var(--text-primary)',
+                              border: '1px solid rgba(23, 23, 23, 0.18)',
+                              borderRadius: '9999px',
+                              fontSize: '0.78rem',
+                              fontFamily: 'var(--font-sans)',
+                              fontWeight: 500,
+                              cursor: 'pointer',
+                            }}
+                          >
+                            <Sparkles size={12} color="#D97706" />
+                            <span>LAUNCH SIMULATION DEMO</span>
+                          </button>
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>
@@ -350,44 +666,54 @@ export default function LiveMonitorView({
 
           {/* Viewport Telemetry Footer Bar */}
           <div
-            className="font-mono"
             style={{
-              padding: '0.85rem 1.45rem',
-              backgroundColor: 'var(--bg-ivory-subtle)',
-              borderTop: '1px solid var(--border-subtle)',
+              padding: '0.85rem 1.5rem',
+              backgroundColor: '#FDFBF7',
+              borderTop: '1px solid rgba(23, 23, 23, 0.08)',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
               flexWrap: 'wrap',
               gap: '0.5rem',
-              fontSize: '0.74rem',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.72rem',
               color: 'var(--text-secondary)',
               letterSpacing: '0.04em',
             }}
           >
             <span>
-              MODE: {isEngineConnected ? (isMonitoring ? 'LIVE CAMERA (OPENCV)' : 'STANDBY (CAMERA RELEASED)') : isSimMode ? 'SYNTHETIC HARNESS' : 'OFFLINE'}
+              MODE: {isEngineConnected ? (isMonitoring ? 'LIVE HARDWARE (OPENCV)' : 'STANDBY (CAMERA RELEASED)') : isSimMode ? 'SYNTHETIC HARNESS' : 'DISCONNECTED'}
             </span>
             <span>EYES CLOSED DURATION: {isLive ? `${eyesClosedTime.toFixed(1)}S` : '--'}</span>
           </div>
         </div>
 
-        {/* Right: Technical Biometric Meters & Risk Dial */}
+        {/* Right Column: Technical Biometric Meters & Risk Dial */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           {/* Risk Gauge Card */}
           <div
             style={{
-              backgroundColor: 'var(--bg-surface)',
-              border: '1px solid var(--border-subtle)',
-              borderRadius: 'var(--radius-card)',
-              padding: '2rem 1.5rem',
+              backgroundColor: '#FFFFFF',
+              border: '1px solid rgba(23, 23, 23, 0.1)',
+              borderRadius: '16px',
+              padding: '2rem 1.75rem',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              boxShadow: 'var(--shadow-sm)',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
+              position: 'relative',
             }}
           >
-            <span className="label-editorial" style={{ marginBottom: '1.25rem', color: 'var(--text-secondary)' }}>
+            <span
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.72rem',
+                letterSpacing: '0.12em',
+                color: 'var(--text-secondary)',
+                marginBottom: '1.25rem',
+                textTransform: 'uppercase',
+              }}
+            >
               DYNAMIC ATTENTIVENESS INDEX
             </span>
             <RiskGauge
@@ -398,61 +724,80 @@ export default function LiveMonitorView({
             />
           </div>
 
-          {/* EAR & MAR Ratio Bars */}
+          {/* EAR & MAR Biometric Ratio Bars */}
           <div
             style={{
-              backgroundColor: 'var(--bg-surface)',
-              border: '1px solid var(--border-subtle)',
-              borderRadius: 'var(--radius-card)',
+              backgroundColor: '#FFFFFF',
+              border: '1px solid rgba(23, 23, 23, 0.1)',
+              borderRadius: '16px',
               padding: '1.75rem',
               display: 'flex',
               flexDirection: 'column',
               gap: '1.5rem',
-              boxShadow: 'var(--shadow-sm)',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
             }}
           >
-            <span className="label-editorial" style={{ color: 'var(--text-secondary)' }}>
-              BIOMETRIC SIGNAL RATIOS
-            </span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.72rem',
+                  letterSpacing: '0.12em',
+                  color: 'var(--text-secondary)',
+                  textTransform: 'uppercase',
+                }}
+              >
+                BIOMETRIC SIGNAL RATIOS
+              </span>
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.68rem',
+                  color: '#9CA3AF',
+                }}
+              >
+                68-POINT MESH
+              </span>
+            </div>
 
-            {/* EAR */}
+            {/* Eye Aspect Ratio (EAR) */}
             <div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
-                <span className="font-condensed" style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-primary)', textTransform: 'uppercase' }}>
-                  EYE ASPECT RATIO (EAR)
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.45rem' }}>
+                <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                  Eye Aspect Ratio (EAR)
                 </span>
-                <span className="font-mono" style={{ fontSize: '0.82rem', color: 'var(--text-primary)' }}>
-                  {isLive ? ear.toFixed(2) : '--'} <span style={{ color: 'var(--text-muted)' }}>/ 0.22 CRIT</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.82rem', color: 'var(--text-primary)' }}>
+                  {isLive ? ear.toFixed(2) : '--'} <span style={{ color: '#9CA3AF' }}>/ 0.22 crit</span>
                 </span>
               </div>
-              <div style={{ width: '100%', height: '5px', backgroundColor: 'var(--bg-ivory-subtle)', borderRadius: '2px', overflow: 'hidden' }}>
+              <div style={{ width: '100%', height: '6px', backgroundColor: '#F3EFEA', borderRadius: '3px', overflow: 'hidden' }}>
                 <div
                   style={{
                     width: isLive ? `${Math.min(100, (ear / 0.45) * 100)}%` : '0%',
                     height: '100%',
-                    backgroundColor: ear < 0.22 ? 'var(--color-accent-red)' : 'var(--text-primary)',
+                    backgroundColor: ear < 0.22 ? '#DC2626' : '#171717',
                     transition: 'width 0.25s ease',
                   }}
                 />
               </div>
             </div>
 
-            {/* MAR */}
+            {/* Mouth Aspect Ratio (MAR) */}
             <div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
-                <span className="font-condensed" style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-primary)', textTransform: 'uppercase' }}>
-                  MOUTH ASPECT RATIO (MAR)
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.45rem' }}>
+                <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                  Mouth Aspect Ratio (MAR)
                 </span>
-                <span className="font-mono" style={{ fontSize: '0.82rem', color: 'var(--text-primary)' }}>
-                  {isLive ? mar.toFixed(2) : '--'} <span style={{ color: 'var(--text-muted)' }}>/ 0.55 WARN</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.82rem', color: 'var(--text-primary)' }}>
+                  {isLive ? mar.toFixed(2) : '--'} <span style={{ color: '#9CA3AF' }}>/ 0.55 warn</span>
                 </span>
               </div>
-              <div style={{ width: '100%', height: '5px', backgroundColor: 'var(--bg-ivory-subtle)', borderRadius: '2px', overflow: 'hidden' }}>
+              <div style={{ width: '100%', height: '6px', backgroundColor: '#F3EFEA', borderRadius: '3px', overflow: 'hidden' }}>
                 <div
                   style={{
                     width: isLive ? `${Math.min(100, (mar / 0.8) * 100)}%` : '0%',
                     height: '100%',
-                    backgroundColor: mar > 0.55 ? 'var(--color-warning)' : 'var(--text-primary)',
+                    backgroundColor: mar > 0.55 ? '#D97706' : '#171717',
                     transition: 'width 0.25s ease',
                   }}
                 />
@@ -461,92 +806,170 @@ export default function LiveMonitorView({
 
             {/* 3D Cranial Pose Angle Boxes */}
             <div
-              className="font-mono"
               style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(3, 1fr)',
                 gap: '0.65rem',
-                borderTop: '1px solid var(--border-subtle)',
+                borderTop: '1px solid rgba(23, 23, 23, 0.08)',
                 paddingTop: '1.25rem',
+                fontFamily: 'var(--font-mono)',
                 fontSize: '0.75rem',
                 textAlign: 'center',
               }}
             >
-              <div style={{ backgroundColor: 'var(--bg-ivory-subtle)', padding: '0.65rem 0.35rem', borderRadius: '2px' }}>
-                <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.65rem', letterSpacing: '0.08em' }}>PITCH</span>
-                <span className="font-condensed" style={{ color: 'var(--text-primary)', fontWeight: 600, fontSize: '1.15rem' }}>
+              <div style={{ backgroundColor: '#FDFBF7', border: '1px solid rgba(23, 23, 23, 0.06)', padding: '0.65rem 0.35rem', borderRadius: '8px' }}>
+                <span style={{ color: '#9CA3AF', display: 'block', fontSize: '0.65rem', letterSpacing: '0.08em' }}>PITCH</span>
+                <span style={{ fontFamily: 'var(--font-serif)', color: 'var(--text-primary)', fontWeight: 600, fontSize: '1.2rem' }}>
                   {isLive ? `${headPitch.toFixed(1)}°` : '--'}
                 </span>
               </div>
-              <div style={{ backgroundColor: 'var(--bg-ivory-subtle)', padding: '0.65rem 0.35rem', borderRadius: '2px' }}>
-                <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.65rem', letterSpacing: '0.08em' }}>YAW</span>
-                <span className="font-condensed" style={{ color: 'var(--text-primary)', fontWeight: 600, fontSize: '1.15rem' }}>
+              <div style={{ backgroundColor: '#FDFBF7', border: '1px solid rgba(23, 23, 23, 0.06)', padding: '0.65rem 0.35rem', borderRadius: '8px' }}>
+                <span style={{ color: '#9CA3AF', display: 'block', fontSize: '0.65rem', letterSpacing: '0.08em' }}>YAW</span>
+                <span style={{ fontFamily: 'var(--font-serif)', color: 'var(--text-primary)', fontWeight: 600, fontSize: '1.2rem' }}>
                   {isLive ? `${headYaw.toFixed(1)}°` : '--'}
                 </span>
               </div>
-              <div style={{ backgroundColor: 'var(--bg-ivory-subtle)', padding: '0.65rem 0.35rem', borderRadius: '2px' }}>
-                <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.65rem', letterSpacing: '0.08em' }}>ROLL</span>
-                <span className="font-condensed" style={{ color: 'var(--text-primary)', fontWeight: 600, fontSize: '1.15rem' }}>
+              <div style={{ backgroundColor: '#FDFBF7', border: '1px solid rgba(23, 23, 23, 0.06)', padding: '0.65rem 0.35rem', borderRadius: '8px' }}>
+                <span style={{ color: '#9CA3AF', display: 'block', fontSize: '0.65rem', letterSpacing: '0.08em' }}>ROLL</span>
+                <span style={{ fontFamily: 'var(--font-serif)', color: 'var(--text-primary)', fontWeight: 600, fontSize: '1.2rem' }}>
                   {isLive ? `${headRoll.toFixed(1)}°` : '--'}
                 </span>
               </div>
             </div>
           </div>
 
-          {/* Diagnostics Test Harness Controls */}
-          {isSimMode && (
-            <div
-              style={{
-                backgroundColor: 'var(--bg-surface)',
-                border: '1px solid var(--border-subtle)',
-                borderRadius: 'var(--radius-card)',
-                padding: '1.5rem',
-                boxShadow: 'var(--shadow-sm)',
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+          {/* Decathlon Yestalgia Interactive Incident Simulation Controls */}
+          <div
+            style={{
+              backgroundColor: '#FFFFFF',
+              border: '1px solid rgba(23, 23, 23, 0.1)',
+              borderRadius: '16px',
+              padding: '1.75rem',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <Sliders size={14} color="var(--text-primary)" />
-                <span className="label-editorial" style={{ fontWeight: 700, color: 'var(--text-primary)' }}>
-                  DIAGNOSTICS SIMULATION HARNESS
+                <span
+                  style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '0.72rem',
+                    letterSpacing: '0.12em',
+                    fontWeight: 600,
+                    color: 'var(--text-primary)',
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  DIAGNOSTICS SCENARIO DIAL
                 </span>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                <button
-                  onClick={() => onTriggerTestIncident?.('NORMAL')}
-                  className="vantage-btn vantage-btn-outline"
-                  style={{ padding: '0.55rem', fontSize: '0.78rem' }}
-                >
-                  SIMULATE NORMAL ATTENTION
-                </button>
-                <button
-                  onClick={() => onTriggerTestIncident?.('HEAD_DOWN')}
-                  className="vantage-btn vantage-btn-outline"
-                  style={{ padding: '0.55rem', fontSize: '0.78rem' }}
-                >
-                  SIMULATE HEAD-DOWN (DISTRACTION)
-                </button>
-                <button
-                  onClick={() => onTriggerTestIncident?.('WARNING')}
-                  className="vantage-btn vantage-btn-outline"
-                  style={{ color: 'var(--color-warning)', borderColor: 'rgba(217, 119, 6, 0.4)', padding: '0.55rem', fontSize: '0.78rem' }}
-                >
-                  SIMULATE YAWN (WARNING)
-                </button>
-                <button
-                  onClick={() => onTriggerTestIncident?.('CRITICAL')}
-                  className="vantage-btn"
-                  style={{ backgroundColor: 'var(--color-accent-red)', borderColor: 'var(--color-accent-red)', padding: '0.55rem', fontSize: '0.78rem' }}
-                >
-                  SIMULATE EYE CLOSURE (CRITICAL)
-                </button>
-              </div>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: '#9CA3AF' }}>
+                DECATHLON TEST HARNESS
+              </span>
             </div>
-          )}
+
+            <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: 1.5, margin: '0 0 1rem 0' }}>
+              Instantly test UI reactivity, audio alarms, desktop notifications, and GPS safety event tagging:
+            </p>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.65rem' }}>
+              <button
+                onClick={() => handleScenarioSelect('NORMAL')}
+                style={{
+                  padding: '0.65rem 0.85rem',
+                  backgroundColor: activeScenario === 'NORMAL' && isSimMode ? '#171717' : '#FDFBF7',
+                  color: activeScenario === 'NORMAL' && isSimMode ? '#FFFFFF' : 'var(--text-primary)',
+                  border: '1px solid rgba(23, 23, 23, 0.12)',
+                  borderRadius: '8px',
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '0.78rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                <div style={{ fontSize: '0.68rem', color: activeScenario === 'NORMAL' && isSimMode ? '#A7F3D0' : '#2E7D32', marginBottom: '0.15rem' }}>
+                  STATE 01 // NOMINAL
+                </div>
+                Attentive Driver
+              </button>
+
+              <button
+                onClick={() => handleScenarioSelect('HEAD_DOWN')}
+                style={{
+                  padding: '0.65rem 0.85rem',
+                  backgroundColor: activeScenario === 'HEAD_DOWN' && isSimMode ? '#171717' : '#FDFBF7',
+                  color: activeScenario === 'HEAD_DOWN' && isSimMode ? '#FFFFFF' : 'var(--text-primary)',
+                  border: '1px solid rgba(23, 23, 23, 0.12)',
+                  borderRadius: '8px',
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '0.78rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                <div style={{ fontSize: '0.68rem', color: activeScenario === 'HEAD_DOWN' && isSimMode ? '#FDE68A' : '#D97706', marginBottom: '0.15rem' }}>
+                  STATE 02 // DISTRACTION
+                </div>
+                Head-Down (-21°)
+              </button>
+
+              <button
+                onClick={() => handleScenarioSelect('WARNING')}
+                style={{
+                  padding: '0.65rem 0.85rem',
+                  backgroundColor: activeScenario === 'WARNING' && isSimMode ? '#171717' : '#FDFBF7',
+                  color: activeScenario === 'WARNING' && isSimMode ? '#FFFFFF' : 'var(--text-primary)',
+                  border: '1px solid rgba(23, 23, 23, 0.12)',
+                  borderRadius: '8px',
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '0.78rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                <div style={{ fontSize: '0.68rem', color: activeScenario === 'WARNING' && isSimMode ? '#FDE68A' : '#D97706', marginBottom: '0.15rem' }}>
+                  STATE 03 // FATIGUE
+                </div>
+                Yawn (MAR &gt; 0.65)
+              </button>
+
+              <button
+                onClick={() => handleScenarioSelect('CRITICAL')}
+                style={{
+                  padding: '0.65rem 0.85rem',
+                  backgroundColor: activeScenario === 'CRITICAL' && isSimMode ? '#DC2626' : '#FEF2F2',
+                  color: activeScenario === 'CRITICAL' && isSimMode ? '#FFFFFF' : '#DC2626',
+                  border: '1px solid rgba(220, 38, 38, 0.3)',
+                  borderRadius: '8px',
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '0.78rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                <div style={{ fontSize: '0.68rem', color: activeScenario === 'CRITICAL' && isSimMode ? '#FCA5A5' : '#991B1B', marginBottom: '0.15rem' }}>
+                  STATE 04 // CRITICAL
+                </div>
+                Microsleep (2.1s)
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* GPS Trip Route & Distance Telemetry Section */}
-      <GpsTripPanel />
+      <div style={{ marginTop: '1rem' }}>
+        <GpsTripPanel />
+      </div>
     </div>
   );
 }

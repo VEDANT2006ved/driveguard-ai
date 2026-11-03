@@ -20,7 +20,7 @@
   --text-light: #F7F6F2;          /* Ivory text on dark sections */
   --text-light-muted: #A3A199;    /* Muted text on dark sections */
 
-  /* Precision Automotive Accents */
+  /* Precision Automotive & Luxury Editorial Accents */
   --color-accent-red: #E84B32;    /* Precision alert red */
   --color-alert: #E84B32;
   --color-alert-dim: rgba(232, 75, 50, 0.08);
@@ -35,6 +35,14 @@
   --color-warning-dim: rgba(217, 119, 6, 0.08);
   --color-warning-border: rgba(217, 119, 6, 0.35);
 
+  /* Explora Journeys & NOMU Luxury Champagne & Bronze Accents */
+  --color-gold: #C9A87C;          /* Architectural champagne bronze */
+  --color-gold-light: #DFCAAB;
+  --color-champagne: #F4EBD9;
+  --color-champagne-subtle: #FAF5EC;
+  --color-sand: #E7DDD0;
+  --color-sand-border: #D8CABE;
+
   /* Hairlines & Grid Dividers */
   --border-subtle: #E2DFD6;       /* Razor-sharp light hairline */
   --border-strong: #111111;
@@ -42,12 +50,13 @@
   --border-dark: rgba(255, 255, 255, 0.1);
   --border-dark-subtle: rgba(255, 255, 255, 0.06);
 
-  /* Typography System */
+  /* Typography System (Explora Journeys Editorial Serif + NOMU Modern Display + Decathlon Yestalgia Technical Mono) */
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-display: 'Syne', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-condensed: 'Oswald', -apple-system, BlinkMacSystemFont, 'Impact', sans-serif;
-  --font-display: 'Oswald', -apple-system, BlinkMacSystemFont, 'Impact', sans-serif;
-  --font-serif: 'Oswald', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', 'Roboto Mono', monospace;
+  --font-cinzel: 'Cinzel', serif;
 
   /* Geometry & Radii (Understated, architectural) */
   --radius-sharp: 0px;
