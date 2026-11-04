@@ -1,31 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  Volume2,
-  VolumeX,
-  Bell,
-  BellOff,
-  Play,
-  Square,
-  Menu,
-  X,
-  Radio,
-  Sliders,
-  ChevronRight,
+  Volume2, VolumeX, Bell, BellOff,
+  Play, Square, Menu, X, Sliders, Wifi, WifiOff,
 } from 'lucide-react';
 
 const NAV_TABS = [
-  { id: 'overview', num: '01', label: 'OVERVIEW' },
-  { id: 'monitor', num: '02', label: 'COCKPIT' },
-  { id: 'analytics', num: '03', label: 'TELEMETRY' },
-  { id: 'history', num: '04', label: 'VAULT' },
+  { id: 'overview',   label: 'Overview' },
+  { id: 'monitor',   label: 'Live Monitoring' },
+  { id: 'analytics', label: 'Analytics' },
+  { id: 'history',   label: 'Trip History' },
 ];
 
-/**
- * Navigation Component — Premium Minimalist Fashion & Techwear Edition
- * Reference: Reference Images 1 (SHADXW) & 2 (Aura store)
- * Minimal horizontal navbar, clean Swiss typography (Space Grotesk),
- * metadata tags (ACCOUNT ID — 004.812), and tactile ignition control.
- */
 export default function Navigation({
   activeTab,
   onSelectTab,
@@ -45,44 +30,26 @@ export default function Navigation({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isOnline = connectionStatus === 'online';
 
-  // Close mobile drawer on Escape key
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape' && mobileMenuOpen) {
-        setMobileMenuOpen(false);
-      }
+      if (e.key === 'Escape' && mobileMenuOpen) setMobileMenuOpen(false);
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [mobileMenuOpen]);
 
-  // Prevent background scroll when mobile drawer is open
   useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
+    document.body.style.overflow = mobileMenuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
   }, [mobileMenuOpen]);
 
-  // Unified Start / Halt monitoring handler
   const handleMonitoringAction = () => {
     if (!isMonitoring) {
-      if (onStartMonitoring) {
-        onStartMonitoring();
-      } else if (onToggleMonitoring) {
-        onToggleMonitoring();
-      }
-      if (activeTab !== 'monitor') {
-        onSelectTab('monitor');
-      }
+      if (onStartMonitoring) onStartMonitoring();
+      else if (onToggleMonitoring) onToggleMonitoring();
+      if (activeTab !== 'monitor') onSelectTab('monitor');
     } else {
-      if (onToggleMonitoring) {
-        onToggleMonitoring();
-      }
+      if (onToggleMonitoring) onToggleMonitoring();
     }
     setMobileMenuOpen(false);
   };
@@ -93,274 +60,165 @@ export default function Navigation({
       style={{
         width: '100%',
         backgroundColor: 'var(--bg-primary)',
-        borderBottom: '1px solid var(--border-light)',
+        borderBottom: '1px solid var(--border)',
         position: 'sticky',
         top: 0,
         zIndex: 50,
+        backdropFilter: 'blur(8px)',
+        WebkitBackdropFilter: 'blur(8px)',
       }}
     >
       <div
         style={{
-          maxWidth: '1540px',
+          maxWidth: '1280px',
           margin: '0 auto',
-          padding: '0 clamp(1rem, 3vw, 2.5rem)',
-          height: '66px',
+          padding: '0 1.5rem',
+          height: '60px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
+          gap: '1rem',
         }}
       >
-        {/* Left: Brand Identity with 5-Star Crest (Image 2 style) */}
+        {/* Logo */}
         <div
           onClick={() => onSelectTab('overview')}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              onSelectTab('overview');
-            }
-          }}
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelectTab('overview'); } }}
           tabIndex={0}
           role="button"
           aria-label="DriveGuard AI Homepage"
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '0.65rem',
+            gap: '0.5rem',
             cursor: 'pointer',
             userSelect: 'none',
+            flexShrink: 0,
           }}
         >
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
-              <span
-                style={{
-                  fontFamily: "var(--font-display, 'Space Grotesk', sans-serif)",
-                  fontSize: '1.25rem',
-                  fontWeight: 700,
-                  letterSpacing: '0.04em',
-                  textTransform: 'uppercase',
-                  color: 'var(--text-primary)',
-                  lineHeight: 1,
-                }}
-              >
-                DRIVEGUARD
-              </span>
-              <span
-                style={{
-                  fontFamily: "var(--font-mono, monospace)",
-                  fontSize: '0.65rem',
-                  fontWeight: 700,
-                  letterSpacing: '0.08em',
-                  color: 'var(--text-secondary)',
-                  border: '1px solid var(--border-light)',
-                  padding: '0.1rem 0.35rem',
-                  borderRadius: '2px',
-                }}
-              >
-                AI
-              </span>
-            </div>
-            <span
-              style={{
-                fontFamily: "var(--font-mono, monospace)",
-                fontSize: '0.62rem',
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                color: 'var(--text-muted)',
-                marginTop: '2px',
-              }}
-            >
-              OPTICAL VIGILANCE PLATFORM
-            </span>
+          {/* Shield icon */}
+          <div style={{
+            width: '30px', height: '30px',
+            backgroundColor: 'var(--text-primary)',
+            borderRadius: '7px',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            flexShrink: 0,
+          }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
+              <circle cx="12" cy="12" r="3" fill="white" stroke="white" />
+            </svg>
           </div>
+          <span style={{
+            fontFamily: 'var(--font-heading)',
+            fontSize: '1rem',
+            fontWeight: 700,
+            color: 'var(--text-primary)',
+            letterSpacing: '-0.02em',
+          }}>
+            DriveGuard AI
+          </span>
         </div>
 
-        {/* Center: Minimalist Horizontal Navigation (Desktop) */}
+        {/* Center nav (desktop) */}
         <nav
-          className="desktop-nav"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 'clamp(1rem, 2.5vw, 2.2rem)',
-          }}
+          id="desktop-nav"
           aria-label="Main Navigation"
+          style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}
         >
           {NAV_TABS.map((tab) => {
             const isActive = activeTab === tab.id;
             return (
               <button
                 key={tab.id}
+                id={`nav-tab-${tab.id}`}
                 onClick={() => onSelectTab(tab.id)}
-                className={`editorial-link ${isActive ? 'active' : ''}`}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.4rem',
-                  padding: '0.4rem 0',
-                  color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)',
-                  fontWeight: isActive ? 700 : 500,
-                }}
+                className={`nav-link ${isActive ? 'active' : ''}`}
+                style={{ padding: '0.375rem 0.75rem' }}
               >
-                <span
-                  style={{
-                    fontSize: '0.62rem',
-                    color: isActive ? 'var(--text-primary)' : 'var(--text-muted)',
-                  }}
-                >
-                  {tab.num}
-                </span>
-                <span>{tab.label}</span>
+                {tab.label}
               </button>
             );
           })}
         </nav>
 
-        {/* Right: Technical Metadata & Controls */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.75rem',
-          }}
-        >
-          {/* Metadata Tag (Inspired by Image 2 "account id - 003.201") */}
-          <div
-            className="hidden-mobile"
-            style={{
-              fontFamily: "var(--font-mono, monospace)",
-              fontSize: '0.68rem',
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              color: 'var(--text-muted)',
-              paddingRight: '0.5rem',
-              borderRight: '1px solid var(--border-light)',
-            }}
-          >
-            <span>ACCOUNT ID — 004.812</span>
-          </div>
-
-          {/* Engine Status Dot */}
-          <div
+        {/* Right controls */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
+          {/* Connection status */}
+          <button
+            id="nav-connection-status"
             onClick={onOpenDiagnostics}
-            title={isOnline ? 'Python Engine Online' : 'Python Standby / Configure Tunnel'}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.45rem',
-              padding: '0.3rem 0.65rem',
-              borderRadius: '2px',
-              border: '1px solid var(--border-light)',
-              backgroundColor: 'var(--bg-secondary)',
-              cursor: 'pointer',
-              fontSize: '0.68rem',
-              fontFamily: "var(--font-mono, monospace)",
-              color: 'var(--text-primary)',
-            }}
+            title={isOnline ? 'Backend connected — click to configure' : 'Backend offline — click to configure'}
+            className="btn-secondary"
+            style={{ padding: '0.375rem 0.75rem', gap: '0.375rem', fontSize: '0.8125rem' }}
           >
-            <span
-              style={{
-                width: '6px',
-                height: '6px',
-                borderRadius: '50%',
-                backgroundColor: isOnline ? 'var(--accent-emerald)' : 'var(--text-muted)',
-              }}
+            <span style={{
+              width: '6px', height: '6px', borderRadius: '50%', flexShrink: 0,
+              backgroundColor: isOnline ? 'var(--color-safe)' : 'var(--text-muted)',
+            }}
               className={isOnline ? 'animate-pulse-live' : ''}
             />
-            <span className="hidden-mobile">
-              {isOnline ? 'LINKED' : 'STANDBY'}
+            <span id="nav-connection-label" style={{ display: 'none' }} className="show-md">
+              {isOnline ? 'Connected' : 'Offline'}
             </span>
-          </div>
+          </button>
 
-          {/* Audio Mute Toggle */}
+          {/* Audio toggle */}
           <button
+            id="nav-audio-toggle"
             onClick={onToggleAudio}
-            title={isAudioMuted ? 'Unmute Audio Alarms' : 'Mute Audio Alarms'}
-            style={{
-              width: '34px',
-              height: '34px',
-              borderRadius: '2px',
-              border: '1px solid var(--border-light)',
-              backgroundColor: isAudioMuted ? 'var(--bg-secondary)' : 'transparent',
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              color: 'var(--text-primary)',
-            }}
+            className="btn-icon"
+            title={isAudioMuted ? 'Unmute alerts' : 'Mute alerts'}
+            aria-label={isAudioMuted ? 'Unmute audio alerts' : 'Mute audio alerts'}
           >
             {isAudioMuted ? <VolumeX size={15} /> : <Volume2 size={15} />}
           </button>
 
-          {/* Diagnostics / Tunnel Bridge */}
+          {/* Settings / diagnostics */}
           <button
+            id="nav-settings-btn"
             onClick={onOpenDiagnostics}
-            title="System Diagnostics & Cloudflare Tunnel Settings"
-            style={{
-              width: '34px',
-              height: '34px',
-              borderRadius: '2px',
-              border: '1px solid var(--border-light)',
-              backgroundColor: 'transparent',
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              color: 'var(--text-primary)',
-            }}
+            className="btn-icon"
+            title="Settings & Backend Configuration"
+            aria-label="Open settings"
           >
             <Sliders size={15} />
           </button>
 
-          {/* Ignition Action Button: START / HALT SENSING */}
+          {/* Start / Stop monitoring */}
           <button
+            id="nav-monitoring-toggle"
             onClick={handleMonitoringAction}
-            className="btn-editorial"
-            style={{
-              height: '34px',
-              padding: '0 1rem',
-              backgroundColor: isMonitoring ? 'var(--text-primary)' : '#111111',
-            }}
+            className="btn-primary"
+            style={{ height: '34px', padding: '0 0.875rem', fontSize: '0.8125rem', gap: '0.375rem' }}
           >
             {isMonitoring ? (
               <>
-                <Square size={11} fill="var(--bg-primary)" />
-                <span className="hidden-mobile">HALT SENSING</span>
+                <Square size={11} fill="currentColor" />
+                <span id="nav-stop-label">Stop</span>
               </>
             ) : (
               <>
-                <Play size={11} fill="var(--bg-primary)" />
-                <span className="hidden-mobile">START MONITORING</span>
+                <Play size={11} fill="currentColor" />
+                <span id="nav-start-label">Start Monitoring</span>
               </>
             )}
           </button>
 
-          {/* Mobile Menu Hamburger Button */}
+          {/* Mobile hamburger */}
           <button
+            id="nav-mobile-menu-btn"
             onClick={() => setMobileMenuOpen(true)}
-            className="mobile-only"
-            aria-label="Open Navigation Menu"
-            style={{
-              width: '36px',
-              height: '36px',
-              border: '1px solid var(--border-light)',
-              borderRadius: '2px',
-              backgroundColor: 'transparent',
-              display: 'none',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              color: 'var(--text-primary)',
-            }}
+            className="btn-icon"
+            aria-label="Open menu"
+            style={{ display: 'none' }}
           >
             <Menu size={18} />
           </button>
         </div>
       </div>
 
-      {/* Mobile Full-Screen Editorial Menu Overlay */}
+      {/* Mobile menu overlay */}
       {mobileMenuOpen && (
         <div
           className="animate-fade-in"
@@ -369,118 +227,91 @@ export default function Navigation({
             inset: 0,
             zIndex: 100,
             backgroundColor: 'var(--bg-primary)',
-            padding: '1.5rem',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'space-between',
           }}
         >
-          {/* Header */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span
-              style={{
-                fontFamily: "var(--font-display, 'Space Grotesk', sans-serif)",
-                fontSize: '1.2rem',
-                fontWeight: 700,
-                letterSpacing: '0.04em',
-                textTransform: 'uppercase',
-                color: 'var(--text-primary)',
-              }}
-            >
-              DRIVEGUARD AI
-            </span>
-            <button
-              onClick={() => setMobileMenuOpen(false)}
-              aria-label="Close Navigation"
-              style={{
-                width: '36px',
-                height: '36px',
-                border: '1px solid var(--border-light)',
-                borderRadius: '2px',
-                background: 'none',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
+          {/* Mobile header */}
+          <div style={{
+            padding: '0 1.5rem',
+            height: '60px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            borderBottom: '1px solid var(--border)',
+          }}>
+            <span style={{
+              fontFamily: 'var(--font-heading)',
+              fontSize: '1rem',
+              fontWeight: 700,
+              color: 'var(--text-primary)',
+              letterSpacing: '-0.02em',
+            }}>DriveGuard AI</span>
+            <button onClick={() => setMobileMenuOpen(false)} className="btn-icon" aria-label="Close menu">
               <X size={18} />
             </button>
           </div>
 
-          {/* Links */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          {/* Mobile nav links */}
+          <div style={{ padding: '1rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '0.25rem', flex: 1 }}>
             {NAV_TABS.map((tab) => (
-              <div
+              <button
                 key={tab.id}
-                onClick={() => {
-                  onSelectTab(tab.id);
-                  setMobileMenuOpen(false);
-                }}
+                onClick={() => { onSelectTab(tab.id); setMobileMenuOpen(false); }}
                 style={{
                   display: 'flex',
-                  alignItems: 'baseline',
-                  gap: '1rem',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '0.875rem 0.75rem',
+                  background: 'none',
+                  border: 'none',
+                  borderRadius: 'var(--radius)',
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '1rem',
+                  fontWeight: activeTab === tab.id ? 600 : 400,
+                  color: activeTab === tab.id ? 'var(--text-primary)' : 'var(--text-secondary)',
                   cursor: 'pointer',
-                  borderBottom: '1px solid var(--border-light)',
-                  paddingBottom: '1rem',
+                  textAlign: 'left',
+                  backgroundColor: activeTab === tab.id ? 'var(--bg-secondary)' : 'transparent',
+                  transition: 'background-color var(--transition-fast)',
                 }}
               >
-                <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                  {tab.num}
-                </span>
-                <span
-                  style={{
-                    fontFamily: "var(--font-display, 'Space Grotesk', sans-serif)",
-                    fontSize: '2rem',
-                    fontWeight: 700,
-                    letterSpacing: '-0.02em',
-                    textTransform: 'uppercase',
-                    color: activeTab === tab.id ? 'var(--text-primary)' : 'var(--text-secondary)',
-                  }}
-                >
-                  {tab.label}
-                </span>
-              </div>
+                {tab.label}
+              </button>
             ))}
           </div>
 
-          {/* Footer Actions */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          {/* Mobile footer actions */}
+          <div style={{ padding: '1.5rem', borderTop: '1px solid var(--border)', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             <button
               onClick={handleMonitoringAction}
-              className="btn-editorial"
-              style={{ width: '100%', height: '46px', fontSize: '0.82rem' }}
+              className="btn-primary"
+              style={{ width: '100%', height: '44px' }}
             >
-              {isMonitoring ? 'HALT OPTICAL PIPELINE' : 'START MONITORING'}
+              {isMonitoring ? (
+                <><Square size={13} fill="currentColor" /> Stop Monitoring</>
+              ) : (
+                <><Play size={13} fill="currentColor" /> Start Monitoring</>
+              )}
             </button>
-            <div
-              style={{
-                fontFamily: "var(--font-mono, monospace)",
-                fontSize: '0.68rem',
-                color: 'var(--text-muted)',
-                textAlign: 'center',
-                letterSpacing: '0.1em',
-              }}
-            >
-              ACCOUNT ID — 004.812 // SYS.04
-            </div>
+            <button onClick={() => { onOpenDiagnostics(); setMobileMenuOpen(false); }} className="btn-secondary" style={{ width: '100%', height: '44px' }}>
+              <Sliders size={15} /> Settings
+            </button>
           </div>
         </div>
       )}
 
-      {/* Responsive Inline CSS Helper */}
+      {/* Responsive CSS */}
       <style>{`
-        @media (max-width: 900px) {
-          .desktop-nav {
-            display: none !important;
-          }
-          .hidden-mobile {
-            display: none !important;
-          }
-          .mobile-only {
-            display: inline-flex !important;
-          }
+        @media (max-width: 768px) {
+          #desktop-nav { display: none !important; }
+          #mobile-hamburger { display: inline-flex !important; }
+          #nav-connection-status { display: none !important; }
+          #nav-monitoring-toggle #nav-stop-label,
+          #nav-monitoring-toggle #nav-start-label { display: none; }
+        }
+        @media (min-width: 900px) {
+          #nav-connection-label { display: inline !important; }
         }
       `}</style>
     </header>

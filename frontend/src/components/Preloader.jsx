@@ -1,137 +1,89 @@
 import React, { useEffect, useState } from 'react';
 
 /**
- * Preloader Component — High-Fashion Minimalist Editorial Launch Screen
- * Provides an instantaneous brand reveal with zero blocking latency.
- * Respects reduced-motion preferences immediately.
+ * Preloader — minimal branded loading screen.
+ * Completes in under 1.5s to avoid blocking.
  */
 export default function Preloader({ onComplete }) {
-  const [isFading, setIsFading] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    // Instant bypass if user prefers reduced motion
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (mediaQuery.matches) {
+    // Respect reduced motion — skip instantly
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       onComplete?.();
       return;
     }
 
-    // Swift 350ms reveal
-    const timer = setTimeout(() => {
-      setIsFading(true);
-      const exitTimer = setTimeout(() => {
-        onComplete?.();
-      }, 300);
-      return () => clearTimeout(exitTimer);
-    }, 350);
+    let raf;
+    const start = performance.now();
+    const duration = 900;
 
-    return () => clearTimeout(timer);
+    const tick = (now) => {
+      const elapsed = now - start;
+      const p = Math.min(100, Math.round((elapsed / duration) * 100));
+      setProgress(p);
+      if (p < 100) {
+        raf = requestAnimationFrame(tick);
+      } else {
+        setTimeout(() => onComplete?.(), 150);
+      }
+    };
+
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
   }, [onComplete]);
 
   return (
     <div
-      onClick={() => onComplete?.()}
       style={{
         position: 'fixed',
         inset: 0,
-        zIndex: 9999,
-        backgroundColor: '#111111',
+        backgroundColor: 'var(--bg-primary)',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        opacity: isFading ? 0 : 1,
-        transform: isFading ? 'scale(1.02)' : 'scale(1)',
-        transition: 'opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-        pointerEvents: isFading ? 'none' : 'auto',
-        cursor: 'pointer',
+        gap: '2rem',
+        zIndex: 9999,
       }}
     >
-      {/* Corner Crosshair Reticles */}
-      <div style={{ position: 'absolute', top: 24, left: 24, color: 'rgba(255, 255, 255, 0.3)', fontFamily: "var(--font-mono, monospace)", fontSize: '12px' }}>+</div>
-      <div style={{ position: 'absolute', top: 24, right: 24, color: 'rgba(255, 255, 255, 0.3)', fontFamily: "var(--font-mono, monospace)", fontSize: '12px' }}>+</div>
-      <div style={{ position: 'absolute', bottom: 24, left: 24, color: 'rgba(255, 255, 255, 0.3)', fontFamily: "var(--font-mono, monospace)", fontSize: '12px' }}>+</div>
-      <div style={{ position: 'absolute', bottom: 24, right: 24, color: 'rgba(255, 255, 255, 0.3)', fontFamily: "var(--font-mono, monospace)", fontSize: '12px' }}>+</div>
-
-      {/* Central Brand Reveal */}
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '1.25rem',
-          textAlign: 'center',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <span
-            style={{
-              fontFamily: "var(--font-display, 'Space Grotesk', sans-serif)",
-              fontSize: '2.5rem',
-              fontWeight: 700,
-              letterSpacing: '0.04em',
-              textTransform: 'uppercase',
-              color: '#F7F7F5',
-              lineHeight: 1,
-            }}
-          >
-            DRIVEGUARD
-          </span>
-          <span
-            style={{
-              fontFamily: "var(--font-mono, monospace)",
-              fontSize: '0.85rem',
-              color: '#F7F7F5',
-              fontWeight: 700,
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              padding: '0.1rem 0.4rem',
-              borderRadius: '2px',
-            }}
-          >
-            AI
-          </span>
+      {/* Logo mark */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        <div style={{
+          width: '40px', height: '40px',
+          backgroundColor: 'var(--text-primary)',
+          borderRadius: '10px',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
+            <circle cx="12" cy="12" r="3" fill="white" stroke="white" />
+          </svg>
         </div>
+        <span style={{
+          fontFamily: 'var(--font-heading)',
+          fontSize: '1.25rem',
+          fontWeight: 700,
+          color: 'var(--text-primary)',
+          letterSpacing: '-0.02em',
+        }}>DriveGuard AI</span>
+      </div>
 
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.85rem',
-            fontFamily: "var(--font-mono, monospace)",
-            fontSize: '0.72rem',
-            letterSpacing: '0.16em',
-            textTransform: 'uppercase',
-            color: '#888888',
-          }}
-        >
-          <span>SYS // 01</span>
-          <span>•</span>
-          <span>OPTICAL DRIVER VIGILANCE PLATFORM</span>
-        </div>
-
-        {/* Hairline Progress Indicator */}
-        <div
-          style={{
-            width: '120px',
-            height: '1px',
-            backgroundColor: 'rgba(255, 255, 255, 0.15)',
-            position: 'relative',
-            overflow: 'hidden',
-            marginTop: '0.5rem',
-          }}
-        >
-          <div
-            style={{
-              position: 'absolute',
-              left: 0,
-              top: 0,
-              bottom: 0,
-              width: '40%',
-              backgroundColor: '#F7F7F5',
-              animation: 'laserScanLine 1s ease-in-out infinite alternate',
-            }}
-          />
-        </div>
+      {/* Progress bar */}
+      <div style={{
+        width: '160px',
+        height: '2px',
+        backgroundColor: 'var(--border)',
+        borderRadius: 'var(--radius-pill)',
+        overflow: 'hidden',
+      }}>
+        <div style={{
+          width: `${progress}%`,
+          height: '100%',
+          backgroundColor: 'var(--text-primary)',
+          borderRadius: 'var(--radius-pill)',
+          transition: 'width 60ms linear',
+        }} />
       </div>
     </div>
   );

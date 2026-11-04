@@ -315,7 +315,7 @@ export default function App() {
   };
 
   return (
-    <div className="editorial-viewport-frame" style={{ minHeight: 'calc(100vh - 20px)', backgroundColor: 'var(--bg-primary)', position: 'relative' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-primary)', position: 'relative' }}>
       {/* Editorial Top Navigation Header */}
       <Navigation
           activeTab={activeTab}
@@ -383,7 +383,6 @@ export default function App() {
           {activeTab === 'history' && <TripHistoryView />}
         </main>
 
-        {/* Bang & Olufsen A9-Inspired Minimalist Editorial Footer */}
         <Footer
           activeTab={activeTab}
           onSelectTab={(tab) => setActiveTab(tab)}
@@ -400,8 +399,8 @@ export default function App() {
           style={{
             position: 'fixed',
             inset: 0,
-            backgroundColor: 'rgba(17, 17, 17, 0.75)',
-            backdropFilter: 'blur(8px)',
+            backgroundColor: 'var(--bg-overlay)',
+            backdropFilter: 'blur(4px)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -414,196 +413,75 @@ export default function App() {
             className="animate-fade-up"
             style={{
               backgroundColor: 'var(--bg-surface)',
-              border: '1px solid var(--border-light)',
-              borderRadius: '4px',
-              padding: 'clamp(1.75rem, 3.5vw, 2.5rem)',
-              maxWidth: '540px',
+              border: '1px solid var(--border)',
+              borderRadius: 'var(--radius-lg)',
+              padding: '1.75rem',
+              maxWidth: '480px',
               width: '100%',
               display: 'flex',
               flexDirection: 'column',
-              gap: '1.5rem',
-              boxShadow: '0 20px 50px rgba(0, 0, 0, 0.15)',
+              gap: '1.25rem',
+              boxShadow: 'var(--shadow-xl)',
             }}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
               <div>
-                <div
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.4rem',
-                    color: 'var(--accent-crimson)',
-                    fontSize: '0.72rem',
-                    fontFamily: "var(--font-mono, monospace)",
-                    fontWeight: 700,
-                    letterSpacing: '0.1em',
-                    textTransform: 'uppercase',
-                    marginBottom: '0.4rem',
-                  }}
-                >
-                  <AlertTriangle size={12} />
-                  <span>SYS // 05 • BROWSER PERMISSIONS</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                  <AlertTriangle size={15} style={{ color: 'var(--color-warning)' }} />
+                  <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-warning)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Notifications blocked</span>
                 </div>
-                <h3
-                  style={{
-                    fontFamily: "var(--font-display, 'Space Grotesk', sans-serif)",
-                    fontSize: '1.5rem',
-                    fontWeight: 700,
-                    letterSpacing: '-0.02em',
-                    textTransform: 'uppercase',
-                    color: 'var(--text-primary)',
-                    margin: '0.1rem 0 0 0',
-                  }}
-                >
-                  Desktop Safety Alerts Blocked
+                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
+                  Enable Safety Alerts
                 </h3>
               </div>
               <button
                 onClick={() => setShowNotificationGuide(false)}
                 aria-label="Close"
-                style={{
-                  background: 'var(--bg-secondary)',
-                  border: '1px solid var(--border-light)',
-                  borderRadius: '2px',
-                  cursor: 'pointer',
-                  color: 'var(--text-secondary)',
-                  width: '32px',
-                  height: '32px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
+                className="btn-icon"
               >
                 <X size={16} />
               </button>
             </div>
 
-            <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.55, margin: 0 }}>
-              Your browser has notifications set to <strong style={{ color: 'var(--text-primary)' }}>Block</strong> for this origin. Browser security requires enabling permissions manually in browser site settings to dispatch real-time critical safety alarms.
+            <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0 }}>
+              Your browser has blocked notifications for this site. Enable them in your browser settings to receive real-time safety alerts.
             </p>
 
-            {/* Step-by-Step Instructions */}
-            <div
-              style={{
-                backgroundColor: 'var(--bg-secondary)',
-                borderRadius: '2px',
-                padding: '1.25rem 1.4rem',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '1rem',
-                fontSize: '0.86rem',
-                border: '1px solid var(--border-light)',
-              }}
-            >
-              <div style={{ display: 'flex', gap: '0.85rem', alignItems: 'flex-start' }}>
-                <span
-                  style={{
-                    fontFamily: "var(--font-mono, monospace)",
-                    fontWeight: 700,
-                    color: 'var(--bg-primary)',
-                    fontSize: '0.72rem',
-                    backgroundColor: 'var(--text-primary)',
-                    padding: '0.15rem 0.45rem',
-                    borderRadius: '2px',
-                  }}
-                >
-                  01
-                </span>
-                <span style={{ color: 'var(--text-primary)', lineHeight: 1.45 }}>
-                  Click the <strong>Tune / Padlock</strong> icon (site info) immediately to the left of the URL in your browser address bar.
-                </span>
-              </div>
-
-              <div style={{ display: 'flex', gap: '0.85rem', alignItems: 'flex-start' }}>
-                <span
-                  style={{
-                    fontFamily: "var(--font-mono, monospace)",
-                    fontWeight: 700,
-                    color: 'var(--bg-primary)',
-                    fontSize: '0.72rem',
-                    backgroundColor: 'var(--text-primary)',
-                    padding: '0.15rem 0.45rem',
-                    borderRadius: '2px',
-                  }}
-                >
-                  02
-                </span>
-                <span style={{ color: 'var(--text-primary)', lineHeight: 1.45 }}>
-                  In the site settings dropdown, find <strong>Notifications</strong> and change the toggle from <strong>Block</strong> to <strong>Allow</strong>.
-                </span>
-              </div>
-
-              <div style={{ display: 'flex', gap: '0.85rem', alignItems: 'flex-start' }}>
-                <span
-                  style={{
-                    fontFamily: "var(--font-mono, monospace)",
-                    fontWeight: 700,
-                    color: 'var(--bg-primary)',
-                    fontSize: '0.72rem',
-                    backgroundColor: 'var(--text-primary)',
-                    padding: '0.15rem 0.45rem',
-                    borderRadius: '2px',
-                  }}
-                >
-                  03
-                </span>
-                <span style={{ color: 'var(--text-primary)', lineHeight: 1.45 }}>
-                  Switch back to DriveGuard AI. The system will automatically detect the updated permission and activate real-time notifications.
-                </span>
-              </div>
+            {/* Steps */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              {[
+                { step: '1', text: <>Click the <strong>padlock icon</strong> to the left of your browser's address bar.</> },
+                { step: '2', text: <>Find <strong>Notifications</strong> and change it from <strong>Block</strong> to <strong>Allow</strong>.</> },
+                { step: '3', text: 'Return to DriveGuard AI — alerts will activate automatically.' },
+              ].map(({ step, text }) => (
+                <div key={step} style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
+                  <span style={{
+                    flexShrink: 0, width: '22px', height: '22px',
+                    backgroundColor: 'var(--bg-secondary)',
+                    border: '1px solid var(--border)',
+                    borderRadius: '50%',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)',
+                  }}>{step}</span>
+                  <span style={{ fontSize: '0.875rem', color: 'var(--text-primary)', lineHeight: 1.5, paddingTop: '0.125rem' }}>{text}</span>
+                </div>
+              ))}
             </div>
 
-            {/* Test Sounds & Actions */}
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                flexWrap: 'wrap',
-                gap: '0.75rem',
-                paddingTop: '0.5rem',
-              }}
-            >
-              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                <button
-                  onClick={() => alertController.playWarningChime(false)}
-                  title="Test audible warning sound"
-                  className="btn-editorial-outline"
-                  style={{
-                    padding: '0.45rem 0.95rem',
-                    fontSize: '0.74rem',
-                  }}
-                >
-                  <Volume2 size={13} />
-                  <span>Test Warning</span>
+            {/* Actions */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem', paddingTop: '0.25rem' }}>
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <button onClick={() => alertController.playWarningChime(false)} className="btn-secondary" style={{ fontSize: '0.8125rem', gap: '0.375rem' }}>
+                  <Volume2 size={13} /> Test warning
                 </button>
-
-                <button
-                  onClick={() => alertController.playCriticalAlarm(false)}
-                  title="Test loud critical alarm"
-                  className="btn-editorial-outline"
-                  style={{
-                    padding: '0.45rem 0.95rem',
-                    fontSize: '0.74rem',
-                    borderColor: 'var(--color-alert-border)',
-                    color: 'var(--accent-crimson)',
-                  }}
-                >
-                  <Volume2 size={13} />
-                  <span>Test Critical</span>
+                <button onClick={() => alertController.playCriticalAlarm(false)} className="btn-secondary" style={{ fontSize: '0.8125rem', gap: '0.375rem', color: 'var(--color-critical)', borderColor: 'var(--color-critical-border)' }}>
+                  <Volume2 size={13} /> Test critical
                 </button>
               </div>
-
-              <button
-                onClick={() => setShowNotificationGuide(false)}
-                className="btn-editorial"
-                style={{
-                  padding: '0.5rem 1.4rem',
-                }}
-              >
-                Acknowledge
+              <button onClick={() => setShowNotificationGuide(false)} className="btn-primary">
+                Done
               </button>
             </div>
           </div>

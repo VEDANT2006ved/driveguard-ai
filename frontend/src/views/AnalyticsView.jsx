@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { BarChart3, AlertTriangle, RefreshCw, Award, Activity, TrendingUp, ShieldCheck, Lock, Terminal } from 'lucide-react';
-import { API_BASE_URL, getApiBaseUrl } from '../config/api';
+import { RefreshCw, TrendingUp, TrendingDown, AlertTriangle, BarChart3, Activity } from 'lucide-react';
+import { getApiBaseUrl } from '../config/api';
 
-/**
- * Parses duration strings into total seconds.
- */
 function parseDurationToSeconds(durationStr) {
   if (!durationStr || typeof durationStr !== 'string') return 0;
   let total = 0;
@@ -17,411 +14,299 @@ function parseDurationToSeconds(durationStr) {
   return total;
 }
 
-/**
- * Formats total seconds into human-readable duration.
- */
 function formatSecondsToDuration(totalSecs) {
   if (!totalSecs || isNaN(totalSecs) || totalSecs <= 0) return '0s';
   const hrs = Math.floor(totalSecs / 3600);
   const remSec = totalSecs % 3600;
   const mins = Math.floor(remSec / 60);
   const secs = remSec % 60;
-  if (hrs > 0) {
-    return mins > 0 ? `${hrs}h ${mins}m` : `${hrs}h`;
-  }
-  if (mins > 0) {
-    return secs > 0 ? `${mins}m ${secs}s` : `${mins}m`;
-  }
+  if (hrs > 0) return mins > 0 ? `${hrs}h ${mins}m` : `${hrs}h`;
+  if (mins > 0) return secs > 0 ? `${mins}m ${secs}s` : `${mins}m`;
   return `${secs}s`;
 }
 
-/**
- * Categorizes incident types based on backend reason taxonomy.
- */
-function categorizeIncident(incidentType = '') {
-  const t = String(incidentType).toLowerCase();
-  if (t.includes('eye closure') || t.includes('palpebral')) return 'eye_closure';
-  if (t.includes('yawn')) return 'yawn';
-  if (t.includes('head-down') || t.includes('head down') || t.includes('pitch -')) return 'head_down';
-  if (t.includes('turned aside') || t.includes('yaw') || t.includes('lateral')) return 'lateral';
-  if (t.includes('upward') || t.includes('head-up') || t.includes('head up')) return 'head_up';
-  return 'other';
-}
-
-/**
- * AnalyticsView Component — Minimalist Swiss Editorial Edition
- * References: Images 2 (Aura store), 3 (Minimal-ist), 4 (lab. 001)
- * Clean high-contrast telemetry curves, typography hierarchy, and SQLite session metrics.
- */
 export default function AnalyticsView({ telemetryHistory = [], isEngineConnected = false }) {
-  const [activeMode, setActiveMode] = useState('live'); // 'live' | 'historical'
+  const [activeMode, setActiveMode] = useState('live');
   const [trips, setTrips] = useState([]);
   const [isLoadingHistory, setIsLoadingHistory] = useState(false);
   const [historyError, setHistoryError] = useState(null);
   const [selectedTripIndex, setSelectedTripIndex] = useState(null);
 
-  // Fetch verified historical trips directly from SQLite REST API
   const fetchHistoricalTrips = async () => {
     setIsLoadingHistory(true);
     setHistoryError(null);
     try {
       const res = await fetch(`${getApiBaseUrl()}/api/trips`);
-      if (!res.ok) {
-        throw new Error(`Server returned HTTP ${res.status}`);
-      }
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
-      if (Array.isArray(data)) {
-        setTrips(data);
-      } else {
-        throw new Error('Invalid trip records format from backend');
-      }
+      if (Array.isArray(data)) setTrips(data);
+      else throw new Error('Invalid format');
     } catch (err) {
-      console.warn('Could not fetch historical trips:', err);
-      setHistoryError(err.message || 'Audit vault unavailable');
+      setHistoryError(err.message || 'Could not load trip data');
       setTrips([]);
     } finally {
       setIsLoadingHistory(false);
     }
   };
 
-  useEffect(() => {
-    fetchHistoricalTrips();
-  }, []);
+  useEffect(() => { fetchHistoricalTrips(); }, []);
 
-  // Live telemetry metrics
+  // Live metrics
   const hasLiveData = Array.isArray(telemetryHistory) && telemetryHistory.length > 0;
   const averageRisk = hasLiveData
-    ? Math.round(
-        telemetryHistory.reduce((acc, curr) => acc + (typeof curr.riskScore === 'number' ? curr.riskScore : 0), 0) /
-          Math.max(1, telemetryHistory.length)
-      )
+    ? Math.round(telemetryHistory.reduce((a, c) => a + (typeof c.riskScore === 'number' ? c.riskScore : 0), 0) / telemetryHistory.length)
+    : 0;
+  const maxRisk = hasLiveData
+    ? Math.max(...telemetryHistory.map(d => typeof d.riskScore === 'number' ? d.riskScore : 0))
+    : 0;
+  const alertCount = hasLiveData
+    ? telemetryHistory.filter(d => d.riskLevel && d.riskLevel !== 'NOMINAL').length
     : 0;
 
-  const maxRisk = hasLiveData
-    ? Math.max(...telemetryHistory.map((d) => (typeof d.riskScore === 'number' ? d.riskScore : 0)))
-    : 0;
+  const riskColor = (val) =>
+    val >= 70 ? 'var(--color-critical)' : val >= 35 ? 'var(--color-warning)' : 'var(--color-safe)';
+
+  const KPI_CARDS = [
+    {
+      id: 'avg-risk',
+      label: 'Average Risk Score',
+      value: hasLiveData ? `${averageRisk}%` : '--',
+      sub: 'Rolling session average',
+      icon: Activity,
+      color: riskColor(averageRisk),
+    },
+    {
+      id: 'peak-risk',
+      label: 'Peak Risk Score',
+      value: hasLiveData ? `${maxRisk}%` : '--',
+      sub: maxRisk > 65 ? 'High fatigue detected' : 'Within normal range',
+      icon: TrendingUp,
+      color: riskColor(maxRisk),
+    },
+    {
+      id: 'samples',
+      label: 'Total Samples',
+      value: telemetryHistory.length,
+      sub: `${isEngineConnected ? 'Live stream' : 'Offline'} · max 400`,
+      icon: BarChart3,
+      color: 'var(--text-secondary)',
+    },
+    {
+      id: 'alerts',
+      label: 'Safety Alerts',
+      value: alertCount,
+      sub: alertCount > 0 ? 'Events triggered this session' : 'No alerts this session',
+      icon: AlertTriangle,
+      color: alertCount > 0 ? 'var(--color-warning)' : 'var(--color-safe)',
+    },
+  ];
 
   return (
-    <div
-      style={{
-        width: '100%',
-        backgroundColor: 'var(--bg-primary)',
-        padding: 'clamp(1.5rem, 3.5vw, 3rem) clamp(1rem, 3vw, 2.5rem)',
+    <div style={{
+      width: '100%',
+      maxWidth: '1280px',
+      margin: '0 auto',
+      padding: '1.5rem',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '1.5rem',
+    }}>
+      {/* Header */}
+      <div style={{
         display: 'flex',
-        flexDirection: 'column',
-        gap: '2.5rem',
-      }}
-    >
-      {/* Masthead */}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'flex-start',
-          borderBottom: '1px solid var(--border-light)',
-          paddingBottom: '1.5rem',
-          flexWrap: 'wrap',
-          gap: '1.25rem',
-        }}
-      >
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        flexWrap: 'wrap',
+        gap: '1rem',
+        paddingBottom: '1.25rem',
+        borderBottom: '1px solid var(--border)',
+      }}>
         <div>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.65rem',
-              fontFamily: "var(--font-mono, monospace)",
-              fontSize: '0.72rem',
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              color: 'var(--text-secondary)',
-              marginBottom: '0.5rem',
-            }}
-          >
-            <span className="techwear-tag">ANALYTICS // 03</span>
-            <span>•</span>
-            <span>TEMPORAL SAFETY WAVEFORM</span>
-          </div>
-
-          <h1
-            style={{
-              fontFamily: "var(--font-display, 'Space Grotesk', sans-serif)",
-              fontSize: 'clamp(2rem, 3.8vw, 3.2rem)',
-              fontWeight: 700,
-              letterSpacing: '-0.03em',
-              textTransform: 'uppercase',
-              color: 'var(--text-primary)',
-              margin: '0 0 0.4rem 0',
-              lineHeight: 1.1,
-            }}
-          >
-            Telemetry &amp; Risk Analytics
+          <h1 style={{ fontSize: '1.5rem', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '0.25rem' }}>
+            Analytics
           </h1>
-          <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
-            High-precision temporal telemetry curves and historical driver compliance archives.
+          <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', margin: 0 }}>
+            Safety trends, risk history, and session data.
           </p>
         </div>
 
-        {/* Mode Switcher: Live Session vs. Historical Vault */}
-        <div
-          style={{
-            display: 'inline-flex',
-            border: '1px solid var(--border-light)',
-            borderRadius: '2px',
-            padding: '3px',
-            backgroundColor: 'var(--bg-secondary)',
-          }}
-        >
-          <button
-            onClick={() => setActiveMode('live')}
-            style={{
-              padding: '0.45rem 1rem',
-              border: 'none',
-              borderRadius: '2px',
-              fontFamily: "var(--font-mono, monospace)",
-              fontSize: '0.74rem',
-              fontWeight: 600,
-              cursor: 'pointer',
-              backgroundColor: activeMode === 'live' ? 'var(--text-primary)' : 'transparent',
-              color: activeMode === 'live' ? 'var(--bg-primary)' : 'var(--text-secondary)',
-              transition: 'all 0.15s ease',
-            }}
-          >
-            Live Waveform
-          </button>
-          <button
-            onClick={() => setActiveMode('historical')}
-            style={{
-              padding: '0.45rem 1rem',
-              border: 'none',
-              borderRadius: '2px',
-              fontFamily: "var(--font-mono, monospace)",
-              fontSize: '0.74rem',
-              fontWeight: 600,
-              cursor: 'pointer',
-              backgroundColor: activeMode === 'historical' ? 'var(--text-primary)' : 'transparent',
-              color: activeMode === 'historical' ? 'var(--bg-primary)' : 'var(--text-secondary)',
-              transition: 'all 0.15s ease',
-            }}
-          >
-            Historical Vault ({trips.length})
-          </button>
+        {/* Mode tabs */}
+        <div style={{
+          display: 'inline-flex',
+          border: '1px solid var(--border)',
+          borderRadius: 'var(--radius)',
+          padding: '3px',
+          backgroundColor: 'var(--bg-secondary)',
+          gap: '2px',
+        }}>
+          {[
+            { id: 'live', label: 'Live Analytics' },
+            { id: 'historical', label: `Historical (${trips.length})` },
+          ].map(tab => (
+            <button
+              key={tab.id}
+              id={`analytics-tab-${tab.id}`}
+              onClick={() => setActiveMode(tab.id)}
+              style={{
+                padding: '0.375rem 0.875rem',
+                border: 'none',
+                borderRadius: 'calc(var(--radius) - 2px)',
+                fontSize: '0.8125rem',
+                fontWeight: 500,
+                cursor: 'pointer',
+                fontFamily: 'var(--font-sans)',
+                backgroundColor: activeMode === tab.id ? 'var(--bg-primary)' : 'transparent',
+                color: activeMode === tab.id ? 'var(--text-primary)' : 'var(--text-secondary)',
+                boxShadow: activeMode === tab.id ? 'var(--shadow-xs)' : 'none',
+                transition: 'all var(--transition-fast)',
+              }}
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Mode 1: Live Waveform */}
+      {/* ===== LIVE ANALYTICS ===== */}
       {activeMode === 'live' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-          {/* KPI Summary Strip */}
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-              gap: '1.25rem',
-            }}
-          >
-            {/* Average Risk */}
-            <div
-              style={{
-                backgroundColor: 'var(--bg-surface)',
-                border: '1px solid var(--border-light)',
-                borderRadius: '4px',
-                padding: '1.5rem',
-              }}
-            >
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: '0.68rem', color: 'var(--text-muted)' }}>
-                  METRIC // AVERAGE RISK
-                </span>
-                <span className="techwear-tag">TARGET &lt; 25%</span>
-              </div>
-              <div style={{ fontFamily: "var(--font-display, 'Space Grotesk', sans-serif)", fontSize: '2.5rem', fontWeight: 700, lineHeight: 1 }}>
-                {hasLiveData ? `${averageRisk}%` : '--'}
-              </div>
-              <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginTop: '0.5rem', display: 'block' }}>
-                Rolling mean across active monitoring buffer
-              </span>
-            </div>
-
-            {/* Peak Risk */}
-            <div
-              style={{
-                backgroundColor: 'var(--bg-surface)',
-                border: '1px solid var(--border-light)',
-                borderRadius: '4px',
-                padding: '1.5rem',
-              }}
-            >
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: '0.68rem', color: 'var(--text-muted)' }}>
-                  METRIC // PEAK RISK
-                </span>
-                <span
-                  className="techwear-tag"
-                  style={{
-                    color: maxRisk > 65 ? 'var(--accent-crimson)' : 'var(--accent-emerald)',
-                    borderColor: maxRisk > 65 ? 'var(--accent-crimson)' : 'var(--accent-emerald)',
-                  }}
-                >
-                  {maxRisk > 65 ? 'HIGH FATIGUE' : 'CONTROLLED'}
-                </span>
-              </div>
-              <div
-                style={{
-                  fontFamily: "var(--font-display, 'Space Grotesk', sans-serif)",
-                  fontSize: '2.5rem',
-                  fontWeight: 700,
-                  lineHeight: 1,
-                  color: maxRisk > 65 ? 'var(--accent-crimson)' : 'var(--text-primary)',
-                }}
-              >
-                {hasLiveData ? `${maxRisk}%` : '--'}
-              </div>
-              <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginTop: '0.5rem', display: 'block' }}>
-                Maximum momentary fatigue recorded in window
-              </span>
-            </div>
-
-            {/* Samples */}
-            <div
-              style={{
-                backgroundColor: 'var(--bg-surface)',
-                border: '1px solid var(--border-light)',
-                borderRadius: '4px',
-                padding: '1.5rem',
-              }}
-            >
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: '0.68rem', color: 'var(--text-muted)' }}>
-                  METRIC // SAMPLES
-                </span>
-                <span className="techwear-tag">
-                  {isEngineConnected ? 'ONLINE' : 'OFFLINE'}
-                </span>
-              </div>
-              <div style={{ fontFamily: "var(--font-display, 'Space Grotesk', sans-serif)", fontSize: '2.5rem', fontWeight: 700, lineHeight: 1 }}>
-                {telemetryHistory.length}
-                <span style={{ fontSize: '1rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', fontWeight: 400 }}>
-                  {' '}/ 400 PTS
-                </span>
-              </div>
-              <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginTop: '0.5rem', display: 'block' }}>
-                Rolling time window (~13s @ 30 FPS ingestion)
-              </span>
-            </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+          {/* KPI strip */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+            gap: '1rem',
+          }}>
+            {KPI_CARDS.map(card => {
+              const Icon = card.icon;
+              return (
+                <div key={card.id} className="card" style={{ padding: '1.25rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.875rem' }}>
+                    <span style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', fontWeight: 500 }}>
+                      {card.label}
+                    </span>
+                    <div style={{
+                      width: '32px', height: '32px',
+                      backgroundColor: 'var(--bg-secondary)',
+                      borderRadius: 'var(--radius)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}>
+                      <Icon size={15} style={{ color: card.color }} strokeWidth={2} />
+                    </div>
+                  </div>
+                  <div style={{
+                    fontFamily: 'var(--font-heading)',
+                    fontSize: '1.875rem',
+                    fontWeight: 800,
+                    color: card.color,
+                    letterSpacing: '-0.03em',
+                    lineHeight: 1,
+                    marginBottom: '0.375rem',
+                  }}>
+                    {card.value}
+                  </div>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                    {card.sub}
+                  </div>
+                </div>
+              );
+            })}
           </div>
 
-          {/* SVG Waveform Card */}
-          <div
-            style={{
-              backgroundColor: 'var(--bg-surface)',
-              border: '1px solid var(--border-light)',
-              borderRadius: '4px',
-              padding: '1.75rem',
-            }}
-          >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.75rem' }}>
+          {/* Risk chart */}
+          <div className="card" style={{ padding: '1.5rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.75rem' }}>
               <div>
-                <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: '0.68rem', color: 'var(--text-muted)' }}>
-                  TEMPORAL INGESTION CURVE
-                </span>
-                <h3 style={{ fontSize: '1.25rem', margin: '0.2rem 0 0 0' }}>
-                  Real-Time Risk Amplitude Over Time
+                <h3 style={{ fontSize: '0.9375rem', fontWeight: 600, margin: '0 0 0.25rem' }}>
+                  Risk Score Over Time
                 </h3>
+                <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', margin: 0 }}>
+                  Real-time attention risk — last {telemetryHistory.length} samples
+                </p>
               </div>
-
-              <div style={{ display: 'flex', gap: '0.5rem' }}>
-                <span className="techwear-tag" style={{ color: 'var(--accent-crimson)', borderColor: 'var(--accent-crimson)' }}>
-                  CRITICAL: 70%
-                </span>
-                <span className="techwear-tag">
-                  BUFFER: {telemetryHistory.length} SAMPLES
-                </span>
+              <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                  <div style={{ width: '24px', height: '1.5px', backgroundColor: 'var(--color-critical)', borderRadius: '1px' }} />
+                  Critical (70%)
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                  <div style={{ width: '24px', height: '1.5px', backgroundColor: 'var(--color-warning)', borderRadius: '1px', borderTop: '1px dashed var(--color-warning)' }} />
+                  Warning (35%)
+                </div>
               </div>
             </div>
 
-            {/* SVG Visualizer Canvas */}
-            <div
-              style={{
-                width: '100%',
-                height: '240px',
-                backgroundColor: 'var(--bg-secondary)',
-                borderRadius: '2px',
-                border: '1px solid var(--border-light)',
-                overflow: 'hidden',
-                position: 'relative',
-              }}
-            >
+            <div style={{
+              width: '100%',
+              height: '220px',
+              backgroundColor: 'var(--bg-secondary)',
+              borderRadius: 'var(--radius)',
+              border: '1px solid var(--border)',
+              overflow: 'hidden',
+              position: 'relative',
+            }}>
               {hasLiveData ? (
-                <svg
-                  width="100%"
-                  height="100%"
-                  viewBox="0 0 800 240"
-                  preserveAspectRatio="none"
-                  style={{ display: 'block' }}
-                >
+                <svg width="100%" height="100%" viewBox="0 0 800 220" preserveAspectRatio="none" style={{ display: 'block' }}>
                   <defs>
-                    <linearGradient id="editorialWaveGradient" x1="0" y1="0" x2="1" y2="0">
-                      <stop offset="0%" stopColor="#10B981" />
-                      <stop offset="50%" stopColor="#D97706" />
-                      <stop offset="100%" stopColor="#EF4444" />
-                    </linearGradient>
-                    <linearGradient id="editorialAreaGradient" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#111111" stopOpacity="0.12" />
-                      <stop offset="100%" stopColor="#111111" stopOpacity="0.0" />
+                    <linearGradient id="riskAreaGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="var(--text-primary)" stopOpacity="0.08" />
+                      <stop offset="100%" stopColor="var(--text-primary)" stopOpacity="0" />
                     </linearGradient>
                   </defs>
 
-                  {/* Threshold Guidelines */}
-                  <line x1="0" y1="60" x2="800" y2="60" stroke="#EF4444" strokeDasharray="3 3" strokeWidth="1" strokeOpacity="0.6" />
-                  <line x1="0" y1="130" x2="800" y2="130" stroke="#D97706" strokeDasharray="3 3" strokeWidth="1" strokeOpacity="0.5" />
-                  <line x1="0" y1="190" x2="800" y2="190" stroke="rgba(17, 17, 17, 0.15)" strokeWidth="1" />
+                  {/* Y-axis grid lines */}
+                  {[20, 70, 130].map((y, i) => (
+                    <line key={i} x1="0" y1={y} x2="800" y2={y}
+                      stroke="var(--border)" strokeWidth="1" strokeDasharray={i === 0 ? '0' : '4 4'} />
+                  ))}
 
-                  <text x="14" y="54" fill="#EF4444" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">
-                    CRITICAL (70%)
-                  </text>
-                  <text x="14" y="124" fill="#D97706" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">
-                    WARNING (35%)
-                  </text>
-                  <text x="14" y="184" fill="#777777" fontSize="10" fontFamily="var(--font-mono)">
-                    NOMINAL (10%)
-                  </text>
+                  {/* Threshold labels */}
+                  <text x="8" y="17" fill="var(--color-critical)" fontSize="10" fontFamily="var(--font-mono)" fontWeight="500">Critical 70%</text>
+                  <text x="8" y="67" fill="var(--color-warning)" fontSize="10" fontFamily="var(--font-mono)" fontWeight="500">Warning 35%</text>
+                  <text x="8" y="127" fill="var(--text-muted)" fontSize="10" fontFamily="var(--font-mono)">Safe</text>
 
-                  {/* Polyline and Area */}
+                  {/* Critical line */}
+                  <line x1="0" y1="20" x2="800" y2="20" stroke="var(--color-critical)" strokeDasharray="4 4" strokeWidth="1" strokeOpacity="0.6" />
+                  {/* Warning line */}
+                  <line x1="0" y1="70" x2="800" y2="70" stroke="var(--color-warning)" strokeDasharray="4 4" strokeWidth="1" strokeOpacity="0.5" />
+
                   {(() => {
                     const count = telemetryHistory.length;
                     const step = count > 1 ? 800 / (count - 1) : 800;
-                    const points = telemetryHistory
-                      .map((d, i) => {
-                        const score = typeof d.riskScore === 'number' ? Math.max(0, Math.min(100, d.riskScore)) : 0;
-                        const x = count === 1 ? 400 : i * step;
-                        const y = 220 - (score / 100) * 180;
-                        return `${x.toFixed(1)},${y.toFixed(1)}`;
-                      })
-                      .join(' ');
-
-                    const firstX = '0.0';
-                    const lastX = '800.0';
-                    const areaPoints = `${firstX},240.0 ${points} ${lastX},240.0`;
-
+                    const pts = telemetryHistory.map((d, i) => {
+                      const score = typeof d.riskScore === 'number' ? Math.max(0, Math.min(100, d.riskScore)) : 0;
+                      const x = count === 1 ? 400 : i * step;
+                      const y = 200 - (score / 100) * 180;
+                      return `${x.toFixed(1)},${y.toFixed(1)}`;
+                    }).join(' ');
+                    const areaPoints = `0,220 ${pts} 800,220`;
                     return (
                       <>
-                        <polygon fill="url(#editorialAreaGradient)" points={areaPoints} />
+                        <polygon fill="url(#riskAreaGrad)" points={areaPoints} />
                         <polyline
                           fill="none"
-                          stroke="url(#editorialWaveGradient)"
-                          strokeWidth="2.5"
+                          stroke="var(--text-primary)"
+                          strokeWidth="2"
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          points={points}
+                          points={pts}
                         />
                       </>
                     );
                   })()}
                 </svg>
               ) : (
-                <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', fontSize: '0.8rem' }}>
-                  AWAITING LIVE TELEMETRY SAMPLES...
+                <div style={{
+                  display: 'flex',
+                  height: '100%',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexDirection: 'column',
+                  gap: '0.5rem',
+                }}>
+                  <BarChart3 size={28} style={{ color: 'var(--border-strong)' }} />
+                  <span style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>
+                    Waiting for monitoring data…
+                  </span>
                 </div>
               )}
             </div>
@@ -429,63 +314,101 @@ export default function AnalyticsView({ telemetryHistory = [], isEngineConnected
         </div>
       )}
 
-      {/* Mode 2: Historical Vault */}
+      {/* ===== HISTORICAL ===== */}
       {activeMode === 'historical' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
-              PERSISTENT FLIGHT LEDGER ({trips.length} RECORDED SESSIONS)
-            </span>
+            <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', margin: 0 }}>
+              {trips.length > 0 ? `${trips.length} recorded sessions` : 'No sessions recorded yet'}
+            </p>
             <button
+              id="analytics-refresh-btn"
               onClick={fetchHistoricalTrips}
-              className="btn-editorial-outline"
-              style={{ fontSize: '0.72rem', padding: '0.35rem 0.75rem' }}
+              disabled={isLoadingHistory}
+              className="btn-secondary"
+              style={{ gap: '0.375rem' }}
             >
-              <RefreshCw size={12} />
-              <span>SYNC VAULT</span>
+              <RefreshCw size={13} style={{ animation: isLoadingHistory ? 'spin 0.8s linear infinite' : 'none' }} />
+              {isLoadingHistory ? 'Loading…' : 'Refresh'}
             </button>
           </div>
 
-          {trips.length === 0 ? (
-            <div style={{ padding: '3rem', textAlign: 'center', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-light)', borderRadius: '4px', color: 'var(--text-secondary)' }}>
-              No recorded sessions found in local SQLite database. Complete a driving session in Live Cockpit to log trips.
+          {historyError && (
+            <div style={{
+              padding: '0.875rem 1rem',
+              backgroundColor: 'var(--color-critical-bg)',
+              border: '1px solid var(--color-critical-border)',
+              borderRadius: 'var(--radius-md)',
+              fontSize: '0.875rem',
+              color: 'var(--color-critical)',
+            }}>
+              Could not load history: {historyError}. Make sure the backend is running.
+            </div>
+          )}
+
+          {trips.length === 0 && !historyError ? (
+            <div className="card" style={{
+              padding: '3rem',
+              textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '0.75rem',
+            }}>
+              <BarChart3 size={32} style={{ color: 'var(--border-strong)' }} />
+              <div>
+                <p style={{ fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 0.25rem' }}>
+                  No sessions recorded
+                </p>
+                <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', margin: 0 }}>
+                  Complete a monitoring session to see your history here.
+                </p>
+              </div>
             </div>
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
-              {trips.map((trip, idx) => (
-                <div
-                  key={trip.id || idx}
-                  style={{
-                    backgroundColor: 'var(--bg-surface)',
-                    border: '1px solid var(--border-light)',
-                    borderRadius: '2px',
-                    padding: '1.25rem 1.5rem',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    flexWrap: 'wrap',
-                    gap: '1rem',
-                  }}
-                >
-                  <div>
-                    <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: '0.68rem', color: 'var(--text-muted)' }}>
-                      SESSION #{trip.id || idx + 1} • {trip.date || 'RECENT'}
-                    </div>
-                    <div style={{ fontFamily: "var(--font-display, 'Space Grotesk', sans-serif)", fontSize: '1.15rem', fontWeight: 700, marginTop: '0.2rem' }}>
-                      {trip.duration || 'Session'} • {trip.incident_count || 0} Incidents Flagged
-                    </div>
-                  </div>
-
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <div style={{ textAlign: 'right' }}>
-                      <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: '0.68rem', color: 'var(--text-muted)' }}>SAFETY SCORE</div>
-                      <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: '1.1rem', fontWeight: 700, color: (trip.safety_score || 100) >= 80 ? 'var(--accent-emerald)' : 'var(--accent-amber)' }}>
-                        {trip.safety_score || 100}%
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              {trips.map((trip, idx) => {
+                const score = trip.safety_score || 100;
+                const scoreColor = score >= 80 ? 'var(--color-safe)' : score >= 60 ? 'var(--color-warning)' : 'var(--color-critical)';
+                return (
+                  <div
+                    key={trip.id || idx}
+                    className="card"
+                    style={{
+                      padding: '1rem 1.25rem',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      flexWrap: 'wrap',
+                      gap: '1rem',
+                      transition: 'box-shadow var(--transition-fast)',
+                      cursor: 'default',
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.boxShadow = 'var(--shadow-sm)'}
+                    onMouseLeave={e => e.currentTarget.style.boxShadow = 'var(--shadow-xs)'}
+                  >
+                    <div>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '0.25rem' }}>
+                        Session #{trip.id || idx + 1} · {trip.date || 'Recent'}
+                      </div>
+                      <div style={{ fontSize: '0.9375rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                        {trip.duration || 'Session'} · {trip.incident_count || 0} alerts
                       </div>
                     </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                      <div style={{ textAlign: 'right' }}>
+                        <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Safety score</div>
+                        <div style={{ fontSize: '1.0625rem', fontWeight: 700, color: scoreColor }}>
+                          {score}%
+                        </div>
+                      </div>
+                      <span className={`badge ${score >= 80 ? 'badge-safe' : score >= 60 ? 'badge-warning' : 'badge-critical'}`}>
+                        {score >= 80 ? 'Good' : score >= 60 ? 'Fair' : 'Poor'}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
