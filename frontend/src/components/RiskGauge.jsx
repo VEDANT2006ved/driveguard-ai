@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 /**
- * RiskGauge Component - SSTR Industrial Attentiveness Indicator
+ * RiskGauge Component — High-Fashion Minimalist Editorial Edition
  * Precision circular instrument with high-contrast mechanical ticks and real-time biometric telemetry.
  */
 export default function RiskGauge({
@@ -20,7 +20,7 @@ export default function RiskGauge({
 
     const startScore = prevScoreRef.current;
     const targetScore = Math.max(0, Math.min(100, Math.round(score)));
-    const duration = 320; // ms
+    const duration = 300; // ms
     const startTime = performance.now();
 
     const animate = (now) => {
@@ -56,10 +56,10 @@ export default function RiskGauge({
   const isWarn = displayScore >= 35 && displayScore < 70;
 
   const getStrokeColor = () => {
-    if (!isLive) return '#666B78';
-    if (isAlert) return '#EF4444';
-    if (isWarn) return '#FE5B2A';
-    return '#10B981';
+    if (!isLive) return 'var(--text-muted)';
+    if (isAlert) return 'var(--accent-crimson)';
+    if (isWarn) return 'var(--accent-amber)';
+    return 'var(--text-primary)';
   };
 
   const currentColor = getStrokeColor();
@@ -91,7 +91,7 @@ export default function RiskGauge({
           cy={size / 2}
           r={radius}
           fill="none"
-          stroke="rgba(255, 255, 255, 0.08)"
+          stroke="var(--border-light)"
           strokeWidth="6"
           strokeDasharray={`${arcLength} ${circumference}`}
           strokeLinecap="round"
@@ -110,25 +110,24 @@ export default function RiskGauge({
           strokeLinecap="round"
           style={{
             transition: 'stroke 0.2s ease',
-            filter: isAlert ? 'drop-shadow(0 0 8px rgba(239, 68, 68, 0.5))' : isWarn ? 'drop-shadow(0 0 6px rgba(254, 91, 42, 0.4))' : 'none',
           }}
         />
 
-        {/* Subtle Critical Boundary Tick */}
+        {/* Critical Boundary Marker */}
         <circle
           cx={size / 2}
           cy={size / 2}
-          r={radius + 8}
+          r={radius + 7}
           fill="none"
-          stroke="#EF4444"
+          stroke="var(--accent-crimson)"
           strokeWidth="1.5"
           strokeDasharray={`${arcLength * 0.3} ${circumference}`}
           strokeDashoffset={arcLength * 0.7}
-          opacity={0.6}
+          opacity={0.7}
         />
       </svg>
 
-      {/* Internal Industrial Readout */}
+      {/* Internal Minimalist Readout */}
       <div
         style={{
           position: 'absolute',
@@ -142,9 +141,9 @@ export default function RiskGauge({
       >
         <span
           style={{
-            fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
+            fontFamily: "var(--font-mono, monospace)",
             fontSize: '0.62rem',
-            color: '#9FA4B0',
+            color: 'var(--text-muted)',
             marginBottom: '0.1rem',
             letterSpacing: '0.12em',
             textTransform: 'uppercase',
@@ -155,7 +154,7 @@ export default function RiskGauge({
 
         <div
           style={{
-            fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
+            fontFamily: "var(--font-display, 'Space Grotesk', sans-serif)",
             fontSize: 'clamp(2.4rem, 4.5vw, 3rem)',
             fontWeight: 700,
             lineHeight: 1,
@@ -168,7 +167,7 @@ export default function RiskGauge({
             <span
               style={{
                 fontSize: '0.9rem',
-                color: '#9FA4B0',
+                color: 'var(--text-muted)',
                 marginLeft: '2px',
                 fontWeight: 400,
               }}
@@ -187,15 +186,15 @@ export default function RiskGauge({
             gap: '0.3rem',
             padding: '0.2rem 0.65rem',
             borderRadius: '2px',
-            border: `1px solid ${isAlert ? 'rgba(239, 68, 68, 0.4)' : isWarn ? 'rgba(254, 91, 42, 0.4)' : 'rgba(255, 255, 255, 0.1)'}`,
-            backgroundColor: isAlert ? 'rgba(239, 68, 68, 0.15)' : isWarn ? 'rgba(254, 91, 42, 0.15)' : 'rgba(255, 255, 255, 0.05)',
+            border: `1px solid ${isAlert ? 'var(--color-alert-border)' : isWarn ? 'var(--color-warning-border)' : 'var(--border-light)'}`,
+            backgroundColor: isAlert ? 'var(--color-alert-dim)' : isWarn ? 'var(--color-warning-dim)' : 'var(--bg-secondary)',
           }}
         >
           <span
             style={{
-              fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-              fontSize: '0.6rem',
-              color: isAlert ? '#EF4444' : isWarn ? '#FE5B2A' : '#F5F5F7',
+              fontFamily: "var(--font-mono, monospace)",
+              fontSize: '0.62rem',
+              color: isAlert ? 'var(--accent-crimson)' : isWarn ? 'var(--accent-amber)' : 'var(--text-primary)',
               fontWeight: 700,
               letterSpacing: '0.06em',
             }}

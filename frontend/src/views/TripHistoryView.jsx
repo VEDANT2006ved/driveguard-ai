@@ -16,7 +16,6 @@ import RouteVisualizer from '../components/RouteVisualizer';
 import { gpsTracker } from '../services/gpsTracker';
 import { API_BASE_URL, getApiBaseUrl } from '../config/api';
 
-// Fallback session dataset in case backend is loading or cold
 const FALLBACK_RECORDED_SESSIONS = [
   {
     id: 'TRIP-2026-041',
@@ -61,9 +60,6 @@ const FALLBACK_RECORDED_SESSIONS = [
   },
 ];
 
-/**
- * Clean up degree symbol encoding artifacts from SQLite string fields
- */
 function cleanMetricString(val) {
   if (!val) return '';
   return String(val)
@@ -72,11 +68,9 @@ function cleanMetricString(val) {
 }
 
 /**
- * TripHistoryView Component
- * High-End Industrial Archival Flight Ledger & SQLite Audit Vault
- * Primary Reference: SSTR (https://sstr.tech/en/) — Awwwards Site of the Day (SOTD) & Developer Award
- * Strict modular carbon grid, SSTR Electric Safety Orange (#FE5B2A), precision laser raster scans,
- * and high-contrast telemetry dials.
+ * TripHistoryView Component — Minimalist Swiss Editorial Edition
+ * References: Images 2 (Aura store), 4 (lab. 001)
+ * High-fashion archival flight ledger, search & filters, and SQLite session audit certificates.
  */
 export default function TripHistoryView() {
   const [trips, setTrips] = useState(FALLBACK_RECORDED_SESSIONS);
@@ -87,7 +81,6 @@ export default function TripHistoryView() {
   const [activeFilter, setActiveFilter] = useState('ALL'); // ALL | SAFE | CAUTION | FLAGGED
   const [sortOrder, setSortOrder] = useState('newest'); // newest | oldest
   const [copied, setCopied] = useState(false);
-  const [showGpsRoute, setShowGpsRoute] = useState(false);
 
   // Fetch real trip records from SQLite backend + merge session-local GPS trips
   const fetchTrips = async (isManual = false) => {
@@ -102,7 +95,7 @@ export default function TripHistoryView() {
         }
       }
 
-      // Merge any session-local GPS trips recorded during this browser session
+      // Merge session-local GPS trips
       const localGps = gpsTracker.getSessionLocalTrips();
       localGps.forEach((lt) => {
         if (!combined.some((t) => t.id === lt.id)) {
@@ -120,79 +113,60 @@ export default function TripHistoryView() {
             grade: lt.taggedIncidents.length === 0 ? 'A+' : lt.taggedIncidents.length <= 2 ? 'B' : 'C',
             status: lt.taggedIncidents.length === 0 ? 'OPTIMAL' : 'CAUTION',
             incidents: lt.taggedIncidents.map((inc) => ({
-              time: new Date(inc.timestamp).toLocaleTimeString([], {
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: false,
-              }),
+              time: new Date(inc.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
               type: inc.type,
               severity: inc.severity,
-              metric:
-                inc.metric ||
-                (inc.hasCoordinates
-                  ? `GPS: ${inc.lat?.toFixed(4)}°, ${inc.lng?.toFixed(4)}°`
-                  : 'Optical Alert'),
+              metric: cleanMetricString(inc.metric),
               lat: inc.lat,
               lng: inc.lng,
+              hasCoordinates: inc.hasCoordinates,
             })),
             waypoints: lt.waypoints,
-            isGpsVerified: true,
-            isSimulated: lt.isSimulated,
-            createdAt: lt.createdAt,
+            isLocalSession: true,
+            createdAt: new Date(lt.startTime || Date.now()).toISOString(),
           });
         }
       });
 
       if (combined.length > 0) {
         setTrips(combined);
-        setSelectedTrip((prev) => {
-          if (!prev) return combined[0];
-          const match = combined.find((t) => t.id === prev.id);
-          return match || combined[0];
-        });
-        if (isManual) {
-          setSyncConfirmed(true);
-          setTimeout(() => setSyncConfirmed(false), 2400);
-        }
+      }
+      if (isManual) {
+        setSyncConfirmed(true);
+        setTimeout(() => setSyncConfirmed(false), 2000);
       }
     } catch (err) {
-      console.warn('Could not fetch trip history from API:', err);
+      console.warn('Could not fetch SQLite trip records:', err);
     } finally {
       setIsRefreshing(false);
     }
   };
 
   useEffect(() => {
-    fetchTrips(false);
+    fetchTrips();
   }, []);
 
-  // Compute horizontal summary row metrics dynamically from loaded SQLite sessions
+  // Summary Metrics
   const summary = useMemo(() => {
     const total = trips.length;
     if (total === 0) {
       return { total: 0, avgScore: 100, incidentFree: 0, totalTime: '0m' };
     }
-
-    const avgScore = Math.round(
-      trips.reduce((acc, t) => acc + (Number(t.safetyScore) || 0), 0) / total
-    );
-
+    const scoreSum = trips.reduce((acc, t) => acc + (t.safetyScore || 100), 0);
+    const avgScore = Math.round(scoreSum / total);
     const incidentFree = trips.filter((t) => !t.incidents || t.incidents.length === 0).length;
 
-    let totalSec = 0;
+    let totalMinutes = 0;
     trips.forEach((t) => {
-      const str = t.duration || '';
-      const hMatch = str.match(/(\d+)\s*h/);
-      const mMatch = str.match(/(\d+)\s*m/);
-      const sMatch = str.match(/(\d+)\s*s/);
-      if (hMatch) totalSec += parseInt(hMatch[1], 10) * 3600;
-      if (mMatch) totalSec += parseInt(mMatch[1], 10) * 60;
-      if (sMatch) totalSec += parseInt(sMatch[1], 10);
+      if (!t.duration) return;
+      const hMatch = t.duration.match(/(\d+)\s*h/);
+      const mMatch = t.duration.match(/(\d+)\s*m/);
+      if (hMatch) totalMinutes += parseInt(hMatch[1], 10) * 60;
+      if (mMatch) totalMinutes += parseInt(mMatch[1], 10);
     });
-
-    const h = Math.floor(totalSec / 3600);
-    const m = Math.floor((totalSec % 3600) / 60);
-    const totalTime = h > 0 ? `${h}h ${m}m` : `${m || 1}m`;
+    const hours = Math.floor(totalMinutes / 60);
+    const mins = totalMinutes % 60;
+    const totalTime = hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
 
     return { total, avgScore, incidentFree, totalTime };
   }, [trips]);
@@ -256,29 +230,65 @@ Attestation: Verified in SQLite local ledger`;
     }
   };
 
-  const getScoreColor = (score = 100) => {
-    if (score >= 85) return '#10B981';
-    if (score >= 70) return '#FE5B2A';
-    return '#EF4444';
-  };
-
   return (
-    <div className="sstr-vault-wrapper sstr-grid-bg">
+    <div
+      style={{
+        width: '100%',
+        backgroundColor: 'var(--bg-primary)',
+        padding: 'clamp(1.5rem, 3.5vw, 3rem) clamp(1rem, 3vw, 2.5rem)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '2rem',
+      }}
+    >
       {/* 1. Page Masthead */}
-      <div className="sstr-vault-masthead">
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'flex-start',
+          borderBottom: '1px solid var(--border-light)',
+          paddingBottom: '1.5rem',
+          flexWrap: 'wrap',
+          gap: '1.25rem',
+        }}
+      >
         <div>
-          <div className="sstr-vault-meta">
-            <span className="sstr-tag">FLIGHT VAULT // AUDIT_04</span>
-            <span className="sstr-meta-divider">|</span>
-            <span className="sstr-meta-item">SQLITE VERIFIED LEDGER</span>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.65rem',
+              fontFamily: "var(--font-mono, monospace)",
+              fontSize: '0.72rem',
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              color: 'var(--text-secondary)',
+              marginBottom: '0.5rem',
+            }}
+          >
+            <span className="techwear-tag">FLIGHT VAULT // 04</span>
+            <span>•</span>
+            <span>SQLITE IMMUTABLE ARCHIVE</span>
           </div>
 
-          <h1 className="sstr-vault-title">
-            PERSISTENT SESSION LEDGER<span style={{ color: '#FE5B2A' }}>.</span>
+          <h1
+            style={{
+              fontFamily: "var(--font-display, 'Space Grotesk', sans-serif)",
+              fontSize: 'clamp(2rem, 3.8vw, 3.2rem)',
+              fontWeight: 700,
+              letterSpacing: '-0.03em',
+              textTransform: 'uppercase',
+              color: 'var(--text-primary)',
+              margin: '0 0 0.4rem 0',
+              lineHeight: 1.1,
+            }}
+          >
+            Persistent Flight Ledger
           </h1>
 
-          <p className="sstr-vault-subtitle">
-            Immutable records of monitored driving sessions with spatial GPS telemetry and biometric incidents.
+          <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+            Cryptographically timestamped driving sessions with spatial GPS telemetry and incident logs.
           </p>
         </div>
 
@@ -286,16 +296,16 @@ Attestation: Verified in SQLite local ledger`;
         <button
           onClick={() => fetchTrips(true)}
           disabled={isRefreshing}
-          className="sstr-btn-secondary"
-          style={{ padding: '0.55rem 1.25rem' }}
+          className="btn-editorial-outline"
+          style={{ height: '36px' }}
         >
           {syncConfirmed ? (
-            <Check size={13} style={{ color: '#10B981' }} />
+            <Check size={13} style={{ color: 'var(--accent-emerald)' }} />
           ) : (
             <RefreshCw
               size={13}
               style={{
-                animation: isRefreshing ? 'sstrRadarSweep 0.9s linear infinite' : 'none',
+                animation: isRefreshing ? 'laserScanLine 0.9s linear infinite' : 'none',
               }}
             />
           )}
@@ -303,33 +313,67 @@ Attestation: Verified in SQLite local ledger`;
         </button>
       </div>
 
-      {/* 2. Horizontal Summary Row */}
-      <div className="sstr-summary-row">
-        <div className="sstr-summary-item">
-          <span className="sstr-sum-val">{summary.total}</span>
-          <span className="sstr-sum-lbl">TOTAL SESSIONS</span>
+      {/* 2. Summary Metric Strip (4 Columns) */}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+          gap: '1rem',
+          backgroundColor: 'var(--bg-secondary)',
+          border: '1px solid var(--border-light)',
+          borderRadius: '4px',
+          padding: '1.25rem',
+        }}
+      >
+        <div>
+          <div style={{ fontFamily: "var(--font-display, 'Space Grotesk', sans-serif)", fontSize: '2rem', fontWeight: 700, lineHeight: 1 }}>
+            {summary.total}
+          </div>
+          <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: '0.66rem', color: 'var(--text-muted)', marginTop: '0.35rem', letterSpacing: '0.08em' }}>
+            TOTAL SESSIONS
+          </div>
         </div>
 
-        <div className="sstr-summary-item">
-          <span className="sstr-sum-val">{summary.avgScore}%</span>
-          <span className="sstr-sum-lbl">AVERAGE SAFETY INDEX</span>
+        <div>
+          <div style={{ fontFamily: "var(--font-display, 'Space Grotesk', sans-serif)", fontSize: '2rem', fontWeight: 700, lineHeight: 1 }}>
+            {summary.avgScore}%
+          </div>
+          <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: '0.66rem', color: 'var(--text-muted)', marginTop: '0.35rem', letterSpacing: '0.08em' }}>
+            AVERAGE SAFETY INDEX
+          </div>
         </div>
 
-        <div className="sstr-summary-item">
-          <span className="sstr-sum-val">{summary.incidentFree}</span>
-          <span className="sstr-sum-lbl">INCIDENT-FREE SESSIONS</span>
+        <div>
+          <div style={{ fontFamily: "var(--font-display, 'Space Grotesk', sans-serif)", fontSize: '2rem', fontWeight: 700, lineHeight: 1 }}>
+            {summary.incidentFree}
+          </div>
+          <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: '0.66rem', color: 'var(--text-muted)', marginTop: '0.35rem', letterSpacing: '0.08em' }}>
+            INCIDENT-FREE SESSIONS
+          </div>
         </div>
 
-        <div className="sstr-summary-item">
-          <span className="sstr-sum-val">{summary.totalTime}</span>
-          <span className="sstr-sum-lbl">TOTAL MONITORED TIME</span>
+        <div>
+          <div style={{ fontFamily: "var(--font-display, 'Space Grotesk', sans-serif)", fontSize: '2rem', fontWeight: 700, lineHeight: 1 }}>
+            {summary.totalTime}
+          </div>
+          <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: '0.66rem', color: 'var(--text-muted)', marginTop: '0.35rem', letterSpacing: '0.08em' }}>
+            TOTAL MONITORED TIME
+          </div>
         </div>
       </div>
 
       {/* 3. Toolbar: Filter Tabs & Search */}
-      <div className="sstr-toolbar">
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '1rem',
+        }}
+      >
         {/* Filter Tabs */}
-        <div className="sstr-tab-group">
+        <div style={{ display: 'inline-flex', gap: '0.4rem', flexWrap: 'wrap' }}>
           {[
             { id: 'ALL', label: 'All sessions' },
             { id: 'SAFE', label: 'Safe (Grade A)' },
@@ -341,7 +385,18 @@ Attestation: Verified in SQLite local ledger`;
               <button
                 key={tab.id}
                 onClick={() => setActiveFilter(tab.id)}
-                className={`sstr-filter-btn ${isTabActive ? 'active' : ''}`}
+                style={{
+                  padding: '0.35rem 0.75rem',
+                  border: '1px solid var(--border-light)',
+                  borderRadius: '2px',
+                  fontFamily: "var(--font-mono, monospace)",
+                  fontSize: '0.72rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  backgroundColor: isTabActive ? 'var(--text-primary)' : 'transparent',
+                  color: isTabActive ? 'var(--bg-primary)' : 'var(--text-secondary)',
+                  transition: 'all 0.15s ease',
+                }}
               >
                 {tab.label}
               </button>
@@ -349,571 +404,196 @@ Attestation: Verified in SQLite local ledger`;
           })}
         </div>
 
-        {/* Search & Sort Controls */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-          <div className="sstr-search-box">
-            <Search size={13} color="#5F6470" />
-            <input
-              type="text"
-              placeholder="Search sessions..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="sstr-search-input"
-            />
-          </div>
-
-          <button
-            onClick={() => setSortOrder(sortOrder === 'newest' ? 'oldest' : 'newest')}
-            className="sstr-sort-btn"
-          >
-            <ArrowUpDown size={12} />
-            <span>{sortOrder === 'newest' ? 'Newest first' : 'Oldest first'}</span>
-          </button>
+        {/* Search Input */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            backgroundColor: 'var(--bg-surface)',
+            border: '1px solid var(--border-light)',
+            borderRadius: '2px',
+            padding: '0.35rem 0.75rem',
+          }}
+        >
+          <Search size={14} color="var(--text-muted)" />
+          <input
+            type="text"
+            placeholder="Search sessions..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            style={{
+              border: 'none',
+              background: 'none',
+              outline: 'none',
+              fontFamily: "var(--font-mono, monospace)",
+              fontSize: '0.74rem',
+              color: 'var(--text-primary)',
+              width: '140px',
+            }}
+          />
         </div>
       </div>
 
-      {/* 4. Main Two-Column Layout */}
-      <div className="sstr-vault-grid">
-        {/* Left Column: Chronological Ledger */}
-        <div className="sstr-ledger-column">
-          {filteredTrips.length === 0 ? (
-            <div className="sstr-empty-state">
-              <p>No sessions found matching your criteria.</p>
-              <button
-                onClick={() => {
-                  setActiveFilter('ALL');
-                  setSearchQuery('');
+      {/* 4. Main Dual Ledger: Session Rows (Left) & Inspector Drawer (Right) */}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'minmax(320px, 1.2fr) minmax(320px, 1fr)',
+          gap: '1.5rem',
+          alignItems: 'start',
+        }}
+      >
+        {/* Left: Session Rows */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+          {filteredTrips.map((trip) => {
+            const isSelected = activeTrip?.id === trip.id;
+            return (
+              <div
+                key={trip.id}
+                onClick={() => setSelectedTrip(trip)}
+                style={{
+                  backgroundColor: 'var(--bg-surface)',
+                  border: isSelected ? '1.5px solid var(--text-primary)' : '1px solid var(--border-light)',
+                  borderRadius: '3px',
+                  padding: '1.15rem 1.4rem',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  transition: 'all 0.15s ease',
                 }}
-                className="sstr-btn-secondary"
-                style={{ padding: '0.4rem 0.85rem', fontSize: '0.72rem' }}
               >
-                Clear filters
-              </button>
-            </div>
-          ) : (
-            filteredTrips.map((trip) => {
-              const isSelected = activeTrip?.id === trip.id;
-              const incidentCount = trip.incidents?.length || 0;
-
-              return (
-                <div
-                  key={trip.id}
-                  onClick={() => setSelectedTrip(trip)}
-                  className={`sstr-session-row ${isSelected ? 'selected' : ''}`}
-                >
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-                      <span className="sstr-row-id">{trip.id}</span>
-                      <span style={{ color: 'rgba(255, 255, 255, 0.2)' }}>/</span>
-                      <span className="sstr-row-date">{trip.date}</span>
-                    </div>
-
-                    <div className="sstr-row-meta">
-                      {trip.time} · {trip.duration}
-                    </div>
+                <div>
+                  <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: '0.66rem', color: 'var(--text-muted)' }}>
+                    {trip.id} • {trip.date}
                   </div>
-
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-                    <span
-                      style={{
-                        fontFamily: 'var(--font-mono)',
-                        fontSize: '0.72rem',
-                        color: incidentCount > 0 ? (incidentCount >= 3 ? '#EF4444' : '#FE5B2A') : '#5F6470',
-                      }}
-                    >
-                      {incidentCount === 0 ? '0 incidents' : `${incidentCount} flagged`}
-                    </span>
-
-                    <span
-                      style={{
-                        fontFamily: 'var(--font-mono)',
-                        fontSize: '0.82rem',
-                        fontWeight: 700,
-                        color: getScoreColor(trip.safetyScore),
-                        minWidth: '65px',
-                        textAlign: 'right',
-                      }}
-                    >
-                      {trip.grade} · {trip.safetyScore}%
-                    </span>
-
-                    <ChevronRight
-                      size={14}
-                      style={{
-                        color: isSelected ? '#FE5B2A' : '#5F6470',
-                        transform: isSelected ? 'translateX(2px)' : 'none',
-                        transition: 'transform 0.2s ease',
-                      }}
-                    />
+                  <div style={{ fontFamily: "var(--font-display, 'Space Grotesk', sans-serif)", fontSize: '1.1rem', fontWeight: 700, marginTop: '0.2rem' }}>
+                    {trip.duration} • {trip.distance || '0.00 km'}
                   </div>
                 </div>
-              );
-            })
-          )}
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                  <div style={{ textAlign: 'right' }}>
+                    <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: '0.65rem', color: 'var(--text-muted)' }}>GRADE</div>
+                    <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: '1.1rem', fontWeight: 700, color: (trip.safetyScore || 100) >= 80 ? 'var(--accent-emerald)' : 'var(--accent-amber)' }}>
+                      {trip.grade || 'A'}
+                    </div>
+                  </div>
+                  <ChevronRight size={16} color="var(--text-muted)" />
+                </div>
+              </div>
+            );
+          })}
         </div>
 
-        {/* Right Column: Clean Detail Panel */}
+        {/* Right: Selected Session Detail Card */}
         {activeTrip && (
-          <div key={activeTrip.id} className="sstr-detail-panel sstr-reticle">
-            {/* Detail Header */}
-            <div className="sstr-detail-header">
+          <div
+            style={{
+              backgroundColor: 'var(--bg-surface)',
+              border: '1px solid var(--border-light)',
+              borderRadius: '4px',
+              padding: '1.75rem',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1.5rem',
+              position: 'sticky',
+              top: '80px',
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', borderBottom: '1px solid var(--border-light)', paddingBottom: '1.25rem' }}>
               <div>
-                <span className="sstr-tag" style={{ fontSize: '0.65rem', marginBottom: '0.35rem' }}>
-                  SESSION CERTIFICATE // SQLITE
-                </span>
-                <h2 className="sstr-detail-id">{activeTrip.id}</h2>
-                <div className="sstr-detail-time">
-                  {activeTrip.date} ({activeTrip.time})
-                </div>
-              </div>
-
-              <div style={{ textAlign: 'right' }}>
-                <span
-                  style={{
-                    fontFamily: 'var(--font-display)',
-                    fontSize: '2.4rem',
-                    fontWeight: 800,
-                    lineHeight: 1,
-                    color: getScoreColor(activeTrip.safetyScore),
-                  }}
-                >
-                  {activeTrip.grade}
-                </span>
-                <span
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '0.74rem',
-                    color: '#9FA4B0',
-                    display: 'block',
-                    marginTop: '0.2rem',
-                  }}
-                >
-                  SCORE: {activeTrip.safetyScore}%
+                <span className="techwear-tag">VERIFIED FLIGHT AUDIT</span>
+                <h3 style={{ fontSize: '1.4rem', margin: '0.4rem 0 0.15rem 0' }}>
+                  {activeTrip.id}
+                </h3>
+                <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: '0.74rem', color: 'var(--text-secondary)' }}>
+                  {activeTrip.date} • {activeTrip.time}
                 </span>
               </div>
-            </div>
-
-            {/* Three-Column Metric Row */}
-            <div className="sstr-detail-metrics">
-              <div className="sstr-d-metric">
-                <span className="sstr-d-lbl">DURATION</span>
-                <span className="sstr-d-val">{activeTrip.duration}</span>
-              </div>
-
-              <div className="sstr-d-metric">
-                <span className="sstr-d-lbl">DISTANCE</span>
-                <span className="sstr-d-val">
-                  {activeTrip.distance && activeTrip.distance !== '--' ? activeTrip.distance : 'Not measured'}
-                </span>
-                {activeTrip.isGpsVerified && (
-                  <span className="sstr-gps-badge">● GPS Tracked</span>
-                )}
-              </div>
-
-              <div className="sstr-d-metric">
-                <span className="sstr-d-lbl">INCIDENTS</span>
-                <span
-                  className="sstr-d-val"
-                  style={{
-                    color:
-                      activeTrip.incidents && activeTrip.incidents.length > 0
-                        ? activeTrip.incidents.length >= 3
-                          ? '#EF4444'
-                          : '#FE5B2A'
-                        : '#10B981',
-                  }}
-                >
-                  {activeTrip.incidents ? activeTrip.incidents.length : 0}
-                </span>
-              </div>
-            </div>
-
-            {/* GPS Route Map */}
-            {activeTrip.waypoints && activeTrip.waypoints.length > 0 && (
-              <div style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: '1.25rem' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
-                  <span className="sstr-card-num">RECORDED GPS ROUTE</span>
-                  <button
-                    onClick={() => setShowGpsRoute((prev) => !prev)}
-                    className="sstr-btn-secondary"
-                    style={{ padding: '0.3rem 0.65rem', fontSize: '0.68rem' }}
-                  >
-                    <Navigation size={11} color="#FE5B2A" />
-                    <span>{showGpsRoute ? 'Hide Route Map' : `View Map (${activeTrip.waypoints.length} Points)`}</span>
-                  </button>
-                </div>
-
-                {showGpsRoute && (
-                  <RouteVisualizer
-                    waypoints={activeTrip.waypoints}
-                    incidents={activeTrip.incidents || []}
-                    isLive={false}
-                    isSimulated={activeTrip.isSimulated}
-                    totalDistanceKm={activeTrip.distanceKm || parseFloat(activeTrip.distance) || 0}
-                  />
-                )}
-              </div>
-            )}
-
-            {/* Incident Timeline */}
-            <div>
-              <span className="sstr-card-num" style={{ display: 'block', marginBottom: '0.85rem' }}>
-                INCIDENT TIMELINE
-              </span>
-
-              {activeTrip.incidents && activeTrip.incidents.length > 0 ? (
-                <div className="sstr-incident-list">
-                  {activeTrip.incidents.map((inc, i) => {
-                    const isCrit = inc.severity === 'CRITICAL';
-                    const isWarn = inc.severity === 'WARNING';
-                    const dotColor = isCrit ? '#EF4444' : isWarn ? '#FE5B2A' : '#5F6470';
-                    const cleanedType = cleanMetricString(inc.type);
-                    const cleanedMetric = cleanMetricString(inc.metric);
-
-                    return (
-                      <div key={i} className="sstr-incident-item">
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                          <span
-                            style={{
-                              width: '6px',
-                              height: '6px',
-                              borderRadius: '50%',
-                              backgroundColor: dotColor,
-                              boxShadow: `0 0 6px ${dotColor}`,
-                            }}
-                          />
-                          <div>
-                            <span style={{ fontSize: '0.82rem', color: '#FFFFFF', fontWeight: 600 }}>
-                              {cleanedType}
-                            </span>
-                            <span style={{ display: 'block', fontSize: '0.68rem', color: dotColor, fontFamily: 'var(--font-mono)' }}>
-                              {inc.severity}
-                            </span>
-                          </div>
-                        </div>
-
-                        <div style={{ textAlign: 'right', fontFamily: 'var(--font-mono)', fontSize: '0.74rem', color: '#9FA4B0' }}>
-                          <span>{inc.time}</span>
-                          <span style={{ margin: '0 0.35rem', color: 'rgba(255, 255, 255, 0.2)' }}>·</span>
-                          <strong style={{ color: '#FFFFFF' }}>{cleanedMetric}</strong>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              ) : (
-                <div style={{ padding: '0.75rem 0', fontSize: '0.82rem', color: '#10B981', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <ShieldCheck size={16} />
-                  <span>No incidents recorded. Clean driving session.</span>
-                </div>
-              )}
-            </div>
-
-            {/* Bottom Actions */}
-            <div className="sstr-detail-footer">
-              <span style={{ fontSize: '0.7rem', color: '#5F6470', maxWidth: '350px' }}>
-                Certified SQLite WAL local storage. Zero external telemetry transmission.
-              </span>
 
               <button
                 onClick={() => handleCopyReport(activeTrip)}
-                className="sstr-btn-secondary"
-                style={{ padding: '0.35rem 0.75rem', fontSize: '0.7rem' }}
+                className="btn-editorial-outline"
+                style={{ padding: '0.35rem 0.65rem', fontSize: '0.7rem' }}
               >
-                {copied ? <Check size={11} color="#10B981" /> : <Copy size={11} />}
-                <span>{copied ? 'Copied' : 'Copy summary'}</span>
+                {copied ? <Check size={12} color="var(--accent-emerald)" /> : <Copy size={12} />}
+                <span>{copied ? 'COPIED' : 'COPY'}</span>
               </button>
+            </div>
+
+            {/* 3-Column Metrics */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem', textAlign: 'center' }}>
+              <div style={{ backgroundColor: 'var(--bg-secondary)', padding: '0.75rem', borderRadius: '2px' }}>
+                <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: '0.62rem', color: 'var(--text-muted)' }}>SCORE</div>
+                <div style={{ fontFamily: "var(--font-display, 'Space Grotesk', sans-serif)", fontSize: '1.5rem', fontWeight: 700 }}>
+                  {activeTrip.safetyScore}%
+                </div>
+              </div>
+
+              <div style={{ backgroundColor: 'var(--bg-secondary)', padding: '0.75rem', borderRadius: '2px' }}>
+                <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: '0.62rem', color: 'var(--text-muted)' }}>DURATION</div>
+                <div style={{ fontFamily: "var(--font-display, 'Space Grotesk', sans-serif)", fontSize: '1.5rem', fontWeight: 700 }}>
+                  {activeTrip.duration}
+                </div>
+              </div>
+
+              <div style={{ backgroundColor: 'var(--bg-secondary)', padding: '0.75rem', borderRadius: '2px' }}>
+                <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: '0.62rem', color: 'var(--text-muted)' }}>DISTANCE</div>
+                <div style={{ fontFamily: "var(--font-display, 'Space Grotesk', sans-serif)", fontSize: '1.5rem', fontWeight: 700 }}>
+                  {activeTrip.distance || '--'}
+                </div>
+              </div>
+            </div>
+
+            {/* Incidents Timeline */}
+            <div>
+              <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '0.65rem', letterSpacing: '0.08em' }}>
+                RECORDED SAFETY EVENTS ({activeTrip.incidents?.length || 0})
+              </div>
+
+              {!activeTrip.incidents || activeTrip.incidents.length === 0 ? (
+                <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', padding: '0.5rem 0' }}>
+                  No safety incidents recorded during this flight. Optimal attentiveness maintained.
+                </div>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  {activeTrip.incidents.map((evt, eIdx) => (
+                    <div
+                      key={eIdx}
+                      style={{
+                        backgroundColor: 'var(--bg-secondary)',
+                        border: '1px solid var(--border-light)',
+                        borderRadius: '2px',
+                        padding: '0.65rem 0.85rem',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        fontFamily: "var(--font-mono, monospace)",
+                        fontSize: '0.74rem',
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <span
+                          style={{
+                            width: '6px',
+                            height: '6px',
+                            borderRadius: '50%',
+                            backgroundColor: evt.severity === 'CRITICAL' ? 'var(--accent-crimson)' : 'var(--accent-amber)',
+                          }}
+                        />
+                        <span>{evt.type}</span>
+                      </div>
+                      <span style={{ color: 'var(--text-muted)' }}>{evt.time}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         )}
       </div>
-
-      {/* Scoped CSS Styles for SSTR Vault */}
-      <style>{`
-        .sstr-vault-wrapper {
-          max-width: 1440px;
-          margin: 0 auto;
-          padding: clamp(1.5rem, 3.5vw, 2.5rem) clamp(1rem, 3.5vw, 2.5rem) 5rem;
-          display: flex;
-          flex-direction: column;
-          gap: 2.5rem;
-        }
-
-        .sstr-vault-masthead {
-          display: flex;
-          justifyContent: space-between;
-          align-items: flex-end;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-          padding-bottom: 1.5rem;
-          flex-wrap: wrap;
-          gap: 1.5rem;
-        }
-
-        .sstr-vault-meta {
-          display: flex;
-          align-items: center;
-          gap: 0.75rem;
-          font-family: var(--font-mono);
-          font-size: 0.72rem;
-          color: #9FA4B0;
-          margin-bottom: 0.4rem;
-          flex-wrap: wrap;
-        }
-        .sstr-vault-title {
-          font-family: var(--font-display);
-          font-size: clamp(2.2rem, 4.5vw, 3.5rem);
-          font-weight: 800;
-          color: #FFFFFF;
-          margin: 0;
-          line-height: 1.05;
-          letter-spacing: -0.02em;
-        }
-        .sstr-vault-subtitle {
-          font-family: var(--font-sans);
-          font-size: 0.92rem;
-          color: #9FA4B0;
-          margin: 0.35rem 0 0 0;
-        }
-
-        .sstr-summary-row {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-          gap: 1.5rem;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-          padding-bottom: 2rem;
-        }
-        .sstr-summary-item {
-          display: flex;
-          flex-direction: column;
-          gap: 0.35rem;
-        }
-        .sstr-sum-val {
-          font-family: var(--font-display);
-          font-size: clamp(2rem, 3.5vw, 2.8rem);
-          font-weight: 800;
-          color: #FFFFFF;
-          line-height: 1;
-        }
-        .sstr-sum-lbl {
-          font-family: var(--font-mono);
-          font-size: 0.68rem;
-          color: #5F6470;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-        }
-
-        .sstr-toolbar {
-          display: flex;
-          justifyContent: space-between;
-          align-items: center;
-          flex-wrap: wrap;
-          gap: 1.25rem;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-          padding-bottom: 1rem;
-        }
-        .sstr-tab-group {
-          display: flex;
-          align-items: center;
-          gap: 1.5rem;
-          flex-wrap: wrap;
-        }
-        .sstr-filter-btn {
-          background: transparent;
-          border: none;
-          border-bottom: 2px solid transparent;
-          padding: 0.45rem 0;
-          color: #9FA4B0;
-          font-family: var(--font-mono);
-          font-size: 0.78rem;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-        .sstr-filter-btn:hover {
-          color: #FFFFFF;
-        }
-        .sstr-filter-btn.active {
-          color: #FE5B2A;
-          border-bottom-color: #FE5B2A;
-        }
-
-        .sstr-search-box {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-          background: #141518;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 4px;
-          padding: 0.4rem 0.75rem;
-          width: clamp(160px, 20vw, 220px);
-        }
-        .sstr-search-input {
-          border: none;
-          background: transparent;
-          outline: none;
-          font-family: var(--font-sans);
-          font-size: 0.82rem;
-          color: #FFFFFF;
-          width: 100%;
-        }
-        .sstr-sort-btn {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.35rem;
-          background: transparent;
-          border: none;
-          color: #9FA4B0;
-          font-family: var(--font-mono);
-          font-size: 0.72rem;
-          cursor: pointer;
-        }
-        .sstr-sort-btn:hover {
-          color: #FFFFFF;
-        }
-
-        .sstr-vault-grid {
-          display: grid;
-          grid-template-columns: minmax(340px, 1.15fr) minmax(360px, 1fr);
-          gap: 2rem;
-          align-items: start;
-        }
-        @media (max-width: 992px) {
-          .sstr-vault-grid {
-            grid-template-columns: 1fr;
-          }
-        }
-
-        .sstr-ledger-column {
-          display: flex;
-          flex-direction: column;
-        }
-        .sstr-empty-state {
-          padding: 3rem 1rem;
-          text-align: center;
-          color: #5F6470;
-        }
-
-        .sstr-session-row {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 1.1rem 1.25rem;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-          border-left: 2px solid transparent;
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-        .sstr-session-row:hover {
-          background: rgba(255, 255, 255, 0.03);
-        }
-        .sstr-session-row.selected {
-          background: rgba(254, 91, 42, 0.06);
-          border-left-color: #FE5B2A;
-        }
-
-        .sstr-row-id {
-          font-family: var(--font-mono);
-          font-size: 0.84rem;
-          font-weight: 700;
-          color: #FFFFFF;
-        }
-        .sstr-row-date {
-          font-size: 0.76rem;
-          color: #9FA4B0;
-        }
-        .sstr-row-meta {
-          font-family: var(--font-mono);
-          font-size: 0.72rem;
-          color: #5F6470;
-        }
-
-        /* Detail Panel */
-        .sstr-detail-panel {
-          background: #141518;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 6px;
-          padding: 2rem;
-          display: flex;
-          flex-direction: column;
-          gap: 1.5rem;
-          position: sticky;
-          top: 88px;
-        }
-        .sstr-detail-header {
-          display: flex;
-          justifyContent: space-between;
-          align-items: flex-start;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-          padding-bottom: 1.25rem;
-        }
-        .sstr-detail-id {
-          font-family: var(--font-mono);
-          font-size: 1.6rem;
-          font-weight: 700;
-          color: #FFFFFF;
-          margin: 0 0 0.25rem 0;
-        }
-        .sstr-detail-time {
-          font-family: var(--font-mono);
-          font-size: 0.76rem;
-          color: #9FA4B0;
-        }
-
-        .sstr-detail-metrics {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 1rem;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-          padding-bottom: 1.25rem;
-        }
-        .sstr-d-metric {
-          display: flex;
-          flex-direction: column;
-          gap: 0.25rem;
-        }
-        .sstr-d-lbl {
-          font-family: var(--font-mono);
-          font-size: 0.65rem;
-          color: #5F6470;
-          letter-spacing: 0.08em;
-        }
-        .sstr-d-val {
-          font-family: var(--font-display);
-          font-size: 1.35rem;
-          font-weight: 700;
-          color: #FFFFFF;
-        }
-        .sstr-gps-badge {
-          font-family: var(--font-mono);
-          font-size: 0.65rem;
-          color: #FE5B2A;
-          font-weight: 600;
-        }
-
-        .sstr-incident-list {
-          display: flex;
-          flex-direction: column;
-          max-height: 240px;
-          overflow-y: auto;
-        }
-        .sstr-incident-item {
-          display: flex;
-          align-items: center;
-          justifyContent: space-between;
-          padding: 0.6rem 0;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .sstr-detail-footer {
-          border-top: 1px solid rgba(255, 255, 255, 0.08);
-          padding-top: 1.25rem;
-          display: flex;
-          justifyContent: space-between;
-          align-items: center;
-          flex-wrap: wrap;
-          gap: 0.75rem;
-        }
-      `}</style>
     </div>
   );
 }

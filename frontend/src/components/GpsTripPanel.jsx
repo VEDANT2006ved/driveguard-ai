@@ -17,7 +17,7 @@ import { gpsTracker, GPS_STATUS } from '../services/gpsTracker';
 import RouteVisualizer from './RouteVisualizer';
 
 /**
- * GpsTripPanel Component - SSTR Industrial Engineering Design
+ * GpsTripPanel Component — High-Fashion Minimalist Editorial & Techwear Edition
  * Functional GPS trip tracking interface using the browser's Geolocation API.
  * Displays live tracking controls, real-time Haversine distance, trip duration,
  * GPS accuracy status, location-tagged safety incidents, and interactive route plot.
@@ -63,46 +63,46 @@ export default function GpsTripPanel() {
       case GPS_STATUS.TRACKING:
         return {
           label: 'TRACKING ACTIVE',
-          color: '#10B981',
-          bg: 'rgba(16, 185, 129, 0.1)',
-          border: 'rgba(16, 185, 129, 0.3)',
+          color: 'var(--accent-emerald)',
+          bg: 'var(--color-safe-dim)',
+          border: 'var(--color-safe-border)',
           dot: true,
         };
       case GPS_STATUS.WAITING_FOR_GPS:
         return {
           label: 'WAITING FOR GPS FIX',
-          color: '#FE5B2A',
-          bg: 'rgba(254, 91, 42, 0.1)',
-          border: 'rgba(254, 91, 42, 0.3)',
+          color: 'var(--accent-amber)',
+          bg: 'var(--color-warning-dim)',
+          border: 'var(--color-warning-border)',
           pulse: true,
         };
       case GPS_STATUS.PERMISSION_DENIED:
         return {
           label: 'PERMISSION DENIED',
-          color: '#EF4444',
-          bg: 'rgba(239, 68, 68, 0.1)',
-          border: 'rgba(239, 68, 68, 0.3)',
+          color: 'var(--accent-crimson)',
+          bg: 'var(--color-alert-dim)',
+          border: 'var(--color-alert-border)',
         };
       case GPS_STATUS.GPS_UNAVAILABLE:
         return {
           label: 'GPS UNAVAILABLE',
-          color: '#EF4444',
-          bg: 'rgba(239, 68, 68, 0.1)',
-          border: 'rgba(239, 68, 68, 0.3)',
+          color: 'var(--accent-crimson)',
+          bg: 'var(--color-alert-dim)',
+          border: 'var(--color-alert-border)',
         };
       case GPS_STATUS.STOPPED:
         return {
           label: 'TRIP STOPPED',
-          color: '#9FA4B0',
-          bg: '#18191B',
-          border: 'rgba(255, 255, 255, 0.08)',
+          color: 'var(--text-secondary)',
+          bg: 'var(--bg-secondary)',
+          border: 'var(--border-light)',
         };
       default:
         return {
           label: 'NOT STARTED',
-          color: '#9FA4B0',
-          bg: '#18191B',
-          border: 'rgba(255, 255, 255, 0.08)',
+          color: 'var(--text-muted)',
+          bg: 'var(--bg-secondary)',
+          border: 'var(--border-light)',
         };
     }
   };
@@ -112,8 +112,8 @@ export default function GpsTripPanel() {
   return (
     <div
       style={{
-        backgroundColor: '#141518',
-        border: '1px solid rgba(255, 255, 255, 0.08)',
+        backgroundColor: 'var(--bg-surface)',
+        border: '1px solid var(--border-light)',
         borderRadius: '4px',
         padding: 'clamp(1.25rem, 2.5vw, 1.75rem)',
         display: 'flex',
@@ -127,7 +127,7 @@ export default function GpsTripPanel() {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'flex-start',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+          borderBottom: '1px solid var(--border-light)',
           paddingBottom: '1.25rem',
           flexWrap: 'wrap',
           gap: '1rem',
@@ -139,25 +139,25 @@ export default function GpsTripPanel() {
               display: 'flex',
               alignItems: 'center',
               gap: '0.5rem',
-              fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
+              fontFamily: "var(--font-mono, monospace)",
               fontSize: '0.68rem',
               letterSpacing: '0.12em',
               textTransform: 'uppercase',
-              color: '#9FA4B0',
+              color: 'var(--text-secondary)',
               marginBottom: '0.35rem',
               fontWeight: 600,
             }}
           >
-            <Navigation size={13} style={{ color: '#FE5B2A' }} />
+            <Navigation size={13} />
             <span>OPTICAL &amp; GPS CO-TELEMETRY // TRIP ROUTE TRACKER</span>
           </div>
 
           <h3
             style={{
-              fontFamily: "var(--font-display, 'Syne', sans-serif)",
+              fontFamily: "var(--font-display, 'Space Grotesk', sans-serif)",
               fontSize: '1.5rem',
               fontWeight: 700,
-              color: '#F5F5F7',
+              color: 'var(--text-primary)',
               margin: '0 0 0.25rem 0',
               letterSpacing: '-0.02em',
               lineHeight: 1.2,
@@ -166,7 +166,7 @@ export default function GpsTripPanel() {
             GPS Route &amp; Travelled Distance
           </h3>
 
-          <p style={{ margin: 0, fontSize: '0.84rem', color: '#9FA4B0' }}>
+          <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--text-secondary)' }}>
             {gpsState.statusMessage}
           </p>
         </div>
@@ -184,7 +184,7 @@ export default function GpsTripPanel() {
               backgroundColor: statusBadge.bg,
               border: `1px solid ${statusBadge.border}`,
               color: statusBadge.color,
-              fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
+              fontFamily: "var(--font-mono, monospace)",
               fontSize: '0.7rem',
               fontWeight: 600,
               letterSpacing: '0.04em',
@@ -198,7 +198,7 @@ export default function GpsTripPanel() {
                   borderRadius: '50%',
                   backgroundColor: statusBadge.color,
                 }}
-                className="animate-green-pulse"
+                className="animate-pulse-live"
               />
             )}
             <span>{statusBadge.label}</span>
@@ -208,47 +208,19 @@ export default function GpsTripPanel() {
           {!gpsState.isTracking ? (
             <button
               onClick={() => gpsTracker.startTracking()}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                backgroundColor: '#FE5B2A',
-                color: '#FFFFFF',
-                border: 'none',
-                borderRadius: '2px',
-                padding: '0.5rem 1.2rem',
-                fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-                fontSize: '0.74rem',
-                fontWeight: 600,
-                letterSpacing: '0.04em',
-                cursor: 'pointer',
-                transition: 'all 0.15s ease',
-              }}
+              className="btn-editorial"
+              style={{ padding: '0.45rem 1.1rem' }}
             >
-              <Play size={12} fill="#FFFFFF" />
+              <Play size={12} fill="var(--bg-primary)" />
               <span>START GPS TRIP</span>
             </button>
           ) : (
             <button
               onClick={() => gpsTracker.stopTracking()}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                backgroundColor: '#EF4444',
-                color: '#FFFFFF',
-                border: 'none',
-                borderRadius: '2px',
-                padding: '0.5rem 1.2rem',
-                fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-                fontSize: '0.74rem',
-                fontWeight: 600,
-                letterSpacing: '0.04em',
-                cursor: 'pointer',
-                transition: 'all 0.15s ease',
-              }}
+              className="btn-editorial"
+              style={{ padding: '0.45rem 1.1rem', backgroundColor: 'var(--accent-crimson)', borderColor: 'var(--accent-crimson)' }}
             >
-              <Square size={12} fill="#FFFFFF" />
+              <Square size={12} fill="var(--bg-primary)" />
               <span>STOP GPS TRIP</span>
             </button>
           )}
@@ -257,20 +229,8 @@ export default function GpsTripPanel() {
           <button
             onClick={() => gpsTracker.startDevLabSimulation()}
             title="Run simulated GPS test drive (for development testing)"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.4rem',
-              backgroundColor: 'rgba(254, 91, 42, 0.08)',
-              border: '1px dashed #FE5B2A',
-              borderRadius: '2px',
-              padding: '0.48rem 0.85rem',
-              fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-              fontSize: '0.7rem',
-              color: '#FE5B2A',
-              cursor: 'pointer',
-              transition: 'all 0.15s ease',
-            }}
+            className="btn-editorial-outline"
+            style={{ padding: '0.45rem 0.85rem', fontSize: '0.7rem' }}
           >
             <Activity size={12} />
             <span>DEV LAB SIM</span>
@@ -282,12 +242,12 @@ export default function GpsTripPanel() {
       {gpsState.status === GPS_STATUS.PERMISSION_DENIED && (
         <div
           style={{
-            backgroundColor: 'rgba(239, 68, 68, 0.1)',
-            border: '1px solid rgba(239, 68, 68, 0.3)',
+            backgroundColor: 'var(--color-alert-dim)',
+            border: '1px solid var(--color-alert-border)',
             borderRadius: '4px',
             padding: '0.85rem 1.15rem',
             fontSize: '0.82rem',
-            color: '#F87171',
+            color: 'var(--accent-crimson)',
             display: 'flex',
             alignItems: 'flex-start',
             gap: '0.75rem',
@@ -296,7 +256,7 @@ export default function GpsTripPanel() {
           <AlertTriangle size={16} style={{ flexShrink: 0, marginTop: '2px' }} />
           <div>
             <strong>Geolocation Access Blocked</strong>: To enable real-time GPS tracking and Haversine
-            distance calculation, click the site settings / tune icon in your browser address bar and
+            distance calculation, click the site settings icon in your browser address bar and
             change Location permission to <strong>Allow</strong>.
           </div>
         </div>
@@ -308,19 +268,19 @@ export default function GpsTripPanel() {
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
           gap: '1rem',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+          borderBottom: '1px solid var(--border-light)',
           paddingBottom: '1.25rem',
         }}
       >
         {/* Cumulative Distance */}
-        <div style={{ backgroundColor: '#18191B', padding: '0.85rem 1rem', border: '1px solid rgba(255, 255, 255, 0.05)', borderRadius: '2px' }}>
+        <div style={{ backgroundColor: 'var(--bg-secondary)', padding: '0.85rem 1rem', border: '1px solid var(--border-light)', borderRadius: '2px' }}>
           <span
             style={{
-              fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
+              fontFamily: "var(--font-mono, monospace)",
               fontSize: '0.66rem',
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
-              color: '#9FA4B0',
+              color: 'var(--text-muted)',
               display: 'block',
               marginBottom: '0.35rem',
             }}
@@ -329,27 +289,27 @@ export default function GpsTripPanel() {
           </span>
           <span
             style={{
-              fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
+              fontFamily: "var(--font-display, 'Space Grotesk', sans-serif)",
               fontSize: '1.5rem',
               fontWeight: 700,
-              color: '#FE5B2A',
+              color: 'var(--text-primary)',
               lineHeight: 1,
             }}
           >
             {gpsState.totalDistanceKm.toFixed(2)}{' '}
-            <span style={{ fontSize: '0.82rem', color: '#9FA4B0', fontWeight: 400 }}>km</span>
+            <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', fontWeight: 400 }}>km</span>
           </span>
         </div>
 
         {/* Trip Duration */}
-        <div style={{ backgroundColor: '#18191B', padding: '0.85rem 1rem', border: '1px solid rgba(255, 255, 255, 0.05)', borderRadius: '2px' }}>
+        <div style={{ backgroundColor: 'var(--bg-secondary)', padding: '0.85rem 1rem', border: '1px solid var(--border-light)', borderRadius: '2px' }}>
           <span
             style={{
-              fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
+              fontFamily: "var(--font-mono, monospace)",
               fontSize: '0.66rem',
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
-              color: '#9FA4B0',
+              color: 'var(--text-muted)',
               display: 'block',
               marginBottom: '0.35rem',
             }}
@@ -358,10 +318,10 @@ export default function GpsTripPanel() {
           </span>
           <span
             style={{
-              fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
+              fontFamily: "var(--font-display, 'Space Grotesk', sans-serif)",
               fontSize: '1.5rem',
               fontWeight: 600,
-              color: '#F5F5F7',
+              color: 'var(--text-primary)',
               lineHeight: 1,
             }}
           >
@@ -370,14 +330,14 @@ export default function GpsTripPanel() {
         </div>
 
         {/* Accuracy */}
-        <div style={{ backgroundColor: '#18191B', padding: '0.85rem 1rem', border: '1px solid rgba(255, 255, 255, 0.05)', borderRadius: '2px' }}>
+        <div style={{ backgroundColor: 'var(--bg-secondary)', padding: '0.85rem 1rem', border: '1px solid var(--border-light)', borderRadius: '2px' }}>
           <span
             style={{
-              fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
+              fontFamily: "var(--font-mono, monospace)",
               fontSize: '0.66rem',
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
-              color: '#9FA4B0',
+              color: 'var(--text-muted)',
               display: 'block',
               marginBottom: '0.35rem',
             }}
@@ -386,10 +346,10 @@ export default function GpsTripPanel() {
           </span>
           <span
             style={{
-              fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
+              fontFamily: "var(--font-display, 'Space Grotesk', sans-serif)",
               fontSize: '1.5rem',
               fontWeight: 600,
-              color: '#F5F5F7',
+              color: 'var(--text-primary)',
               lineHeight: 1,
             }}
           >
@@ -398,14 +358,14 @@ export default function GpsTripPanel() {
         </div>
 
         {/* Tagged Events */}
-        <div style={{ backgroundColor: '#18191B', padding: '0.85rem 1rem', border: '1px solid rgba(255, 255, 255, 0.05)', borderRadius: '2px' }}>
+        <div style={{ backgroundColor: 'var(--bg-secondary)', padding: '0.85rem 1rem', border: '1px solid var(--border-light)', borderRadius: '2px' }}>
           <span
             style={{
-              fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
+              fontFamily: "var(--font-mono, monospace)",
               fontSize: '0.66rem',
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
-              color: '#9FA4B0',
+              color: 'var(--text-muted)',
               display: 'block',
               marginBottom: '0.35rem',
             }}
@@ -414,15 +374,15 @@ export default function GpsTripPanel() {
           </span>
           <span
             style={{
-              fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
+              fontFamily: "var(--font-display, 'Space Grotesk', sans-serif)",
               fontSize: '1.5rem',
               fontWeight: 600,
-              color: gpsState.taggedIncidents.length > 0 ? '#EF4444' : '#10B981',
+              color: gpsState.taggedIncidents.length > 0 ? 'var(--accent-crimson)' : 'var(--accent-emerald)',
               lineHeight: 1,
             }}
           >
             {gpsState.taggedIncidents.length}{' '}
-            <span style={{ fontSize: '0.82rem', color: '#9FA4B0', fontWeight: 400 }}>flagged</span>
+            <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', fontWeight: 400 }}>flagged</span>
           </span>
         </div>
       </div>
@@ -437,7 +397,7 @@ export default function GpsTripPanel() {
       />
 
       {/* Location-Tagged Safety Incidents List (Collapsible) */}
-      <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '1rem' }}>
+      <div style={{ borderTop: '1px solid var(--border-light)', paddingTop: '1rem' }}>
         <button
           onClick={() => setShowIncidentList((prev) => !prev)}
           style={{
@@ -449,26 +409,26 @@ export default function GpsTripPanel() {
             border: 'none',
             padding: '0.25rem 0',
             cursor: 'pointer',
-            fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
+            fontFamily: "var(--font-mono, monospace)",
             fontSize: '0.74rem',
             fontWeight: 600,
-            color: '#F5F5F7',
+            color: 'var(--text-primary)',
             textAlign: 'left',
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <MapPin size={13} style={{ color: '#FE5B2A' }} />
+            <MapPin size={13} />
             <span>
               LOCATION-TAGGED SAFETY EVENTS ({gpsState.taggedIncidents.length})
             </span>
           </div>
-          {showIncidentList ? <ChevronUp size={14} color="#9FA4B0" /> : <ChevronDown size={14} color="#9FA4B0" />}
+          {showIncidentList ? <ChevronUp size={14} color="var(--text-secondary)" /> : <ChevronDown size={14} color="var(--text-secondary)" />}
         </button>
 
         {showIncidentList && (
           <div style={{ marginTop: '0.75rem' }}>
             {gpsState.taggedIncidents.length === 0 ? (
-              <div style={{ fontSize: '0.82rem', color: '#9FA4B0', padding: '0.5rem 0' }}>
+              <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', padding: '0.5rem 0' }}>
                 No safety events recorded during this GPS tracking interval.
               </div>
             ) : (
@@ -481,11 +441,11 @@ export default function GpsTripPanel() {
                       justifyContent: 'space-between',
                       alignItems: 'center',
                       padding: '0.65rem 0.85rem',
-                      backgroundColor: '#18191B',
-                      border: '1px solid rgba(255, 255, 255, 0.08)',
+                      backgroundColor: 'var(--bg-secondary)',
+                      border: '1px solid var(--border-light)',
                       borderRadius: '2px',
                       fontSize: '0.78rem',
-                      fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
+                      fontFamily: "var(--font-mono, monospace)",
                       flexWrap: 'wrap',
                       gap: '0.5rem',
                     }}
@@ -496,21 +456,21 @@ export default function GpsTripPanel() {
                           width: '6px',
                           height: '6px',
                           borderRadius: '50%',
-                          backgroundColor: evt.severity === 'CRITICAL' ? '#EF4444' : '#FE5B2A',
+                          backgroundColor: evt.severity === 'CRITICAL' ? 'var(--accent-crimson)' : 'var(--accent-amber)',
                         }}
                       />
-                      <strong style={{ color: '#F5F5F7' }}>{evt.type}</strong>
-                      <span style={{ color: '#9FA4B0' }}>({evt.severity})</span>
+                      <strong style={{ color: 'var(--text-primary)' }}>{evt.type}</strong>
+                      <span style={{ color: 'var(--text-secondary)' }}>({evt.severity})</span>
                     </div>
 
-                    <div style={{ color: '#9FA4B0' }}>
+                    <div style={{ color: 'var(--text-secondary)' }}>
                       {evt.metric && <span style={{ marginRight: '0.75rem' }}>{evt.metric}</span>}
                       {evt.hasCoordinates ? (
-                        <span style={{ color: '#FE5B2A', fontWeight: 600 }}>
+                        <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>
                           GPS: {evt.lat?.toFixed(5)}°, {evt.lng?.toFixed(5)}°
                         </span>
                       ) : (
-                        <span style={{ color: '#666B78' }}>No GPS Fix</span>
+                        <span style={{ color: 'var(--text-muted)' }}>No GPS Fix</span>
                       )}
                     </div>
                   </div>

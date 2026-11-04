@@ -2,8 +2,8 @@ import React, { useState, useMemo } from 'react';
 import { Compass, ZoomIn, ZoomOut, RotateCcw, AlertTriangle, Navigation, MapPin } from 'lucide-react';
 
 /**
- * RouteVisualizer Component
- * High-End SSTR Industrial Responsive SVG Route Plot based exclusively on recorded GPS coordinates.
+ * RouteVisualizer Component — High-Fashion Minimalist Editorial & Techwear Edition
+ * Responsive SVG Route Plot based exclusively on recorded GPS coordinates.
  * Shows start/end pins, plotted path, compass rose, scale bar, and location-tagged safety incident markers.
  */
 export default function RouteVisualizer({
@@ -83,9 +83,10 @@ export default function RouteVisualizer({
       .join(' ');
   }, [waypoints, bounds]);
 
+  // Start & Current endpoint positions
   const startPoint = waypoints.length > 0 ? project(waypoints[0].lat, waypoints[0].lng) : null;
   const currentPoint =
-    waypoints.length > 0
+    waypoints.length > 1
       ? project(waypoints[waypoints.length - 1].lat, waypoints[waypoints.length - 1].lng)
       : null;
 
@@ -95,11 +96,10 @@ export default function RouteVisualizer({
         display: 'flex',
         flexDirection: 'column',
         gap: '0.75rem',
-        width: '100%',
         position: 'relative',
       }}
     >
-      {/* Top Map Controls Strip */}
+      {/* Route Plot Bar */}
       <div
         style={{
           display: 'flex',
@@ -108,30 +108,21 @@ export default function RouteVisualizer({
           flexWrap: 'wrap',
           gap: '0.75rem',
           fontSize: '0.74rem',
-          fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
+          fontFamily: "var(--font-mono, monospace)",
+          color: 'var(--text-secondary)',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-          <span style={{ color: '#5F6470' }}>
-            WAYPOINTS: <strong style={{ color: '#FFFFFF' }}>{waypoints.length}</strong>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <span>
+            WAYPOINTS: <strong style={{ color: 'var(--text-primary)' }}>{waypoints.length}</strong>
           </span>
-          <span style={{ color: 'rgba(255, 255, 255, 0.15)' }}>·</span>
-          <span style={{ color: '#5F6470' }}>
-            HAUL: <strong style={{ color: '#FE5B2A' }}>{totalDistanceKm.toFixed(2)} km</strong>
+          <span>•</span>
+          <span>
+            HAUL: <strong style={{ color: 'var(--text-primary)' }}>{totalDistanceKm.toFixed(2)} km</strong>
           </span>
 
           {isSimulated && (
-            <span
-              style={{
-                backgroundColor: 'rgba(254, 91, 42, 0.1)',
-                color: '#FE5B2A',
-                border: '1px solid rgba(254, 91, 42, 0.3)',
-                padding: '0.15rem 0.5rem',
-                borderRadius: '3px',
-                fontSize: '0.68rem',
-                fontWeight: 600,
-              }}
-            >
+            <span className="techwear-tag" style={{ color: 'var(--accent-amber)', borderColor: 'var(--accent-amber)' }}>
               SIMULATION ROUTE
             </span>
           )}
@@ -144,12 +135,12 @@ export default function RouteVisualizer({
             title="Zoom In"
             aria-label="Zoom in on route map"
             style={{
-              background: '#18191B',
-              border: '1px solid rgba(255, 255, 255, 0.12)',
-              borderRadius: '3px',
+              background: 'var(--bg-surface)',
+              border: '1px solid var(--border-light)',
+              borderRadius: '2px',
               padding: '0.3rem 0.5rem',
               cursor: 'pointer',
-              color: '#FFFFFF',
+              color: 'var(--text-primary)',
               display: 'flex',
               alignItems: 'center',
             }}
@@ -161,12 +152,12 @@ export default function RouteVisualizer({
             title="Zoom Out"
             aria-label="Zoom out on route map"
             style={{
-              background: '#18191B',
-              border: '1px solid rgba(255, 255, 255, 0.12)',
-              borderRadius: '3px',
+              background: 'var(--bg-surface)',
+              border: '1px solid var(--border-light)',
+              borderRadius: '2px',
               padding: '0.3rem 0.5rem',
               cursor: 'pointer',
-              color: '#FFFFFF',
+              color: 'var(--text-primary)',
               display: 'flex',
               alignItems: 'center',
             }}
@@ -178,12 +169,12 @@ export default function RouteVisualizer({
             title="Reset View"
             aria-label="Reset route zoom"
             style={{
-              background: '#18191B',
-              border: '1px solid rgba(255, 255, 255, 0.12)',
-              borderRadius: '3px',
+              background: 'var(--bg-surface)',
+              border: '1px solid var(--border-light)',
+              borderRadius: '2px',
               padding: '0.3rem 0.5rem',
               cursor: 'pointer',
-              color: '#9FA4B0',
+              color: 'var(--text-secondary)',
               display: 'flex',
               alignItems: 'center',
             }}
@@ -197,12 +188,12 @@ export default function RouteVisualizer({
       <div
         style={{
           width: '100%',
-          backgroundColor: '#0D0E10',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
+          backgroundColor: '#111111',
+          border: '1px solid var(--border-light)',
           borderRadius: '4px',
           overflow: 'hidden',
           position: 'relative',
-          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4)',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)',
         }}
       >
         <svg
@@ -212,7 +203,7 @@ export default function RouteVisualizer({
             height: 'auto',
             maxHeight: '400px',
             display: 'block',
-            backgroundColor: '#0D0E10',
+            backgroundColor: '#111111',
             transform: `scale(${zoomLevel})`,
             transformOrigin: 'center center',
             transition: 'transform 0.2s ease',
@@ -220,20 +211,16 @@ export default function RouteVisualizer({
         >
           {/* Subtle Grid Background Pattern */}
           <defs>
-            <pattern id="sstrGpsGrid" width="32" height="32" patternUnits="userSpaceOnUse">
-              <path d="M 32 0 L 0 0 0 32" fill="none" stroke="rgba(255, 255, 255, 0.04)" strokeWidth="0.8" />
+            <pattern id="editorialGpsGrid" width="32" height="32" patternUnits="userSpaceOnUse">
+              <path d="M 32 0 L 0 0 0 32" fill="none" stroke="rgba(255, 255, 255, 0.06)" strokeWidth="0.8" />
             </pattern>
-            <linearGradient id="sstrRouteGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <linearGradient id="editorialRouteGrad" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor="#10B981" stopOpacity="0.9" />
-              <stop offset="60%" stopColor="#FE5B2A" stopOpacity="0.95" />
-              <stop offset="100%" stopColor="#FE5B2A" stopOpacity="1" />
+              <stop offset="100%" stopColor="#F7F7F5" stopOpacity="1" />
             </linearGradient>
-            <filter id="sstrRouteGlow" x="-10%" y="-10%" width="120%" height="120%">
-              <feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#FE5B2A" floodOpacity="0.5" />
-            </filter>
           </defs>
 
-          <rect width="100%" height="100%" fill="url(#sstrGpsGrid)" />
+          <rect width="100%" height="100%" fill="url(#editorialGpsGrid)" />
 
           {/* Empty State: Waiting for GPS Points */}
           {waypoints.length === 0 && (
@@ -247,14 +234,14 @@ export default function RouteVisualizer({
                 strokeWidth="1.5"
                 strokeDasharray="4 4"
               />
-              <circle cx={SVG_WIDTH / 2} cy={SVG_HEIGHT / 2} r="4" fill="#FE5B2A" />
+              <circle cx={SVG_WIDTH / 2} cy={SVG_HEIGHT / 2} r="4" fill="#F7F7F5" />
               <text
                 x={SVG_WIDTH / 2}
                 y={SVG_HEIGHT / 2 + 35}
                 textAnchor="middle"
                 fontFamily="var(--font-mono, monospace)"
                 fontSize="11"
-                fill="#5F6470"
+                fill="#888888"
                 letterSpacing="0.08em"
               >
                 WAITING FOR GPS POSITION FIX
@@ -270,12 +257,12 @@ export default function RouteVisualizer({
                 cy={startPoint.y}
                 r="28"
                 fill="none"
-                stroke="#FE5B2A"
+                stroke="#F7F7F5"
                 strokeWidth="1.5"
                 opacity="0.4"
-                className="telemetry-pulse"
+                className="animate-pulse-live"
               />
-              <circle cx={startPoint.x} cy={startPoint.y} r="8" fill="#FE5B2A" />
+              <circle cx={startPoint.x} cy={startPoint.y} r="8" fill="#F7F7F5" />
               <text
                 x={startPoint.x}
                 y={startPoint.y - 14}
@@ -283,7 +270,7 @@ export default function RouteVisualizer({
                 fontFamily="var(--font-mono, monospace)"
                 fontSize="10"
                 fontWeight="700"
-                fill="#FFFFFF"
+                fill="#F7F7F5"
               >
                 CURRENT FIX
               </text>
@@ -297,21 +284,20 @@ export default function RouteVisualizer({
               <polyline
                 points={pointsString}
                 fill="none"
-                stroke="#FE5B2A"
+                stroke="#F7F7F5"
                 strokeWidth="6"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                opacity="0.25"
+                opacity="0.2"
               />
               {/* Core Route Path */}
               <polyline
                 points={pointsString}
                 fill="none"
-                stroke="url(#sstrRouteGrad)"
+                stroke="url(#editorialRouteGrad)"
                 strokeWidth="2.8"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                filter="url(#sstrRouteGlow)"
               />
             </g>
           )}
@@ -319,141 +305,86 @@ export default function RouteVisualizer({
           {/* Start Point Pin */}
           {startPoint && waypoints.length >= 2 && (
             <g>
-              <circle cx={startPoint.x} cy={startPoint.y} r="7" fill="#10B981" stroke="#0D0E10" strokeWidth="2" />
-              <circle cx={startPoint.x} cy={startPoint.y} r="2.5" fill="#FFFFFF" />
+              <circle cx={startPoint.x} cy={startPoint.y} r="6" fill="var(--accent-emerald)" stroke="#FFFFFF" strokeWidth="1.5" />
               <text
                 x={startPoint.x}
-                y={startPoint.y + 16}
+                y={startPoint.y - 10}
                 textAnchor="middle"
                 fontFamily="var(--font-mono, monospace)"
                 fontSize="9"
                 fontWeight="700"
-                fill="#10B981"
-                letterSpacing="0.05em"
+                fill="var(--accent-emerald)"
               >
-                START
+                ORIGIN
               </text>
             </g>
           )}
 
-          {/* Current / End Point Pin */}
-          {currentPoint && waypoints.length >= 2 && (
+          {/* Live Current Point Pin */}
+          {currentPoint && (
             <g>
-              {isLive && (
-                <circle
-                  cx={currentPoint.x}
-                  cy={currentPoint.y}
-                  r="14"
-                  fill="none"
-                  stroke="#FE5B2A"
-                  strokeWidth="1.5"
-                  opacity="0.4"
-                  className="telemetry-pulse"
-                />
-              )}
-              <circle cx={currentPoint.x} cy={currentPoint.y} r="8" fill="#FE5B2A" stroke="#0D0E10" strokeWidth="2" />
-              <circle cx={currentPoint.x} cy={currentPoint.y} r="3" fill="#FFFFFF" />
+              <circle cx={currentPoint.x} cy={currentPoint.y} r="14" fill="none" stroke="#F7F7F5" strokeWidth="1.5" opacity="0.6" className="animate-pulse-live" />
+              <circle cx={currentPoint.x} cy={currentPoint.y} r="6" fill="#F7F7F5" stroke="#111111" strokeWidth="1.5" />
               <text
                 x={currentPoint.x}
-                y={currentPoint.y - 12}
+                y={currentPoint.y - 14}
                 textAnchor="middle"
                 fontFamily="var(--font-mono, monospace)"
-                fontSize="9"
+                fontSize="10"
                 fontWeight="700"
-                fill="#FE5B2A"
-                letterSpacing="0.05em"
+                fill="#F7F7F5"
               >
-                {isLive ? 'LIVE' : 'END'}
+                VEHICLE
               </text>
             </g>
           )}
 
-          {/* Location-Tagged Incident Markers */}
+          {/* Location-Tagged Safety Incidents */}
           {incidents.map((inc, i) => {
             if (inc.lat === null || inc.lng === null) return null;
             const pos = project(inc.lat, inc.lng);
             const isCrit = inc.severity === 'CRITICAL';
-            const color = isCrit ? '#EF4444' : '#FE5B2A';
-
             return (
               <g
-                key={i}
+                key={inc.id || i}
                 style={{ cursor: 'pointer' }}
-                onClick={() => setActiveTooltip(activeTooltip === i ? null : i)}
+                onMouseEnter={() => setActiveTooltip(inc)}
+                onMouseLeave={() => setActiveTooltip(null)}
               >
-                <circle cx={pos.x} cy={pos.y} r="9" fill={color} stroke="#0D0E10" strokeWidth="2" />
-                <circle cx={pos.x} cy={pos.y} r="3" fill="#FFFFFF" />
-                {activeTooltip === i && (
-                  <g>
-                    <rect
-                      x={pos.x - 70}
-                      y={pos.y - 42}
-                      width="140"
-                      height="32"
-                      rx="4"
-                      fill="#18191B"
-                      stroke="rgba(255, 255, 255, 0.2)"
-                      strokeWidth="1"
-                    />
-                    <text
-                      x={pos.x}
-                      y={pos.y - 28}
-                      textAnchor="middle"
-                      fill="#FFFFFF"
-                      fontFamily="var(--font-mono, monospace)"
-                      fontSize="9"
-                      fontWeight="700"
-                    >
-                      {inc.type}
-                    </text>
-                    <text
-                      x={pos.x}
-                      y={pos.y - 16}
-                      textAnchor="middle"
-                      fill="#9FA4B0"
-                      fontFamily="var(--font-mono, monospace)"
-                      fontSize="8"
-                    >
-                      {inc.time} • {inc.metric || inc.severity}
-                    </text>
-                  </g>
-                )}
+                <circle
+                  cx={pos.x}
+                  cy={pos.y}
+                  r="7"
+                  fill={isCrit ? 'var(--accent-crimson)' : 'var(--accent-amber)'}
+                  stroke="#FFFFFF"
+                  strokeWidth="1.5"
+                />
               </g>
             );
           })}
         </svg>
 
-        {/* Legend Overlay */}
+        {/* Compass Rose (Top Right) */}
         <div
           style={{
             position: 'absolute',
-            bottom: '10px',
-            right: '10px',
-            backgroundColor: 'rgba(20, 21, 24, 0.85)',
-            backdropFilter: 'blur(6px)',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
-            borderRadius: '4px',
-            padding: '0.4rem 0.65rem',
+            top: '0.75rem',
+            right: '0.75rem',
             display: 'flex',
+            flexDirection: 'column',
             alignItems: 'center',
-            gap: '0.75rem',
-            fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-            fontSize: '0.66rem',
-            color: '#9FA4B0',
+            backgroundColor: 'rgba(17, 17, 17, 0.75)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            padding: '0.25rem 0.45rem',
+            borderRadius: '2px',
+            fontFamily: "var(--font-mono, monospace)",
+            fontSize: '0.62rem',
+            color: '#F7F7F5',
+            pointerEvents: 'none',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#10B981' }} />
-            <span>START</span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#FE5B2A' }} />
-            <span>ROUTE</span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#EF4444' }} />
-            <span>INCIDENT</span>
-          </div>
+          <Compass size={14} style={{ color: '#F7F7F5' }} />
+          <span style={{ fontWeight: 700, marginTop: '2px' }}>N</span>
         </div>
       </div>
     </div>

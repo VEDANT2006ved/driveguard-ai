@@ -1,87 +1,75 @@
 :root {
   /* =========================================================================
-     SSTR-INSPIRED INDUSTRIAL ENGINEERING PALETTE
-     Reference: SSTR (https://sstr.tech/en/) — Awwwards SOTD & DEV Award
+     PREMIUM EDITORIAL & TECHWEAR DESIGN SYSTEM
+     References: Minimalist Fashion Editorial, Swiss Typography & Techwear
+     Palette: #F7F7F5, #EEEEEC, #111111, #777777, #D4D4D0, Dark #111111
      ========================================================================= */
 
-  /* Primary Deep Dark Industrial Canvas */
-  --bg-canvas: #0D0E10;             /* SSTR Deep carbon obsidian */
-  --bg-canvas-subtle: #121316;      /* Gunmetal secondary */
-  --bg-surface: #18191B;            /* SSTR signature dark surface */
-  --bg-surface-elevated: #202226;   /* Elevated industrial card */
-  --bg-surface-highlight: #282A30;
-  
-  /* Contrast High-Tech Light Modules (for blueprints & schematics) */
-  --bg-light-surface: #F5F5F7;      /* Titanium light surface */
-  --bg-light-subtle: #ECEAE4;
-  --bg-light-card: #FFFFFF;
+  /* Canvas & Structural Backgrounds */
+  --bg-primary: #F7F7F5;            /* Warm high-fashion off-white paper */
+  --bg-secondary: #EEEEEC;          /* Techwear light concrete stone */
+  --bg-tertiary: #E5E5E2;           /* Card & module background */
+  --bg-canvas: #F7F7F5;
+  --bg-surface: #FFFFFF;
+  --bg-surface-warm: #EEEEEC;
+  --bg-surface-elevated: #FFFFFF;
+
+  /* Contrast Dark Sections (Tactical Techwear) */
+  --bg-dark: #111111;               /* Deep ink black */
+  --bg-dark-surface: #181818;
+  --bg-dark-card: #202020;
+  --text-dark-primary: #F7F7F5;     /* Inverted off-white text for dark blocks */
+  --text-dark-secondary: #999999;
+  --text-dark-muted: #666666;
 
   /* Typography Colors */
-  --text-primary: #F5F5F7;          /* High-contrast titanium white */
-  --text-secondary: #9FA4B0;        /* Technical steel metadata */
-  --text-muted: #5F6470;            /* Restrained specification grey */
-  --text-dark-primary: #111215;     /* Dark ink for light contrast sections */
-  --text-dark-secondary: #5E636E;
+  --text-primary: #111111;          /* Crisp high-fashion ink black */
+  --text-secondary: #777777;        /* Refined editorial grey */
+  --text-muted: #999999;            /* Technical label & metadata grey */
+  --text-light-muted: #888888;
+  --text-inverse: #F7F7F5;
 
-  /* SSTR Signature Accents */
-  --color-sstr-orange: #FE5B2A;     /* SSTR Electric Industrial Safety Orange */
-  --color-sstr-orange-hover: #FF6E3F;
-  --color-sstr-orange-dim: rgba(254, 91, 42, 0.12);
-  --color-sstr-orange-border: rgba(254, 91, 42, 0.38);
-  --color-sstr-orange-glow: rgba(254, 91, 42, 0.25);
+  /* Architectural Hairline Borders */
+  --border-light: #D4D4D0;          /* Swiss grid & frame border */
+  --border-subtle: #D4D4D0;
+  --border-strong: #111111;
+  --border-hairline: rgba(17, 17, 17, 0.08);
+  --border-dark: rgba(255, 255, 255, 0.12);
 
-  --color-accent-red: #EF4444;      /* Critical hazard intervention */
+  /* Functional Tactical Accents (Restrained, high-precision) */
+  --accent-emerald: #10B981;        /* Nominal safety lock */
+  --accent-crimson: #EF4444;        /* Critical microsleep intervention */
+  --accent-amber: #D97706;          /* Warning & distraction indicator */
   --color-alert: #EF4444;
-  --color-alert-dim: rgba(239, 68, 68, 0.12);
-  --color-alert-border: rgba(239, 68, 68, 0.4);
-
-  --color-accent-green: #10B981;    /* Precision telemetry green (nominal lock) */
-  --color-mint: #10B981;
+  --color-alert-dim: rgba(239, 68, 68, 0.1);
+  --color-alert-border: rgba(239, 68, 68, 0.35);
   --color-safe: #10B981;
-  --color-safe-dim: rgba(16, 185, 129, 0.12);
+  --color-safe-dim: rgba(16, 185, 129, 0.1);
   --color-safe-border: rgba(16, 185, 129, 0.35);
+  --color-warning: #D97706;
+  --color-warning-dim: rgba(217, 119, 6, 0.1);
+  --color-warning-border: rgba(217, 119, 6, 0.35);
 
-  --color-warning: #F59E0B;         /* Amber caution indicator */
-  --color-warning-dim: rgba(245, 158, 11, 0.12);
-  --color-warning-border: rgba(245, 158, 11, 0.4);
+  /* Typography Stacks */
+  --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-serif: 'Space Grotesk', sans-serif;
+  --font-sans: 'Inter', 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Space Grotesk', 'JetBrains Mono', monospace;
+  --font-condensed: 'Space Grotesk', sans-serif;
 
-  --color-laser-cyan: #38BDF8;      /* Optical mesh & LiDAR ray */
-  --color-laser-dim: rgba(56, 189, 248, 0.12);
-
-  /* Hairlines & Technical Grid Dividers */
-  --border-subtle: rgba(255, 255, 255, 0.08);   /* Razor-sharp technical hairline */
-  --border-strong: rgba(255, 255, 255, 0.18);
-  --border-hairline: rgba(255, 255, 255, 0.06);
-  --border-orange: var(--color-sstr-orange-border);
-  --border-light-subtle: rgba(17, 18, 21, 0.1);
-
-  /* Typography System (SSTR Bold Geometric Display + Technical Telemetry Mono) */
-  --font-display: 'Syne', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Roboto Mono', monospace;
-  --font-condensed: 'Oswald', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-serif: 'Playfair Display', Georgia, serif;
-
-  /* Industrial Geometry & Radii (Crisp, precision-milled edges) */
+  /* Geometry & Radii */
   --radius-sharp: 0px;
-  --radius-btn: 4px;
-  --radius-btn-pill: 9999px;
-  --radius-card: 10px;
-  --radius-card-lg: 16px;
+  --radius-btn: 2px;
+  --radius-card: 4px;
+  --radius-pill: 9999px;
+  --radius-frame: 12px;
 
   /* Motion & Easing */
-  --ease-mechanical: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-editorial: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
-  --transition-fast: 160ms var(--ease-mechanical);
-  --transition-normal: 260ms var(--ease-mechanical);
-  --transition-slow: 550ms var(--ease-mechanical);
-
-  /* Shadows & Atmospheric Ambient Glows */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 8px 25px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.7);
-  --shadow-orange: 0 0 25px rgba(254, 91, 42, 0.28);
+  --transition-fast: 150ms var(--ease-editorial);
+  --transition-normal: 280ms var(--ease-editorial);
+  --transition-slow: 600ms var(--ease-editorial);
 }
 
 /* Global Reset */
@@ -94,156 +82,206 @@
 html, body {
   width: 100%;
   min-height: 100vh;
-  background-color: var(--bg-canvas);
+  background-color: var(--bg-primary);
   color: var(--text-primary);
   font-family: var(--font-sans);
   font-size: 14px;
   line-height: 1.5;
+  letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
-/* Custom Scrollbar for SSTR Precision Industrial Theme */
+/* Outer Viewport Framing (Inspired by Reference Images 2 & 4) */
+.editorial-viewport-frame {
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-frame);
+  margin: 10px;
+  background-color: var(--bg-primary);
+  min-height: calc(100vh - 20px);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+}
+
+@media (max-width: 768px) {
+  .editorial-viewport-frame {
+    margin: 4px;
+    border-radius: 6px;
+    min-height: calc(100vh - 8px);
+  }
+}
+
+/* Headings Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  text-transform: uppercase;
+}
+
+/* Interactive Floating Pin / Callout (Reference Image 5 Joker style) */
+.floating-callout-pin {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-light);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
+  cursor: default;
+  pointer-events: auto;
+}
+
+.floating-callout-pin:hover {
+  transform: translateY(-2px) scale(1.02);
+  border-color: var(--text-primary);
+}
+
+.floating-callout-pin .pin-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--text-primary);
+}
+
+/* Decagonal / Radial Dial CTA Button (Reference Image 1 SHADXW style) */
+.decagonal-dial-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  padding: 0.65rem 1.4rem;
+  background-color: transparent;
+  color: var(--text-primary);
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: all var(--transition-normal);
+}
+
+.decagonal-dial-btn .dial-polygon {
+  width: 44px;
+  height: 44px;
+  border: 1.5px solid var(--text-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-normal);
+  background: transparent;
+}
+
+.decagonal-dial-btn:hover .dial-polygon {
+  background-color: var(--text-primary);
+  color: var(--bg-primary);
+  transform: rotate(45deg);
+}
+
+.decagonal-dial-btn:hover .dial-polygon svg {
+  stroke: var(--bg-primary);
+}
+
+/* Editorial Minimal Outlined Button */
+.btn-editorial {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.25rem;
+  border: 1px solid var(--text-primary);
+  background-color: var(--text-primary);
+  color: var(--bg-primary);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all var(--transition-fast);
+}
+
+.btn-editorial:hover {
+  background-color: transparent;
+  color: var(--text-primary);
+}
+
+.btn-editorial-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.25rem;
+  border: 1px solid var(--border-light);
+  background-color: transparent;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all var(--transition-fast);
+}
+
+.btn-editorial-outline:hover {
+  border-color: var(--text-primary);
+  background-color: var(--bg-secondary);
+}
+
+/* Technical Label Pill */
+.techwear-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid var(--border-light);
+  border-radius: 2px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  background-color: var(--bg-secondary);
+}
+
+/* Vertical Typography (Reference Image 3 & 4) */
+.text-vertical {
+  writing-mode: vertical-lr;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+}
+
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0D0E10;
+  background: var(--bg-primary);
 }
 ::-webkit-scrollbar-thumb {
-  background: #282A30;
+  background: var(--border-light);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-sstr-orange);
-}
-
-/* Typography Utility Classes */
-.font-display {
-  font-family: var(--font-display);
-}
-.font-sans {
-  font-family: var(--font-sans);
-}
-.font-mono {
-  font-family: var(--font-mono);
-}
-.font-condensed {
-  font-family: var(--font-condensed);
-}
-
-/* SSTR Technical Section Tag / Meta Header */
-.sstr-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-sstr-orange);
-}
-
-.sstr-tag::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: var(--color-sstr-orange);
-  box-shadow: 0 0 8px var(--color-sstr-orange);
-}
-
-/* SSTR Button Components */
-.sstr-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  padding: 0.65rem 1.45rem;
-  background-color: var(--color-sstr-orange);
-  color: #FFFFFF;
-  border: 1px solid var(--color-sstr-orange);
-  border-radius: var(--radius-btn);
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  box-shadow: 0 2px 12px rgba(254, 91, 42, 0.25);
-  text-decoration: none;
-}
-
-.sstr-btn:hover {
-  background-color: var(--color-sstr-orange-hover);
-  border-color: var(--color-sstr-orange-hover);
-  box-shadow: 0 4px 20px rgba(254, 91, 42, 0.4);
-  transform: translateY(-1px);
-}
-
-.sstr-btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  padding: 0.65rem 1.45rem;
-  background-color: rgba(255, 255, 255, 0.04);
-  color: var(--text-primary);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-btn);
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  text-decoration: none;
-}
-
-.sstr-btn-secondary:hover {
-  background-color: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.25);
-  color: #FFFFFF;
-}
-
-/* Industrial Grid Reticle Markers */
-.sstr-reticle {
-  position: relative;
-}
-.sstr-reticle::before,
-.sstr-reticle::after {
-  content: '+';
-  position: absolute;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.25);
-  pointer-events: none;
-  line-height: 1;
-}
-.sstr-reticle::before {
-  top: 8px;
-  left: 8px;
-}
-.sstr-reticle::after {
-  top: 8px;
-  right: 8px;
-}
-
-/* Responsive Grid Containers */
-.cockpit-hud-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
-  gap: 2rem;
-  align-items: start;
-}
-
-@media (max-width: 1024px) {
-  .cockpit-hud-grid {
-    grid-template-columns: 1fr;
-  }
+  background: var(--text-secondary);
 }

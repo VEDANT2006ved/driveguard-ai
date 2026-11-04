@@ -24,8 +24,8 @@ import {
 } from '../config/api';
 
 /**
- * BackendDiagnosticsModal Component
- * SSTR Industrial Telemetry & Cloudflare Tunnel Diagnostics
+ * BackendDiagnosticsModal Component — High-Fashion Minimalist Editorial Edition
+ * Cloudflare Tunnel & Python Optical Pipeline Diagnostics
  */
 export default function BackendDiagnosticsModal({
   isOpen,
@@ -88,7 +88,6 @@ export default function BackendDiagnosticsModal({
 
   const isWsOnline = connectionStatus === 'online';
   const isApiOnline = testResult?.ok === true;
-  const isCameraActive = testResult?.data?.camera_active === true;
 
   return (
     <div
@@ -96,8 +95,8 @@ export default function BackendDiagnosticsModal({
         position: 'fixed',
         inset: 0,
         zIndex: 9999,
-        backgroundColor: 'rgba(0, 0, 0, 0.85)',
-        backdropFilter: 'blur(12px)',
+        backgroundColor: 'rgba(17, 17, 17, 0.75)',
+        backdropFilter: 'blur(8px)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -109,10 +108,10 @@ export default function BackendDiagnosticsModal({
         style={{
           width: '100%',
           maxWidth: '680px',
-          backgroundColor: '#141518',
-          borderRadius: '6px',
-          border: '1px solid rgba(255, 255, 255, 0.12)',
-          boxShadow: '0 25px 50px rgba(0, 0, 0, 0.7)',
+          backgroundColor: 'var(--bg-surface)',
+          borderRadius: '4px',
+          border: '1px solid var(--border-light)',
+          boxShadow: '0 20px 50px rgba(0, 0, 0, 0.15)',
           overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',
@@ -124,19 +123,19 @@ export default function BackendDiagnosticsModal({
         <div
           style={{
             padding: '1.25rem 1.75rem',
-            borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+            borderBottom: '1px solid var(--border-light)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            backgroundColor: '#18191B',
+            backgroundColor: 'var(--bg-secondary)',
           }}
         >
           <div>
             <span
               style={{
                 fontFamily: 'var(--font-mono)',
-                fontSize: '0.7rem',
-                color: '#FE5B2A',
+                fontSize: '0.68rem',
+                color: 'var(--text-secondary)',
                 letterSpacing: '0.12em',
                 textTransform: 'uppercase',
                 fontWeight: 700,
@@ -147,11 +146,11 @@ export default function BackendDiagnosticsModal({
             <h3
               style={{
                 margin: '0.2rem 0 0 0',
-                fontFamily: 'var(--font-display)',
+                fontFamily: "var(--font-display, 'Space Grotesk', sans-serif)",
                 fontSize: '1.3rem',
                 fontWeight: 700,
-                color: '#FFFFFF',
-                letterSpacing: '-0.01em',
+                color: 'var(--text-primary)',
+                letterSpacing: '-0.02em',
               }}
             >
               Backend &amp; Tunnel Pipeline Status
@@ -164,8 +163,7 @@ export default function BackendDiagnosticsModal({
               border: 'none',
               cursor: 'pointer',
               padding: '0.5rem',
-              color: '#9FA4B0',
-              borderRadius: '4px',
+              color: 'var(--text-secondary)',
             }}
           >
             <X size={18} />
@@ -178,9 +176,9 @@ export default function BackendDiagnosticsModal({
           <div
             style={{
               padding: '1rem 1.25rem',
-              borderRadius: '4px',
-              backgroundColor: isWsOnline && isApiOnline ? 'rgba(16, 185, 129, 0.1)' : 'rgba(254, 91, 42, 0.1)',
-              border: `1px solid ${isWsOnline && isApiOnline ? 'rgba(16, 185, 129, 0.35)' : 'rgba(254, 91, 42, 0.35)'}`,
+              borderRadius: '2px',
+              backgroundColor: isWsOnline && isApiOnline ? 'var(--color-safe-dim)' : 'var(--bg-secondary)',
+              border: `1px solid ${isWsOnline && isApiOnline ? 'var(--color-safe-border)' : 'var(--border-light)'}`,
               marginBottom: '1.5rem',
               display: 'flex',
               alignItems: 'flex-start',
@@ -188,9 +186,9 @@ export default function BackendDiagnosticsModal({
             }}
           >
             {isWsOnline && isApiOnline ? (
-              <CheckCircle2 size={20} color="#10B981" style={{ flexShrink: 0, marginTop: '2px' }} />
+              <CheckCircle2 size={20} color="var(--accent-emerald)" style={{ flexShrink: 0, marginTop: '2px' }} />
             ) : (
-              <AlertCircle size={20} color="#FE5B2A" style={{ flexShrink: 0, marginTop: '2px' }} />
+              <AlertCircle size={20} color="var(--accent-amber)" style={{ flexShrink: 0, marginTop: '2px' }} />
             )}
             <div>
               <div
@@ -198,7 +196,7 @@ export default function BackendDiagnosticsModal({
                   fontFamily: 'var(--font-sans)',
                   fontWeight: 600,
                   fontSize: '0.92rem',
-                  color: isWsOnline && isApiOnline ? '#10B981' : '#FE5B2A',
+                  color: isWsOnline && isApiOnline ? 'var(--accent-emerald)' : 'var(--text-primary)',
                 }}
               >
                 {isWsOnline && isApiOnline
@@ -209,236 +207,141 @@ export default function BackendDiagnosticsModal({
                 style={{
                   fontFamily: 'var(--font-sans)',
                   fontSize: '0.82rem',
-                  color: '#9FA4B0',
+                  color: 'var(--text-secondary)',
                   marginTop: '0.2rem',
                   lineHeight: 1.45,
                 }}
               >
                 {isWsOnline && isApiOnline
-                  ? `Your Vercel deployment is connected to the Python backend with live telemetry and ${fps} FPS.`
+                  ? `Your deployment is connected to the Python backend with live telemetry and ${fps} FPS.`
                   : 'Your website cannot reach the local Python engine. Start the local bridge or provide the Cloudflare Tunnel URL below.'}
               </div>
             </div>
           </div>
 
-          {/* 4 Pipeline Health Indicators */}
+          {/* 1-Click Launch Command */}
           <div
             style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-              gap: '0.85rem',
+              padding: '1.15rem 1.35rem',
+              borderRadius: '2px',
+              backgroundColor: 'var(--bg-secondary)',
+              border: '1px solid var(--border-light)',
               marginBottom: '1.5rem',
             }}
           >
-            {/* 1. REST API */}
-            <div
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.68rem',
+                  color: 'var(--text-secondary)',
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                }}
+              >
+                STEP 1: RUN TUNNEL BRIDGE ON LAPTOP
+              </span>
+              <button
+                onClick={handleCopyCommand}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.4rem',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.7rem',
+                  color: 'var(--text-primary)',
+                  fontWeight: 600,
+                }}
+              >
+                {copied ? <Check size={12} color="var(--accent-emerald)" /> : <Copy size={12} />}
+                <span>{copied ? 'COPIED' : 'COPY COMMAND'}</span>
+              </button>
+            </div>
+            <code
               style={{
-                padding: '0.85rem 1rem',
-                backgroundColor: '#18191B',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-                borderRadius: '4px',
+                display: 'block',
+                padding: '0.65rem 0.85rem',
+                backgroundColor: 'var(--bg-surface)',
+                border: '1px solid var(--border-light)',
+                borderRadius: '2px',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.78rem',
+                color: 'var(--text-primary)',
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <Server size={14} color="#FE5B2A" />
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: '#9FA4B0' }}>REST API (/health)</span>
-                </div>
-                <span
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '0.72rem',
-                    fontWeight: 700,
-                    color: isApiOnline ? '#10B981' : '#EF4444',
-                  }}
-                >
-                  {isTesting ? 'TESTING...' : isApiOnline ? `OK (${testResult?.latency}ms)` : 'OFFLINE'}
-                </span>
-              </div>
-              <div style={{ fontSize: '0.75rem', color: '#FFFFFF', marginTop: '0.35rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: 'var(--font-mono)' }}>
-                {currentUrl}
-              </div>
-            </div>
-
-            {/* 2. WebSocket Telemetry */}
-            <div
-              style={{
-                padding: '0.85rem 1rem',
-                backgroundColor: '#18191B',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-                borderRadius: '4px',
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <Radio size={14} color="#FE5B2A" />
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: '#9FA4B0' }}>WEBSOCKET TELEMETRY</span>
-                </div>
-                <span
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '0.72rem',
-                    fontWeight: 700,
-                    color: isWsOnline ? '#10B981' : '#EF4444',
-                  }}
-                >
-                  {isWsOnline ? 'CONNECTED' : connectionStatus.toUpperCase()}
-                </span>
-              </div>
-              <div style={{ fontSize: '0.75rem', color: '#FFFFFF', marginTop: '0.35rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: 'var(--font-mono)' }}>
-                {getWsBaseUrl()}
-              </div>
-            </div>
-
-            {/* 3. Camera Hardware */}
-            <div
-              style={{
-                padding: '0.85rem 1rem',
-                backgroundColor: '#18191B',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-                borderRadius: '4px',
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <Camera size={14} color="#FE5B2A" />
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: '#9FA4B0' }}>WEBCAM HARDWARE</span>
-                </div>
-                <span
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '0.72rem',
-                    fontWeight: 700,
-                    color: isCameraActive ? '#10B981' : isApiOnline ? '#FE5B2A' : '#5F6470',
-                  }}
-                >
-                  {isCameraActive ? 'ACTIVE (INDEX 0)' : isApiOnline ? 'STANDBY / PAUSED' : 'UNKNOWN'}
-                </span>
-              </div>
-              <div style={{ fontSize: '0.75rem', color: '#9FA4B0', marginTop: '0.35rem', fontFamily: 'var(--font-mono)' }}>
-                {isCameraActive ? 'Capturing 640x480 @ 30 FPS' : 'Awaiting start or physical camera'}
-              </div>
-            </div>
-
-            {/* 4. Optical MJPEG Video Feed */}
-            <div
-              style={{
-                padding: '0.85rem 1rem',
-                backgroundColor: '#18191B',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-                borderRadius: '4px',
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <Video size={14} color="#FE5B2A" />
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: '#9FA4B0' }}>MJPEG VIDEO STREAM</span>
-                </div>
-                <span
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '0.72rem',
-                    fontWeight: 700,
-                    color: isWsOnline && isApiOnline ? '#10B981' : '#5F6470',
-                  }}
-                >
-                  {isWsOnline && isApiOnline ? 'STREAMING' : 'IDLE'}
-                </span>
-              </div>
-              <div style={{ fontSize: '0.75rem', color: '#FFFFFF', marginTop: '0.35rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: 'var(--font-mono)' }}>
-                {getVideoFeedUrl()}
-              </div>
-            </div>
+              python run_production_bridge.py
+            </code>
           </div>
 
-          {/* Backend URL Configuration Box */}
-          <div
-            style={{
-              padding: '1.25rem',
-              backgroundColor: '#18191B',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-              borderRadius: '4px',
-              marginBottom: '1.5rem',
-            }}
-          >
+          {/* Custom URL Input */}
+          <div style={{ marginBottom: '1.5rem' }}>
             <label
               style={{
                 display: 'block',
                 fontFamily: 'var(--font-mono)',
-                fontSize: '0.72rem',
-                fontWeight: 700,
-                color: '#FE5B2A',
+                fontSize: '0.68rem',
+                color: 'var(--text-secondary)',
                 letterSpacing: '0.08em',
                 textTransform: 'uppercase',
-                marginBottom: '0.5rem',
+                marginBottom: '0.45rem',
               }}
             >
-              Set Active Backend / Tunnel URL
+              STEP 2: PUBLIC CLOUDFLARE TUNNEL URL
             </label>
-            <div style={{ display: 'flex', gap: '0.65rem', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: '0.5rem' }}>
               <input
                 type="text"
                 value={inputUrl}
                 onChange={(e) => setInputUrl(e.target.value)}
-                placeholder="https://your-tunnel-url.trycloudflare.com or http://localhost:8000"
+                placeholder="https://xxxx.trycloudflare.com"
                 style={{
                   flex: 1,
-                  minWidth: '240px',
-                  padding: '0.55rem 0.85rem',
-                  backgroundColor: '#0D0E10',
-                  border: '1px solid rgba(255, 255, 255, 0.15)',
-                  borderRadius: '4px',
-                  color: '#FFFFFF',
+                  padding: '0.6rem 0.85rem',
+                  borderRadius: '2px',
+                  border: '1px solid var(--border-light)',
+                  backgroundColor: 'var(--bg-surface)',
                   fontFamily: 'var(--font-mono)',
-                  fontSize: '0.8rem',
+                  fontSize: '0.78rem',
+                  color: 'var(--text-primary)',
                   outline: 'none',
                 }}
               />
               <button
                 onClick={handleSaveUrl}
-                className="sstr-btn"
-                style={{ padding: '0.55rem 1.15rem', fontSize: '0.74rem' }}
+                className="btn-editorial"
+                style={{ padding: '0.55rem 1rem' }}
               >
-                {saveSuccess ? 'SAVED!' : 'APPLY & TEST'}
-              </button>
-              <button
-                onClick={handleResetDefault}
-                className="sstr-btn-secondary"
-                style={{ padding: '0.55rem 1rem', fontSize: '0.74rem' }}
-              >
-                RESET
+                {saveSuccess ? 'SAVED' : 'SAVE & CONNECT'}
               </button>
             </div>
           </div>
 
-          {/* Quick Terminal Command */}
-          <div
-            style={{
-              padding: '1rem 1.25rem',
-              backgroundColor: '#0D0E10',
-              border: '1px solid rgba(254, 91, 42, 0.25)',
-              borderRadius: '4px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: '1rem',
-              flexWrap: 'wrap',
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-              <Terminal size={15} color="#FE5B2A" />
-              <code style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: '#FFFFFF' }}>
-                python run_production_bridge.py
-              </code>
-            </div>
+          {/* Test Health Result */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <button
-              onClick={handleCopyCommand}
-              className="sstr-btn-secondary"
-              style={{ padding: '0.35rem 0.75rem', fontSize: '0.7rem' }}
+              onClick={() => runHealthCheck(currentUrl)}
+              disabled={isTesting}
+              className="btn-editorial-outline"
+              style={{ fontSize: '0.72rem', padding: '0.45rem 0.85rem' }}
             >
-              {copied ? <Check size={12} color="#10B981" /> : <Copy size={12} />}
-              <span>{copied ? 'COPIED' : 'COPY'}</span>
+              <RefreshCw size={12} className={isTesting ? 'animate-pulse-live' : ''} />
+              <span>{isTesting ? 'TESTING...' : 'TEST CONNECTION'}</span>
             </button>
+
+            {testResult && (
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.72rem',
+                  color: testResult.ok ? 'var(--accent-emerald)' : 'var(--accent-crimson)',
+                }}
+              >
+                {testResult.ok ? `CONNECTED (${testResult.latency}ms)` : `FAILED (${testResult.error || 'UNREACHABLE'})`}
+              </span>
+            )}
           </div>
         </div>
       </div>

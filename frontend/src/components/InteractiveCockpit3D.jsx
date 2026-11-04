@@ -3,8 +3,7 @@ import * as THREE from 'three';
 import { Eye, ShieldAlert, Sparkles, Compass, Radio, Activity } from 'lucide-react';
 
 /**
- * InteractiveCockpit3D - SSTR Industrial Engineering Edition
- * Cinematic 3D driver head & vehicle cockpit telemetry visualizer powered by Three.js.
+ * InteractiveCockpit3D Component — High-Fashion Minimalist Editorial & Techwear 3D Visualizer
  * Reacts dynamically to real-time driver head-pose (Pitch, Yaw, Roll), risk score,
  * and monitoring status with interactive mouse orbit parallax.
  */
@@ -12,7 +11,7 @@ export default function InteractiveCockpit3D({
   telemetryData = {},
   isMonitoring = true,
   height = '420px',
-  theme = 'dark', // 'dark' (SSTR carbon obsidian) or 'light'
+  theme = 'light', // 'light' (editorial off-white) or 'dark' (techwear carbon)
 }) {
   const containerRef = useRef(null);
   const sceneRef = useRef(null);
@@ -43,6 +42,8 @@ export default function InteractiveCockpit3D({
     mar = 0.12,
   } = telemetryData;
 
+  const isLight = theme === 'light';
+
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -71,16 +72,16 @@ export default function InteractiveCockpit3D({
     container.appendChild(renderer.domElement);
 
     // 3. Lighting Setup
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
+    const ambientLight = new THREE.AmbientLight(0xffffff, isLight ? 1.2 : 0.9);
     scene.add(ambientLight);
     ambientLightRef.current = ambientLight;
 
-    const pointLight = new THREE.PointLight(0xfe5b2a, 3, 10);
+    const pointLight = new THREE.PointLight(isLight ? 0x111111 : 0x10b981, 2.5, 10);
     pointLight.position.set(2, 3, 3);
     scene.add(pointLight);
     pointLightRef.current = pointLight;
 
-    const fillLight = new THREE.PointLight(0x38bdf8, 2, 8);
+    const fillLight = new THREE.PointLight(0x10b981, 1.5, 8);
     fillLight.position.set(-2, -1, 2);
     scene.add(fillLight);
 
@@ -92,22 +93,22 @@ export default function InteractiveCockpit3D({
     // Cranium / Face Base (Icosahedron for clean facial polygon facets)
     const craniumGeo = new THREE.IcosahedronGeometry(0.85, 2);
     const craniumMat = new THREE.MeshStandardMaterial({
-      color: 0x10b981,
+      color: isLight ? 0x111111 : 0x10b981,
       roughness: 0.3,
       metalness: 0.8,
       wireframe: true,
       transparent: true,
-      opacity: 0.75,
+      opacity: isLight ? 0.85 : 0.75,
     });
     const craniumMesh = new THREE.Mesh(craniumGeo, craniumMat);
     headGroup.add(craniumMesh);
 
-    // Inner Glow Core
+    // Inner Core
     const coreGeo = new THREE.SphereGeometry(0.65, 16, 16);
     const coreMat = new THREE.MeshBasicMaterial({
-      color: 0x059669,
+      color: isLight ? 0xcccccc : 0x059669,
       transparent: true,
-      opacity: 0.25,
+      opacity: isLight ? 0.15 : 0.25,
       wireframe: false,
     });
     const coreMesh = new THREE.Mesh(coreGeo, coreMat);
@@ -115,7 +116,7 @@ export default function InteractiveCockpit3D({
 
     // Eye Orbit Ring Indicators (Left & Right)
     const eyeRingGeo = new THREE.TorusGeometry(0.12, 0.02, 8, 24);
-    const eyeRingMat = new THREE.MeshBasicMaterial({ color: 0xfe5b2a });
+    const eyeRingMat = new THREE.MeshBasicMaterial({ color: isLight ? 0x111111 : 0x10b981 });
 
     const leftEye = new THREE.Mesh(eyeRingGeo, eyeRingMat);
     leftEye.position.set(-0.28, 0.12, 0.72);
@@ -127,7 +128,7 @@ export default function InteractiveCockpit3D({
 
     // Mouth / Jaw Indicator Node
     const jawNodeGeo = new THREE.CylinderGeometry(0.16, 0.16, 0.03, 16);
-    const jawNodeMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
+    const jawNodeMat = new THREE.MeshBasicMaterial({ color: isLight ? 0x444444 : 0x38bdf8 });
     const jawNode = new THREE.Mesh(jawNodeGeo, jawNodeMat);
     jawNode.position.set(0, -0.38, 0.65);
     jawNode.rotation.x = Math.PI / 2;
@@ -136,7 +137,7 @@ export default function InteractiveCockpit3D({
     // 5. Stylized Steering Wheel Arc & Cockpit Depth Ring
     const cockpitRingGeo = new THREE.TorusGeometry(1.65, 0.035, 16, 64, Math.PI * 1.3);
     const cockpitRingMat = new THREE.MeshStandardMaterial({
-      color: 0x2b2e36,
+      color: isLight ? 0x888888 : 0x2b2e36,
       roughness: 0.4,
       metalness: 0.9,
     });
@@ -149,9 +150,9 @@ export default function InteractiveCockpit3D({
     // Outer Gyroscope Tracking Rings
     const gyroGeo1 = new THREE.RingGeometry(1.9, 1.93, 48);
     const gyroMat1 = new THREE.MeshBasicMaterial({
-      color: 0xfe5b2a,
+      color: isLight ? 0x111111 : 0x10b981,
       transparent: true,
-      opacity: 0.25,
+      opacity: isLight ? 0.15 : 0.25,
       side: THREE.DoubleSide,
     });
     const gyro1 = new THREE.Mesh(gyroGeo1, gyroMat1);
@@ -160,7 +161,7 @@ export default function InteractiveCockpit3D({
     cockpitRingRef.current = gyro1;
 
     // 6. Laser Ground Grid
-    const gridHelper = new THREE.GridHelper(6, 24, 0xfe5b2a, 0x1f232b);
+    const gridHelper = new THREE.GridHelper(6, 24, isLight ? 0x999999 : 0x10b981, isLight ? 0xd4d4d0 : 0x1f232b);
     gridHelper.position.y = -1.2;
     scene.add(gridHelper);
     laserGridRef.current = gridHelper;
@@ -168,9 +169,9 @@ export default function InteractiveCockpit3D({
     // 7. Sweeping Laser Scanning Plane
     const scanPlaneGeo = new THREE.PlaneGeometry(2.6, 0.03);
     const scanPlaneMat = new THREE.MeshBasicMaterial({
-      color: 0xfe5b2a,
+      color: isLight ? 0x111111 : 0x10b981,
       transparent: true,
-      opacity: 0.7,
+      opacity: isLight ? 0.4 : 0.7,
       side: THREE.DoubleSide,
     });
     const scanLine = new THREE.Mesh(scanPlaneGeo, scanPlaneMat);
@@ -212,7 +213,7 @@ export default function InteractiveCockpit3D({
     };
     window.addEventListener('resize', handleResize);
 
-    // 10. IntersectionObserver for Performance (pause loop when offscreen)
+    // 10. IntersectionObserver for Performance
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -257,7 +258,6 @@ export default function InteractiveCockpit3D({
       }
 
       // Head model orientation:
-      // Uses REAL head telemetry (converted from degrees to radians) combined with mouse parallax
       if (headGroupRef.current) {
         const radPitch = THREE.MathUtils.degToRad(headPitch || 0);
         const radYaw = THREE.MathUtils.degToRad(headYaw || 0);
@@ -271,7 +271,6 @@ export default function InteractiveCockpit3D({
         headGroupRef.current.rotation.z +=
           (-radRoll - headGroupRef.current.rotation.z) * 0.1;
 
-        // Subtle organic breathing motion when stationary
         headGroupRef.current.position.y = Math.sin(elapsedTime * 1.5) * 0.02;
       }
 
@@ -280,7 +279,7 @@ export default function InteractiveCockpit3D({
 
     animate();
 
-    // Cleanup resources cleanly
+    // Cleanup resources
     return () => {
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
@@ -291,7 +290,6 @@ export default function InteractiveCockpit3D({
       container.removeEventListener('mouseleave', handleMouseLeave);
       container.removeEventListener('mouseenter', handleMouseEnter);
 
-      // Clean Three.js geometries and materials
       scene.traverse((child) => {
         if (child.isMesh) {
           if (child.geometry) child.geometry.dispose();
@@ -310,21 +308,21 @@ export default function InteractiveCockpit3D({
         renderer.domElement.parentNode.removeChild(renderer.domElement);
       }
     };
-  }, []);
+  }, [isLight]);
 
   // Update Dynamic Colors based on Real Risk Score and Level
   useEffect(() => {
     if (!headGroupRef.current || !pointLightRef.current) return;
 
-    let targetColor = 0x10b981; // Nominal Emerald
-    let lightColor = 0x10b981;
+    let targetColor = isLight ? 0x111111 : 0x10b981; // Nominal ink / emerald
+    let lightColor = isLight ? 0x111111 : 0x10b981;
 
     if (riskLevel === 'CRITICAL' || riskScore >= 70) {
       targetColor = 0xef4444; // Critical Red
       lightColor = 0xf87171;
     } else if (riskLevel === 'WARNING' || riskScore >= 35) {
-      targetColor = 0xfe5b2a; // SSTR Safety Orange
-      lightColor = 0xff7b52;
+      targetColor = 0xd97706; // Amber Warning
+      lightColor = 0xf59e0b;
     }
 
     pointLightRef.current.color.setHex(lightColor);
@@ -340,7 +338,7 @@ export default function InteractiveCockpit3D({
     if (scanLineRef.current && scanLineRef.current.material) {
       scanLineRef.current.material.color.setHex(lightColor);
     }
-  }, [riskScore, riskLevel]);
+  }, [riskScore, riskLevel, isLight]);
 
   return (
     <div
@@ -350,8 +348,8 @@ export default function InteractiveCockpit3D({
         height: height,
         borderRadius: '4px',
         overflow: 'hidden',
-        backgroundColor: '#141518',
-        border: '1px solid rgba(255, 255, 255, 0.08)',
+        backgroundColor: isLight ? 'var(--bg-secondary)' : '#141518',
+        border: isLight ? '1px solid var(--border-light)' : '1px solid rgba(255, 255, 255, 0.08)',
       }}
     >
       {/* Three.js Canvas Container */}
@@ -366,13 +364,13 @@ export default function InteractiveCockpit3D({
         }}
       />
 
-      {/* SSTR Crosshair Reticles in Corners */}
-      <div style={{ position: 'absolute', top: 8, left: 8, color: 'rgba(255, 255, 255, 0.25)', fontFamily: 'var(--font-mono)', fontSize: '10px', pointerEvents: 'none' }}>+</div>
-      <div style={{ position: 'absolute', top: 8, right: 8, color: 'rgba(255, 255, 255, 0.25)', fontFamily: 'var(--font-mono)', fontSize: '10px', pointerEvents: 'none' }}>+</div>
-      <div style={{ position: 'absolute', bottom: 8, left: 8, color: 'rgba(255, 255, 255, 0.25)', fontFamily: 'var(--font-mono)', fontSize: '10px', pointerEvents: 'none' }}>+</div>
-      <div style={{ position: 'absolute', bottom: 8, right: 8, color: 'rgba(255, 255, 255, 0.25)', fontFamily: 'var(--font-mono)', fontSize: '10px', pointerEvents: 'none' }}>+</div>
+      {/* Crosshair Reticles in Corners */}
+      <div style={{ position: 'absolute', top: 8, left: 8, color: isLight ? 'var(--text-muted)' : 'rgba(255, 255, 255, 0.25)', fontFamily: 'var(--font-mono)', fontSize: '10px', pointerEvents: 'none' }}>+</div>
+      <div style={{ position: 'absolute', top: 8, right: 8, color: isLight ? 'var(--text-muted)' : 'rgba(255, 255, 255, 0.25)', fontFamily: 'var(--font-mono)', fontSize: '10px', pointerEvents: 'none' }}>+</div>
+      <div style={{ position: 'absolute', bottom: 8, left: 8, color: isLight ? 'var(--text-muted)' : 'rgba(255, 255, 255, 0.25)', fontFamily: 'var(--font-mono)', fontSize: '10px', pointerEvents: 'none' }}>+</div>
+      <div style={{ position: 'absolute', bottom: 8, right: 8, color: isLight ? 'var(--text-muted)' : 'rgba(255, 255, 255, 0.25)', fontFamily: 'var(--font-mono)', fontSize: '10px', pointerEvents: 'none' }}>+</div>
 
-      {/* 3D Holographic HUD Overlays & Floating Metrics */}
+      {/* 3D Kinematics Overlay Tag */}
       <div
         style={{
           position: 'absolute',
@@ -391,24 +389,24 @@ export default function InteractiveCockpit3D({
             gap: '0.45rem',
             padding: '0.35rem 0.75rem',
             borderRadius: '2px',
-            backgroundColor: 'rgba(13, 14, 16, 0.85)',
+            backgroundColor: isLight ? 'rgba(255, 255, 255, 0.9)' : 'rgba(13, 14, 16, 0.85)',
             backdropFilter: 'blur(8px)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
+            border: `1px solid ${isLight ? 'var(--border-light)' : 'rgba(255, 255, 255, 0.1)'}`,
             fontSize: '0.72rem',
-            fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
+            fontFamily: "var(--font-mono, monospace)",
             fontWeight: 600,
-            color: '#F5F5F7',
+            color: isLight ? 'var(--text-primary)' : '#F5F5F7',
           }}
         >
-          <Radio size={12} className="animate-orange-pulse" color="#FE5B2A" />
+          <Radio size={12} />
           <span>3D KINEMATICS COCKPIT</span>
         </div>
 
         <span
           style={{
             fontSize: '0.7rem',
-            color: '#9FA4B0',
-            fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
+            color: 'var(--text-secondary)',
+            fontFamily: "var(--font-mono, monospace)",
             paddingLeft: '0.25rem',
           }}
         >
@@ -416,7 +414,7 @@ export default function InteractiveCockpit3D({
         </span>
       </div>
 
-      {/* Top Right: Live Risk Amplitude Badge */}
+      {/* Top Right: Live Risk Badge */}
       <div
         style={{
           position: 'absolute',
@@ -434,16 +432,18 @@ export default function InteractiveCockpit3D({
             borderRadius: '2px',
             backgroundColor:
               riskScore >= 70
-                ? 'rgba(239, 68, 68, 0.15)'
+                ? 'var(--color-alert-dim)'
                 : riskScore >= 35
-                ? 'rgba(254, 91, 42, 0.15)'
+                ? 'var(--color-warning-dim)'
+                : isLight
+                ? 'rgba(255, 255, 255, 0.9)'
                 : 'rgba(16, 185, 129, 0.15)',
             border:
               riskScore >= 70
-                ? '1px solid rgba(239, 68, 68, 0.4)'
+                ? '1px solid var(--color-alert-border)'
                 : riskScore >= 35
-                ? '1px solid rgba(254, 91, 42, 0.4)'
-                : '1px solid rgba(16, 185, 129, 0.3)',
+                ? '1px solid var(--color-warning-border)'
+                : `1px solid ${isLight ? 'var(--border-light)' : 'rgba(16, 185, 129, 0.3)'}`,
             backdropFilter: 'blur(8px)',
           }}
         >
@@ -453,21 +453,21 @@ export default function InteractiveCockpit3D({
               height: '8px',
               borderRadius: '50%',
               backgroundColor:
-                riskScore >= 70 ? '#EF4444' : riskScore >= 35 ? '#FE5B2A' : '#10B981',
+                riskScore >= 70 ? 'var(--accent-crimson)' : riskScore >= 35 ? 'var(--accent-amber)' : 'var(--accent-emerald)',
             }}
-            className="animate-green-pulse"
+            className="animate-pulse-live"
           />
           <span
             style={{
-              fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
+              fontFamily: "var(--font-mono, monospace)",
               fontSize: '0.75rem',
               fontWeight: 700,
               color:
                 riskScore >= 70
-                  ? '#EF4444'
+                  ? 'var(--accent-crimson)'
                   : riskScore >= 35
-                  ? '#FE5B2A'
-                  : '#10B981',
+                  ? 'var(--accent-amber)'
+                  : 'var(--text-primary)',
             }}
           >
             {riskScore}% {riskLevel}
@@ -475,7 +475,7 @@ export default function InteractiveCockpit3D({
         </div>
       </div>
 
-      {/* Floating Bottom Left: Biometric Metric Pills */}
+      {/* Biometric Metric Pills */}
       <div
         style={{
           position: 'absolute',
@@ -491,49 +491,49 @@ export default function InteractiveCockpit3D({
           style={{
             padding: '0.35rem 0.75rem',
             borderRadius: '2px',
-            backgroundColor: 'rgba(20, 21, 24, 0.85)',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
+            backgroundColor: isLight ? 'rgba(255, 255, 255, 0.9)' : 'rgba(20, 21, 24, 0.85)',
+            border: `1px solid ${isLight ? 'var(--border-light)' : 'rgba(255, 255, 255, 0.08)'}`,
             backdropFilter: 'blur(6px)',
             fontSize: '0.72rem',
-            fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-            color: '#F5F5F7',
+            fontFamily: "var(--font-mono, monospace)",
+            color: 'var(--text-primary)',
           }}
         >
-          EAR <strong style={{ color: ear < 0.22 ? '#EF4444' : '#10B981' }}>{ear?.toFixed(2)}</strong>
+          EAR <strong style={{ color: ear < 0.22 ? 'var(--accent-crimson)' : 'var(--accent-emerald)' }}>{ear?.toFixed(2)}</strong>
         </div>
 
         <div
           style={{
             padding: '0.35rem 0.75rem',
             borderRadius: '2px',
-            backgroundColor: 'rgba(20, 21, 24, 0.85)',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
+            backgroundColor: isLight ? 'rgba(255, 255, 255, 0.9)' : 'rgba(20, 21, 24, 0.85)',
+            border: `1px solid ${isLight ? 'var(--border-light)' : 'rgba(255, 255, 255, 0.08)'}`,
             backdropFilter: 'blur(6px)',
             fontSize: '0.72rem',
-            fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-            color: '#F5F5F7',
+            fontFamily: "var(--font-mono, monospace)",
+            color: 'var(--text-primary)',
           }}
         >
-          MAR <strong style={{ color: mar > 0.55 ? '#FE5B2A' : '#10B981' }}>{mar?.toFixed(2)}</strong>
+          MAR <strong style={{ color: mar > 0.55 ? 'var(--accent-amber)' : 'var(--accent-emerald)' }}>{mar?.toFixed(2)}</strong>
         </div>
 
         <div
           style={{
             padding: '0.35rem 0.75rem',
             borderRadius: '2px',
-            backgroundColor: 'rgba(20, 21, 24, 0.85)',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
+            backgroundColor: isLight ? 'rgba(255, 255, 255, 0.9)' : 'rgba(20, 21, 24, 0.85)',
+            border: `1px solid ${isLight ? 'var(--border-light)' : 'rgba(255, 255, 255, 0.08)'}`,
             backdropFilter: 'blur(6px)',
             fontSize: '0.72rem',
-            fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-            color: '#F5F5F7',
+            fontFamily: "var(--font-mono, monospace)",
+            color: 'var(--text-primary)',
           }}
         >
-          SCAN <strong style={{ color: isMonitoring ? '#10B981' : '#9FA4B0' }}>{isMonitoring ? '30 FPS' : 'IDLE'}</strong>
+          SCAN <strong style={{ color: isMonitoring ? 'var(--accent-emerald)' : 'var(--text-muted)' }}>{isMonitoring ? '30 FPS' : 'IDLE'}</strong>
         </div>
       </div>
 
-      {/* Bottom Right: Interactive Hint */}
+      {/* Orbit Hint */}
       <div
         style={{
           position: 'absolute',
@@ -541,8 +541,8 @@ export default function InteractiveCockpit3D({
           right: '1.25rem',
           pointerEvents: 'none',
           fontSize: '0.68rem',
-          fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-          color: '#9FA4B0',
+          fontFamily: "var(--font-mono, monospace)",
+          color: 'var(--text-muted)',
           textAlign: 'right',
         }}
       >
