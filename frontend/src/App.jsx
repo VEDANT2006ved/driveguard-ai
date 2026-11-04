@@ -3,6 +3,7 @@ import { X, Volume2, Bell, AlertTriangle } from 'lucide-react';
 import Preloader from './components/Preloader';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
+import LandingPage from './views/LandingPage';
 import OverviewView from './views/OverviewView';
 import LiveMonitorView from './views/LiveMonitorView';
 import AnalyticsView from './views/AnalyticsView';
@@ -17,6 +18,7 @@ import './styles/animations.css';
 
 export default function App() {
   const [hasCompletedOpening, setHasCompletedOpening] = useState(true);
+  const [showLanding, setShowLanding] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
   const [connectionStatus, setConnectionStatus] = useState('offline');
   const [isAudioMuted, setIsAudioMuted] = useState(false);
@@ -313,6 +315,17 @@ export default function App() {
       return next;
     });
   };
+
+  /* ---- Landing Page handler ---- */
+  const handleEnterDashboard = () => {
+    setShowLanding(false);
+    setActiveTab('overview');
+  };
+
+  /* Show landing page first */
+  if (showLanding) {
+    return <LandingPage onEnter={handleEnterDashboard} />;
+  }
 
   return (
     <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-primary)', position: 'relative' }}>
